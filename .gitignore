@@ -1,0 +1,14 @@
+.DS_Store
+.open-clean-my-mac/
+OpenCleanMyMac/.build/
+OpenCleanMyMac/.swiftpm/
+dist/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+rea-evidence
+.claude/
+.codex/
+.cursor/
+.gemini/
+.grok/

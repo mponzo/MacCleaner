@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="MacCleaner">
+  <defs>
+    <linearGradient id="tile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2E6BD1" stop-opacity="0.92"/>
+      <stop offset="100%" stop-color="#163A6B" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="glassA" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4DA3FF" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#2E6BD1" stop-opacity="0.28"/>
+    </linearGradient>
+    <linearGradient id="glassB" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5BB0FF" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#0A1A33" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#7EC4FF" stop-opacity="0.95"/>
+      <stop offset="55%" stop-color="#4DA3FF" stop-opacity="0.88"/>
+      <stop offset="100%" stop-color="#2E6BD1" stop-opacity="0.95"/>
+    </linearGradient>
+    <clipPath id="squircle">
+      <rect x="64" y="64" width="896" height="896" rx="200" ry="200"/>
+    </clipPath>
+  </defs>
+
+  <!-- App tile -->
+  <rect x="64" y="64" width="896" height="896" rx="200" ry="200" fill="url(#tile)"/>
+
+  <g clip-path="url(#squircle)">
+    <!-- Glass panes  hard edges, cyan/navy only -->
+    <rect x="120" y="180" width="520" height="320" rx="36" fill="url(#glassA)" transform="rotate(-18 380 340)"/>
+    <rect x="340" y="300" width="480" height="360" rx="40" fill="url(#glassB)" transform="rotate(14 580 480)"/>
+    <rect x="210" y="520" width="420" height="260" rx="32" fill="#2E6BD1" fill-opacity="0.34" transform="rotate(-8 420 650)"/>
+
+    <!-- Recognizable cleaner mark: angular broom / sweep -->
+    <!-- Handle -->
+    <path fill="url(#mark)" d="M456 218 L528 198 L568 542 L496 562 Z"/>
+    <!-- Head plate -->
+    <path fill="#4DA3FF" fill-opacity="0.9" d="M318 520 L702 448 L726 568 L342 640 Z"/>
+    <!-- Bristles  sharp parallel facets -->
+    <path fill="#2E6BD1" fill-opacity="0.85" d="M330 640 L372 632 L390 760 L348 768 Z"/>
+    <path fill="#3B82D9" fill-opacity="0.9" d="M392 628 L434 620 L452 768 L410 776 Z"/>
+    <path fill="#4DA3FF" fill-opacity="0.88" d="M454 616 L496 608 L514 772 L472 780 Z"/>
+    <path fill="#2E6BD1" fill-opacity="0.9" d="M516 604 L558 596 L576 764 L534 772 Z"/>
+    <path fill="#163A6B" fill-opacity="0.95" d="M578 592 L620 584 L638 748 L596 756 Z"/>
+    <path fill="#FF9E48" fill-opacity="0.95" d="M640 580 L682 572 L700 720 L658 728 Z"/>
+
+    <!-- Glass sheen bars (blue, not white) -->
+    <rect x="250" y="250" width="18" height="210" rx="6" fill="#4DA3FF" fill-opacity="0.35" transform="rotate(-18 259 355)"/>
+    <rect x="290" y="270" width="10" height="140" rx="4" fill="#7EC4FF" fill-opacity="0.28" transform="rotate(-18 295 340)"/>
+  </g>
+</svg>

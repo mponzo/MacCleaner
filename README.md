@@ -226,23 +226,37 @@ Non serve saper programmare. Scarichi un file, lo metti in Applicazioni e apri M
 |:---:|---|---|
 | **1** | **Scarica** | Clicca **[MacCleaner.app.zip](releases/MacCleaner.app.zip)** e salva il file (è già incluso in questo progetto). |
 | **2** | **Installa** | Apri lo zip con un doppio clic. Trascina **MacCleaner** nella cartella **Applicazioni** (Finder → Preferiti → Applicazioni). |
-| **3** | **Apri** | Apri **MacCleaner** da Applicazioni. Non crea account e non chiede abbonamento. |
+| **3** | **Apri** | Da **Applicazioni**: **tasto destro** su MacCleaner → **Apri** (non il doppio clic al primo avvio). |
 
 Funziona su Mac con chip Apple (M1/M2/M3/…) e su Mac Intel.
 
-<details>
-<summary><strong>Se macOS dice “non può verificare lo sviluppatore”</strong></summary>
+<details open>
+<summary><strong>Se compare “MacCleaner.app non è stata aperta” / malware</strong></summary>
 
 <br/>
 
-È normale per un’app open source non pubblicata sul Mac App Store.
+È **normale**: l’app è open source e **non è ancora notarizzata** da Apple (serve un account Developer a pagamento). Non significa che sia pericolosa — macOS blocca le app scaricate senza firma ufficiale.
 
-1. Chiudi il messaggio di avviso  
-2. Nel Finder, vai in **Applicazioni**  
-3. Tieni premuto **Control** e clicca su **MacCleaner** (oppure tasto destro)  
-4. Scegli **Apri** → conferma di nuovo **Apri**
+**Metodo consigliato**
 
-La volta successiva basterà il doppio clic.
+1. Clicca **Fine** (non “Sposta nel Cestino”)  
+2. Apri **Finder** → cartella dove hai messo l’app (**Applicazioni** o Download)  
+3. **Tasto destro** (o Control-clic) su **MacCleaner** → **Apri**  
+4. Nella nuova finestra conferma di nuovo **Apri**
+
+**Se non vedi “Apri”**
+
+1. **Impostazioni di Sistema** → **Privacy e sicurezza**  
+2. Scorri fino al messaggio su MacCleaner → **Apri comunque**
+
+**Da Terminale** (dopo aver messo l’app in Applicazioni):
+
+```bash
+xattr -dr com.apple.quarantine ~/Applications/MacCleaner.app
+open ~/Applications/MacCleaner.app
+```
+
+Dalla volta successiva basta il doppio clic.
 
 </details>
 

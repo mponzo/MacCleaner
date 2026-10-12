@@ -287,6 +287,20 @@ Bundle id: `com.maccleaner.app` · target SPM: `OpenCleanMyMac`.
 ---
 
 
+## Sito web (GitHub Pages)
+
+Landing Nuxt 3 nella root del repo (`pages/`, `nuxt.config.ts`). Il workflow [`.github/workflows/nuxtjs.yml`](.github/workflows/nuxtjs.yml) esegue `npm ci` + `nuxt generate` e pubblica `.output/public` su **GitHub Pages**.
+
+```bash
+npm install
+npm run dev          # locale
+npm run generate     # export statico → .output/public
+```
+
+Dopo il primo deploy: Settings → Pages → Source **GitHub Actions**. URL tipico: `https://mponzo.github.io/MacCleaner/`.
+
+---
+
 ## Sviluppo e CLI
 
 ```bash

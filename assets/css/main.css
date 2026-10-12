@@ -1,0 +1,54 @@
+:root {
+  --canvas: #0a1a33;
+  --canvas-deep: #071224;
+  --ink: #f5f9ff;
+  --muted: #a9c4e8;
+  --faint: #6f8fb8;
+  --sea: #4da3ff;
+  --sea-deep: #2e6bd1;
+  --glass: rgba(46, 107, 209, 0.22);
+  --accent: #ff9e48;
+  --stroke: rgba(255, 255, 255, 0.14);
+  --shadow: rgba(3, 10, 24, 0.45);
+  --font-display: 'Syne', ui-sans-serif, sans-serif;
+  --font-body: 'Figtree', ui-sans-serif, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 80% 50% at 90% -10%, rgba(77, 163, 255, 0.28), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(46, 107, 209, 0.2), transparent 50%),
+    linear-gradient(165deg, #163a6b 0%, var(--canvas) 42%, var(--canvas-deep) 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button,
+.btn {
+  font: inherit;
+}

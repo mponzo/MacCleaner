@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="320" viewBox="0 0 1120 320" role="img" aria-label="Tre passi per installare MacCleaner">
+  <defs>
+    <linearGradient id="card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#163A6B"/>
+      <stop offset="100%" stop-color="#0A1A33"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5BB0FF"/>
+      <stop offset="100%" stop-color="#2A6FE0"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFB36A"/>
+      <stop offset="100%" stop-color="#FF9E48"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Step 1 -->
+  <rect x="24" y="28" width="320" height="264" rx="28" fill="url(#card)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <circle cx="72" cy="72" r="22" fill="url(#accent)"/>
+  <text x="72" y="79" text-anchor="middle" fill="#FFFFFF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700">1</text>
+  <text x="108" y="80" fill="#F5F9FF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700">Scarica</text>
+  <!-- download icon -->
+  <rect x="118" y="118" width="132" height="88" rx="16" fill="#FFFFFF" fill-opacity="0.08" stroke="#4DA3FF" stroke-opacity="0.55" stroke-width="2"/>
+  <path d="M184 138 v36 M168 158 l16 16 16-16" fill="none" stroke="#5BB0FF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="148" y="188" width="72" height="8" rx="4" fill="#FF9E48"/>
+  <text x="184" y="244" text-anchor="middle" fill="#A9C4E8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="15">MacCleaner.app.zip</text>
+  <text x="184" y="268" text-anchor="middle" fill="#6F8FB8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="13">file pronto nel repository</text>
+
+  <!-- arrow -->
+  <path d="M362 160 h28" stroke="#4DA3FF" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+  <path d="M382 148 l16 12 -16 12" fill="none" stroke="#4DA3FF" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Step 2 -->
+  <rect x="400" y="28" width="320" height="264" rx="28" fill="url(#card)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <circle cx="448" cy="72" r="22" fill="url(#accent)"/>
+  <text x="448" y="79" text-anchor="middle" fill="#FFFFFF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700">2</text>
+  <text x="484" y="80" fill="#F5F9FF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700">Installa</text>
+  <!-- zip -> app -> Applications -->
+  <rect x="436" y="122" width="72" height="56" rx="12" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18"/>
+  <text x="472" y="155" text-anchor="middle" fill="#A9C4E8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600">.zip</text>
+  <path d="M520 150 h28" stroke="#FF9E48" stroke-width="3" stroke-linecap="round"/>
+  <path d="M540 142 l12 8 -12 8" fill="none" stroke="#FF9E48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="564" y="118" width="88" height="64" rx="14" fill="url(#orange)"/>
+  <text x="608" y="145" text-anchor="middle" fill="#2A1608" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700">.app</text>
+  <text x="608" y="164" text-anchor="middle" fill="#2A1608" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600">MacCleaner</text>
+  <path d="M608 194 v18" stroke="#4DA3FF" stroke-opacity="0.55" stroke-width="3" stroke-linecap="round"/>
+  <path d="M600 204 l8 10 8-10" fill="none" stroke="#4DA3FF" stroke-opacity="0.55" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="500" y="220" width="120" height="36" rx="10" fill="#FFFFFF" fill-opacity="0.10" stroke="#5BB0FF" stroke-opacity="0.4"/>
+  <text x="560" y="243" text-anchor="middle" fill="#F5F9FF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600">Applicazioni</text>
+
+  <!-- arrow -->
+  <path d="M738 160 h28" stroke="#4DA3FF" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+  <path d="M758 148 l16 12 -16 12" fill="none" stroke="#4DA3FF" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Step 3 -->
+  <rect x="776" y="28" width="320" height="264" rx="28" fill="url(#card)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <circle cx="824" cy="72" r="22" fill="url(#accent)"/>
+  <text x="824" y="79" text-anchor="middle" fill="#FFFFFF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700">3</text>
+  <text x="860" y="80" fill="#F5F9FF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700">Apri</text>
+  <!-- click / play -->
+  <circle cx="936" cy="168" r="48" fill="url(#accent)" fill-opacity="0.95"/>
+  <path d="M922 148 l36 20 -36 20 z" fill="#FFFFFF"/>
+  <text x="936" y="244" text-anchor="middle" fill="#A9C4E8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="15">Doppio clic sull&apos;app</text>
+  <text x="936" y="268" text-anchor="middle" fill="#6F8FB8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="13">pronto: zero account</text>
+</svg>

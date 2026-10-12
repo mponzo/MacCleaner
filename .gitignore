@@ -3,6 +3,9 @@
 OpenCleanMyMac/.build/
 OpenCleanMyMac/.swiftpm/
 dist/
+.output/
+.nuxt/
+node_modules/
 *.xcodeproj/xcuserdata/
 *.xcworkspace/xcuserdata/
 DerivedData/

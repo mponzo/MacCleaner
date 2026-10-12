@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="MacCleaner">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#163A6B"/>
+      <stop offset="45%" stop-color="#0A1A33"/>
+      <stop offset="100%" stop-color="#071224"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="70%" y1="0%" x2="100%" y2="60%">
+      <stop offset="0%" stop-color="#4DA3FF" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#2E6BD1" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#2E6BD1" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="btn" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5BB0FF"/>
+      <stop offset="100%" stop-color="#2A6FE0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="420" fill="url(#bg)"/>
+  <circle cx="1080" cy="40" r="220" fill="url(#glow)"/>
+  <circle cx="180" cy="360" r="160" fill="#4DA3FF" fill-opacity="0.10"/>
+  <rect x="72" y="88" width="720" height="244" rx="28" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.16"/>
+  <text x="108" y="168" fill="#F5F9FF" font-family="SF Pro Display, Helvetica Neue, Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="-1.5">MacCleaner</text>
+  <text x="108" y="214" fill="#A9C4E8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="22">Pulizia locale, percorsi trasparenti, controllo totale</text>
+  <rect x="108" y="248" width="168" height="44" rx="12" fill="url(#btn)"/>
+  <text x="192" y="276" text-anchor="middle" fill="#FFFFFF" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="600">Smart Care</text>
+  <rect x="292" y="248" width="148" height="44" rx="12" fill="#FF9E48"/>
+  <text x="366" y="276" text-anchor="middle" fill="#2A1608" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="600">Open source</text>
+  <g transform="translate(920 120)">
+    <rect width="220" height="180" rx="24" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18"/>
+    <rect x="28" y="36" width="164" height="18" rx="6" fill="#4DA3FF" fill-opacity="0.85"/>
+    <rect x="28" y="72" width="120" height="12" rx="5" fill="#FFFFFF" fill-opacity="0.35"/>
+    <rect x="28" y="100" width="148" height="12" rx="5" fill="#FFFFFF" fill-opacity="0.22"/>
+    <rect x="28" y="128" width="96" height="12" rx="5" fill="#FF9E48" fill-opacity="0.75"/>
+  </g>
+</svg>

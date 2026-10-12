@@ -5,35 +5,118 @@ const repoUrl = 'https://github.com/mponzo/MacCleaner'
 
 const promises = [
   {
-    title: 'Zero telemetria',
-    body: 'Niente analytics, crash reporter o phone-home. L’app non sa chi sei.',
+    title: 'Zero telemetry',
+    body: 'No analytics, crash reporters, or phone-home. The app does not know who you are.',
   },
   {
-    title: 'Tutto in locale',
-    body: 'Scansioni e pulizie funzionano offline. I tuoi percorsi restano sul Mac.',
+    title: 'Fully local',
+    body: 'Scans and cleanups work offline. Your paths never leave your Mac.',
   },
   {
-    title: 'Percorsi visibili',
-    body: 'Vedi cosa liberare, selezioni tu, puoi fermare in qualsiasi momento.',
+    title: 'Visible paths',
+    body: 'See what would be freed, select it yourself, stop anytime.',
   },
 ]
 
-const features = [
+const featureSections = [
   {
+    id: 'smart-care',
     title: 'Smart Care',
-    body: 'Cache, log, leftover, DerivedData e altro — con Stop durante scansione o pulizia.',
+    lede: 'Multi-category reclaimable-space scan — you stay in control.',
+    points: [
+      'Run Smart Care with per-category progress',
+      'Metrics for reclaimable space, scanned size, and status',
+      'Click a module to open category detail',
+      'Clean selected items into the macOS Trash',
+      'Stop during scan or cleanup',
+    ],
+    categories: [
+      'User caches & logs',
+      'Trash',
+      'Xcode DerivedData & Archives',
+      'Developer caches (npm, Homebrew, pip, Gradle, Yarn, pnpm, Cargo…)',
+      'Old downloads & disk images',
+      'Browser caches (Safari, Chrome, Firefox, Edge)',
+      'App leftovers & invalid Launch Agents',
+      'System caches / logs / agents (admin + allowlist)',
+    ],
   },
   {
-    title: 'Applicazioni',
-    body: 'Disinstalla con residui correlati: prefs, cache, container, agent.',
+    id: 'applications',
+    title: 'Applications',
+    lede: 'Mindful uninstall with related leftovers — nothing removed by surprise.',
+    points: [
+      'Browse user apps; search by name or bundle ID',
+      'See bundle size plus leftover size',
+      'Leftovers across Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, Crash Reporter',
+      'Toggle whether to include the app bundle itself',
+      'Clean orphan leftovers left behind by removed apps',
+      'System apps stay protected — uninstall disabled',
+    ],
   },
   {
-    title: 'Prestazioni',
-    body: 'Memoria, CPU, disco e manutenzione (DNS, snapshot, Launch Services).',
+    id: 'performance',
+    title: 'Performance',
+    lede: 'A clear snapshot of load and a few safe maintenance tools.',
+    points: [
+      'Memory, CPU, and free disk at a glance',
+      'Top processes by memory',
+      'User Launch Agents (remove only in the user domain)',
+      'Maintenance: DNS flush (admin), Mail VACUUM, APFS snapshot thinning (admin), Launch Services rebuild',
+    ],
   },
   {
-    title: 'Aggiornamenti',
-    body: 'Controlla e installa l’ultima build pubblicata sul repository GitHub.',
+    id: 'privileged',
+    title: 'Privileged helper',
+    lede: 'Elevated work only through a password prompt and an explicit path allowlist.',
+    points: [
+      'Admin bridge for system caches, logs, and agents',
+      'DNS flush and APFS snapshot thinning',
+      'Only allowlisted paths — never arbitrary shell',
+      'Roadmap: signed SMAppService daemon (see docs)',
+    ],
+  },
+  {
+    id: 'space-lens',
+    title: 'Space Lens',
+    lede: 'After Smart Care, see where reclaimable space sits across categories.',
+    points: [
+      'Category bars from the latest scan',
+      'Quick visual sense of what dominates disk use',
+    ],
+  },
+  {
+    id: 'updates',
+    title: 'Updates',
+    lede: 'Install the build published on the open GitHub repository.',
+    points: [
+      'Compare local version with releases/version.json',
+      'Download MacCleaner.app.zip and install to ~/Applications',
+      'Relaunch after update',
+      'Network only to GitHub, and only when you check or open this section',
+    ],
+  },
+  {
+    id: 'menubar',
+    title: 'Menu bar',
+    lede: 'One-click glass status panel next to the clock.',
+    points: [
+      'Live tiles for disk, memory, battery, CPU, network, and activity',
+      'Smart Care tip and quick actions',
+      'Open main window, Settings, or Quit',
+      'Single app instance — no duplicate windows',
+    ],
+  },
+  {
+    id: 'settings',
+    title: 'Settings',
+    lede: 'Keep MacCleaner out of the way until you need it.',
+    points: [
+      'Language: System, English, or Italian',
+      'Show menu bar icon / hide Dock icon',
+      'Launch at login',
+      'Install or remove from ~/Applications',
+    ],
   },
 ]
 </script>
@@ -47,8 +130,8 @@ const features = [
       </a>
       <nav class="nav">
         <a href="#privacy">Privacy</a>
-        <a href="#funzioni">Funzioni</a>
-        <a href="#installazione">Installazione</a>
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
         <a class="nav-ghost" :href="repoUrl" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
     </header>
@@ -59,16 +142,16 @@ const features = [
           <p class="eyebrow">Open source · macOS 14+</p>
           <h1 class="brand-hero">MacCleaner</h1>
           <p class="lede">
-            Riprendi spazio sul Mac con percorsi trasparenti e controllo totale.
-            Zero telemetria. Zero account. Zero cloud.
+            Reclaim space on your Mac with visible paths and full control.
+            Zero telemetry. Zero accounts. Zero cloud.
           </p>
           <div class="cta-row">
-            <a class="btn btn-primary" :href="downloadUrl">Scarica per Mac</a>
+            <a class="btn btn-primary" :href="downloadUrl">Download for Mac</a>
             <a class="btn btn-ghost" :href="repoUrl" target="_blank" rel="noreferrer">
-              Codice sorgente
+              Source code
             </a>
           </div>
-          <p class="fine">Universale Apple Silicon + Intel · MIT · ~3&nbsp;MB</p>
+          <p class="fine">Universal Apple silicon + Intel · MIT · notarized when released</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="glow" />
@@ -78,8 +161,8 @@ const features = [
 
       <section id="privacy" class="section">
         <div class="section-head">
-          <h2>Fiducia verificabile</h2>
-          <p>Un cleaner merita trasparenza, non slogan. Questo è il contratto.</p>
+          <h2>Verifiable trust</h2>
+          <p>A cleaner deserves transparency, not slogans. This is the contract.</p>
         </div>
         <div class="cards">
           <article v-for="item in promises" :key="item.title" class="card">
@@ -89,53 +172,78 @@ const features = [
         </div>
       </section>
 
-      <section id="funzioni" class="section">
+      <section id="features" class="section">
         <div class="section-head">
-          <h2>Cosa fa</h2>
-          <p>Strumenti locali, selezione esplicita, niente urgenza finta.</p>
+          <h2>Features</h2>
+          <p>Every tool is local, selective, and path-visible — no fake urgency.</p>
         </div>
-        <div class="feature-grid">
-          <article v-for="item in features" :key="item.title" class="feature">
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.body }}</p>
-          </article>
-        </div>
+
+        <nav class="feature-jump" aria-label="Feature sections">
+          <a
+            v-for="section in featureSections"
+            :key="section.id"
+            :href="`#${section.id}`"
+          >
+            {{ section.title }}
+          </a>
+        </nav>
+
+        <article
+          v-for="section in featureSections"
+          :id="section.id"
+          :key="section.id"
+          class="feature-block"
+        >
+          <div class="feature-block-head">
+            <h3>{{ section.title }}</h3>
+            <p>{{ section.lede }}</p>
+          </div>
+          <ul class="point-list">
+            <li v-for="point in section.points" :key="point">{{ point }}</li>
+          </ul>
+          <div v-if="section.categories" class="cat-wrap">
+            <p class="cat-label">Scan categories</p>
+            <ul class="cat-list">
+              <li v-for="cat in section.categories" :key="cat">{{ cat }}</li>
+            </ul>
+          </div>
+        </article>
       </section>
 
-      <section id="installazione" class="section install">
+      <section id="install" class="section install">
         <div class="section-head">
-          <h2>Installazione</h2>
-          <p>Tre passi. Non serve saper programmare.</p>
+          <h2>Install</h2>
+          <p>Three steps. No programming required.</p>
         </div>
         <img
           class="install-art"
           src="/install-steps.svg"
-          alt="1 Scarica, 2 Installa in Applicazioni, 3 Apri MacCleaner"
+          alt="1 Download, 2 Install to Applications, 3 Open MacCleaner"
           width="920"
           height="263"
         />
         <ol class="steps">
           <li>
-            <strong>Scarica</strong>
-            <span>il file MacCleaner.app.zip</span>
+            <strong>Download</strong>
+            <span>MacCleaner.app.zip</span>
           </li>
           <li>
-            <strong>Trascina</strong>
-            <span>l’app in Applicazioni</span>
+            <strong>Drag</strong>
+            <span>the app into Applications</span>
           </li>
           <li>
-            <strong>Apri</strong>
-            <span>doppio clic su MacCleaner</span>
+            <strong>Open</strong>
+            <span>double-click MacCleaner</span>
           </li>
         </ol>
-        <a class="btn btn-primary" :href="downloadUrl">Scarica MacCleaner.app.zip</a>
+        <a class="btn btn-primary" :href="downloadUrl">Download MacCleaner.app.zip</a>
       </section>
     </main>
 
     <footer class="footer">
       <div>
         <strong>MacCleaner</strong>
-        <span>MIT · privacy 100% locale</span>
+        <span>MIT · 100% local privacy</span>
       </div>
       <a :href="repoUrl" target="_blank" rel="noreferrer">github.com/mponzo/MacCleaner</a>
     </footer>
@@ -301,14 +409,11 @@ const features = [
 
 .section {
   margin-bottom: 4.25rem;
-  animation: rise 0.8s ease both;
-  animation-timeline: view();
-  animation-range: entry 10% cover 30%;
 }
 
 .section-head {
   margin-bottom: 1.5rem;
-  max-width: 40rem;
+  max-width: 42rem;
 }
 
 .section-head h2 {
@@ -325,19 +430,13 @@ const features = [
   line-height: 1.5;
 }
 
-.cards,
-.feature-grid {
+.cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
-.feature-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.card,
-.feature {
+.card {
   padding: 1.25rem 1.3rem;
   border-radius: 18px;
   border: 1px solid var(--stroke);
@@ -348,20 +447,99 @@ const features = [
   backdrop-filter: blur(14px);
 }
 
-.card h3,
-.feature h3 {
+.card h3 {
   margin: 0;
   font-family: var(--font-display);
   font-size: 1.15rem;
   letter-spacing: -0.02em;
 }
 
-.card p,
-.feature p {
+.card p {
   margin: 0.55rem 0 0;
   color: var(--muted);
   line-height: 1.5;
   font-size: 0.98rem;
+}
+
+.feature-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.65rem;
+  margin-bottom: 1.5rem;
+}
+
+.feature-jump a {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.feature-jump a:hover {
+  color: var(--ink);
+  border-color: rgba(77, 163, 255, 0.45);
+}
+
+.feature-block {
+  padding: 1.4rem 1.45rem;
+  margin-bottom: 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--stroke);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(46, 107, 209, 0.1)),
+    rgba(10, 26, 51, 0.32);
+  scroll-margin-top: 1.25rem;
+}
+
+.feature-block-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.feature-block-head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.point-list,
+.cat-list {
+  margin: 1rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.point-list li + li,
+.cat-list li + li {
+  margin-top: 0.35rem;
+}
+
+.cat-wrap {
+  margin-top: 1.15rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--stroke);
+}
+
+.cat-label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.cat-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 1rem;
+  margin-top: 0.65rem;
 }
 
 .install {
@@ -461,8 +639,8 @@ const features = [
   }
 
   .cards,
-  .feature-grid,
-  .steps {
+  .steps,
+  .cat-list {
     grid-template-columns: 1fr;
   }
 

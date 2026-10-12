@@ -9,19 +9,19 @@ export default defineNuxtConfig({
   app: {
     baseURL,
     head: {
-      htmlAttrs: { lang: 'it' },
-      title: 'MacCleaner — pulizia locale, zero telemetria',
+      htmlAttrs: { lang: 'en' },
+      title: 'MacCleaner — local cleanup, zero telemetry',
       meta: [
         {
           name: 'description',
           content:
-            'Pulitore open-source per Mac: Smart Care, disinstallazione e manutenzione. Zero telemetria, zero account, tutto in locale.',
+            'Open-source Mac cleaner: Smart Care, uninstall, performance, and maintenance. Zero telemetry, zero accounts, fully local.',
         },
         { name: 'theme-color', content: '#0A1A33' },
         { property: 'og:title', content: 'MacCleaner' },
         {
           property: 'og:description',
-          content: 'Riprendi spazio sul Mac. Open source. Zero telemetria.',
+          content: 'Reclaim space on your Mac. Open source. Zero telemetry.',
         },
         { property: 'og:type', content: 'website' },
       ],

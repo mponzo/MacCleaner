@@ -260,8 +260,11 @@ open ~/Applications/MacCleaner.app
 ```bash
 ./Scripts/install.sh       # compila e installa in ~/Applications
 ./Scripts/package-app.sh   # crea dist/MacCleaner.app + aggiorna lo zip
+./Scripts/sign-and-notarize.sh  # Developer ID + notarizzazione (niente popup Gatekeeper)
 ./Scripts/uninstall.sh
 ```
+
+Firma/notarizzazione: vedi [`docs/NOTARIZATION.md`](docs/NOTARIZATION.md).
 
 Bundle id: `com.maccleaner.app` · target SPM: `OpenCleanMyMac`.
 

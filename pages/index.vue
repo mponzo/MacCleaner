@@ -125,18 +125,9 @@ const features = [
           </li>
           <li>
             <strong>Apri</strong>
-            <span>tasto destro → Apri (non il doppio clic al primo avvio)</span>
+            <span>doppio clic su MacCleaner</span>
           </li>
         </ol>
-        <aside class="gatekeeper">
-          <h3>Se macOS dice che non può verificarla</h3>
-          <p>
-            Normale per un’app open source non notarizzata. Clicca <strong>Fine</strong>,
-            poi tasto destro su MacCleaner → <strong>Apri</strong> → conferma
-            <strong>Apri</strong>. Oppure: Impostazioni → Privacy e sicurezza →
-            <strong>Apri comunque</strong>.
-          </p>
-        </aside>
         <a class="btn btn-primary" :href="downloadUrl">Scarica MacCleaner.app.zip</a>
       </section>
     </main>
@@ -417,30 +408,6 @@ const features = [
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.4;
-}
-
-.gatekeeper {
-  width: min(640px, 100%);
-  margin: 0 auto 1.5rem;
-  padding: 1.1rem 1.25rem;
-  text-align: left;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 158, 72, 0.35);
-  background: rgba(255, 158, 72, 0.08);
-}
-
-.gatekeeper h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  color: var(--accent);
-}
-
-.gatekeeper p {
-  margin: 0.45rem 0 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 .footer {

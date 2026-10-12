@@ -105,8 +105,25 @@ PLIST
 
 echo -n "APPL????" > "$APP/Contents/PkgInfo"
 
-if command -v codesign >/dev/null 2>&1; then
-  echo "==> Ad-hoc codesign"
+# Prefer Developer ID when present (full notarization: ./Scripts/sign-and-notarize.sh).
+# Otherwise ad-hoc so local runs still work.
+DEV_ID_IDENTITY="$(
+  security find-identity -v -p codesigning 2>/dev/null \
+    | sed -n 's/.*"\(Developer ID Application:[^"]*\)".*/\1/p' \
+    | head -n 1
+)"
+if [[ -n "${CODESIGN_IDENTITY:-}" ]]; then
+  DEV_ID_IDENTITY="$CODESIGN_IDENTITY"
+fi
+
+if [[ -n "$DEV_ID_IDENTITY" ]]; then
+  echo "==> Codesign (Developer ID — run sign-and-notarize.sh to notarize)"
+  codesign --force --deep --timestamp --options runtime \
+    --entitlements "$ROOT/packaging/MacCleaner.entitlements" \
+    --sign "$DEV_ID_IDENTITY" \
+    "$APP" || true
+elif command -v codesign >/dev/null 2>&1; then
+  echo "==> Ad-hoc codesign (no Developer ID Application cert found)"
   codesign --force --deep --sign - "$APP" || true
 fi
 

@@ -176,6 +176,10 @@ Barre delle categorie già scansionate: dove va lo spazio dopo Smart Care.
 
 ---
 
+### Aggiornamenti
+
+Sezione dedicata nell’app: confronta la versione locale con [`releases/version.json`](releases/version.json) sul repo, scarica [`MacCleaner.app.zip`](releases/MacCleaner.app.zip) e installa in `~/Applications`, poi riavvia. Il controllo rete va solo verso GitHub e solo quando apri la sezione o premi “Controlla”.
+
 ### Menu bar (one-click)
 
 Pannello glass (non menu classico): stato Mac, disco/RAM/batteria/CPU, rete, attività, consiglio Smart Care, Apri / Impostazioni / **Esci**. Una sola finestra principale — niente istanze duplicate.

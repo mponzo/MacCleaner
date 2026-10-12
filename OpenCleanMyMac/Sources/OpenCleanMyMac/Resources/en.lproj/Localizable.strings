@@ -21,6 +21,7 @@
 "sidebar.performance" = "Performance";
 "sidebar.privileged" = "Privileged Helper";
 "sidebar.space_lens" = "Space Lens";
+"sidebar.updates" = "Updates";
 "sidebar.settings" = "Settings";
 "sidebar.modules" = "Modules";
 
@@ -284,3 +285,30 @@
 "menubar.activity_empty" = "No process sample yet";
 "menubar.reclaimable_brief" = "Reclaimable: %@";
 "menubar.battery_full" = "Fully charged";
+
+/* Updates */
+"updates.title" = "Updates";
+"updates.subtitle" = "Check and install the latest MacCleaner build published in the GitHub repository.";
+"updates.installed" = "This Mac";
+"updates.repository" = "Repository release";
+"updates.version" = "Version";
+"updates.build" = "Build";
+"updates.latest" = "Latest";
+"updates.last_check" = "Last check";
+"updates.not_checked" = "Not checked yet.";
+"updates.checking" = "Checking the repository…";
+"updates.available" = "Update available: %@";
+"updates.up_to_date" = "You’re on the latest version.";
+"updates.check" = "Check for updates";
+"updates.install" = "Download & install";
+"updates.downloading" = "Downloading package…";
+"updates.installing" = "Installing…";
+"updates.relaunching" = "Relaunching…";
+"updates.privacy" = "Privacy";
+"updates.privacy.body" = "Update checks contact GitHub only when you ask (or open this page). No telemetry, accounts, or analytics — just the public version.json and MacCleaner.app.zip from the open-source repo.";
+"updates.error.manifest" = "Could not read the update manifest.";
+"updates.error.download" = "Download failed: %@";
+"updates.error.package" = "The downloaded package is invalid.";
+"updates.error.install" = "Install failed: %@";
+"updates.error.network" = "Network error: %@";
+"updates.error.check_first" = "Check for updates first.";

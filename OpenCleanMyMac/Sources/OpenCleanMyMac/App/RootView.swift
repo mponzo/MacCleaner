@@ -5,6 +5,7 @@ struct RootView: View {
     @Bindable var uninstaller: UninstallerEngine
     @Bindable var performance: PerformanceEngine
     @Bindable var privileged: PrivilegedHelperEngine
+    @Bindable var updater: AppUpdateEngine
     @Bindable var preferences: AppPreferences
     @State private var destination: SidebarDestination = .overview
 
@@ -75,6 +76,7 @@ struct RootView: View {
                 sidebarItem("sidebar.performance", icon: "gauge.with.dots.needle.67percent", tag: .performance)
                 sidebarItem("sidebar.privileged", icon: "lock.shield", tag: .privileged)
                 sidebarItem("sidebar.space_lens", icon: "chart.bar.fill", tag: .spaceLens)
+                sidebarItem("sidebar.updates", icon: "arrow.down.app", tag: .updates)
                 sidebarItem("sidebar.settings", icon: "gearshape", tag: .settings)
             } header: {
                 Text(l10n: "sidebar.tools")
@@ -143,6 +145,8 @@ struct RootView: View {
             PrivilegedHelperView(privileged: privileged)
         case .spaceLens:
             SpaceLensView(engine: engine)
+        case .updates:
+            UpdatesView(updater: updater, preferences: preferences)
         case .settings:
             SettingsView(preferences: preferences)
         case .category(let category):

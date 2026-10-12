@@ -93,6 +93,7 @@ enum SidebarDestination: Hashable {
     case performance
     case privileged
     case spaceLens
+    case updates
     case settings
     case category(ScanCategory)
 }

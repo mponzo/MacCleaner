@@ -7,6 +7,7 @@ struct OpenCleanMyMacApp: App {
     @State private var uninstaller = UninstallerEngine()
     @State private var performance = PerformanceEngine()
     @State private var privileged = PrivilegedHelperEngine()
+    @State private var updater = AppUpdateEngine()
     @State private var preferences = AppPreferences.shared
 
     init() {
@@ -39,6 +40,7 @@ struct OpenCleanMyMacApp: App {
                 uninstaller: uninstaller,
                 performance: performance,
                 privileged: privileged,
+                updater: updater,
                 preferences: preferences
             )
             .preferredColorScheme(.dark)

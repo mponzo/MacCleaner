@@ -46,24 +46,75 @@ enum AppInstaller {
         guard let source = runningBundleURL else {
             throw AppInstallerError.notRunningFromBundle
         }
+        return try install(from: source, revealInFinder: true)
+    }
 
+    /// Copies a `.app` bundle into `~/Applications/MacCleaner.app`.
+    @discardableResult
+    static func install(from source: URL, revealInFinder: Bool = false) throws -> URL {
         let fm = FileManager.default
+        guard source.pathExtension == "app", fm.fileExists(atPath: source.path) else {
+            throw AppInstallerError.copyFailed(L10n.string("updates.error.package"))
+        }
+
         try fm.createDirectory(at: applicationsDirectory, withIntermediateDirectories: true)
 
         let destination = installedAppURL
-        if fm.fileExists(atPath: destination.path) {
-            try fm.removeItem(at: destination)
-        }
+        let runningFromDestination: Bool = {
+            guard let running = runningBundleURL else { return false }
+            return running.standardizedFileURL == destination.standardizedFileURL
+        }()
 
         do {
-            try fm.copyItem(at: source, to: destination)
+            if runningFromDestination {
+                // Stage beside the live app; relaunch script swaps after quit.
+                let staging = applicationsDirectory.appendingPathComponent("MacCleaner.updating.app", isDirectory: true)
+                if fm.fileExists(atPath: staging.path) {
+                    try fm.removeItem(at: staging)
+                }
+                try ditto(from: source, to: staging)
+                scheduleSwap(from: staging, to: destination)
+            } else {
+                if fm.fileExists(atPath: destination.path) {
+                    try fm.removeItem(at: destination)
+                }
+                try ditto(from: source, to: destination)
+            }
+        } catch let error as AppInstallerError {
+            throw error
         } catch {
             throw AppInstallerError.copyFailed(error.localizedDescription)
         }
 
-        // Refresh Launch Services.
-        NSWorkspace.shared.activateFileViewerSelecting([destination])
+        if revealInFinder {
+            NSWorkspace.shared.activateFileViewerSelecting([destination])
+        }
         return destination
+    }
+
+    private static func ditto(from source: URL, to destination: URL) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/ditto")
+        process.arguments = [source.path, destination.path]
+        try process.run()
+        process.waitUntilExit()
+        guard process.terminationStatus == 0 else {
+            throw AppInstallerError.copyFailed("ditto exit \(process.terminationStatus)")
+        }
+    }
+
+    /// Replaces the installed app after this process exits (safe when updating in place).
+    private static func scheduleSwap(from staging: URL, to destination: URL) {
+        let script = """
+        /bin/sleep 1
+        /bin/rm -rf '\(destination.path)'
+        /bin/mv '\(staging.path)' '\(destination.path)'
+        /usr/bin/open '\(destination.path)'
+        """
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/bin/zsh")
+        process.arguments = ["-c", script]
+        try? process.run()
     }
 
     static func uninstall() throws {

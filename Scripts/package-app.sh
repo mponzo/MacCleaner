@@ -10,6 +10,10 @@ APP="$DIST/$APP_NAME"
 ZIP="$RELEASES/MacCleaner.app.zip"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
+VERSION="0.2.0"
+BUILD="2"
+ICON_ICNS="$ROOT/packaging/AppIcon.icns"
+VERSION_JSON="$RELEASES/version.json"
 
 echo "==> Building universal release binary (arm64 + x86_64)"
 cd "$PKG"
@@ -47,6 +51,12 @@ else
   echo "warning: resource bundle not found" >&2
 fi
 
+if [[ -f "$ICON_ICNS" ]]; then
+  cp "$ICON_ICNS" "$APP/Contents/Resources/AppIcon.icns"
+else
+  echo "warning: AppIcon.icns missing at $ICON_ICNS" >&2
+fi
+
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -69,12 +79,14 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <string>MacCleaner</string>
   <key>CFBundleDisplayName</key>
   <string>MacCleaner</string>
+  <key>CFBundleIconFile</key>
+  <string>AppIcon</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>0.1.0</string>
+  <string>${VERSION}</string>
   <key>CFBundleVersion</key>
-  <string>1</string>
+  <string>${BUILD}</string>
   <key>LSMinimumSystemVersion</key>
   <string>14.0</string>
   <key>LSApplicationCategoryType</key>
@@ -102,8 +114,19 @@ mkdir -p "$RELEASES"
 rm -f "$ZIP"
 ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
 
+cat > "$VERSION_JSON" <<JSON
+{
+  "version": "${VERSION}",
+  "build": ${BUILD},
+  "zip_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner.app.zip",
+  "notes": "App icon and in-app updates from the GitHub repository.",
+  "notes_it": "Icona dell’app e aggiornamenti dall’archivio GitHub."
+}
+JSON
+
 echo "==> Done: $APP"
 echo "==> Zip:  $ZIP"
+echo "==> Manifest: $VERSION_JSON ($VERSION #$BUILD)"
 lipo -info "$APP/Contents/MacOS/$BIN_NAME" || true
 echo "Install: unzip releases/MacCleaner.app.zip && open MacCleaner.app"
 echo "Or:      ./Scripts/install.sh"

@@ -21,6 +21,7 @@
 "sidebar.performance" = "Prestazioni";
 "sidebar.privileged" = "Helper privilegiato";
 "sidebar.space_lens" = "Space Lens";
+"sidebar.updates" = "Aggiornamenti";
 "sidebar.settings" = "Impostazioni";
 "sidebar.modules" = "Moduli";
 
@@ -284,3 +285,30 @@
 "menubar.activity_empty" = "Nessun campione processi";
 "menubar.reclaimable_brief" = "Recuperabile: %@";
 "menubar.battery_full" = "Completamente carica";
+
+/* Aggiornamenti */
+"updates.title" = "Aggiornamenti";
+"updates.subtitle" = "Controlla e installa l’ultima build di MacCleaner pubblicata sul repository GitHub.";
+"updates.installed" = "Questo Mac";
+"updates.repository" = "Release sul repository";
+"updates.version" = "Versione";
+"updates.build" = "Build";
+"updates.latest" = "Ultima";
+"updates.last_check" = "Ultimo controllo";
+"updates.not_checked" = "Non ancora controllato.";
+"updates.checking" = "Controllo il repository…";
+"updates.available" = "Aggiornamento disponibile: %@";
+"updates.up_to_date" = "Hai già l’ultima versione.";
+"updates.check" = "Controlla aggiornamenti";
+"updates.install" = "Scarica e installa";
+"updates.downloading" = "Download del pacchetto…";
+"updates.installing" = "Installazione…";
+"updates.relaunching" = "Riavvio…";
+"updates.privacy" = "Privacy";
+"updates.privacy.body" = "Il controllo aggiornamenti contatta solo GitHub quando lo chiedi (o apri questa pagina). Niente telemetria, account o analytics: solo i file pubblici version.json e MacCleaner.app.zip del repo open source.";
+"updates.error.manifest" = "Impossibile leggere il manifesto aggiornamenti.";
+"updates.error.download" = "Download non riuscito: %@";
+"updates.error.package" = "Il pacchetto scaricato non è valido.";
+"updates.error.install" = "Installazione non riuscita: %@";
+"updates.error.network" = "Errore di rete: %@";
+"updates.error.check_first" = "Controlla prima gli aggiornamenti.";

@@ -204,13 +204,59 @@ Tema **dark blue-glass**. Stringhe in `en.lproj` / `it.lproj`.
 
 ## Installazione
 
-### Modo semplice (consigliato)
+Non serve saper programmare. Scarichi un file, lo metti in Applicazioni e apri MacCleaner — come molte altre app per Mac.
 
-1. Scarica **[MacCleaner.app.zip](releases/MacCleaner.app.zip)** (già nel repo)  
-2. Apri lo zip → trascina `MacCleaner.app` in **Applicazioni** (o `~/Applications`)  
-3. Avvia l’app (al primo avvio: tasto destro → **Apri**, se Gatekeeper chiede conferma)
+<p align="center">
+  <a href="releases/MacCleaner.app.zip">
+    <img src="https://img.shields.io/badge/Scarica%20MacCleaner-macOS%2014%2B%20·%20.zip-2E6BD1?style=for-the-badge" alt="Scarica MacCleaner.app.zip"/>
+  </a>
+</p>
 
-Oppure da Terminale, senza clonare il progetto:
+<p align="center">
+  <img src="docs/assets/install-steps.svg" alt="1 Scarica · 2 Installa · 3 Apri" width="920"/>
+</p>
+
+### In 3 passi
+
+| | Cosa fare | Dettaglio |
+|:---:|---|---|
+| **1** | **Scarica** | Clicca **[MacCleaner.app.zip](releases/MacCleaner.app.zip)** e salva il file (è già incluso in questo progetto). |
+| **2** | **Installa** | Apri lo zip con un doppio clic. Trascina **MacCleaner** nella cartella **Applicazioni** (Finder → Preferiti → Applicazioni). |
+| **3** | **Apri** | Apri **MacCleaner** da Applicazioni. Non crea account e non chiede abbonamento. |
+
+Funziona su Mac con chip Apple (M1/M2/M3/…) e su Mac Intel.
+
+<details>
+<summary><strong>Se macOS dice “non può verificare lo sviluppatore”</strong></summary>
+
+<br/>
+
+È normale per un’app open source non pubblicata sul Mac App Store.
+
+1. Chiudi il messaggio di avviso  
+2. Nel Finder, vai in **Applicazioni**  
+3. Tieni premuto **Control** e clicca su **MacCleaner** (oppure tasto destro)  
+4. Scegli **Apri** → conferma di nuovo **Apri**
+
+La volta successiva basterà il doppio clic.
+
+</details>
+
+<details>
+<summary><strong>Come disinstallare</strong></summary>
+
+<br/>
+
+Trascina **MacCleaner** dal Finder (cartella Applicazioni) nel **Cestino**, poi svuota il Cestino se vuoi.
+
+</details>
+
+<details>
+<summary><strong>Opzioni per chi sviluppa</strong> (facoltative)</summary>
+
+<br/>
+
+**Da Terminale** (senza clonare il progetto):
 
 ```bash
 curl -L -o MacCleaner.app.zip \
@@ -222,20 +268,20 @@ xattr -dr com.apple.quarantine ~/Applications/MacCleaner.app 2>/dev/null || true
 open ~/Applications/MacCleaner.app
 ```
 
-### Dal sorgente
-
-Serve la Swift toolchain. Clona il repo, poi:
+**Dal sorgente** (serve Xcode / Swift):
 
 ```bash
-./Scripts/install.sh       # compila, crea lo zip e copia in ~/Applications
-# oppure passo per passo:
-./Scripts/package-app.sh   # dist/MacCleaner.app + releases/MacCleaner.app.zip
+./Scripts/install.sh       # compila e installa in ~/Applications
+./Scripts/package-app.sh   # crea dist/MacCleaner.app + aggiorna lo zip
 ./Scripts/uninstall.sh
 ```
 
-Bundle id: `com.maccleaner.app` · target SPM: `OpenCleanMyMac` (solo nome tecnico di build).
+Bundle id: `com.maccleaner.app` · target SPM: `OpenCleanMyMac`.
+
+</details>
 
 ---
+
 
 ## Sviluppo e CLI
 

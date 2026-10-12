@@ -25,8 +25,8 @@
 </p>
 
 <p align="center">
-  <a href="#la-nostra-promessa">Promessa privacy</a> ·
-  <a href="#perché-maccleaner">Perché esiste</a> ·
+  <a href="releases/MacCleaner.app.zip"><strong>Scarica MacCleaner.app.zip</strong></a> ·
+  <a href="#fiducia-verificabile">Privacy</a> ·
   <a href="#funzionalità">Funzionalità</a> ·
   <a href="#installazione">Installazione</a> ·
   <a href="#sicurezza-e-privilegi">Sicurezza</a>
@@ -34,9 +34,9 @@
 
 ---
 
-## La nostra promessa
+## Fiducia verificabile
 
-Un cleaner per Mac può vedere file sensibili e chiedere privilegi elevati. Merita fiducia verificabile, non slogan. Questo è il contratto di MacCleaner — e puoi controllarlo nel codice sorgente:
+Un cleaner per Mac può vedere file sensibili e chiedere privilegi elevati. Merita trasparenza, non slogan. Questo è il contratto di MacCleaner — e puoi controllarlo nel codice sorgente:
 
 | Impegno | Cosa significa |
 |---|---|
@@ -46,7 +46,7 @@ Un cleaner per Mac può vedere file sensibili e chiedere privilegi elevati. Meri
 | **Selezione esplicita** | Niente “pulisci tutto” cieco. Vedi i path, spunti cosa liberare, puoi **Stop** durante scansione/pulizia. |
 | **Cestino per le pulizie utente** | Gli item utente selezionati vanno nel **Cestino** di macOS (`trashItem`), non in un delete silenzioso nascosto. |
 | **Admin solo su allowlist** | Cache/log di sistema e simili passano da un bridge con password e percorsi **consentiti esplicitamente**. |
-| **Open source (MIT)** | Codice leggibile, forkabile, auditabile. Se un giorno aggiungesse telemetria o paywall sulle funzioni base, tradirebbe questa promessa. |
+| **Open source (MIT)** | Codice leggibile, forkabile, auditabile. Se un giorno aggiungesse telemetria o paywall sulle funzioni base, tradirebbe questo contratto. |
 
 ### Cosa MacCleaner **non** fa
 
@@ -60,7 +60,7 @@ Un cleaner per Mac può vedere file sensibili e chiedere privilegi elevati. Meri
 
 ## Indice
 
-1. [La nostra promessa](#la-nostra-promessa)  
+1. [Fiducia verificabile](#fiducia-verificabile)  
 2. [Perché MacCleaner](#perché-maccleaner)  
 3. [Requisiti](#requisiti)  
 4. [Funzionalità](#funzionalità)  
@@ -99,8 +99,8 @@ MacCleaner è **locale e trasparente**: ogni elemento recuperabile mostra il per
 ## Requisiti
 
 - **macOS 14** (Sonoma) o successivo  
-- **Xcode / Swift toolchain** per compilare dal sorgente  
-- Consigliato: `.app` in `~/Applications` per menu bar e avvio all’accesso  
+- Binario universale (Apple Silicon + Intel) in [`releases/MacCleaner.app.zip`](releases/MacCleaner.app.zip)  
+- Xcode / Swift solo se vuoi compilare dal sorgente  
 
 ---
 
@@ -204,13 +204,34 @@ Tema **dark blue-glass**. Stringhe in `en.lproj` / `it.lproj`.
 
 ## Installazione
 
+### Modo semplice (consigliato)
+
+1. Scarica **[MacCleaner.app.zip](releases/MacCleaner.app.zip)** (già nel repo)  
+2. Apri lo zip → trascina `MacCleaner.app` in **Applicazioni** (o `~/Applications`)  
+3. Avvia l’app (al primo avvio: tasto destro → **Apri**, se Gatekeeper chiede conferma)
+
+Oppure da Terminale, senza clonare il progetto:
+
 ```bash
-./Scripts/package-app.sh   # dist/MacCleaner.app
-./Scripts/install.sh       # ~/Applications
-./Scripts/uninstall.sh
+curl -L -o MacCleaner.app.zip \
+  https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner.app.zip
+unzip -o MacCleaner.app.zip
+mkdir -p ~/Applications
+mv -f MacCleaner.app ~/Applications/
+xattr -dr com.apple.quarantine ~/Applications/MacCleaner.app 2>/dev/null || true
+open ~/Applications/MacCleaner.app
 ```
 
-Oppure apri `dist/MacCleaner.app` → **Impostazioni → Installa in Applications**.
+### Dal sorgente
+
+Serve la Swift toolchain. Clona il repo, poi:
+
+```bash
+./Scripts/install.sh       # compila, crea lo zip e copia in ~/Applications
+# oppure passo per passo:
+./Scripts/package-app.sh   # dist/MacCleaner.app + releases/MacCleaner.app.zip
+./Scripts/uninstall.sh
+```
 
 Bundle id: `com.maccleaner.app` · target SPM: `OpenCleanMyMac` (solo nome tecnico di build).
 

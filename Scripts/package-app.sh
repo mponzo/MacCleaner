@@ -4,18 +4,33 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PKG="$ROOT/OpenCleanMyMac"
 DIST="$ROOT/dist"
+RELEASES="$ROOT/releases"
 APP_NAME="MacCleaner.app"
 APP="$DIST/$APP_NAME"
+ZIP="$RELEASES/MacCleaner.app.zip"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
 
-echo "==> Building release binary"
+echo "==> Building universal release binary (arm64 + x86_64)"
 cd "$PKG"
-swift build -c release --product OpenCleanMyMac
+swift build -c release --arch arm64 --arch x86_64 --product OpenCleanMyMac
 
-BIN_DIR="$(swift build -c release --show-bin-path)"
-BIN="$BIN_DIR/$BIN_NAME"
-test -x "$BIN"
+ARM_BIN="$PKG/.build/arm64-apple-macosx/release/$BIN_NAME"
+X86_BIN="$PKG/.build/x86_64-apple-macosx/release/$BIN_NAME"
+test -x "$ARM_BIN"
+test -x "$X86_BIN"
+
+# Resource bundle lives next to either arch build
+RESOURCE_BUNDLE=""
+for candidate in \
+  "$PKG/.build/arm64-apple-macosx/release/${BIN_NAME}_${BIN_NAME}.bundle" \
+  "$PKG/.build/x86_64-apple-macosx/release/${BIN_NAME}_${BIN_NAME}.bundle"
+do
+  if [[ -d "$candidate" ]]; then
+    RESOURCE_BUNDLE="$candidate"
+    break
+  fi
+done
 
 echo "==> Assembling $APP_NAME"
 rm -rf "$APP"
@@ -23,15 +38,13 @@ rm -rf "$APP"
 rm -rf "$DIST/Open Clean My Mac.app"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
-cp "$BIN" "$APP/Contents/MacOS/$BIN_NAME"
+lipo -create -output "$APP/Contents/MacOS/$BIN_NAME" "$ARM_BIN" "$X86_BIN"
 chmod +x "$APP/Contents/MacOS/$BIN_NAME"
 
-# SPM resource bundle (en.lproj / it.lproj Localizable.strings)
-RESOURCE_BUNDLE="$BIN_DIR/${BIN_NAME}_${BIN_NAME}.bundle"
-if [[ -d "$RESOURCE_BUNDLE" ]]; then
+if [[ -n "$RESOURCE_BUNDLE" ]]; then
   cp -R "$RESOURCE_BUNDLE" "$APP/Contents/Resources/"
 else
-  echo "warning: resource bundle not found at $RESOURCE_BUNDLE" >&2
+  echo "warning: resource bundle not found" >&2
 fi
 
 cat > "$APP/Contents/Info.plist" <<PLIST
@@ -85,6 +98,12 @@ if command -v codesign >/dev/null 2>&1; then
   codesign --force --deep --sign - "$APP" || true
 fi
 
+mkdir -p "$RELEASES"
+rm -f "$ZIP"
+ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
+
 echo "==> Done: $APP"
-echo "Open it, then use Settings → Install to Applications"
-echo "Or run: ./Scripts/install.sh"
+echo "==> Zip:  $ZIP"
+lipo -info "$APP/Contents/MacOS/$BIN_NAME" || true
+echo "Install: unzip releases/MacCleaner.app.zip && open MacCleaner.app"
+echo "Or:      ./Scripts/install.sh"

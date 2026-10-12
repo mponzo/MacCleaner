@@ -28,9 +28,11 @@ jobs:
           node-version: "20"
           cache: npm
 
-      - name: Setup Pages
+      # Avoid configure-pages until the site exists (404 if Pages is off).
+      # Project site base path is /<repo>/
+      - name: Resolve Pages base path
         id: pages
-        uses: actions/configure-pages@v5
+        run: echo "base_path=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies
         run: npm ci

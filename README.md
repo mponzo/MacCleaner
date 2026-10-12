@@ -297,7 +297,7 @@ npm run dev          # locale
 npm run generate     # export statico → .output/public
 ```
 
-Dopo il primo deploy: Settings → Pages → Source **GitHub Actions**. URL tipico: `https://mponzo.github.io/MacCleaner/`.
+**Prima del deploy** (una tantum): repository → **Settings → Pages → Build and deployment → Source: GitHub Actions**. Senza questo passo l’Action fallisce con *Get Pages site failed*. URL tipico: `https://mponzo.github.io/MacCleaner/`.
 
 ---
 

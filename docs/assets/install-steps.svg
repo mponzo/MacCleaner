@@ -60,6 +60,6 @@
   <!-- click / play -->
   <circle cx="936" cy="168" r="48" fill="url(#accent)" fill-opacity="0.95"/>
   <path d="M922 148 l36 20 -36 20 z" fill="#FFFFFF"/>
-  <text x="936" y="244" text-anchor="middle" fill="#A9C4E8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="15">Doppio clic sullapp</text>
+  <text x="936" y="244" text-anchor="middle" fill="#A9C4E8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="15">Doppio clic sull&apos;app</text>
   <text x="936" y="268" text-anchor="middle" fill="#6F8FB8" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif" font-size="13">pronto: zero account</text>
 </svg>

@@ -26,7 +26,7 @@ export default defineNuxtConfig({
         { property: 'og:type', content: 'website' },
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: `${baseURL}mark.svg` },
+        { rel: 'icon', type: 'image/png', href: `${baseURL}icon.png` },
         { rel: 'apple-touch-icon', href: `${baseURL}icon.png` },
         {
           rel: 'preconnect',

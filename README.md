@@ -226,39 +226,9 @@ Non serve saper programmare. Scarichi un file, lo metti in Applicazioni e apri M
 |:---:|---|---|
 | **1** | **Scarica** | Clicca **[MacCleaner.app.zip](releases/MacCleaner.app.zip)** e salva il file (è già incluso in questo progetto). |
 | **2** | **Installa** | Apri lo zip con un doppio clic. Trascina **MacCleaner** nella cartella **Applicazioni** (Finder → Preferiti → Applicazioni). |
-| **3** | **Apri** | Da **Applicazioni**: **tasto destro** su MacCleaner → **Apri** (non il doppio clic al primo avvio). |
+| **3** | **Apri** | Doppio clic su **MacCleaner** in Applicazioni. |
 
 Funziona su Mac con chip Apple (M1/M2/M3/…) e su Mac Intel.
-
-<details open>
-<summary><strong>Se compare “MacCleaner.app non è stata aperta” / malware</strong></summary>
-
-<br/>
-
-È **normale**: l’app è open source e **non è ancora notarizzata** da Apple (serve un account Developer a pagamento). Non significa che sia pericolosa — macOS blocca le app scaricate senza firma ufficiale.
-
-**Metodo consigliato**
-
-1. Clicca **Fine** (non “Sposta nel Cestino”)  
-2. Apri **Finder** → cartella dove hai messo l’app (**Applicazioni** o Download)  
-3. **Tasto destro** (o Control-clic) su **MacCleaner** → **Apri**  
-4. Nella nuova finestra conferma di nuovo **Apri**
-
-**Se non vedi “Apri”**
-
-1. **Impostazioni di Sistema** → **Privacy e sicurezza**  
-2. Scorri fino al messaggio su MacCleaner → **Apri comunque**
-
-**Da Terminale** (dopo aver messo l’app in Applicazioni):
-
-```bash
-xattr -dr com.apple.quarantine ~/Applications/MacCleaner.app
-open ~/Applications/MacCleaner.app
-```
-
-Dalla volta successiva basta il doppio clic.
-
-</details>
 
 <details>
 <summary><strong>Come disinstallare</strong></summary>
@@ -282,7 +252,6 @@ curl -L -o MacCleaner.app.zip \
 unzip -o MacCleaner.app.zip
 mkdir -p ~/Applications
 mv -f MacCleaner.app ~/Applications/
-xattr -dr com.apple.quarantine ~/Applications/MacCleaner.app 2>/dev/null || true
 open ~/Applications/MacCleaner.app
 ```
 

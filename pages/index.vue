@@ -42,7 +42,7 @@ const features = [
   <div class="page">
     <header class="top">
       <a class="brand" href="#" aria-label="MacCleaner">
-        <img src="/mark.svg" alt="" width="36" height="36" class="brand-icon" />
+        <img src="/icon.png" alt="" width="36" height="36" class="brand-icon" />
         <span>MacCleaner</span>
       </a>
       <nav class="nav">

@@ -10,8 +10,8 @@ APP="$DIST/$APP_NAME"
 ZIP="$RELEASES/MacCleaner.app.zip"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
-VERSION="0.2.1"
-BUILD="3"
+VERSION="0.2.2"
+BUILD="4"
 ICON_ICNS="$ROOT/packaging/AppIcon.icns"
 VERSION_JSON="$RELEASES/version.json"
 
@@ -119,8 +119,8 @@ cat > "$VERSION_JSON" <<JSON
   "version": "${VERSION}",
   "build": ${BUILD},
   "zip_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner.app.zip",
-  "notes": "Sharper glass logo mark (no white, no shadows) and packaging refresh.",
-  "notes_it": "Logo glass a tratti netti (niente bianco, niente ombre) e packaging aggiornato."
+  "notes": "Modern Apple-style app icon.",
+  "notes_it": "Icona app in stile Apple moderno."
 }
 JSON
 

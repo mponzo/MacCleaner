@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const version = '0.2.2'
+const version = '0.2.3'
 const dmgUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.dmg`
 const zipUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.zip`
 const repoUrl = 'https://github.com/mponzo/MacCleaner'

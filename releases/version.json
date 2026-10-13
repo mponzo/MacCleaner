@@ -1,8 +1,8 @@
 {
-  "version": "0.2.2",
-  "build": 4,
-  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.2/MacCleaner-0.2.2.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.2/MacCleaner-0.2.2.dmg",
-  "notes": "Versioned DMG + zip installers; Homebrew cask support.",
-  "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
+  "version": "0.2.3",
+  "build": 5,
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.3/MacCleaner-0.2.3.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.3/MacCleaner-0.2.3.dmg",
+  "notes": "Smart Care keeps running when you change sections; closing the window leaves the app in the menu bar (quit from Settings).",
+  "notes_it": "Smart Care continua anche cambiando sezione; chiudendo la finestra l’app resta nella barra menu (Esci da Impostazioni)."
 }

@@ -1,20 +1,26 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 enum AppWindowActivator {
     /// Brings the single main window forward; opens it only if none exists.
     static func bringMainToFront(openWindow: OpenWindowAction) {
+        AppPreferences.shared.applyActivationPolicy()
         if let window = mainWindow() {
             if window.isMiniaturized {
                 window.deminiaturize(nil)
             }
             window.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
+            MainWindowCloseGuard.install(on: window)
             return
         }
         openWindow(id: "main")
         DispatchQueue.main.async {
-            mainWindow()?.makeKeyAndOrderFront(nil)
+            if let window = mainWindow() {
+                window.makeKeyAndOrderFront(nil)
+                MainWindowCloseGuard.install(on: window)
+            }
             NSApp.activate(ignoringOtherApps: true)
         }
     }
@@ -26,18 +32,13 @@ enum AppWindowActivator {
         for window in windows.dropFirst() {
             window.close()
         }
-        windows.first?.makeKeyAndOrderFront(nil)
+        if let first = windows.first {
+            first.makeKeyAndOrderFront(nil)
+            MainWindowCloseGuard.install(on: first)
+        }
     }
 
-    private static func mainWindow() -> NSWindow? {
-        mainWindows().first
-    }
-
-    private static func mainWindows() -> [NSWindow] {
-        NSApp.windows.filter { isMainContentWindow($0) }
-    }
-
-    private static func isMainContentWindow(_ window: NSWindow) -> Bool {
+    nonisolated static func isMainContentWindow(_ window: NSWindow) -> Bool {
         // Exclude MenuBarExtra / status item panels and utility chrome.
         guard window.level == .normal else { return false }
         let className = String(describing: type(of: window))
@@ -49,5 +50,13 @@ enum AppWindowActivator {
         }
         // Main UI is a sizable document-like window.
         return window.frame.width >= 600 && window.frame.height >= 400
+    }
+
+    private static func mainWindow() -> NSWindow? {
+        mainWindows().first
+    }
+
+    private static func mainWindows() -> [NSWindow] {
+        NSApp.windows.filter { isMainContentWindow($0) }
     }
 }

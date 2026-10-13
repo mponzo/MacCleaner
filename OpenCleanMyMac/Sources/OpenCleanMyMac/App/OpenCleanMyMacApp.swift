@@ -59,12 +59,12 @@ struct OpenCleanMyMacApp: App {
             CommandGroup(replacing: .appTermination) {}
             CommandMenu(L10n.string("menu.clean")) {
                 Button(L10n.string("menu.run_smart_care")) {
-                    Task { await engine.runSmartCare() }
+                    engine.runSmartCare()
                 }
                 .keyboardShortcut("r", modifiers: [.command])
 
                 Button(L10n.string("menu.clean_selected")) {
-                    Task { await engine.cleanSelected() }
+                    engine.cleanSelected()
                 }
                 .keyboardShortcut("k", modifiers: [.command])
                 .disabled(engine.reclaimableBytes == 0)

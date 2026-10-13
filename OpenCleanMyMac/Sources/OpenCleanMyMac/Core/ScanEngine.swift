@@ -13,6 +13,7 @@ final class ScanEngine {
     var lastCleanResult: CleanResult?
     var errorMessage: String?
 
+    /// Owned by the engine (App lifetime), not by a SwiftUI view Task — survives section changes.
     private var workTask: Task<Void, Never>?
 
     var isBusy: Bool { isScanning || isCleaning }
@@ -29,20 +30,17 @@ final class ScanEngine {
         results.reduce(0) { $0 + $1.totalBytes }
     }
 
-    func runSmartCare() async {
+    /// Starts Smart Care without awaiting — safe to call from any UI; keeps running across navigation.
+    func runSmartCare() {
         guard !isBusy else { return }
         workTask?.cancel()
-        let task = Task { await self.performSmartCare() }
-        workTask = task
-        await task.value
+        workTask = Task { await self.performSmartCare() }
     }
 
-    func cleanSelected() async {
+    func cleanSelected() {
         guard !isBusy else { return }
         workTask?.cancel()
-        let task = Task { await self.performCleanSelected() }
-        workTask = task
-        await task.value
+        workTask = Task { await self.performCleanSelected() }
     }
 
     func stop() {

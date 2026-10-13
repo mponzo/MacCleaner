@@ -214,7 +214,7 @@ struct SmartCareView: View {
     private var actions: some View {
         HStack(spacing: 10) {
             Button {
-                Task { await engine.runSmartCare() }
+                engine.runSmartCare()
             } label: {
                 Label(
                     engine.isScanning ? L10n.string("smartcare.scanning") : L10n.string("smartcare.run"),
@@ -226,7 +226,7 @@ struct SmartCareView: View {
             .disabled(engine.isBusy)
 
             Button {
-                Task { await engine.cleanSelected() }
+                engine.cleanSelected()
             } label: {
                 Label(l10n: "smartcare.clean_selected", systemImage: "trash")
                     .frame(minWidth: 130)

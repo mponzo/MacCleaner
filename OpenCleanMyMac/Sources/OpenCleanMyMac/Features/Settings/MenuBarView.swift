@@ -162,7 +162,7 @@ struct MenuBarView: View {
                 Button(L10n.string("menubar.free_up")) {
                     openMainWindow()
                     DispatchQueue.main.async {
-                        Task { await engine.runSmartCare() }
+                        engine.runSmartCare()
                     }
                 }
                 .buttonStyle(.plain)
@@ -301,7 +301,7 @@ struct MenuBarView: View {
             Button {
                 openMainWindow()
                 DispatchQueue.main.async {
-                    Task { await engine.runSmartCare() }
+                    engine.runSmartCare()
                 }
             } label: {
                 Text(l10n: "menubar.run_scan")

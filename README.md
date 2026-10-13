@@ -4,7 +4,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 
 | | |
 |---|---|
-| **Download** | [MacCleaner 0.2.2 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.2.2/MacCleaner-0.2.2.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.2.2/MacCleaner-0.2.2.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
+| **Download** | [MacCleaner 0.2.3 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.2.3/MacCleaner-0.2.3.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.2.3/MacCleaner-0.2.3.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
 | **Homebrew** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
@@ -17,7 +17,7 @@ Universal binary (Apple silicon + Intel). UI in **English** and **Italian**.
 
 **DMG**
 
-1. Download [MacCleaner 0.2.2](https://github.com/mponzo/MacCleaner/releases/download/v0.2.2/MacCleaner-0.2.2.dmg)  
+1. Download [MacCleaner 0.2.3](https://github.com/mponzo/MacCleaner/releases/download/v0.2.3/MacCleaner-0.2.3.dmg)  
 2. Open the disk image and drag the app into **Applications**  
 3. Launch MacCleaner  
 

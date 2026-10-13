@@ -19,7 +19,7 @@ ZIP="$RELEASES/MacCleaner-${VERSION}.zip"
 DMG="$RELEASES/MacCleaner-${VERSION}.dmg"
 ZIP_STABLE="$RELEASES/MacCleaner.app.zip"
 DMG_STABLE="$RELEASES/MacCleaner.dmg"
-RAW_BASE="https://github.com/mponzo/MacCleaner/raw/main/releases"
+RELEASE_BASE="https://github.com/mponzo/MacCleaner/releases/download/v${VERSION}"
 
 echo "==> Building universal release binary (arm64 + x86_64)"
 cd "$PKG"
@@ -157,8 +157,8 @@ cat > "$VERSION_JSON" <<JSON
 {
   "version": "${VERSION}",
   "build": ${BUILD},
-  "zip_url": "${RAW_BASE}/MacCleaner-${VERSION}.zip",
-  "dmg_url": "${RAW_BASE}/MacCleaner-${VERSION}.dmg",
+  "zip_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.zip",
+  "dmg_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.dmg",
   "notes": "Versioned DMG + zip installers; Homebrew cask support.",
   "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
 }
@@ -170,7 +170,7 @@ cask "maccleaner" do
   version "${VERSION}"
   sha256 "${DMG_SHA}"
 
-  url "${RAW_BASE}/MacCleaner-#{version}.dmg"
+  url "https://github.com/mponzo/MacCleaner/releases/download/v#{version}/MacCleaner-#{version}.dmg"
   name "MacCleaner"
   desc "Local-first open-source Mac cleaner with zero telemetry"
   homepage "https://github.com/mponzo/MacCleaner"

@@ -11,7 +11,6 @@ APP_NAME="MacCleaner.app"
 APP="$DIST/$APP_NAME"
 ENTITLEMENTS="$ROOT/packaging/MacCleaner.entitlements"
 CASK="$ROOT/Casks/maccleaner.rb"
-RAW_BASE="https://github.com/mponzo/MacCleaner/raw/main/releases"
 
 if [[ -f "$ROOT/.env.notarize" ]]; then
   set -a
@@ -50,6 +49,7 @@ fi
 
 VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist")"
 BUILD="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP/Contents/Info.plist")"
+RELEASE_BASE="https://github.com/mponzo/MacCleaner/releases/download/v${VERSION}"
 ZIP="$RELEASES/MacCleaner-${VERSION}.zip"
 DMG="$RELEASES/MacCleaner-${VERSION}.dmg"
 ZIP_STABLE="$RELEASES/MacCleaner.app.zip"
@@ -141,8 +141,8 @@ cat > "$VERSION_JSON" <<JSON
 {
   "version": "${VERSION}",
   "build": ${BUILD},
-  "zip_url": "${RAW_BASE}/MacCleaner-${VERSION}.zip",
-  "dmg_url": "${RAW_BASE}/MacCleaner-${VERSION}.dmg",
+  "zip_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.zip",
+  "dmg_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.dmg",
   "notes": "Versioned DMG + zip installers; Homebrew cask support.",
   "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
 }
@@ -154,7 +154,7 @@ cask "maccleaner" do
   version "${VERSION}"
   sha256 "${DMG_SHA}"
 
-  url "${RAW_BASE}/MacCleaner-#{version}.dmg"
+  url "https://github.com/mponzo/MacCleaner/releases/download/v#{version}/MacCleaner-#{version}.dmg"
   name "MacCleaner"
   desc "Local-first open-source Mac cleaner with zero telemetry"
   homepage "https://github.com/mponzo/MacCleaner"

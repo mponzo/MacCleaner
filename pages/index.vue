@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const version = '0.2.2'
-const dmgUrl = `https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-${version}.dmg`
-const zipUrl = `https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-${version}.zip`
+const dmgUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.dmg`
+const zipUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.zip`
 const repoUrl = 'https://github.com/mponzo/MacCleaner'
 const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
 brew trust mponzo/maccleaner

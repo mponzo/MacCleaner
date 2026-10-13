@@ -1,8 +1,8 @@
 {
   "version": "0.2.2",
   "build": 4,
-  "zip_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-0.2.2.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-0.2.2.dmg",
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.2/MacCleaner-0.2.2.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.2/MacCleaner-0.2.2.dmg",
   "notes": "Versioned DMG + zip installers; Homebrew cask support.",
   "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
 }

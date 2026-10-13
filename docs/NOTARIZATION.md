@@ -53,7 +53,7 @@ Lo script:
 - firma con Hardened Runtime + timestamp  
 - notarizza l’app, poi il **DMG**  
 - fa **stapler** su `.app` e `.dmg`  
-- rigenera `releases/MacCleaner-<version>.{dmg,zip}` (+ alias stabili) e aggiorna `Casks/maccleaner.rb`
+- rigenera `releases/MacCleaner-<version>.{dmg,zip}` (+ alias stabili) e aggiorna `Casks/maccleaner.rb` (URL su GitHub Releases)
 
 Poi commit/push dello zip aggiornato (o pubblica una GitHub Release).
 

@@ -41,21 +41,20 @@ struct MenuBarView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 10) {
-                    header
-                    protectionStrip
-                    statsGrid
-                    secondaryGrid
-                    tipCard
-                }
-                .padding(14)
+            VStack(alignment: .leading, spacing: 10) {
+                header
+                protectionStrip
+                statsGrid
+                secondaryGrid
+                tipCard
             }
+            .padding(14)
 
             footer
         }
-        .frame(width: 360)
-        .frame(minHeight: 520, maxHeight: 640)
+        .frame(width: 380)
+        .frame(minHeight: 720, idealHeight: 760, maxHeight: 860)
+        .fixedSize(horizontal: true, vertical: false)
         .background { menuGlassBackground }
         .background(MenuBarWindowChrome())
         .preferredColorScheme(.dark)

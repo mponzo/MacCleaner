@@ -25,6 +25,14 @@ struct MenuBarWindowChrome: NSViewRepresentable {
         window.titleVisibility = .hidden
         window.hasShadow = true
         window.isMovableByWindowBackground = false
+        // Tall enough for the one-click panel without an inner scroll view.
+        let preferred = NSSize(width: 380, height: 760)
+        if window.contentMinSize.height < preferred.height {
+            window.contentMinSize = preferred
+        }
+        if window.frame.height < preferred.height {
+            window.setContentSize(preferred)
+        }
         if #available(macOS 14.0, *) {
             window.collectionBehavior.insert(.fullScreenAuxiliary)
         }

@@ -25,9 +25,8 @@ struct UpdatesView: View {
             .padding(28)
         }
         .task {
-            if updater.remote == nil, !updater.isChecking {
-                await updater.checkForUpdates()
-            }
+            // Always refresh when opening the section — including when already up to date.
+            await updater.checkForUpdates()
         }
     }
 
@@ -40,6 +39,17 @@ struct UpdatesView: View {
                     L10n.string("updates.last_check"),
                     checked.formatted(date: .abbreviated, time: .shortened)
                 )
+            }
+
+            if updater.remote != nil, !updater.updateAvailable, !updater.isChecking {
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundStyle(OCTheme.success)
+                    Text(l10n: "updates.up_to_date")
+                        .font(.callout.weight(.semibold))
+                        .foregroundStyle(OCTheme.success)
+                }
+                .padding(.top, 4)
             }
         }
     }
@@ -73,6 +83,7 @@ struct UpdatesView: View {
                     .foregroundStyle(updater.updateAvailable ? OCTheme.sea : OCTheme.success)
             }
 
+            // Keep check + install controls visible even when already up to date.
             HStack(spacing: 10) {
                 Button {
                     Task { await updater.checkForUpdates() }

@@ -32,7 +32,7 @@ const featureSections = [
       'Metrics for reclaimable space, scanned size, and status',
       'Click a module to open category detail',
       'Clean selected items into the macOS Trash',
-      'Stop during scan or cleanup',
+      'Stop during scan or cleanup — scan keeps running if you change sections',
     ],
     categories: [
       'User caches & logs',
@@ -54,8 +54,44 @@ const featureSections = [
       'See bundle size plus leftover size',
       'Leftovers across Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, Crash Reporter',
       'Toggle whether to include the app bundle itself',
+      'Finder recycle for /Applications, with admin fallback when needed',
       'Clean orphan leftovers left behind by removed apps',
       'System apps stay protected — uninstall disabled',
+    ],
+  },
+  {
+    id: 'duplicates',
+    title: 'Duplicate Finder',
+    lede: 'Exact copies only — size + SHA-256, with one protected file per group.',
+    points: [
+      'Choose any folder to scan',
+      'Hard links collapse to a single logical file',
+      'Packages, symlinks, and hidden items are skipped',
+      'Keep a protected original; move selected extras to Trash',
+      'Reveal any path in Finder before you act',
+    ],
+  },
+  {
+    id: 'similar-photos',
+    title: 'Similar Photos',
+    lede: 'Visual estimate from local thumbnails — review only, never delete or upload.',
+    points: [
+      'Compare camera rolls and export folders on disk',
+      'Groups likely matches for side-by-side review',
+      'Reveal originals in Finder at full quality',
+      'Limits: 500 photos / 10,000 directory entries per scan',
+      'Cloud-only placeholders and app packages are skipped',
+    ],
+  },
+  {
+    id: 'schedule',
+    title: 'Schedule',
+    lede: 'Background Smart Care while MacCleaner stays in the menu bar.',
+    points: [
+      'Intervals from every hour to monthly',
+      'Optional auto-clean when reclaimable space meets a MB threshold',
+      'Run a cycle immediately from the Schedule screen',
+      'Works best with Full Disk Access and the menu bar icon enabled',
     ],
   },
   {
@@ -95,7 +131,7 @@ const featureSections = [
     lede: 'Install the build published on the open GitHub repository.',
     points: [
       'Compare local version with releases/version.json',
-      'Download the release zip and install to ~/Applications',
+      'Download from GitHub Releases and install to ~/Applications',
       'Relaunch after update',
       'Network only to GitHub, and only when you check or open this section',
     ],
@@ -107,8 +143,20 @@ const featureSections = [
     points: [
       'Live tiles for disk, memory, battery, CPU, network, and activity',
       'Smart Care tip and quick actions',
-      'Open main window, Settings, or Quit',
+      'Closing the main window keeps the app in the menu bar',
+      'Open main window or Settings from the panel',
       'Single app instance — no duplicate windows',
+    ],
+  },
+  {
+    id: 'onboarding',
+    title: 'Onboarding & permissions',
+    lede: 'First launch asks for Full Disk Access so protected Library paths can be scanned.',
+    points: [
+      'Guided Full Disk Access slide with System Settings deep link',
+      'Recheck while you grant access; continue when ready',
+      'Banner on Smart Care if FDA is still off',
+      'Read-only FileVault / Gatekeeper status in Settings',
     ],
   },
   {
@@ -120,6 +168,7 @@ const featureSections = [
       'Show menu bar icon / hide Dock icon',
       'Launch at login',
       'Install or remove from ~/Applications',
+      'Full quit only from Settings → Quit',
     ],
   },
 ]
@@ -146,7 +195,8 @@ const featureSections = [
           <p class="eyebrow">Open source · macOS 14+</p>
           <h1 class="brand-hero">MacCleaner</h1>
           <p class="lede">
-            Reclaim space on your Mac with visible paths and full control.
+            Reclaim space, uninstall apps, find duplicates and similar photos,
+            and schedule cleanup — with visible paths and full control.
             Zero telemetry. Zero accounts. Zero cloud.
           </p>
           <div class="cta-row">
@@ -181,7 +231,10 @@ const featureSections = [
       <section id="features" class="section">
         <div class="section-head">
           <h2>Features</h2>
-          <p>Every tool is local, selective, and path-visible — no fake urgency.</p>
+          <p>
+            Smart Care, uninstall, duplicates, similar photos, scheduling, and more —
+            every tool is local, selective, and path-visible.
+          </p>
         </div>
 
         <nav class="feature-jump" aria-label="Feature sections">

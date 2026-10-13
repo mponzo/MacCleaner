@@ -1,6 +1,6 @@
 # MacCleaner
 
-Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, uninstalls apps with leftovers, and runs a few maintenance tasks — all on-device.
+Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, uninstalls apps with leftovers, finds duplicates and similar photos, and can schedule Smart Care — all on-device.
 
 | | |
 |---|---|
@@ -56,7 +56,19 @@ Runs a multi-category scan and lets you pick what to free. Progress is per categ
 
 ### Applications
 
-Lists user apps, estimates bundle + leftover size, and finds related files under Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, and Crash Reporter. System apps cannot be uninstalled from here.
+Lists user apps, estimates bundle + leftover size, and finds related files under Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, and Crash Reporter. System apps cannot be uninstalled from here. Bundles under `/Applications` use Finder recycle with an admin fallback when needed.
+
+### Duplicate Finder
+
+Pick a folder; MacCleaner groups **exact** copies by size + SHA-256. Hard links collapse to one entry. Each group keeps one **protected** copy; you choose which extras go to the Trash. Packages, symlinks, and hidden items are skipped.
+
+### Similar Photos
+
+Visual estimate from **local thumbnails** only (up to 500 photos / 10,000 directory entries). Groups likely matches for side-by-side review and **Reveal in Finder**. Photos are never deleted or uploaded — similarity is an estimate, not proof of identity.
+
+### Schedule
+
+Optional background Smart Care while the app stays in the menu bar. Choose an interval (hourly → monthly), optionally **auto-clean** when reclaimable space meets a MB threshold, and run a cycle immediately from Settings.
 
 ### Performance
 
@@ -65,14 +77,14 @@ Live memory / CPU / free disk, top processes, user Launch Agents, plus maintenan
 ### Space Lens, menu bar, updates
 
 - **Space Lens** — bar chart of categories from the last Smart Care run  
-- **Menu bar** — glass status panel (disk, RAM, battery, CPU, network, activity) with shortcuts into the main window  
-- **Updates** — compares this build to [`releases/version.json`](releases/version.json) on GitHub when you open the section  
+- **Menu bar** — glass status panel (disk, RAM, battery, CPU, network, activity); closing the main window keeps the app in the menu bar  
+- **Updates** — compares this build to [`releases/version.json`](releases/version.json) / GitHub Releases when you open the section  
 
-### Settings
+### Onboarding & Settings
 
-Language (System / EN / IT), menu bar icon, Dock visibility, launch at login, install/remove from `~/Applications`.
+First launch walks through **Full Disk Access** (open System Settings, recheck, continue). Settings also show FDA status, FileVault / Gatekeeper read-only status, language (System / EN / IT), menu bar / Dock, launch at login, and install/remove from `~/Applications`. Full quit is **Settings → Quit** only.
 
-**Shortcuts:** ⌘R Smart Care · ⌘K clean selected · ⌘Q quit · ⇧⌘U refresh apps · ⇧⌘P refresh performance  
+**Shortcuts:** ⌘R Smart Care · ⌘K clean selected · ⇧⌘U refresh apps · ⇧⌘P refresh performance  
 
 ---
 
@@ -133,6 +145,7 @@ Landing site (Nuxt → GitHub Pages): `npm install && npm run generate` — see 
 - Signed `SMAppService` helper instead of password prompts for system paths  
 - Wider scanner coverage and UI polish  
 - More locales beyond EN/IT  
+- Finder Services “Uninstall with MacCleaner” (parity with common cleaners)  
 
 ---
 

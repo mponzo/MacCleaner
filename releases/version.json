@@ -3,6 +3,6 @@
   "build": 6,
   "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.4/MacCleaner-0.2.4.zip",
   "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.4/MacCleaner-0.2.4.dmg",
-  "notes": "More reliable app uninstall for /Applications (Finder + admin fallback).",
-  "notes_it": "Disinstallazione app in /Applications più affidabile (Finder + fallback admin)."
+  "notes": "Versioned DMG + zip installers; Homebrew cask support.",
+  "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
 }

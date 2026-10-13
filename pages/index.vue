@@ -304,7 +304,7 @@ const featureSections = [
 
 .hero {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: 2rem;
   align-items: center;
   min-height: min(72vh, 640px);
@@ -312,6 +312,8 @@ const featureSections = [
 }
 
 .hero-copy {
+  min-width: 0;
+  max-width: 100%;
   animation: rise 0.85s 0.08s ease both;
 }
 
@@ -326,11 +328,13 @@ const featureSections = [
 
 .brand-hero {
   margin: 0;
+  max-width: 100%;
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 8vw, 5.4rem);
+  font-size: clamp(2.4rem, 7vw, 5.4rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.95;
+  overflow-wrap: anywhere;
 }
 
 .lede {
@@ -387,6 +391,8 @@ const featureSections = [
 
 .hero-visual {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
   animation: float-in 1s 0.15s ease both;
 }
 
@@ -400,7 +406,11 @@ const featureSections = [
 
 .hero-banner {
   position: relative;
+  display: block;
   width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
   border-radius: 24px;
   border: 1px solid var(--stroke);
   box-shadow: 0 24px 60px var(--shadow);
@@ -633,15 +643,23 @@ const featureSections = [
 }
 
 @media (max-width: 900px) {
+  .page {
+    width: min(1120px, calc(100% - 1.5rem));
+  }
+
   .hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     min-height: auto;
+  }
+
+  .brand-hero {
+    font-size: clamp(2.25rem, 11vw, 3.6rem);
   }
 
   .cards,
   .steps,
   .cat-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .nav a:not(.nav-ghost) {

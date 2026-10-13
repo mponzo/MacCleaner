@@ -1,8 +1,8 @@
 {
-  "version": "0.2.6",
-  "build": 8,
-  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.6/MacCleaner-0.2.6.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.6/MacCleaner-0.2.6.dmg",
-  "notes": "PureMac-style uninstall; FDA onboarding first; notarized DMG/zip.",
-  "notes_it": "Disinstallazione stile PureMac; onboarding FDA; DMG/zip notarizzati."
+  "version": "0.2.7",
+  "build": 9,
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.7/MacCleaner-0.2.7.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.7/MacCleaner-0.2.7.dmg",
+  "notes": "Install to /Applications only; version in Settings; notarized.",
+  "notes_it": "Installazione solo in /Applications; versione in Impostazioni; notarizzato."
 }

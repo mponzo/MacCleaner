@@ -25,7 +25,7 @@
 </p>
 
 <p align="center">
-  <a href="releases/MacCleaner.app.zip"><strong>Download MacCleaner.app.zip</strong></a> ·
+  <a href="releases/MacCleaner-0.2.2.dmg"><strong>Download MacCleaner 0.2.2</strong></a> ·
   <a href="#verifiable-trust">Privacy</a> ·
   <a href="#features">Features</a> ·
   <a href="#installation">Install</a> ·
@@ -100,8 +100,9 @@ MacCleaner is **local and transparent**: every reclaimable item shows its disk p
 ## Requirements
 
 - **macOS 14** (Sonoma) or later  
-- Universal binary (Apple Silicon + Intel) in [`releases/MacCleaner.app.zip`](releases/MacCleaner.app.zip)  
+- Universal binary (Apple Silicon + Intel): [`MacCleaner-0.2.2.dmg`](releases/MacCleaner-0.2.2.dmg) or [`.zip`](releases/MacCleaner-0.2.2.zip)  
 - Xcode / Swift only if you build from source  
+- Optional: [Homebrew](https://brew.sh) for `brew install --cask`  
 
 ---
 
@@ -179,7 +180,7 @@ Bars for categories already scanned — where space went after Smart Care.
 
 ### Updates
 
-In-app section: compare the local version with [`releases/version.json`](releases/version.json) on the repo, download [`MacCleaner.app.zip`](releases/MacCleaner.app.zip), install to `~/Applications`, then relaunch. Network goes to GitHub only when you open this section or tap Check.
+In-app section: compare the local version with [`releases/version.json`](releases/version.json) on the repo, download the release zip, install to `~/Applications`, then relaunch. Network goes to GitHub only when you open this section or tap Check.
 
 ---
 
@@ -211,11 +212,11 @@ Language (System / EN / IT), menu bar, Dock, launch at login, install to `~/Appl
 
 ## Installation
 
-No programming required. Download a file, put it in Applications, open MacCleaner — like most Mac apps.
+No programming required. Prefer the **DMG**, or install with **Homebrew**.
 
 <p align="center">
-  <a href="releases/MacCleaner.app.zip">
-    <img src="https://img.shields.io/badge/Download%20MacCleaner-macOS%2014%2B%20·%20.zip-2E6BD1?style=for-the-badge" alt="Download MacCleaner.app.zip"/>
+  <a href="releases/MacCleaner-0.2.2.dmg">
+    <img src="https://img.shields.io/badge/Download%20MacCleaner-0.2.2%20·%20DMG-2E6BD1?style=for-the-badge" alt="Download MacCleaner 0.2.2"/>
   </a>
 </p>
 
@@ -223,22 +224,39 @@ No programming required. Download a file, put it in Applications, open MacCleane
   <img src="docs/assets/install-steps.svg" alt="1 Download · 2 Install · 3 Open" width="920"/>
 </p>
 
-### In 3 steps
+### DMG (recommended)
 
 | | Action | Detail |
 |:---:|---|---|
-| **1** | **Download** | Click **[MacCleaner.app.zip](releases/MacCleaner.app.zip)** and save it (included in this repo). |
-| **2** | **Install** | Double-click the zip. Drag **MacCleaner** into **Applications** (Finder → Favorites → Applications). |
-| **3** | **Open** | Double-click **MacCleaner** in Applications. |
+| **1** | **Download** | Get **[MacCleaner 0.2.2](releases/MacCleaner-0.2.2.dmg)** |
+| **2** | **Install** | Open the DMG and drag **MacCleaner** into **Applications** |
+| **3** | **Open** | Double-click **MacCleaner** in Applications |
 
-Works on Apple silicon (M1/M2/M3/…) and Intel Macs. Release builds are Developer ID signed and notarized when published via `Scripts/sign-and-notarize.sh`.
+Alternate archive: [`MacCleaner-0.2.2.zip`](releases/MacCleaner-0.2.2.zip).
+
+### Homebrew
+
+Yes — GUI apps install as a **cask**:
+
+```bash
+brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
+brew install --cask maccleaner
+```
+
+Upgrade later with `brew upgrade --cask maccleaner`.
+
+Works on Apple silicon and Intel Macs.
 
 <details>
 <summary><strong>How to uninstall</strong></summary>
 
 <br/>
 
-Drag **MacCleaner** from Applications to the **Trash**, then empty the Trash if you want.
+Drag **MacCleaner** from Applications to the **Trash**, or:
+
+```bash
+brew uninstall --cask maccleaner
+```
 
 </details>
 
@@ -247,27 +265,13 @@ Drag **MacCleaner** from Applications to the **Trash**, then empty the Trash if 
 
 <br/>
 
-**From Terminal** (without cloning):
-
-```bash
-curl -L -o MacCleaner.app.zip \
-  https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner.app.zip
-unzip -o MacCleaner.app.zip
-mkdir -p ~/Applications
-mv -f MacCleaner.app ~/Applications/
-open ~/Applications/MacCleaner.app
-```
-
 **From source** (needs Xcode / Swift):
 
 ```bash
-./Scripts/install.sh            # build and install to ~/Applications
-./Scripts/package-app.sh        # create dist/MacCleaner.app + refresh zip
-./Scripts/sign-and-notarize.sh  # Developer ID + notarization
+./Scripts/install.sh      # build and install to ~/Applications
+./Scripts/package-app.sh  # dist app + MacCleaner-<version>.{dmg,zip} + cask
 ./Scripts/uninstall.sh
 ```
-
-Signing / notarization: see [`docs/NOTARIZATION.md`](docs/NOTARIZATION.md).
 
 Bundle id: `com.maccleaner.app` · SPM target: `OpenCleanMyMac`.
 

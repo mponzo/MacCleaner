@@ -1,7 +1,8 @@
 {
   "version": "0.2.2",
   "build": 4,
-  "zip_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner.app.zip",
-  "notes": "Modern Apple-style app icon.",
-  "notes_it": "Icona app in stile Apple moderno."
+  "zip_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-0.2.2.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-0.2.2.dmg",
+  "notes": "Versioned DMG + zip installers; Homebrew cask support.",
+  "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
 }

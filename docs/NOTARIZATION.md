@@ -51,9 +51,9 @@ Oppure copia `.env.notarize.example` → `.env.notarize` e compila.
 Lo script:
 
 - firma con Hardened Runtime + timestamp  
-- invia lo zip a Apple Notary Service  
-- fa **stapler** sul `.app`  
-- rigenera `releases/MacCleaner.app.zip`
+- notarizza l’app, poi il **DMG**  
+- fa **stapler** su `.app` e `.dmg`  
+- rigenera `releases/MacCleaner-<version>.{dmg,zip}` (+ alias stabili) e aggiorna `Casks/maccleaner.rb`
 
 Poi commit/push dello zip aggiornato (o pubblica una GitHub Release).
 

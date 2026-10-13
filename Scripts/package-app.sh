@@ -7,13 +7,19 @@ DIST="$ROOT/dist"
 RELEASES="$ROOT/releases"
 APP_NAME="MacCleaner.app"
 APP="$DIST/$APP_NAME"
-ZIP="$RELEASES/MacCleaner.app.zip"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
 VERSION="0.2.2"
 BUILD="4"
 ICON_ICNS="$ROOT/packaging/AppIcon.icns"
 VERSION_JSON="$RELEASES/version.json"
+CASK="$ROOT/Casks/maccleaner.rb"
+
+ZIP="$RELEASES/MacCleaner-${VERSION}.zip"
+DMG="$RELEASES/MacCleaner-${VERSION}.dmg"
+ZIP_STABLE="$RELEASES/MacCleaner.app.zip"
+DMG_STABLE="$RELEASES/MacCleaner.dmg"
+RAW_BASE="https://github.com/mponzo/MacCleaner/raw/main/releases"
 
 echo "==> Building universal release binary (arm64 + x86_64)"
 cd "$PKG"
@@ -24,7 +30,6 @@ X86_BIN="$PKG/.build/x86_64-apple-macosx/release/$BIN_NAME"
 test -x "$ARM_BIN"
 test -x "$X86_BIN"
 
-# Resource bundle lives next to either arch build
 RESOURCE_BUNDLE=""
 for candidate in \
   "$PKG/.build/arm64-apple-macosx/release/${BIN_NAME}_${BIN_NAME}.bundle" \
@@ -38,7 +43,6 @@ done
 
 echo "==> Assembling $APP_NAME"
 rm -rf "$APP"
-# Remove legacy packaged name if present
 rm -rf "$DIST/Open Clean My Mac.app"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
@@ -105,8 +109,6 @@ PLIST
 
 echo -n "APPL????" > "$APP/Contents/PkgInfo"
 
-# Prefer Developer ID when present (full notarization: ./Scripts/sign-and-notarize.sh).
-# Otherwise ad-hoc so local runs still work.
 DEV_ID_IDENTITY="$(
   security find-identity -v -p codesigning 2>/dev/null \
     | sed -n 's/.*"\(Developer ID Application:[^"]*\)".*/\1/p' \
@@ -128,22 +130,68 @@ elif command -v codesign >/dev/null 2>&1; then
 fi
 
 mkdir -p "$RELEASES"
-rm -f "$ZIP"
+
+echo "==> Writing versioned zip: $(basename "$ZIP")"
+rm -f "$ZIP" "$ZIP_STABLE"
 ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
+cp -f "$ZIP" "$ZIP_STABLE"
+
+echo "==> Writing versioned DMG: $(basename "$DMG")"
+STAGE="$DIST/dmg-stage"
+rm -rf "$STAGE" "$DMG" "$DMG_STABLE"
+mkdir -p "$STAGE"
+ditto "$APP" "$STAGE/$APP_NAME"
+ln -s /Applications "$STAGE/Applications"
+hdiutil create \
+  -volname "MacCleaner ${VERSION}" \
+  -srcfolder "$STAGE" \
+  -ov \
+  -format UDZO \
+  "$DMG" >/dev/null
+cp -f "$DMG" "$DMG_STABLE"
+rm -rf "$STAGE"
+
+DMG_SHA="$(shasum -a 256 "$DMG" | awk '{print $1}')"
 
 cat > "$VERSION_JSON" <<JSON
 {
   "version": "${VERSION}",
   "build": ${BUILD},
-  "zip_url": "https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner.app.zip",
-  "notes": "Modern Apple-style app icon.",
-  "notes_it": "Icona app in stile Apple moderno."
+  "zip_url": "${RAW_BASE}/MacCleaner-${VERSION}.zip",
+  "dmg_url": "${RAW_BASE}/MacCleaner-${VERSION}.dmg",
+  "notes": "Versioned DMG + zip installers; Homebrew cask support.",
+  "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
 }
 JSON
 
+mkdir -p "$(dirname "$CASK")"
+cat > "$CASK" <<RUBY
+cask "maccleaner" do
+  version "${VERSION}"
+  sha256 "${DMG_SHA}"
+
+  url "${RAW_BASE}/MacCleaner-#{version}.dmg"
+  name "MacCleaner"
+  desc "Local-first open-source Mac cleaner with zero telemetry"
+  homepage "https://github.com/mponzo/MacCleaner"
+
+  depends_on macos: ">= :sonoma"
+
+  app "MacCleaner.app"
+
+  zap trash: [
+    "~/Library/Preferences/com.maccleaner.app.plist",
+    "~/Library/Application Support/MacCleaner",
+  ]
+end
+RUBY
+
 echo "==> Done: $APP"
-echo "==> Zip:  $ZIP"
+echo "==> Zip:  $ZIP (+ stable MacCleaner.app.zip)"
+echo "==> DMG:  $DMG (+ stable MacCleaner.dmg)"
+echo "==> Cask: $CASK"
 echo "==> Manifest: $VERSION_JSON ($VERSION #$BUILD)"
 lipo -info "$APP/Contents/MacOS/$BIN_NAME" || true
-echo "Install: unzip releases/MacCleaner.app.zip && open MacCleaner.app"
+echo "Install: open $DMG"
 echo "Or:      ./Scripts/install.sh"
+echo "Brew:    brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew install --cask maccleaner"

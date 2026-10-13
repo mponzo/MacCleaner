@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const downloadUrl =
-  'https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner.app.zip'
+const version = '0.2.2'
+const dmgUrl = `https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-${version}.dmg`
+const zipUrl = `https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-${version}.zip`
 const repoUrl = 'https://github.com/mponzo/MacCleaner'
+const brewTap = 'brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner'
+const brewInstall = 'brew install --cask maccleaner'
 
 const promises = [
   {
@@ -91,7 +94,7 @@ const featureSections = [
     lede: 'Install the build published on the open GitHub repository.',
     points: [
       'Compare local version with releases/version.json',
-      'Download MacCleaner.app.zip and install to ~/Applications',
+      'Download the release zip and install to ~/Applications',
       'Relaunch after update',
       'Network only to GitHub, and only when you check or open this section',
     ],
@@ -146,12 +149,14 @@ const featureSections = [
             Zero telemetry. Zero accounts. Zero cloud.
           </p>
           <div class="cta-row">
-            <a class="btn btn-primary" :href="downloadUrl">Download for Mac</a>
+            <a class="btn btn-primary" :href="dmgUrl">Download MacCleaner {{ version }}</a>
             <a class="btn btn-ghost" :href="repoUrl" target="_blank" rel="noreferrer">
               Source code
             </a>
           </div>
-          <p class="fine">Universal Apple silicon + Intel · MIT · notarized when released</p>
+          <p class="fine">
+            Universal Apple silicon + Intel · MIT · DMG {{ version }}
+          </p>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="glow" />
@@ -213,7 +218,7 @@ const featureSections = [
       <section id="install" class="section install">
         <div class="section-head">
           <h2>Install</h2>
-          <p>Three steps. No programming required.</p>
+          <p>Pick DMG, Homebrew, or zip — same universal MacCleaner {{ version }} build.</p>
         </div>
         <img
           class="install-art"
@@ -225,18 +230,27 @@ const featureSections = [
         <ol class="steps">
           <li>
             <strong>Download</strong>
-            <span>MacCleaner.app.zip</span>
+            <span>MacCleaner {{ version }} (DMG)</span>
           </li>
           <li>
             <strong>Drag</strong>
-            <span>the app into Applications</span>
+            <span>into Applications</span>
           </li>
           <li>
             <strong>Open</strong>
             <span>double-click MacCleaner</span>
           </li>
         </ol>
-        <a class="btn btn-primary" :href="downloadUrl">Download MacCleaner.app.zip</a>
+        <div class="cta-row install-ctas">
+          <a class="btn btn-primary" :href="dmgUrl">Download MacCleaner {{ version }}</a>
+          <a class="btn btn-ghost" :href="zipUrl">Download zip {{ version }}</a>
+        </div>
+        <div class="brew-box">
+          <h3>Homebrew</h3>
+          <p>Yes — install with a cask from this repo:</p>
+          <pre><code>{{ brewTap }}
+{{ brewInstall }}</code></pre>
+        </div>
       </section>
     </main>
 
@@ -586,6 +600,44 @@ const featureSections = [
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.4;
+}
+
+.install-ctas {
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.brew-box {
+  width: min(640px, 100%);
+  margin: 0 auto;
+  padding: 1.15rem 1.25rem;
+  text-align: left;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.brew-box h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.brew-box p {
+  margin: 0.4rem 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.brew-box pre {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+  border-radius: 12px;
+  background: rgba(7, 18, 36, 0.75);
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .footer {

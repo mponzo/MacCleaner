@@ -74,7 +74,7 @@ final class AppPreferences {
     }
 
     var isInstalledInApplications: Bool { AppInstaller.isInstalled }
-    var installedAppURL: URL { AppInstaller.installedAppURL }
+    var installedAppURL: URL { AppInstaller.preferredInstalledURL ?? AppInstaller.installedAppURL }
 
     private init() {
         let defaults = UserDefaults.standard

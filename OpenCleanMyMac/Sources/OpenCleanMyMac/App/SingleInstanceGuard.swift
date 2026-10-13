@@ -72,7 +72,12 @@ enum SingleInstanceGuard {
             }
         }
 
-        return candidates.first(where: { $0.bundleURL?.pathExtension == "app" })
+        // Prefer /Applications so Dock/Spotlight don't keep an old ~/Applications instance alive.
+        let preferred = candidates.first {
+            ($0.bundleURL?.path ?? "").hasPrefix("/Applications/")
+        }
+        return preferred
+            ?? candidates.first(where: { $0.bundleURL?.pathExtension == "app" })
             ?? candidates.first
     }
 

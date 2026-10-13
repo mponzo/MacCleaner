@@ -21,7 +21,12 @@ enum AppInstallerError: LocalizedError {
 enum AppInstaller {
     static let appName = "MacCleaner.app"
 
+    /// Prefer `/Applications` (Finder / Dock / Spotlight). Fall back to `~/Applications`.
     static var applicationsDirectory: URL {
+        URL(fileURLWithPath: "/Applications", isDirectory: true)
+    }
+
+    static var homeApplicationsDirectory: URL {
         FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent("Applications", isDirectory: true)
     }
@@ -30,8 +35,24 @@ enum AppInstaller {
         applicationsDirectory.appendingPathComponent(appName, isDirectory: true)
     }
 
+    static var homeInstalledAppURL: URL {
+        homeApplicationsDirectory.appendingPathComponent(appName, isDirectory: true)
+    }
+
     static var isInstalled: Bool {
         FileManager.default.fileExists(atPath: installedAppURL.path)
+            || FileManager.default.fileExists(atPath: homeInstalledAppURL.path)
+    }
+
+    /// Preferred install path when both exist: `/Applications`.
+    static var preferredInstalledURL: URL? {
+        if FileManager.default.fileExists(atPath: installedAppURL.path) {
+            return installedAppURL
+        }
+        if FileManager.default.fileExists(atPath: homeInstalledAppURL.path) {
+            return homeInstalledAppURL
+        }
+        return nil
     }
 
     /// Bundle currently running, if launched from a .app.
@@ -49,7 +70,7 @@ enum AppInstaller {
         return try install(from: source, revealInFinder: true)
     }
 
-    /// Copies a `.app` bundle into `~/Applications/MacCleaner.app`.
+    /// Copies a `.app` bundle into `/Applications/MacCleaner.app` and removes any `~/Applications` copy.
     @discardableResult
     static func install(from source: URL, revealInFinder: Bool = false) throws -> URL {
         let fm = FileManager.default
@@ -57,7 +78,11 @@ enum AppInstaller {
             throw AppInstallerError.copyFailed(L10n.string("updates.error.package"))
         }
 
-        try fm.createDirectory(at: applicationsDirectory, withIntermediateDirectories: true)
+        // Drop duplicate user-local install so Spotlight/Dock don't reopen an old build.
+        if fm.fileExists(atPath: homeInstalledAppURL.path),
+           homeInstalledAppURL.standardizedFileURL != source.standardizedFileURL {
+            try? fm.removeItem(at: homeInstalledAppURL)
+        }
 
         let destination = installedAppURL
         let runningFromDestination: Bool = {
@@ -67,7 +92,6 @@ enum AppInstaller {
 
         do {
             if runningFromDestination {
-                // Stage beside the live app; relaunch script swaps after quit.
                 let staging = applicationsDirectory.appendingPathComponent("MacCleaner.updating.app", isDirectory: true)
                 if fm.fileExists(atPath: staging.path) {
                     try fm.removeItem(at: staging)
@@ -109,7 +133,7 @@ enum AppInstaller {
         /bin/sleep 1
         /bin/rm -rf '\(destination.path)'
         /bin/mv '\(staging.path)' '\(destination.path)'
-        /usr/bin/open '\(destination.path)'
+        /usr/bin/open -n '\(destination.path)'
         """
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/zsh")
@@ -118,12 +142,17 @@ enum AppInstaller {
     }
 
     static func uninstall() throws {
-        guard isInstalled else { throw AppInstallerError.notInstalled }
-        try FileManager.default.removeItem(at: installedAppURL)
+        let fm = FileManager.default
+        var removed = false
+        for url in [installedAppURL, homeInstalledAppURL] where fm.fileExists(atPath: url.path) {
+            try fm.removeItem(at: url)
+            removed = true
+        }
+        guard removed else { throw AppInstallerError.notInstalled }
     }
 
     static func openInstalledApp() {
-        guard isInstalled else { return }
-        NSWorkspace.shared.open(installedAppURL)
+        guard let url = preferredInstalledURL else { return }
+        NSWorkspace.shared.open(url)
     }
 }

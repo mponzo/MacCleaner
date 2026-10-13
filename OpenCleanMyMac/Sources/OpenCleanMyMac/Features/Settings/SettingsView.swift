@@ -13,6 +13,9 @@ struct SettingsView: View {
                     title: L10n.string("settings.title"),
                     subtitle: L10n.string("settings.subtitle")
                 )
+                Text(Self.appVersionLabel)
+                    .font(.system(size: 12, weight: .medium).monospacedDigit())
+                    .foregroundStyle(OCTheme.faint)
                 permissions
                 protectionSection
                 language
@@ -212,6 +215,12 @@ struct SettingsView: View {
                 .font(.caption)
                 .foregroundStyle(OCTheme.muted)
         }
+    }
+
+    private static var appVersionLabel: String {
+        let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?"
+        return "MacCleaner \(short) (\(build))"
     }
 
     private func group<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {

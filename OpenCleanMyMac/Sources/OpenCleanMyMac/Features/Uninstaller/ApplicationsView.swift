@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ApplicationsView: View {
     @Bindable var uninstaller: UninstallerEngine
+    @State private var confirmUninstall = false
 
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
@@ -20,6 +21,18 @@ struct ApplicationsView: View {
             } else if uninstaller.selectedAppID == nil {
                 uninstaller.selectedAppID = uninstaller.filteredApps.first?.id
             }
+        }
+        .confirmationDialog(
+            L10n.string("apps.confirm_title"),
+            isPresented: $confirmUninstall,
+            titleVisibility: .visible
+        ) {
+            Button(L10n.string("apps.uninstall_selected"), role: .destructive) {
+                Task { await uninstaller.uninstallSelectedApp() }
+            }
+            Button(L10n.string("common.cancel"), role: .cancel) {}
+        } message: {
+            Text(l10n: "apps.confirm_body")
         }
     }
 
@@ -192,7 +205,7 @@ struct ApplicationsView: View {
                 ))
 
                 Button {
-                    Task { await uninstaller.uninstallSelectedApp() }
+                    confirmUninstall = true
                 } label: {
                     Label(l10n: "apps.uninstall_selected", systemImage: "trash")
                         .frame(minWidth: 160)

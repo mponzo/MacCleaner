@@ -190,6 +190,13 @@
 "apps.summary" = "%lld app · %@ residui orfani";
 "apps.uninstalling" = "Disinstallazione di %@…";
 "apps.cleaning_orphans" = "Pulizia residui orfani…";
+"apps.confirm_title" = "Spostare nel Cestino?";
+"apps.confirm_body" = "MacCleaner sposterà l’app selezionata e i file correlati nel Cestino. Gli elementi che richiedono autorizzazione di amministratore potrebbero essere eliminati in modo permanente. Controlla la selezione prima di continuare.";
+"apps.needs_fda" = "Disinstallazione di %@: %lld file richiedono l’Accesso completo al disco. Concedilo nelle Impostazioni e riprova.";
+"apps.needs_fda_generic" = "%lld file richiedono l’Accesso completo al disco prima di poter essere rimossi.";
+"apps.fda_required_path" = "Serve Accesso completo al disco";
+"apps.admin_hint" = "Se macOS ha chiesto la password e la rimozione è comunque fallita, verifica che l’app non sia protetta.";
+"common.cancel" = "Annulla";
 
 /* Prestazioni */
 "perf.brand" = "PRESTAZIONI";

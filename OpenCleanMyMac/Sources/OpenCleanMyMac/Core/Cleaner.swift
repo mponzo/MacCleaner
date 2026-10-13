@@ -2,7 +2,7 @@ import Foundation
 
 enum Cleaner {
     /// Moves selected items to Trash. System/allowlisted paths use the privileged admin bridge.
-    /// User apps under `/Applications` use Finder/`NSWorkspace`, then admin move as fallback.
+    /// User apps under `/Applications` use PureMac-style trashItem → Finder → admin.
     static func moveToTrash(
         _ items: [ScanItem],
         isCancelled: () -> Bool = { false }
@@ -27,7 +27,7 @@ enum Cleaner {
             }
         }
 
-        var appResult = await uninstallAppBundles(appBundles, isCancelled: isCancelled)
+        let appResult = await uninstallAppBundles(appBundles, isCancelled: isCancelled)
         if isCancelled() {
             return CleanResult(
                 freedBytes: appResult.freedBytes,
@@ -36,7 +36,7 @@ enum Cleaner {
             )
         }
 
-        var regularResult = moveRegularToTrash(regular, isCancelled: isCancelled)
+        let regularResult = moveRegularToTrash(regular, isCancelled: isCancelled)
         if isCancelled() {
             return CleanResult(
                 freedBytes: appResult.freedBytes + regularResult.freedBytes,
@@ -60,7 +60,7 @@ enum Cleaner {
         )
     }
 
-    /// `/Applications/*.app` often cannot use `FileManager.trashItem` without auth.
+    /// `/Applications/*.app` — PureMac AppFileTrasher: trashItem → Finder → admin.
     private static func uninstallAppBundles(
         _ items: [ScanItem],
         isCancelled: () -> Bool
@@ -71,45 +71,8 @@ enum Cleaner {
         if isCancelled() {
             return CleanResult(freedBytes: 0, movedCount: 0, failed: [])
         }
-
-        let urls = items.map(\.url)
-        var result = await AppUninstall.recycleViaWorkspace(urls)
-
-        let stillThere = result.failed.map(\.0).filter { FileManager.default.fileExists(atPath: $0.path) }
-        if !stillThere.isEmpty, !isCancelled() {
-            let finder = await AppUninstall.recycleViaFinder(stillThere)
-            result = merge(result.droppingFailures(stillThere), finder)
-        }
-
-        let afterFinder = result.failed.map(\.0).filter { FileManager.default.fileExists(atPath: $0.path) }
-        if !afterFinder.isEmpty, !isCancelled() {
-            let admin = await PrivilegedBridge.removePaths(afterFinder)
-            result = merge(result.droppingFailures(afterFinder), admin)
-        }
-
-        // Ground truth: missing path = success (APIs sometimes error after a successful trash).
-        var freed: Int64 = 0
-        var moved = 0
-        var failed: [(URL, String)] = []
-        for item in items {
-            if FileManager.default.fileExists(atPath: item.url.path) {
-                let detail = result.failed.first(where: { $0.0.path == item.url.path })?.1
-                    ?? L10n.string("priv.remove_failed")
-                failed.append((item.url, detail))
-            } else {
-                freed += item.byteCount
-                moved += 1
-            }
-        }
-        return CleanResult(freedBytes: freed, movedCount: moved, failed: failed)
-    }
-
-    private static func merge(_ a: CleanResult, _ b: CleanResult) -> CleanResult {
-        CleanResult(
-            freedBytes: a.freedBytes + b.freedBytes,
-            movedCount: a.movedCount + b.movedCount,
-            failed: a.failed + b.failed
-        )
+        let report = await AppUninstall.trashLikePureMac(items.map(\.url))
+        return report.result
     }
 
     private static func moveRegularToTrash(
@@ -134,16 +97,5 @@ enum Cleaner {
         }
 
         return CleanResult(freedBytes: freed, movedCount: moved, failed: failed)
-    }
-}
-
-private extension CleanResult {
-    func droppingFailures(_ urls: [URL]) -> CleanResult {
-        let paths = Set(urls.map(\.path))
-        return CleanResult(
-            freedBytes: freedBytes,
-            movedCount: movedCount,
-            failed: failed.filter { !paths.contains($0.0.path) }
-        )
     }
 }

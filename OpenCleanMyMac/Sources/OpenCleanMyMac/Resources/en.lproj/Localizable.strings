@@ -190,6 +190,13 @@
 "apps.summary" = "%lld apps · %@ orphan leftovers";
 "apps.uninstalling" = "Uninstalling %@…";
 "apps.cleaning_orphans" = "Cleaning orphan leftovers…";
+"apps.confirm_title" = "Move to Trash?";
+"apps.confirm_body" = "MacCleaner will move the selected app and related files to the Trash. Items that need administrator authorization may be permanently removed. Review the selection before continuing.";
+"apps.needs_fda" = "Uninstalling %@: %lld file(s) need Full Disk Access. Grant it in Settings, then try again.";
+"apps.needs_fda_generic" = "%lld file(s) need Full Disk Access before they can be removed.";
+"apps.fda_required_path" = "Needs Full Disk Access";
+"apps.admin_hint" = "If macOS asked for your password and removal still failed, check that the app is not protected.";
+"common.cancel" = "Cancel";
 
 /* Performance */
 "perf.brand" = "PERFORMANCE";

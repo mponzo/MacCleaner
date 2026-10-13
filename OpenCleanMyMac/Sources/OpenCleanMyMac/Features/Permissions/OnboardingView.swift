@@ -7,6 +7,7 @@ struct OnboardingView: View {
     @Bindable var preferences: AppPreferences
     @Bindable var fda: FullDiskAccessManager
 
+    /// Start on Full Disk Access (page 0) — the permission slider users expect first.
     @State private var page = 0
 
     private let pageCount = 3
@@ -18,8 +19,8 @@ struct OnboardingView: View {
                 Spacer(minLength: 24)
                 Group {
                     switch page {
-                    case 0: welcomePage
-                    case 1: fullDiskPage
+                    case 0: fullDiskPage
+                    case 1: welcomePage
                     default: readyPage
                     }
                 }
@@ -36,12 +37,14 @@ struct OnboardingView: View {
         .foregroundStyle(OCTheme.ink)
         .onAppear {
             fda.refresh()
-            if page == 1, !fda.hasFullDiskAccess {
+            // Trigger Desktop/Documents/Downloads TCC prompts on first slide.
+            fda.requestStandardFolderAccess()
+            if page == 0, !fda.hasFullDiskAccess {
                 fda.startWatching()
             }
         }
         .onChange(of: page) { _, newValue in
-            if newValue == 1, !fda.hasFullDiskAccess {
+            if newValue == 0, !fda.hasFullDiskAccess {
                 fda.startWatching()
             } else {
                 fda.stopWatching()
@@ -226,7 +229,7 @@ struct OnboardingView: View {
 
             if page < pageCount - 1 {
                 Button(L10n.string("onboarding.continue")) {
-                    if page == 1 {
+                    if page == 0 {
                         fda.refresh()
                     }
                     page += 1
@@ -235,6 +238,10 @@ struct OnboardingView: View {
             } else {
                 Button(L10n.string("onboarding.get_started")) {
                     fda.stopWatching()
+                    UserDefaults.standard.set(
+                        AppPreferences.currentOnboardingSchema,
+                        forKey: "prefs.onboardingSchema"
+                    )
                     preferences.onboardingComplete = true
                 }
                 .buttonStyle(AccentButtonStyle())

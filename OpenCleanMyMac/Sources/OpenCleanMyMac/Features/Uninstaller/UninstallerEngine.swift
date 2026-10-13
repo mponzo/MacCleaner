@@ -100,11 +100,9 @@ final class UninstallerEngine {
             return
         }
 
-        let items = urls.map {
-            ScanItem(category: .appLeftovers, url: $0, byteCount: DiskSizer.allocatedBytes(at: $0), isSelected: true)
-        }
-
-        let result = await Cleaner.moveToTrash(items)
+        // PureMac path: one AppFileTrasher pass over app + leftovers (trash → Finder → admin).
+        let report = await AppUninstall.trashLikePureMac(urls)
+        let result = report.result
         isUninstalling = false
         await refresh(clearFeedback: false)
 
@@ -114,8 +112,13 @@ final class UninstallerEngine {
             progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
         } else {
             var message = L10n.format("apps.failed_paths", Int64(result.failed.count))
-            if let detail = result.failed.first?.1, !detail.isEmpty {
+            if report.needsFullDiskAccess {
+                message = L10n.format("apps.needs_fda", app.name, Int64(result.failed.count))
+            } else if let detail = result.failed.first?.1, !detail.isEmpty {
                 message += " — \(detail)"
+            }
+            if report.attemptedAdmin, !report.needsFullDiskAccess {
+                message += " " + L10n.string("apps.admin_hint")
             }
             errorMessage = message
             progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
@@ -130,16 +133,16 @@ final class UninstallerEngine {
         errorMessage = nil
         progressLabel = L10n.string("apps.cleaning_orphans")
 
-        let items = selected.map {
-            ScanItem(category: .appLeftovers, url: $0.url, byteCount: $0.byteCount, isSelected: true)
-        }
-        let result = await Cleaner.moveToTrash(items)
+        let report = await AppUninstall.trashLikePureMac(selected.map(\.url))
+        let result = report.result
         isUninstalling = false
         await refresh(clearFeedback: false)
 
         lastResult = result
         if result.failed.isEmpty {
             errorMessage = nil
+        } else if report.needsFullDiskAccess {
+            errorMessage = L10n.format("apps.needs_fda_generic", Int64(result.failed.count))
         } else {
             var message = L10n.format("apps.failed_paths", Int64(result.failed.count))
             if let detail = result.failed.first?.1, !detail.isEmpty {

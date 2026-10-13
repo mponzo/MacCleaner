@@ -14,7 +14,12 @@ final class AppPreferences {
         static let hideDockIcon = "prefs.hideDockIcon"
         static let appLanguage = "prefs.appLanguage"
         static let onboardingComplete = "prefs.onboardingComplete"
+        /// Bump to re-show onboarding (e.g. new FDA slide) for existing installs.
+        static let onboardingSchema = "prefs.onboardingSchema"
     }
+
+    /// Current first-run coach mark schema. Increment when slides materially change.
+    static let currentOnboardingSchema = 2
 
     private var isSyncingLoginItem = false
     private var isBootstrapping = true
@@ -79,7 +84,15 @@ final class AppPreferences {
         showMenuBarIcon = defaults.bool(forKey: Keys.showMenuBarIcon)
         hideDockIcon = defaults.bool(forKey: Keys.hideDockIcon)
         launchAtLogin = defaults.bool(forKey: Keys.launchAtLogin)
-        onboardingComplete = defaults.bool(forKey: Keys.onboardingComplete)
+        let storedSchema = defaults.integer(forKey: Keys.onboardingSchema)
+        if storedSchema < Self.currentOnboardingSchema {
+            // New FDA / permissions coach marks — show the slider again.
+            defaults.set(false, forKey: Keys.onboardingComplete)
+            defaults.set(Self.currentOnboardingSchema, forKey: Keys.onboardingSchema)
+            onboardingComplete = false
+        } else {
+            onboardingComplete = defaults.bool(forKey: Keys.onboardingComplete)
+        }
         let stored = defaults.string(forKey: Keys.appLanguage) ?? AppLanguage.system.rawValue
         appLanguage = AppLanguage(rawValue: stored) ?? .system
         L10n.apply(appLanguage)

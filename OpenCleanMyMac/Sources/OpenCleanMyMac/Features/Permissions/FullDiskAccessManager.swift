@@ -77,6 +77,17 @@ final class FullDiskAccessManager {
         }
     }
 
+    /// Touch Desktop / Documents / Downloads so macOS shows the folder TCC dialogs
+    /// (usage descriptions in Info.plist). PureMac coaches these alongside FDA.
+    func requestStandardFolderAccess() {
+        let home = FileManager.default.homeDirectoryForCurrentUser
+        let fm = FileManager.default
+        for name in ["Desktop", "Documents", "Downloads"] {
+            let url = home.appendingPathComponent(name, isDirectory: true)
+            _ = try? fm.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
+        }
+    }
+
     /// Poll until FDA is granted or the caller stops watching.
     func startWatching(onGranted: @escaping () -> Void = {}) {
         watchTask?.cancel()

@@ -31,17 +31,24 @@ enum PrivilegedPathPolicy {
         return true
     }
 
-    /// User-installed `.app` under `/Applications` (never `/System`).
+    /// User-installed `.app` under `/Applications` or `~/Applications` (never `/System`).
     /// These are blocked from the cache/log allowlist but must still be uninstallable.
     static func isUserApplicationBundle(_ url: URL) -> Bool {
         var path = url.resolvingSymlinksInPath().standardizedFileURL.path
         while path.hasSuffix("/") { path.removeLast() }
         guard path.hasSuffix(".app") else { return false }
-        guard path.hasPrefix("/Applications/") else { return false }
+        if path.hasPrefix("/System/") { return false }
+
+        let homeApps = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Applications", isDirectory: true)
+            .path
+        let roots = ["/Applications/", homeApps.hasSuffix("/") ? homeApps : homeApps + "/"]
+        guard let root = roots.first(where: { path.hasPrefix($0) }) else { return false }
+
         for marker in blockedNameMarkers where marker != "/Applications/" {
             if path.contains(marker) { return false }
         }
-        let rest = String(path.dropFirst("/Applications/".count))
+        let rest = String(path.dropFirst(root.count))
         return !rest.isEmpty && !rest.contains("..")
     }
 

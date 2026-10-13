@@ -116,18 +116,51 @@ rm -f "$ZIP" "$ZIP_STABLE" "$DMG" "$DMG_STABLE"
 ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
 cp -f "$ZIP" "$ZIP_STABLE"
 
-STAGE="$DIST/dmg-stage"
-rm -rf "$STAGE"
-mkdir -p "$STAGE"
-ditto "$APP" "$STAGE/$APP_NAME"
-ln -s /Applications "$STAGE/Applications"
-hdiutil create \
-  -volname "MacCleaner ${VERSION}" \
-  -srcfolder "$STAGE" \
-  -ov \
-  -format UDZO \
-  "$DMG" >/dev/null
-rm -rf "$STAGE"
+DMG_BG_PNG="$ROOT/packaging/dmg-background@1x.png"
+DMG_BG_TIFF="$ROOT/packaging/dmg-background@1x.tiff"
+DMG_SETTINGS="$ROOT/packaging/dmgbuild-settings.py"
+if [[ -f "$DMG_BG_PNG" ]]; then
+  sips -s format tiff "$DMG_BG_PNG" --out "$DMG_BG_TIFF" >/dev/null
+fi
+DMGBUILD_BIN=""
+if command -v dmgbuild >/dev/null 2>&1; then
+  DMGBUILD_BIN="$(command -v dmgbuild)"
+else
+  for candidate in \
+    "$HOME/Library/Python/3.9/bin/dmgbuild" \
+    "$HOME/Library/Python/3.10/bin/dmgbuild" \
+    "$HOME/Library/Python/3.11/bin/dmgbuild" \
+    "$HOME/Library/Python/3.12/bin/dmgbuild" \
+    "$HOME/Library/Python/3.13/bin/dmgbuild"
+  do
+    if [[ -x "$candidate" ]]; then
+      DMGBUILD_BIN="$candidate"
+      break
+    fi
+  done
+fi
+if [[ -n "$DMGBUILD_BIN" && -f "$DMG_SETTINGS" && -f "$DMG_BG_TIFF" ]]; then
+  echo "==> Building branded DMG with dmgbuild"
+  "$DMGBUILD_BIN" \
+    -s "$DMG_SETTINGS" \
+    -D "app=$APP" \
+    -D "background=$DMG_BG_TIFF" \
+    "MacCleaner ${VERSION}" \
+    "$DMG"
+else
+  STAGE="$DIST/dmg-stage"
+  rm -rf "$STAGE"
+  mkdir -p "$STAGE"
+  ditto "$APP" "$STAGE/$APP_NAME"
+  ln -s /Applications "$STAGE/Applications"
+  hdiutil create \
+    -volname "MacCleaner ${VERSION}" \
+    -srcfolder "$STAGE" \
+    -ov \
+    -format UDZO \
+    "$DMG" >/dev/null
+  rm -rf "$STAGE"
+fi
 
 echo "==> Notarizing DMG"
 submit_notary "$DMG"

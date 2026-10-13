@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const version = '0.2.4'
+const version = '0.2.5'
 const dmgUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.dmg`
 const zipUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.zip`
 const repoUrl = 'https://github.com/mponzo/MacCleaner'
@@ -295,6 +295,10 @@ const featureSections = [
             <span>double-click MacCleaner</span>
           </li>
         </ol>
+        <p class="gatekeeper-note">
+          v{{ version }} is Developer ID signed and notarized — Gatekeeper should
+          accept the download without extra steps.
+        </p>
         <div class="cta-row install-ctas">
           <a class="btn btn-primary" :href="dmgUrl">Download MacCleaner {{ version }}</a>
           <a class="btn btn-ghost" :href="zipUrl">Download zip {{ version }}</a>
@@ -666,6 +670,14 @@ const featureSections = [
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.4;
+}
+
+.gatekeeper-note {
+  max-width: 42rem;
+  margin: -0.35rem auto 1.35rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
 
 .install-ctas {

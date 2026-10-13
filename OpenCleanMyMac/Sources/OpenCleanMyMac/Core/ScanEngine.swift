@@ -18,6 +18,13 @@ final class ScanEngine {
 
     var isBusy: Bool { isScanning || isCleaning }
 
+    /// 0…1 while scanning categories; −1 while cleaning (indeterminate ring).
+    var scanProgress: Double {
+        if isCleaning { return -1 }
+        guard isScanning, totalCategories > 0 else { return 0 }
+        return Double(completedCategories) / Double(totalCategories)
+    }
+
     var reclaimableBytes: Int64 {
         results
             .filter { $0.category.isCleanable }

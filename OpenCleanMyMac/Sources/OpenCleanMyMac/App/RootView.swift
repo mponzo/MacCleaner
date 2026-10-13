@@ -191,12 +191,19 @@ struct SmartCareView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 26) {
-                hero
+            VStack(alignment: .leading, spacing: 22) {
+                heroGlass
                 if !fda.hasFullDiskAccess {
                     fdaBanner
                 }
                 actions
+                if engine.isBusy {
+                    scanStatusGlass
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .move(edge: .top)).combined(with: .scale(scale: 0.98)),
+                            removal: .opacity
+                        ))
+                }
                 if !engine.results.isEmpty {
                     moduleGrid
                 }
@@ -210,34 +217,110 @@ struct SmartCareView: View {
                 }
             }
             .padding(28)
+            .animation(.easeOut(duration: 0.35), value: engine.isBusy)
+            .animation(.easeOut(duration: 0.4), value: engine.results.count)
         }
     }
 
-    private var hero: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            OCPageHeader(
-                title: L10n.string("smartcare.title"),
-                subtitle: L10n.string("smartcare.subtitle")
-            )
+    private var heroGlass: some View {
+        ZStack(alignment: .topTrailing) {
+            if engine.isBusy {
+                OCBusyPulse()
+                    .frame(width: 180, height: 180)
+                    .offset(x: 40, y: -30)
+                    .allowsHitTesting(false)
+            }
 
-            HStack(spacing: 10) {
-                OCMetricChip(
-                    title: L10n.string("smartcare.reclaimable"),
-                    value: ByteFormat.string(engine.reclaimableBytes),
-                    emphasize: engine.reclaimableBytes > 0
-                )
-                OCMetricChip(
-                    title: L10n.string("smartcare.scanned"),
-                    value: ByteFormat.string(engine.scannedBytes)
-                )
-                OCMetricChip(
-                    title: L10n.string("smartcare.progress"),
-                    value: engine.isScanning
-                        ? "\(engine.completedCategories)/\(engine.totalCategories)"
-                        : (engine.results.isEmpty ? "—" : L10n.string("smartcare.ready"))
-                )
+            VStack(alignment: .leading, spacing: 18) {
+                HStack(alignment: .top, spacing: 18) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        OCPageHeader(
+                            title: L10n.string("smartcare.title"),
+                            subtitle: L10n.string("smartcare.subtitle")
+                        )
+                    }
+                    Spacer(minLength: 12)
+                    if engine.isBusy || engine.completedCategories > 0 {
+                        OCScanRing(
+                            progress: engine.isBusy
+                                ? (engine.isScanning ? engine.scanProgress : -1)
+                                : 1
+                        )
+                        .accessibilityLabel(engine.progressLabel)
+                    }
+                }
+
+                HStack(spacing: 10) {
+                    OCMetricChip(
+                        title: L10n.string("smartcare.reclaimable"),
+                        value: ByteFormat.string(engine.reclaimableBytes),
+                        emphasize: engine.reclaimableBytes > 0
+                    )
+                    OCMetricChip(
+                        title: L10n.string("smartcare.scanned"),
+                        value: ByteFormat.string(engine.scannedBytes)
+                    )
+                    OCMetricChip(
+                        title: L10n.string("smartcare.progress"),
+                        value: engine.isScanning
+                            ? "\(engine.completedCategories)/\(engine.totalCategories)"
+                            : (engine.results.isEmpty ? "—" : L10n.string("smartcare.ready"))
+                    )
+                }
+            }
+            .padding(20)
+        }
+        .background { OCGlassShape(cornerRadius: 22, elevates: true, tintOpacity: 0.26) }
+    }
+
+    private var scanStatusGlass: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
+                Image(systemName: engine.isCleaning ? "trash.circle.fill" : "waveform.path.ecg")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(OCTheme.sea)
+                    .symbolEffect(.pulse, options: .repeating, isActive: engine.isBusy)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(engine.isCleaning
+                         ? L10n.string("smartcare.moving")
+                         : L10n.string("smartcare.scanning"))
+                        .font(.system(size: 14, weight: .semibold))
+                    Text(engine.progressLabel)
+                        .font(.system(size: 12))
+                        .foregroundStyle(OCTheme.muted)
+                        .contentTransition(.opacity)
+                        .animation(.easeOut(duration: 0.22), value: engine.progressLabel)
+                }
+                Spacer()
+                if engine.isScanning, engine.totalCategories > 0 {
+                    Text("\(Int((engine.scanProgress * 100).rounded()))%")
+                        .font(.system(size: 15, weight: .semibold).monospacedDigit())
+                        .foregroundStyle(OCTheme.sea)
+                        .contentTransition(.numericText())
+                }
+            }
+            OCShimmerBar(height: 5)
+            if engine.isScanning {
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(OCTheme.glassDeep.opacity(0.5))
+                        Capsule()
+                            .fill(
+                                LinearGradient(
+                                    colors: [OCTheme.seaDeep, OCTheme.sea, OCTheme.glassGlow],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: max(8, geo.size.width * engine.scanProgress))
+                            .animation(.easeOut(duration: 0.4), value: engine.scanProgress)
+                    }
+                }
+                .frame(height: 6)
             }
         }
+        .padding(16)
+        .background { OCGlassShape(cornerRadius: 16, elevates: false, tintOpacity: 0.28) }
     }
 
     private var fdaBanner: some View {
@@ -263,11 +346,15 @@ struct SmartCareView: View {
         }
         .padding(14)
         .background {
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(OCTheme.accent.opacity(0.12))
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(.ultraThinMaterial)
                 .overlay {
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .stroke(OCTheme.accent.opacity(0.35), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(OCTheme.accent.opacity(0.14))
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(OCTheme.accent.opacity(0.4), lineWidth: 1)
                 }
         }
     }
@@ -279,9 +366,10 @@ struct SmartCareView: View {
             } label: {
                 Label(
                     engine.isScanning ? L10n.string("smartcare.scanning") : L10n.string("smartcare.run"),
-                    systemImage: "play.fill"
+                    systemImage: engine.isBusy ? "sparkles" : "play.fill"
                 )
                 .frame(minWidth: 150)
+                .symbolEffect(.bounce, value: engine.isScanning)
             }
             .buttonStyle(SeaButtonStyle())
             .disabled(engine.isBusy)
@@ -303,34 +391,34 @@ struct SmartCareView: View {
                         .frame(minWidth: 110)
                 }
                 .buttonStyle(GhostButtonStyle())
-
-                ProgressView()
-                    .controlSize(.small)
-                    .tint(OCTheme.sea)
-                Text(engine.progressLabel)
-                    .font(.system(size: 12))
-                    .foregroundStyle(OCTheme.muted)
-                    .animation(.easeOut(duration: 0.2), value: engine.progressLabel)
             }
         }
     }
 
     private var moduleGrid: some View {
-        LazyVGrid(
-            columns: [GridItem(.adaptive(minimum: 210), spacing: 12)],
-            spacing: 12
+        let modules = engine.results.filter { $0.totalBytes > 0 || $0.category.isCleanable }
+        return LazyVGrid(
+            columns: [GridItem(.adaptive(minimum: 210), spacing: 14)],
+            spacing: 14
         ) {
-            ForEach(engine.results.filter { $0.totalBytes > 0 || $0.category.isCleanable }) { result in
+            ForEach(Array(modules.enumerated()), id: \.element.id) { index, result in
                 Button {
                     onOpenCategory(result.category)
                 } label: {
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 10) {
                         HStack(spacing: 8) {
                             Image(systemName: result.category.systemImage)
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundStyle(OCTheme.sea)
-                                .frame(width: 28, height: 28)
-                                .background(OCTheme.sea.opacity(0.12), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .frame(width: 30, height: 30)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 9, style: .continuous)
+                                        .fill(.ultraThinMaterial)
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 9, style: .continuous)
+                                                .fill(OCTheme.sea.opacity(0.18))
+                                        }
+                                }
                             Text(result.category.title)
                                 .font(.system(size: 13, weight: .semibold))
                                 .foregroundStyle(OCTheme.ink)
@@ -343,6 +431,7 @@ struct SmartCareView: View {
                         Text(ByteFormat.string(result.totalBytes))
                             .font(.system(size: 26, weight: .semibold).monospacedDigit())
                             .foregroundStyle(result.totalBytes > 0 ? OCTheme.ink : OCTheme.faint)
+                            .contentTransition(.numericText())
                         Text(result.category.detail)
                             .font(.system(size: 11))
                             .foregroundStyle(OCTheme.muted)
@@ -352,24 +441,20 @@ struct SmartCareView: View {
                             .font(.system(size: 10))
                             .foregroundStyle(OCTheme.faint)
                     }
-                    .padding(14)
+                    .padding(16)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .background {
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(.ultraThinMaterial)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .fill(OCTheme.glass.opacity(0.20))
-                            }
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .stroke(Color.white.opacity(0.14), lineWidth: 1)
-                            }
-                            .shadow(color: OCTheme.shadow.opacity(0.4), radius: 8, x: 0, y: 3)
-                    }
+                    .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .background { OCGlassShape(cornerRadius: 16, elevates: true, tintOpacity: 0.2) }
                 }
                 .buttonStyle(.plain)
+                .transition(.asymmetric(
+                    insertion: .opacity.combined(with: .scale(scale: 0.96)).combined(with: .offset(y: 8)),
+                    removal: .opacity
+                ))
+                .animation(
+                    .spring(response: 0.45, dampingFraction: 0.82).delay(Double(index) * 0.04),
+                    value: modules.count
+                )
             }
         }
     }

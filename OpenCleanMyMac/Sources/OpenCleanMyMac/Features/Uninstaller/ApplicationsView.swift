@@ -42,6 +42,8 @@ struct ApplicationsView: View {
 
             if uninstaller.isLoading {
                 VStack(spacing: 12) {
+                    OCShimmerBar(height: 4)
+                        .padding(.horizontal, 40)
                     ProgressView()
                         .controlSize(.small)
                         .tint(OCTheme.sea)

@@ -1,8 +1,8 @@
 {
-  "version": "0.2.4",
-  "build": 6,
-  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.4/MacCleaner-0.2.4.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.4/MacCleaner-0.2.4.dmg",
-  "notes": "Versioned DMG + zip installers; Homebrew cask support.",
-  "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
+  "version": "0.2.5",
+  "build": 7,
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.5/MacCleaner-0.2.5.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.5/MacCleaner-0.2.5.dmg",
+  "notes": "Notarized DMG + zip; branded installer; glass Smart Care UI.",
+  "notes_it": "DMG/zip notarizzati; installer branded; Smart Care glass."
 }

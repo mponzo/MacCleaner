@@ -94,43 +94,194 @@ struct OCScreenBackground: View {
 }
 
 struct OCGlassPanel<Content: View>: View {
-    var cornerRadius: CGFloat = 14
+    var cornerRadius: CGFloat = 16
     var padding: CGFloat = 14
+    var elevates: Bool = true
     @ViewBuilder var content: () -> Content
 
     var body: some View {
         content()
             .padding(padding)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background {
+            .background { OCGlassShape(cornerRadius: cornerRadius, elevates: elevates) }
+    }
+}
+
+/// Apple-style liquid glass: material + blue wash + specular rim + soft depth.
+struct OCGlassShape: View {
+    var cornerRadius: CGFloat = 16
+    var elevates: Bool = true
+    var tintOpacity: Double = 0.22
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+            .fill(.ultraThinMaterial)
+            .overlay {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        OCTheme.glass.opacity(0.28),
-                                        OCTheme.glassDeep.opacity(0.40),
-                                        Color.white.opacity(0.04)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.14),
+                                OCTheme.glass.opacity(tintOpacity),
+                                OCTheme.glassDeep.opacity(0.45),
+                                Color.white.opacity(0.02)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+            .overlay(alignment: .top) {
+                // Specular highlight strip
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.22), Color.white.opacity(0)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(height: max(18, cornerRadius * 1.1))
+                    .padding(.horizontal, 1)
+                    .padding(.top, 1)
+                    .allowsHitTesting(false)
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.42),
+                                Color.white.opacity(0.12),
+                                OCTheme.sea.opacity(0.18)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            }
+            .shadow(
+                color: elevates ? OCTheme.shadow.opacity(0.55) : .clear,
+                radius: elevates ? 18 : 0,
+                x: 0,
+                y: elevates ? 8 : 0
+            )
+            .shadow(
+                color: elevates ? OCTheme.sea.opacity(0.08) : .clear,
+                radius: elevates ? 24 : 0,
+                x: 0,
+                y: elevates ? 12 : 0
+            )
+    }
+}
+
+/// Indeterminate shimmer bar for scans / loads.
+struct OCShimmerBar: View {
+    var height: CGFloat = 4
+    @State private var phase: CGFloat = -1
+
+    var body: some View {
+        GeometryReader { geo in
+            Capsule()
+                .fill(OCTheme.glassDeep.opacity(0.55))
+                .overlay(alignment: .leading) {
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    OCTheme.sea.opacity(0),
+                                    OCTheme.sea.opacity(0.95),
+                                    OCTheme.glassGlow.opacity(0.85),
+                                    OCTheme.sea.opacity(0)
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
                             )
+                        )
+                        .frame(width: geo.size.width * 0.38)
+                        .offset(x: phase * geo.size.width)
+                }
+                .clipShape(Capsule())
+        }
+        .frame(height: height)
+        .onAppear {
+            phase = -0.4
+            withAnimation(.easeInOut(duration: 1.35).repeatForever(autoreverses: false)) {
+                phase = 1.15
+            }
+        }
+    }
+}
+
+/// Circular scan progress with soft glow (0…1). Indeterminate when progress < 0.
+struct OCScanRing: View {
+    var progress: Double
+    var lineWidth: CGFloat = 6
+    var size: CGFloat = 56
+    @State private var spin = false
+
+    private var clamped: Double { min(1, max(0, progress)) }
+    private var indeterminate: Bool { progress < 0 }
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(OCTheme.glass.opacity(0.22), lineWidth: lineWidth)
+            if indeterminate {
+                Circle()
+                    .trim(from: 0.08, to: 0.42)
+                    .stroke(
+                        AngularGradient(
+                            colors: [OCTheme.sea.opacity(0.15), OCTheme.sea, OCTheme.glassGlow],
+                            center: .center
+                        ),
+                        style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(spin ? 360 : 0))
+                    .onAppear {
+                        withAnimation(.linear(duration: 1.05).repeatForever(autoreverses: false)) {
+                            spin = true
+                        }
                     }
-                    .overlay {
-                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                            .stroke(
-                                LinearGradient(
-                                    colors: [Color.white.opacity(0.28), Color.white.opacity(0.06)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: 1
-                            )
-                    }
-                    .shadow(color: OCTheme.shadow, radius: 12, x: 0, y: 4)
+            } else {
+                Circle()
+                    .trim(from: 0, to: clamped)
+                    .stroke(
+                        AngularGradient(
+                            colors: [OCTheme.seaDeep, OCTheme.sea, OCTheme.glassGlow],
+                            center: .center
+                        ),
+                        style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+                    .animation(.easeOut(duration: 0.45), value: clamped)
+            }
+            Circle()
+                .fill(.ultraThinMaterial)
+                .padding(lineWidth + 2)
+                .overlay {
+                    Circle().fill(OCTheme.glass.opacity(0.2))
+                }
+        }
+        .frame(width: size, height: size)
+        .shadow(color: OCTheme.sea.opacity(0.35), radius: 10, x: 0, y: 0)
+    }
+}
+
+/// Soft breathing pulse behind busy UI.
+struct OCBusyPulse: View {
+    @State private var on = false
+
+    var body: some View {
+        Circle()
+            .fill(OCTheme.sea.opacity(on ? 0.28 : 0.10))
+            .blur(radius: 28)
+            .scaleEffect(on ? 1.15 : 0.88)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
+                    on = true
+                }
             }
     }
 }
@@ -178,6 +329,7 @@ struct OCMetricChip: View {
             Text(value)
                 .font(.system(size: 22, weight: .semibold).monospacedDigit())
                 .foregroundStyle(emphasize ? OCTheme.accent : OCTheme.ink)
+                .contentTransition(.numericText())
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
@@ -185,19 +337,18 @@ struct OCMetricChip: View {
         .padding(.vertical, 12)
         .frame(minWidth: 120, alignment: .leading)
         .background {
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(.thinMaterial)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(OCTheme.glass.opacity(emphasize ? 0.32 : 0.18))
-                }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .stroke(
-                            emphasize ? OCTheme.accent.opacity(0.45) : Color.white.opacity(0.16),
-                            lineWidth: 1
-                        )
-                }
+            OCGlassShape(
+                cornerRadius: 14,
+                elevates: false,
+                tintOpacity: emphasize ? 0.34 : 0.18
+            )
+            .overlay {
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .stroke(
+                        emphasize ? OCTheme.accent.opacity(0.5) : Color.clear,
+                        lineWidth: 1
+                    )
+            }
         }
     }
 }

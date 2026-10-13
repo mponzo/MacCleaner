@@ -1,36 +1,34 @@
 # Firma Developer ID e notarizzazione
 
-Obiettivo: chi scarica `MacCleaner.app.zip` **non** vede il popup Gatekeeper.
+Obiettivo: chi scarica il DMG/ZIP **non** vede il popup Gatekeeper (“Apple non è in grado di verificare…”).
 
-## Cosa serve
+## Stato sul Mac di sviluppo
 
-1. **Apple Developer Program** (ce l’hai)
-2. Certificato **Developer ID Application** (diverso da Development / Distribution App Store)
-3. Credenziali **notarytool** (Apple ID + password app-specific, oppure API key)
+Hai già:
 
-Sul Mac ora risultano certi *Development* e *Apple Distribution*, ma **manca** ancora:
-
-`Developer ID Application: … (T6EB446J72)`
-
-Senza quello la notarizzazione per download web non parte.
-
-## 1. Crea il certificato Developer ID
-
-1. Apri [Certificates](https://developer.apple.com/account/resources/certificates/list)  
-2. **+** → **Developer ID Application**  
-3. Segui la CSR (Keychain Access → Certificate Assistant → Request from CA)  
-4. Scarica il `.cer` e fai doppio clic per installarlo nel login keychain  
-5. Verifica:
-
-```bash
-security find-identity -v -p codesigning | grep "Developer ID Application"
+```text
+Developer ID Application: Matteo Ponzo (T6EB446J72)
 ```
 
-## 2. Password app-specific (se usi Apple ID)
+Manca solo il profilo **notarytool** (credenziali Apple per la notarizzazione). Finché non c’è, `package-app.sh` firma correttamente ma Gatekeeper blocca i download da internet.
 
-1. [appleid.apple.com](https://appleid.apple.com) → Accedi → **Password app-specific**  
-2. Generane una per “MacCleaner notary”  
-3. Salva il profilo una sola volta:
+## Workaround locale (subito)
+
+Dopo aver trascinato l’app in Applicazioni:
+
+```bash
+./Scripts/clear-quarantine.sh ~/Applications/MacCleaner.app
+# oppure
+xattr -cr ~/Applications/MacCleaner.app && open ~/Applications/MacCleaner.app
+```
+
+Oppure: clic destro su MacCleaner → **Apri** → conferma. Su macOS recenti a volte serve anche Impostazioni di Sistema → Privacy e sicurezza → **Apri comunque**.
+
+`./Scripts/install.sh` (build locale) rimuove già la quarantine in automatico.
+
+## 1. Salva le credenziali notary (una volta)
+
+Password app-specific: [appleid.apple.com](https://appleid.apple.com) → Accedi → **Password app-specific**.
 
 ```bash
 xcrun notarytool store-credentials "maccleaner-notary" \
@@ -39,35 +37,27 @@ xcrun notarytool store-credentials "maccleaner-notary" \
   --password "xxxx-xxxx-xxxx-xxxx"
 ```
 
-Oppure copia `.env.notarize.example` → `.env.notarize` e compila.
+Oppure copia `.env.notarize.example` → `.env.notarize` e compila (non commitare).
 
-## 3. Build + firma + notarizza
+## 2. Build + firma + notarizza
 
 ```bash
 ./Scripts/package-app.sh
 ./Scripts/sign-and-notarize.sh
 ```
 
-Lo script:
+Lo script firma con Hardened Runtime, notarizza app + DMG, fa **stapler**, aggiorna `releases/` e il cask.
 
-- firma con Hardened Runtime + timestamp  
-- notarizza l’app, poi il **DMG**  
-- fa **stapler** su `.app` e `.dmg`  
-- rigenera `releases/MacCleaner-<version>.{dmg,zip}` (+ alias stabili) e aggiorna `Casks/maccleaner.rb` (URL su GitHub Releases)
-
-Poi commit/push dello zip aggiornato (o pubblica una GitHub Release).
-
-## 4. Verifica locale
+## 3. Verifica
 
 ```bash
 spctl --assess --type execute -vv dist/MacCleaner.app
-codesign -dv --verbose=4 dist/MacCleaner.app
+# atteso: accepted
+xcrun stapler validate dist/MacCleaner.app
 ```
-
-Atteso: `accepted` / autorità `Developer ID Application` + ticket staple.
 
 ## Note
 
-- **Apple Distribution** serve all’App Store, non ai download dal sito.  
-- Team ID usato di default: `T6EB446J72` (override con `APPLE_TEAM_ID`).  
+- **Apple Distribution** = App Store; per download web serve **Developer ID Application** + notarizzazione.  
+- Team ID default: `T6EB446J72`.  
 - Non committare `.env.notarize` né file `.p8`.

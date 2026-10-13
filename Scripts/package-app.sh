@@ -9,8 +9,8 @@ APP_NAME="MacCleaner.app"
 APP="$DIST/$APP_NAME"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
-VERSION="0.2.4"
-BUILD="6"
+VERSION="0.2.5"
+BUILD="7"
 ICON_ICNS="$ROOT/packaging/AppIcon.icns"
 VERSION_JSON="$RELEASES/version.json"
 CASK="$ROOT/Casks/maccleaner.rb"
@@ -149,19 +149,60 @@ ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
 cp -f "$ZIP" "$ZIP_STABLE"
 
 echo "==> Writing versioned DMG: $(basename "$DMG")"
-STAGE="$DIST/dmg-stage"
-rm -rf "$STAGE" "$DMG" "$DMG_STABLE"
-mkdir -p "$STAGE"
-ditto "$APP" "$STAGE/$APP_NAME"
-ln -s /Applications "$STAGE/Applications"
-hdiutil create \
-  -volname "MacCleaner ${VERSION}" \
-  -srcfolder "$STAGE" \
-  -ov \
-  -format UDZO \
-  "$DMG" >/dev/null
+VOL_NAME="MacCleaner ${VERSION}"
+DMG_BG_PNG="$ROOT/packaging/dmg-background@1x.png"
+DMG_BG_TIFF="$ROOT/packaging/dmg-background@1x.tiff"
+DMG_SETTINGS="$ROOT/packaging/dmgbuild-settings.py"
+rm -f "$DMG" "$DMG_STABLE"
+
+# Prefer TIFF for Finder background fidelity; refresh from PNG when present
+if [[ -f "$DMG_BG_PNG" ]]; then
+  sips -s format tiff "$DMG_BG_PNG" --out "$DMG_BG_TIFF" >/dev/null
+fi
+
+DMGBUILD_BIN=""
+if command -v dmgbuild >/dev/null 2>&1; then
+  DMGBUILD_BIN="$(command -v dmgbuild)"
+else
+  for candidate in \
+    "$HOME/Library/Python/3.9/bin/dmgbuild" \
+    "$HOME/Library/Python/3.10/bin/dmgbuild" \
+    "$HOME/Library/Python/3.11/bin/dmgbuild" \
+    "$HOME/Library/Python/3.12/bin/dmgbuild" \
+    "$HOME/Library/Python/3.13/bin/dmgbuild"
+  do
+    if [[ -x "$candidate" ]]; then
+      DMGBUILD_BIN="$candidate"
+      break
+    fi
+  done
+fi
+
+if [[ -n "$DMGBUILD_BIN" && -f "$DMG_SETTINGS" && -f "$DMG_BG_TIFF" ]]; then
+  echo "==> Building branded DMG with dmgbuild"
+  "$DMGBUILD_BIN" \
+    -s "$DMG_SETTINGS" \
+    -D "app=$APP" \
+    -D "background=$DMG_BG_TIFF" \
+    "$VOL_NAME" \
+    "$DMG"
+else
+  echo "==> Fallback plain DMG (install dmgbuild for branded window: pip3 install --user dmgbuild)"
+  STAGE="$DIST/dmg-stage"
+  rm -rf "$STAGE"
+  mkdir -p "$STAGE"
+  ditto "$APP" "$STAGE/$APP_NAME"
+  ln -s /Applications "$STAGE/Applications"
+  hdiutil create \
+    -volname "$VOL_NAME" \
+    -srcfolder "$STAGE" \
+    -ov \
+    -format UDZO \
+    "$DMG" >/dev/null
+  rm -rf "$STAGE"
+fi
+
 cp -f "$DMG" "$DMG_STABLE"
-rm -rf "$STAGE"
 
 DMG_SHA="$(shasum -a 256 "$DMG" | awk '{print $1}')"
 

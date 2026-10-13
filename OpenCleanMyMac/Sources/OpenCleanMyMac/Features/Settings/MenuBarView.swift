@@ -60,6 +60,9 @@ struct MenuBarView: View {
         .preferredColorScheme(.dark)
         .foregroundStyle(OCTheme.ink)
         .id(preferences.languageRevision)
+        .onReceive(NotificationCenter.default.publisher(for: .ocmmReopenMainWindow)) { _ in
+            openMainWindow()
+        }
         .task {
             performance.startPolling()
             if performance.metrics == nil {
@@ -312,15 +315,14 @@ struct MenuBarView: View {
     }
 
     private var footer: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 8) {
-                Button {
-                    openMainWindow()
-                } label: {
-                    Label(l10n: "menubar.open_short", systemImage: "macwindow")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(SeaButtonStyle())
+        HStack(spacing: 8) {
+            Button {
+                openMainWindow()
+            } label: {
+                Label(l10n: "menubar.open_short", systemImage: "macwindow")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(SeaButtonStyle())
 
             Button {
                 openMainWindow(then: .ocmmOpenSettings)
@@ -331,15 +333,6 @@ struct MenuBarView: View {
             }
             .buttonStyle(GhostButtonStyle())
             .help(L10n.string("menubar.settings"))
-        }
-
-            Button {
-                NSApp.terminate(nil)
-            } label: {
-                Label(l10n: "menubar.quit", systemImage: "power")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(QuitButtonStyle())
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 12)

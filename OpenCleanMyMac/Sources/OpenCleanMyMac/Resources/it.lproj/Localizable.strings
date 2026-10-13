@@ -232,7 +232,7 @@
 "settings.login.unknown" = "Sconosciuto";
 "settings.installed_to" = "Installata in %@";
 "settings.uninstalled" = "Disinstallata da ~/Applications.";
-"settings.quit.help" = "Chiude completamente MacCleaner, inclusa l’icona nella barra menu.";
+"settings.quit.help" = "Chiude completamente MacCleaner, inclusa l’icona nella barra menu. Chiudere la finestra principale lascia l’app nella toolbar.";
 
 /* Menu bar */
 "menubar.open" = "Apri MacCleaner";

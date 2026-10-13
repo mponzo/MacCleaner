@@ -3,6 +3,7 @@ import SwiftUI
 
 @main
 struct OpenCleanMyMacApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var engine = ScanEngine()
     @State private var uninstaller = UninstallerEngine()
     @State private var performance = PerformanceEngine()
@@ -54,12 +55,8 @@ struct OpenCleanMyMacApp: App {
         .windowResizability(.contentMinSize)
         .commands {
             CommandGroup(replacing: .newItem) {}
-            CommandGroup(replacing: .appTermination) {
-                Button(L10n.string("menubar.quit")) {
-                    NSApp.terminate(nil)
-                }
-                .keyboardShortcut("q", modifiers: [.command])
-            }
+            // No menu Quit / Cmd+Q — full exit only from Settings (or menu bar Esci).
+            CommandGroup(replacing: .appTermination) {}
             CommandMenu(L10n.string("menu.clean")) {
                 Button(L10n.string("menu.run_smart_care")) {
                     Task { await engine.runSmartCare() }
@@ -83,12 +80,6 @@ struct OpenCleanMyMacApp: App {
                     Task { await performance.refreshAll() }
                 }
                 .keyboardShortcut("p", modifiers: [.command, .shift])
-
-                Divider()
-
-                Button(L10n.string("menubar.quit")) {
-                    NSApp.terminate(nil)
-                }
             }
         }
 

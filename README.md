@@ -4,7 +4,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 
 | | |
 |---|---|
-| **Download** | [MacCleaner 0.2.5 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.2.5/MacCleaner-0.2.5.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.2.5/MacCleaner-0.2.5.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
+| **Download** | [MacCleaner 0.2.6 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.2.6/MacCleaner-0.2.6.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.2.6/MacCleaner-0.2.6.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
 | **Homebrew** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
@@ -17,11 +17,11 @@ Universal binary (Apple silicon + Intel). UI in **English** and **Italian**.
 
 **DMG**
 
-1. Download [MacCleaner 0.2.5](https://github.com/mponzo/MacCleaner/releases/download/v0.2.5/MacCleaner-0.2.5.dmg)  
+1. Download [MacCleaner 0.2.6](https://github.com/mponzo/MacCleaner/releases/download/v0.2.6/MacCleaner-0.2.6.dmg)  
 2. Open the disk image and drag the app into **Applications**  
 3. Launch MacCleaner  
 
-From **v0.2.5** builds are **Developer ID signed + notarized**. Gatekeeper should open the DMG/app without the “Apple cannot verify” dialog.
+Builds from **v0.2.5+** are **Developer ID signed + notarized**. Gatekeeper should open the DMG/app without the “Apple cannot verify” dialog.
 
 **Homebrew**
 

@@ -1,6 +1,6 @@
 cask "maccleaner" do
-  version "0.2.5"
-  sha256 "be17cc2db47076c5e5eddfe4d44059f97d89506390862f94774a22cb44109072"
+  version "0.2.6"
+  sha256 "dd3f8e14b6a672c0951ef1a13e8ca84b6566e39b78cf484e295c7ca5ddc05247"
 
   url "https://github.com/mponzo/MacCleaner/releases/download/v#{version}/MacCleaner-#{version}.dmg"
   name "MacCleaner"

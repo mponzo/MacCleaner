@@ -1,8 +1,8 @@
 {
-  "version": "0.2.5",
-  "build": 7,
-  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.5/MacCleaner-0.2.5.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.5/MacCleaner-0.2.5.dmg",
-  "notes": "Notarized DMG + zip; branded installer; glass Smart Care UI.",
-  "notes_it": "DMG/zip notarizzati; installer branded; Smart Care glass."
+  "version": "0.2.6",
+  "build": 8,
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.6/MacCleaner-0.2.6.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.6/MacCleaner-0.2.6.dmg",
+  "notes": "PureMac-style uninstall; FDA onboarding first; notarized DMG/zip.",
+  "notes_it": "Disinstallazione stile PureMac; onboarding FDA; DMG/zip notarizzati."
 }

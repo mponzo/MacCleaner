@@ -32,12 +32,14 @@ final class UninstallerEngine {
         orphanLeftovers.filter(\.isSelected).reduce(0) { $0 + $1.byteCount }
     }
 
-    func refresh() async {
+    func refresh(clearFeedback: Bool = true) async {
         guard !isLoading else { return }
         isLoading = true
         progressLabel = L10n.string("apps.listing")
-        errorMessage = nil
-        lastResult = nil
+        if clearFeedback {
+            errorMessage = nil
+            lastResult = nil
+        }
 
         let listed = await ApplicationsCatalog.listInstalledApps()
         progressLabel = L10n.string("apps.scanning_leftovers")
@@ -52,7 +54,9 @@ final class UninstallerEngine {
         } else {
             self.selectedAppID = filteredApps.first?.id
         }
-        progressLabel = L10n.format("apps.summary", Int64(filteredApps.count), ByteFormat.string(orphanBytes))
+        if clearFeedback {
+            progressLabel = L10n.format("apps.summary", Int64(filteredApps.count), ByteFormat.string(orphanBytes))
+        }
         isLoading = false
     }
 
@@ -77,6 +81,7 @@ final class UninstallerEngine {
     func uninstallSelectedApp() async {
         guard let app = selectedApp, !app.isProtected, !isUninstalling else { return }
         isUninstalling = true
+        errorMessage = nil
         progressLabel = L10n.format("apps.uninstalling", app.name)
 
         var urls: [URL] = []
@@ -90,14 +95,21 @@ final class UninstallerEngine {
         }
 
         let result = await Cleaner.moveToTrash(items)
+        isUninstalling = false
+        await refresh(clearFeedback: false)
 
         lastResult = result
-        if !result.failed.isEmpty {
-            errorMessage = L10n.format("apps.failed_paths", Int64(result.failed.count))
+        if result.failed.isEmpty {
+            errorMessage = nil
+            progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
+        } else {
+            var message = L10n.format("apps.failed_paths", Int64(result.failed.count))
+            if let detail = result.failed.first?.1, !detail.isEmpty {
+                message += " \(detail)"
+            }
+            errorMessage = message
+            progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
         }
-        progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
-        isUninstalling = false
-        await refresh()
     }
 
     func cleanSelectedOrphans() async {
@@ -105,15 +117,26 @@ final class UninstallerEngine {
         let selected = orphanLeftovers.filter(\.isSelected)
         guard !selected.isEmpty else { return }
         isUninstalling = true
+        errorMessage = nil
         progressLabel = L10n.string("apps.cleaning_orphans")
 
         let items = selected.map {
             ScanItem(category: .appLeftovers, url: $0.url, byteCount: $0.byteCount, isSelected: true)
         }
         let result = await Cleaner.moveToTrash(items)
-        lastResult = result
-        progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
         isUninstalling = false
-        await refresh()
+        await refresh(clearFeedback: false)
+
+        lastResult = result
+        if result.failed.isEmpty {
+            errorMessage = nil
+        } else {
+            var message = L10n.format("apps.failed_paths", Int64(result.failed.count))
+            if let detail = result.failed.first?.1, !detail.isEmpty {
+                message += " \(detail)"
+            }
+            errorMessage = message
+        }
+        progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
     }
 }

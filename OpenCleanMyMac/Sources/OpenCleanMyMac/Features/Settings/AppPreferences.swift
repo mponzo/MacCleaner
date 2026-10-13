@@ -13,6 +13,7 @@ final class AppPreferences {
         static let launchAtLogin = "prefs.launchAtLogin"
         static let hideDockIcon = "prefs.hideDockIcon"
         static let appLanguage = "prefs.appLanguage"
+        static let onboardingComplete = "prefs.onboardingComplete"
     }
 
     private var isSyncingLoginItem = false
@@ -59,6 +60,14 @@ final class AppPreferences {
     var launchAtLoginStatusText: String = ""
     var lastInstallMessage: String?
 
+    /// First-launch coach marks (PureMac-style). False until the user finishes onboarding.
+    var onboardingComplete: Bool {
+        didSet {
+            guard !isBootstrapping else { return }
+            UserDefaults.standard.set(onboardingComplete, forKey: Keys.onboardingComplete)
+        }
+    }
+
     var isInstalledInApplications: Bool { AppInstaller.isInstalled }
     var installedAppURL: URL { AppInstaller.installedAppURL }
 
@@ -70,6 +79,7 @@ final class AppPreferences {
         showMenuBarIcon = defaults.bool(forKey: Keys.showMenuBarIcon)
         hideDockIcon = defaults.bool(forKey: Keys.hideDockIcon)
         launchAtLogin = defaults.bool(forKey: Keys.launchAtLogin)
+        onboardingComplete = defaults.bool(forKey: Keys.onboardingComplete)
         let stored = defaults.string(forKey: Keys.appLanguage) ?? AppLanguage.system.rawValue
         appLanguage = AppLanguage(rawValue: stored) ?? .system
         L10n.apply(appLanguage)

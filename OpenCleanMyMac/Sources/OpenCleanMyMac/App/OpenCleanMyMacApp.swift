@@ -9,6 +9,9 @@ struct OpenCleanMyMacApp: App {
     @State private var performance = PerformanceEngine()
     @State private var privileged = PrivilegedHelperEngine()
     @State private var updater = AppUpdateEngine()
+    @State private var duplicates = DuplicateFinderEngine()
+    @State private var similarPhotos = SimilarPhotosEngine()
+    @State private var scheduler = CleanupScheduler()
     @State private var preferences = AppPreferences.shared
 
     init() {
@@ -42,13 +45,17 @@ struct OpenCleanMyMacApp: App {
                 performance: performance,
                 privileged: privileged,
                 updater: updater,
-                preferences: preferences
+                preferences: preferences,
+                duplicates: duplicates,
+                similarPhotos: similarPhotos,
+                scheduler: scheduler
             )
             .preferredColorScheme(.dark)
             .background(OCTheme.canvas)
             .id(preferences.languageRevision)
             .onAppear {
                 AppWindowActivator.collapseDuplicates()
+                scheduler.attach(engine: engine)
             }
         }
         .defaultSize(width: 1100, height: 720)

@@ -11,6 +11,9 @@
 "common.system" = "Sistema";
 "common.select_all" = "Seleziona tutto";
 "common.select_none" = "Deseleziona tutto";
+"common.on" = "Attivo";
+"common.off" = "Disattivo";
+"common.unknown" = "Sconosciuto";
 
 /* Sidebar */
 "sidebar.smart_care" = "Smart Care";
@@ -21,9 +24,79 @@
 "sidebar.performance" = "Prestazioni";
 "sidebar.privileged" = "Helper privilegiato";
 "sidebar.space_lens" = "Space Lens";
+"sidebar.duplicates" = "Duplicati";
+"sidebar.similar_photos" = "Foto simili";
+"sidebar.scheduler" = "Pianificazione";
 "sidebar.updates" = "Aggiornamenti";
 "sidebar.settings" = "Impostazioni";
 "sidebar.modules" = "Moduli";
+
+"dup.title" = "Duplicati";
+"dup.subtitle" = "Corrispondenze esatte per dimensione e SHA-256. In ogni gruppo resta una copia protetta.";
+"dup.idle" = "Scegli una cartella da analizzare per i duplicati esatti.";
+"dup.choose" = "Scegli cartella";
+"dup.rescan" = "Riscansiona";
+"dup.trash_selected" = "Sposta selezione nel Cestino";
+"dup.scanning" = "Scansione file…";
+"dup.hashing" = "Calcolo hash dei candidati…";
+"dup.stopped" = "Scansione interrotta.";
+"dup.trashing" = "Spostamento dei duplicati selezionati nel Cestino…";
+"dup.empty" = "Nessun duplicato esatto trovato";
+"dup.empty.detail" = "Scegli una cartella con possibili copie. Pacchetti, symlink e hard link vengono saltati.";
+"dup.summary" = "%lld gruppo/i · %@ recuperabili";
+"dup.skipped" = "Saltati %lld elementi (pacchetti, link o file illeggibili).";
+"dup.failed" = "%lld percorso/i non spostabili nel Cestino.";
+"dup.group_title" = "%lld file identici";
+"dup.protected" = "Protetta";
+"dup.reveal" = "Mostra nel Finder";
+"dup.progress_files" = "Indicizzati %lld file…";
+
+"photos.title" = "Foto simili";
+"photos.subtitle" = "Stima visiva da miniature locali — le foto non vengono eliminate né caricate.";
+"photos.disclaimer" = "La somiglianza è una stima, non una prova di identità. Usa Mostra nel Finder per confrontare gli originali.";
+"photos.idle" = "Scegli una cartella di foto da confrontare.";
+"photos.choose" = "Scegli cartella foto";
+"photos.rescan" = "Riscansiona";
+"photos.scanning" = "Confronto miniature locali…";
+"photos.stopped" = "Scansione interrotta.";
+"photos.empty" = "Nessun gruppo simile trovato";
+"photos.empty.detail" = "Prova una cartella con rullini o export. I placeholder solo-cloud e i pacchetti vengono saltati.";
+"photos.summary" = "%lld gruppo/i simili da %lld foto";
+"photos.limit" = "Raggiunto il limite di 500 foto / 10.000 voci. Restringi la cartella per risultati più completi.";
+"photos.group_title" = "%lld foto simili";
+"photos.reveal" = "Mostra";
+
+"sched.title" = "Pulizia pianificata";
+"sched.subtitle" = "Esegue Smart Care in background mentre MacCleaner resta nella barra menu.";
+"sched.enable" = "Abilita scansione pianificata";
+"sched.interval" = "Intervallo scansione";
+"sched.auto_clean" = "Pulisci automaticamente dopo la scansione";
+"sched.threshold" = "Dimensione minima recuperabile";
+"sched.help" = "La pulizia automatica parte solo se lo spazio recuperabile selezionato raggiunge la soglia. Mantieni l’accesso completo al disco per risultati completi.";
+"sched.status" = "Stato";
+"sched.last_run" = "Ultima esecuzione";
+"sched.next_run" = "Prossima esecuzione";
+"sched.never" = "Mai";
+"sched.not_scheduled" = "Non pianificato";
+"sched.run_now" = "Esegui ora";
+"sched.idle" = "Pianificatore inattivo";
+"sched.enabled" = "Pianificato";
+"sched.disabled" = "Disattivato";
+"sched.running" = "Smart Care in corso…";
+"sched.cleaning" = "Pulizia automatica della selezione…";
+"sched.busy" = "Smart Care è già occupato";
+"sched.no_engine" = "Motore di pulizia non disponibile";
+"sched.scanned" = "Scansione completata · %@ recuperabili";
+"sched.cleaned" = "Pulizia automatica completata · %@ liberati";
+"sched.below_threshold" = "Sotto soglia (%@ < %lld MB) — pulizia automatica saltata";
+"sched.interval.everyHour" = "Ogni ora";
+"sched.interval.every3Hours" = "Ogni 3 ore";
+"sched.interval.every6Hours" = "Ogni 6 ore";
+"sched.interval.every12Hours" = "Ogni 12 ore";
+"sched.interval.daily" = "Giornaliero";
+"sched.interval.weekly" = "Settimanale";
+"sched.interval.biweekly" = "Ogni 2 settimane";
+"sched.interval.monthly" = "Mensile";
 
 /* Smart Care */
 "smartcare.brand" = "MACCLEANER";
@@ -233,6 +306,40 @@
 "settings.installed_to" = "Installata in %@";
 "settings.uninstalled" = "Disinstallata da ~/Applications.";
 "settings.quit.help" = "Chiude completamente MacCleaner, inclusa l’icona nella barra menu. Chiudere la finestra principale lascia l’app nella toolbar.";
+"settings.permissions" = "Permessi";
+"settings.fda" = "Accesso completo al disco";
+"settings.fda.on" = "Concesso";
+"settings.fda.off" = "Non concesso";
+"settings.fda.help" = "Serve per scansioni complete di Mail, dati Safari, container e altri percorsi Library protetti.";
+"settings.replay_onboarding" = "Mostra di nuovo l’impostazione iniziale";
+"settings.protection" = "Protezione";
+"settings.protection.filevault" = "FileVault";
+"settings.protection.gatekeeper" = "Gatekeeper";
+"settings.protection.help" = "Solo stato di lettura da macOS. MacCleaner non modifica queste impostazioni.";
+
+"onboarding.back" = "Indietro";
+"onboarding.continue" = "Continua";
+"onboarding.get_started" = "Inizia";
+"onboarding.welcome.title" = "Benvenuto in MacCleaner";
+"onboarding.welcome.body" = "Recupera spazio, disinstalla app con residui ed esegui manutenzione — tutto in locale, senza telemetria.";
+"onboarding.fda.title" = "Un solo permesso e ci siamo";
+"onboarding.fda.title_granted" = "Permesso concesso";
+"onboarding.fda.body" = "MacCleaner richiede l’accesso completo al disco per disinstallare le app, trovare i residui e pulire le cache protette che macOS nasconde di default.";
+"onboarding.fda.body_granted" = "MacCleaner ora può accedere alle posizioni protette da macOS per impostazione predefinita.";
+"onboarding.fda.window_title" = "Accesso completo al disco";
+"onboarding.fda.path" = "Privacy e sicurezza → Accesso completo al disco";
+"onboarding.fda.terminal" = "Terminale";
+"onboarding.fda.open_settings" = "Apri Impostazioni di Sistema";
+"onboarding.fda.recheck" = "Accesso consentito: ricontrolla";
+"onboarding.fda.watching" = "In attesa del permesso…";
+"onboarding.fda.ready" = "Tutto pronto: passiamo al prossimo punto.";
+"onboarding.ready.title" = "Sei pronto";
+"onboarding.ready.body_fda" = "Smart Care e il disinstallatore possono scansionare i percorsi protetti. Rimani tu a controllare ogni eliminazione.";
+"onboarding.ready.body_limited" = "Puoi continuare con risultati limitati e concedere l’accesso completo al disco più tardi nelle Impostazioni.";
+
+"fda.banner.title" = "Accesso completo al disco disattivato";
+"fda.banner.body" = "Alcune posizioni protette non sono disponibili. Concedi l’accesso per una scansione e una disinstallazione più complete.";
+"fda.banner.action" = "Consenti accesso";
 
 /* Menu bar */
 "menubar.open" = "Apri MacCleaner";

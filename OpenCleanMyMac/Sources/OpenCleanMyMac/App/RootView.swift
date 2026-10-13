@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct RootView: View {
@@ -7,9 +8,32 @@ struct RootView: View {
     @Bindable var privileged: PrivilegedHelperEngine
     @Bindable var updater: AppUpdateEngine
     @Bindable var preferences: AppPreferences
+    @Bindable var duplicates: DuplicateFinderEngine
+    @Bindable var similarPhotos: SimilarPhotosEngine
+    @Bindable var scheduler: CleanupScheduler
+    @State private var fda = FullDiskAccessManager.shared
     @State private var destination: SidebarDestination = .overview
 
     var body: some View {
+        Group {
+            if preferences.onboardingComplete {
+                mainShell
+            } else {
+                OnboardingView(preferences: preferences, fda: fda)
+            }
+        }
+        .preferredColorScheme(.dark)
+        .tint(OCTheme.sea)
+        .foregroundStyle(OCTheme.ink)
+        .frame(minWidth: 980, minHeight: 640)
+        .id(preferences.languageRevision)
+        .onAppear {
+            preferences.finishLaunchSetup()
+            fda.refresh()
+        }
+    }
+
+    private var mainShell: some View {
         ZStack {
             OCScreenBackground()
             NavigationSplitView {
@@ -19,14 +43,6 @@ struct RootView: View {
                 detail
             }
             .navigationTitle(L10n.string("app.name"))
-        }
-        .preferredColorScheme(.dark)
-        .tint(OCTheme.sea)
-        .foregroundStyle(OCTheme.ink)
-        .frame(minWidth: 980, minHeight: 640)
-        .id(preferences.languageRevision)
-        .onAppear {
-            preferences.finishLaunchSetup()
         }
         .onReceive(NotificationCenter.default.publisher(for: .ocmmOpenSettings)) { _ in
             destination = .settings
@@ -73,6 +89,9 @@ struct RootView: View {
 
             Section {
                 sidebarItem("sidebar.applications", icon: "app.badge.checkmark", tag: .applications)
+                sidebarItem("sidebar.duplicates", icon: "doc.on.doc", tag: .duplicates)
+                sidebarItem("sidebar.similar_photos", icon: "photo.on.rectangle.angled", tag: .similarPhotos)
+                sidebarItem("sidebar.scheduler", icon: "clock.arrow.circlepath", tag: .scheduler)
                 sidebarItem("sidebar.performance", icon: "gauge.with.dots.needle.67percent", tag: .performance)
                 sidebarItem("sidebar.privileged", icon: "lock.shield", tag: .privileged)
                 sidebarItem("sidebar.space_lens", icon: "chart.bar.fill", tag: .spaceLens)
@@ -134,7 +153,7 @@ struct RootView: View {
     private var detail: some View {
         switch destination {
         case .overview:
-            SmartCareView(engine: engine) { category in
+            SmartCareView(engine: engine, fda: fda) { category in
                 destination = .category(category)
             }
         case .applications:
@@ -145,10 +164,16 @@ struct RootView: View {
             PrivilegedHelperView(privileged: privileged)
         case .spaceLens:
             SpaceLensView(engine: engine)
+        case .duplicates:
+            DuplicateFinderView(engine: duplicates)
+        case .similarPhotos:
+            SimilarPhotosView(engine: similarPhotos)
+        case .scheduler:
+            SchedulerView(scheduler: scheduler)
         case .updates:
             UpdatesView(updater: updater, preferences: preferences)
         case .settings:
-            SettingsView(preferences: preferences)
+            SettingsView(preferences: preferences, fda: fda)
         case .category(let category):
             if let result = engine.results.first(where: { $0.category == category }) {
                 CategoryDetailView(engine: engine, result: result)
@@ -161,12 +186,16 @@ struct RootView: View {
 
 struct SmartCareView: View {
     @Bindable var engine: ScanEngine
+    @Bindable var fda: FullDiskAccessManager
     var onOpenCategory: (ScanCategory) -> Void = { _ in }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 26) {
                 hero
+                if !fda.hasFullDiskAccess {
+                    fdaBanner
+                }
                 actions
                 if !engine.results.isEmpty {
                     moduleGrid
@@ -208,6 +237,38 @@ struct SmartCareView: View {
                         : (engine.results.isEmpty ? "—" : L10n.string("smartcare.ready"))
                 )
             }
+        }
+    }
+
+    private var fdaBanner: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "lock.shield")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(OCTheme.accent)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(l10n: "fda.banner.title")
+                    .font(.system(size: 14, weight: .semibold))
+                Text(l10n: "fda.banner.body")
+                    .font(.system(size: 12))
+                    .foregroundStyle(OCTheme.muted)
+            }
+            Spacer(minLength: 8)
+            Button(L10n.string("fda.banner.action")) {
+                fda.openSystemSettings()
+                fda.startWatching {
+                    fda.refresh()
+                }
+            }
+            .buttonStyle(SeaButtonStyle())
+        }
+        .padding(14)
+        .background {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(OCTheme.accent.opacity(0.12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .stroke(OCTheme.accent.opacity(0.35), lineWidth: 1)
+                }
         }
     }
 

@@ -3,6 +3,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @Bindable var preferences: AppPreferences
+    @Bindable var fda: FullDiskAccessManager
+    @State private var protection = ProtectionStatus.snapshot()
 
     var body: some View {
         ScrollView {
@@ -11,6 +13,8 @@ struct SettingsView: View {
                     title: L10n.string("settings.title"),
                     subtitle: L10n.string("settings.subtitle")
                 )
+                permissions
+                protectionSection
                 language
                 appearance
                 launcher
@@ -24,7 +28,78 @@ struct SettingsView: View {
             }
             .padding(28)
         }
-        .onAppear { preferences.refreshLaunchAtLoginStatus() }
+        .onAppear {
+            preferences.refreshLaunchAtLoginStatus()
+            fda.refresh()
+            protection = ProtectionStatus.snapshot()
+        }
+    }
+
+    private var permissions: some View {
+        group(L10n.string("settings.permissions")) {
+            HStack {
+                Text(l10n: "settings.fda")
+                Spacer()
+                Text(fda.hasFullDiskAccess ? L10n.string("settings.fda.on") : L10n.string("settings.fda.off"))
+                    .foregroundStyle(fda.hasFullDiskAccess ? OCTheme.success : OCTheme.accent)
+            }
+            Text(l10n: "settings.fda.help")
+                .font(.caption)
+                .foregroundStyle(OCTheme.muted)
+            HStack(spacing: 10) {
+                Button {
+                    fda.openSystemSettings()
+                    fda.startWatching { fda.refresh() }
+                } label: {
+                    Label(l10n: "onboarding.fda.open_settings", systemImage: "lock.shield")
+                        .frame(minWidth: 160)
+                }
+                .buttonStyle(SeaButtonStyle())
+
+                Button(L10n.string("onboarding.fda.recheck")) {
+                    fda.refresh()
+                }
+                .buttonStyle(GhostButtonStyle())
+
+                Button(L10n.string("settings.replay_onboarding")) {
+                    preferences.onboardingComplete = false
+                }
+                .buttonStyle(GhostButtonStyle())
+            }
+        }
+    }
+
+    private var protectionSection: some View {
+        group(L10n.string("settings.protection")) {
+            statusRow(
+                L10n.string("settings.protection.filevault"),
+                protection.fileVaultOn
+            )
+            statusRow(
+                L10n.string("settings.protection.gatekeeper"),
+                protection.gatekeeperOn
+            )
+            Text(l10n: "settings.protection.help")
+                .font(.caption)
+                .foregroundStyle(OCTheme.muted)
+        }
+    }
+
+    private func statusRow(_ title: String, _ value: Bool?) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(statusLabel(value))
+                .foregroundStyle(value == true ? OCTheme.success : (value == false ? OCTheme.accent : OCTheme.muted))
+        }
+    }
+
+    private func statusLabel(_ value: Bool?) -> String {
+        switch value {
+        case true: return L10n.string("common.on")
+        case false: return L10n.string("common.off")
+        case nil: return L10n.string("common.unknown")
+        }
     }
 
     private var quitSection: some View {

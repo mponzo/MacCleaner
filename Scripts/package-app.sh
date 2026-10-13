@@ -103,6 +103,18 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <false/>
   <key>LSMultipleInstancesProhibited</key>
   <true/>
+  <key>NSDesktopFolderUsageDescription</key>
+  <string>MacCleaner needs access to your Desktop to find reclaimable and leftover files.</string>
+  <key>NSDocumentsFolderUsageDescription</key>
+  <string>MacCleaner needs access to your Documents to find reclaimable and leftover files.</string>
+  <key>NSDownloadsFolderUsageDescription</key>
+  <string>MacCleaner needs access to your Downloads to find reclaimable and leftover files.</string>
+  <key>NSRemovableVolumesUsageDescription</key>
+  <string>MacCleaner needs access to removable volumes to scan for reclaimable files.</string>
+  <key>NSAppleEventsUsageDescription</key>
+  <string>MacCleaner uses Apple Events to interact with Finder when revealing or trashing files.</string>
+  <key>NSSystemAdministrationUsageDescription</key>
+  <string>MacCleaner needs administrator access to clean protected caches and uninstall some apps.</string>
 </dict>
 </plist>
 PLIST

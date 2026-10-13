@@ -11,6 +11,9 @@
 "common.system" = "System";
 "common.select_all" = "Select All";
 "common.select_none" = "Select None";
+"common.on" = "On";
+"common.off" = "Off";
+"common.unknown" = "Unknown";
 
 /* Sidebar */
 "sidebar.smart_care" = "Smart Care";
@@ -21,9 +24,79 @@
 "sidebar.performance" = "Performance";
 "sidebar.privileged" = "Privileged Helper";
 "sidebar.space_lens" = "Space Lens";
+"sidebar.duplicates" = "Duplicate Finder";
+"sidebar.similar_photos" = "Similar Photos";
+"sidebar.scheduler" = "Schedule";
 "sidebar.updates" = "Updates";
 "sidebar.settings" = "Settings";
 "sidebar.modules" = "Modules";
+
+"dup.title" = "Duplicate Finder";
+"dup.subtitle" = "Exact matches by size and SHA-256. One protected copy stays in every group.";
+"dup.idle" = "Choose a folder to scan for exact duplicates.";
+"dup.choose" = "Choose Folder";
+"dup.rescan" = "Rescan";
+"dup.trash_selected" = "Move Selected to Trash";
+"dup.scanning" = "Scanning files…";
+"dup.hashing" = "Hashing candidate duplicates…";
+"dup.stopped" = "Scan stopped.";
+"dup.trashing" = "Moving selected duplicates to Trash…";
+"dup.empty" = "No exact duplicates found";
+"dup.empty.detail" = "Pick a folder with files that may contain copies. Packages, symlinks and hard-linked paths are skipped.";
+"dup.summary" = "%lld group(s) · %@ reclaimable";
+"dup.skipped" = "Skipped %lld item(s) (packages, links, or unreadable files).";
+"dup.failed" = "%lld path(s) could not be moved to Trash.";
+"dup.group_title" = "%lld identical files";
+"dup.protected" = "Protected";
+"dup.reveal" = "Reveal in Finder";
+"dup.progress_files" = "Indexed %lld files…";
+
+"photos.title" = "Similar Photos";
+"photos.subtitle" = "Visual estimate from local thumbnails — photos are never deleted or uploaded.";
+"photos.disclaimer" = "Similarity is an estimate, not proof that two files are identical. Use Reveal in Finder to compare originals.";
+"photos.idle" = "Choose a photo folder to compare.";
+"photos.choose" = "Choose Photo Folder";
+"photos.rescan" = "Rescan";
+"photos.scanning" = "Comparing local thumbnails…";
+"photos.stopped" = "Scan stopped.";
+"photos.empty" = "No similar groups found";
+"photos.empty.detail" = "Try a folder with camera rolls or exports. Cloud-only placeholders and packages are skipped.";
+"photos.summary" = "%lld similar group(s) from %lld photos";
+"photos.limit" = "Hit the 500-photo / 10,000-entry scan limit. Narrow the folder for fuller results.";
+"photos.group_title" = "%lld similar photos";
+"photos.reveal" = "Reveal";
+
+"sched.title" = "Scheduled Cleaning";
+"sched.subtitle" = "Run Smart Care in the background while MacCleaner stays in the menu bar.";
+"sched.enable" = "Enable scheduled scanning";
+"sched.interval" = "Scan interval";
+"sched.auto_clean" = "Auto-clean after scan";
+"sched.threshold" = "Minimum reclaimable size";
+"sched.help" = "Auto-clean only runs when selected reclaimable space meets the threshold. Keep Full Disk Access enabled for complete results.";
+"sched.status" = "Status";
+"sched.last_run" = "Last run";
+"sched.next_run" = "Next run";
+"sched.never" = "Never";
+"sched.not_scheduled" = "Not scheduled";
+"sched.run_now" = "Run now";
+"sched.idle" = "Scheduler idle";
+"sched.enabled" = "Scheduled";
+"sched.disabled" = "Disabled";
+"sched.running" = "Running Smart Care…";
+"sched.cleaning" = "Auto-cleaning selection…";
+"sched.busy" = "Smart Care is already busy";
+"sched.no_engine" = "Cleanup engine unavailable";
+"sched.scanned" = "Scan finished · %@ reclaimable";
+"sched.cleaned" = "Auto-clean finished · %@ freed";
+"sched.below_threshold" = "Below threshold (%@ < %lld MB) — skipped auto-clean";
+"sched.interval.everyHour" = "Every hour";
+"sched.interval.every3Hours" = "Every 3 hours";
+"sched.interval.every6Hours" = "Every 6 hours";
+"sched.interval.every12Hours" = "Every 12 hours";
+"sched.interval.daily" = "Daily";
+"sched.interval.weekly" = "Weekly";
+"sched.interval.biweekly" = "Every 2 weeks";
+"sched.interval.monthly" = "Monthly";
 
 /* Smart Care */
 "smartcare.brand" = "MACCLEANER";
@@ -233,6 +306,40 @@
 "settings.installed_to" = "Installed to %@";
 "settings.uninstalled" = "Uninstalled from ~/Applications.";
 "settings.quit.help" = "Fully quit MacCleaner, including the menu bar icon. Closing the main window keeps the app in the menu bar.";
+"settings.permissions" = "Permissions";
+"settings.fda" = "Full Disk Access";
+"settings.fda.on" = "Granted";
+"settings.fda.off" = "Not granted";
+"settings.fda.help" = "Needed for complete scans of Mail, Safari data, containers, and other protected Library paths.";
+"settings.replay_onboarding" = "Show setup again";
+"settings.protection" = "Protection";
+"settings.protection.filevault" = "FileVault";
+"settings.protection.gatekeeper" = "Gatekeeper";
+"settings.protection.help" = "Read-only status from macOS. MacCleaner does not change these settings.";
+
+"onboarding.back" = "Back";
+"onboarding.continue" = "Continue";
+"onboarding.get_started" = "Get started";
+"onboarding.welcome.title" = "Welcome to MacCleaner";
+"onboarding.welcome.body" = "Reclaim disk space, uninstall apps with leftovers, and run maintenance — entirely on your Mac, with no telemetry.";
+"onboarding.fda.title" = "One permission, then we’re done";
+"onboarding.fda.title_granted" = "Permission granted";
+"onboarding.fda.body" = "MacCleaner needs Full Disk Access to uninstall apps, find leftovers, and clean protected caches that macOS hides by default.";
+"onboarding.fda.body_granted" = "MacCleaner can now reach the protected locations macOS locks by default.";
+"onboarding.fda.window_title" = "Full Disk Access";
+"onboarding.fda.path" = "Privacy & Security → Full Disk Access";
+"onboarding.fda.terminal" = "Terminal";
+"onboarding.fda.open_settings" = "Open System Settings";
+"onboarding.fda.recheck" = "I granted it — recheck";
+"onboarding.fda.watching" = "Waiting for permission…";
+"onboarding.fda.ready" = "All set — continue to the next step.";
+"onboarding.ready.title" = "You’re ready";
+"onboarding.ready.body_fda" = "Smart Care and the app uninstaller can scan protected paths. You stay in control of every deletion.";
+"onboarding.ready.body_limited" = "You can keep going with limited results, and grant Full Disk Access later in Settings.";
+
+"fda.banner.title" = "Full Disk Access is off";
+"fda.banner.body" = "Some protected locations are unavailable. Grant access for a more complete scan and uninstall.";
+"fda.banner.action" = "Grant Access";
 
 /* Menu bar */
 "menubar.open" = "Open MacCleaner";

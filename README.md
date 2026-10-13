@@ -240,10 +240,11 @@ Yes — GUI apps install as a **cask**:
 
 ```bash
 brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
+brew trust mponzo/maccleaner
 brew install --cask maccleaner
 ```
 
-Upgrade later with `brew upgrade --cask maccleaner`.
+Homebrew marks third-party taps as untrusted until you run `brew trust`. Upgrade later with `brew upgrade --cask maccleaner`.
 
 Works on Apple silicon and Intel Macs.
 

@@ -194,4 +194,4 @@ echo "==> Manifest: $VERSION_JSON ($VERSION #$BUILD)"
 lipo -info "$APP/Contents/MacOS/$BIN_NAME" || true
 echo "Install: open $DMG"
 echo "Or:      ./Scripts/install.sh"
-echo "Brew:    brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew install --cask maccleaner"
+echo "Brew:    brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner"

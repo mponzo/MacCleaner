@@ -3,8 +3,9 @@ const version = '0.2.2'
 const dmgUrl = `https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-${version}.dmg`
 const zipUrl = `https://github.com/mponzo/MacCleaner/raw/main/releases/MacCleaner-${version}.zip`
 const repoUrl = 'https://github.com/mponzo/MacCleaner'
-const brewTap = 'brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner'
-const brewInstall = 'brew install --cask maccleaner'
+const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
+brew trust mponzo/maccleaner
+brew install --cask maccleaner`
 
 const promises = [
   {
@@ -248,8 +249,7 @@ const featureSections = [
         <div class="brew-box">
           <h3>Homebrew</h3>
           <p>Yes — install with a cask from this repo:</p>
-          <pre><code>{{ brewTap }}
-{{ brewInstall }}</code></pre>
+          <pre><code>{{ brewCommands }}</code></pre>
         </div>
       </section>
     </main>

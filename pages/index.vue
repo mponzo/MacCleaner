@@ -314,6 +314,7 @@ const featureSections = [
 .hero-copy {
   min-width: 0;
   max-width: 100%;
+  container-type: inline-size;
   animation: rise 0.85s 0.08s ease both;
 }
 
@@ -330,11 +331,13 @@ const featureSections = [
   margin: 0;
   max-width: 100%;
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 7vw, 5.4rem);
+  /* Fallback vw, then cqi so the single-line title shrinks to the column. */
+  font-size: clamp(1.5rem, 9vw, 5.4rem);
+  font-size: clamp(1.5rem, 10cqi, 5.4rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.95;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .lede {
@@ -650,10 +653,6 @@ const featureSections = [
   .hero {
     grid-template-columns: minmax(0, 1fr);
     min-height: auto;
-  }
-
-  .brand-hero {
-    font-size: clamp(2.25rem, 11vw, 3.6rem);
   }
 
   .cards,

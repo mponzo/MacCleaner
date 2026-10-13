@@ -34,7 +34,8 @@ enum PrivilegedPathPolicy {
     /// User-installed `.app` under `/Applications` (never `/System`).
     /// These are blocked from the cache/log allowlist but must still be uninstallable.
     static func isUserApplicationBundle(_ url: URL) -> Bool {
-        let path = url.resolvingSymlinksInPath().standardizedFileURL.path
+        var path = url.resolvingSymlinksInPath().standardizedFileURL.path
+        while path.hasSuffix("/") { path.removeLast() }
         guard path.hasSuffix(".app") else { return false }
         guard path.hasPrefix("/Applications/") else { return false }
         for marker in blockedNameMarkers where marker != "/Applications/" {

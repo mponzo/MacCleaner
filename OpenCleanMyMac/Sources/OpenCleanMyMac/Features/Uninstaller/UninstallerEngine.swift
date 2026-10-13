@@ -84,11 +84,21 @@ final class UninstallerEngine {
         errorMessage = nil
         progressLabel = L10n.format("apps.uninstalling", app.name)
 
+        if app.includeAppBundle {
+            await AppUninstall.quitIfRunning(bundleURL: app.bundleURL, bundleID: app.bundleIdentifier)
+        }
+
         var urls: [URL] = []
         if app.includeAppBundle {
             urls.append(app.bundleURL)
         }
         urls.append(contentsOf: app.leftovers.filter(\.isSelected).map(\.url))
+
+        guard !urls.isEmpty else {
+            isUninstalling = false
+            errorMessage = L10n.format("apps.failed_paths", Int64(0))
+            return
+        }
 
         let items = urls.map {
             ScanItem(category: .appLeftovers, url: $0, byteCount: DiskSizer.allocatedBytes(at: $0), isSelected: true)
@@ -105,7 +115,7 @@ final class UninstallerEngine {
         } else {
             var message = L10n.format("apps.failed_paths", Int64(result.failed.count))
             if let detail = result.failed.first?.1, !detail.isEmpty {
-                message += " \(detail)"
+                message += " — \(detail)"
             }
             errorMessage = message
             progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))

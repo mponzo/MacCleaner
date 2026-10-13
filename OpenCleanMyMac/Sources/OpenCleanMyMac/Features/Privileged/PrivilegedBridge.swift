@@ -42,8 +42,10 @@ enum PrivilegedBridge {
             let destQuoted = PrivilegedPathPolicy.shellQuoted(dest.path)
             let trashQuoted = PrivilegedPathPolicy.shellQuoted(trash.path)
 
+            // Bake the console username in — admin shells don't expand ~ to the GUI user.
+            let owner = NSUserName()
             let script = """
-            mkdir -p \(trashQuoted); mv \(quoted) \(destQuoted); chown -R \"$(stat -f %Su ~)\" \(destQuoted) 2>/dev/null || true
+            mkdir -p \(trashQuoted); mv \(quoted) \(destQuoted); chown -R \(owner) \(destQuoted) 2>/dev/null || true
             """
             let result = await runAdminShell(script)
             if result.success {

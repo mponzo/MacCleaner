@@ -1,8 +1,8 @@
 {
-  "version": "0.2.3",
-  "build": 5,
-  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.3/MacCleaner-0.2.3.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.3/MacCleaner-0.2.3.dmg",
-  "notes": "Smart Care keeps running when you change sections; closing the window leaves the app in the menu bar (quit from Settings).",
-  "notes_it": "Smart Care continua anche cambiando sezione; chiudendo la finestra l’app resta nella barra menu (Esci da Impostazioni)."
+  "version": "0.2.4",
+  "build": 6,
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.4/MacCleaner-0.2.4.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.4/MacCleaner-0.2.4.dmg",
+  "notes": "More reliable app uninstall for /Applications (Finder + admin fallback).",
+  "notes_it": "Disinstallazione app in /Applications più affidabile (Finder + fallback admin)."
 }

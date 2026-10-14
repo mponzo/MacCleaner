@@ -635,3 +635,26 @@
 "settings.language.japanese" = "日本語";
 "settings.language.chinese" = "简体中文";
 "settings.language.help" = "选择“系统”以跟随 macOS，或强制使用 MacCleaner 自带的语言。";
+
+/* Uninstaller depth + Developer Simulator/Docker/AI */
+"apps.drop.hint" = "将 .app 拖到此处可检查残留并卸载。";
+"apps.drop.invalid" = "仅可拖放应用程序包（.app）。";
+"apps.sensitivity.strict" = "Strict";
+"apps.sensitivity.strict.detail" = "仅精确 Bundle ID 路径。";
+"apps.sensitivity.enhanced" = "Enhanced";
+"apps.sensitivity.enhanced.detail" = "Bundle ID、应用名与 Team ID。";
+"apps.sensitivity.deep" = "Deep";
+"apps.sensitivity.deep.detail" = "还包括厂商前缀与 ~/Library 下的 Spotlight。";
+"category.aiAppCaches.title" = "AI 应用数据";
+"category.aiAppCaches.detail" = "Ollama、LM Studio、Hugging Face 缓存（从不自动选中）";
+"dev.item.sim_runtime" = "模拟器运行时 — 通过 simctl 删除（永久）";
+"dev.item.sim_runtime_disk" = "磁盘上的 .simruntime";
+"dev.item.docker_builder" = "Docker 构建缓存 — docker builder prune（永久）";
+"dev.item.ollama" = "Ollama 模型与 blob";
+"dev.item.lmstudio" = "LM Studio 下载缓存";
+"dev.item.lmstudio_data" = "LM Studio Application Support";
+"dev.sim.delete" = "正在删除模拟器运行时 %@…";
+"dev.sim.delete_failed" = "simctl 无法删除此运行时。";
+"dev.docker.pruning" = "正在清理 Docker 构建缓存…";
+"dev.docker.prune_failed" = "docker builder prune 失败（Docker 是否在运行？）。";
+"dev.permanent_hint" = "带警告的项目将永久删除（不会移入废纸篓）。";

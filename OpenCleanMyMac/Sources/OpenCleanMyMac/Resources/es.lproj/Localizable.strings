@@ -635,3 +635,26 @@
 "settings.language.japanese" = "日本語";
 "settings.language.chinese" = "简体中文";
 "settings.language.help" = "Elige Sistema para seguir macOS, o fuerza un idioma incluido con MacCleaner.";
+
+/* Uninstaller depth + Developer Simulator/Docker/AI */
+"apps.drop.hint" = "Suelta una app (.app) aquí para revisar restos y desinstalar.";
+"apps.drop.invalid" = "Solo se pueden soltar bundles de aplicación (.app).";
+"apps.sensitivity.strict" = "Strict";
+"apps.sensitivity.strict.detail" = "Solo rutas con bundle ID exacto.";
+"apps.sensitivity.enhanced" = "Enhanced";
+"apps.sensitivity.enhanced.detail" = "Bundle ID más nombre de app y Team ID.";
+"apps.sensitivity.deep" = "Deep";
+"apps.sensitivity.deep.detail" = "También prefijos de proveedor y Spotlight en ~/Library.";
+"category.aiAppCaches.title" = "Datos de apps de IA";
+"category.aiAppCaches.detail" = "Ollama, LM Studio, cachés de Hugging Face (nunca auto-seleccionados)";
+"dev.item.sim_runtime" = "Runtime del Simulador — borrado con simctl (permanente)";
+"dev.item.sim_runtime_disk" = "Bundle .simruntime en disco";
+"dev.item.docker_builder" = "Caché de build de Docker — docker builder prune (permanente)";
+"dev.item.ollama" = "Modelos y blobs de Ollama";
+"dev.item.lmstudio" = "Caché de descargas de LM Studio";
+"dev.item.lmstudio_data" = "Application Support de LM Studio";
+"dev.sim.delete" = "Eliminando runtime del Simulador %@…";
+"dev.sim.delete_failed" = "simctl no pudo eliminar este runtime.";
+"dev.docker.pruning" = "Limpiando caché de build de Docker…";
+"dev.docker.prune_failed" = "Falló docker builder prune (¿Docker está en marcha?).";
+"dev.permanent_hint" = "Los elementos con aviso se eliminan de forma permanente (no van a la Papelera).";

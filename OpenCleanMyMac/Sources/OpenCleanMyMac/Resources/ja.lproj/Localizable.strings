@@ -635,3 +635,26 @@
 "settings.language.japanese" = "日本語";
 "settings.language.chinese" = "简体中文";
 "settings.language.help" = "macOS に合わせるにはシステムを選び、MacCleaner 同梱の言語を強制することもできます。";
+
+/* Uninstaller depth + Developer Simulator/Docker/AI */
+"apps.drop.hint" = "ここに .app をドロップすると関連ファイルを確認してアンインストールできます。";
+"apps.drop.invalid" = "アプリケーションバンドル（.app）のみドロップできます。";
+"apps.sensitivity.strict" = "Strict";
+"apps.sensitivity.strict.detail" = "完全一致のバンドル ID パスのみ。";
+"apps.sensitivity.enhanced" = "Enhanced";
+"apps.sensitivity.enhanced.detail" = "バンドル ID、アプリ名、Team ID を照合。";
+"apps.sensitivity.deep" = "Deep";
+"apps.sensitivity.deep.detail" = "ベンダー接頭辞と ~/Library の Spotlight も検索。";
+"category.aiAppCaches.title" = "AI アプリデータ";
+"category.aiAppCaches.detail" = "Ollama、LM Studio、Hugging Face キャッシュ（自動選択なし）";
+"dev.item.sim_runtime" = "Simulator ランタイム — simctl で削除（完全削除）";
+"dev.item.sim_runtime_disk" = "ディスク上の .simruntime";
+"dev.item.docker_builder" = "Docker ビルドキャッシュ — docker builder prune（完全削除）";
+"dev.item.ollama" = "Ollama のモデルと blob";
+"dev.item.lmstudio" = "LM Studio のダウンロードキャッシュ";
+"dev.item.lmstudio_data" = "LM Studio の Application Support";
+"dev.sim.delete" = "Simulator ランタイム %@ を削除中…";
+"dev.sim.delete_failed" = "simctl でこのランタイムを削除できませんでした。";
+"dev.docker.pruning" = "Docker ビルドキャッシュを整理中…";
+"dev.docker.prune_failed" = "docker builder prune に失敗しました（Docker は起動していますか？）。";
+"dev.permanent_hint" = "警告付きの項目はゴミ箱ではなく完全に削除されます。";

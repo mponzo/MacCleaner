@@ -41,6 +41,7 @@ const featureSections = [
       'Trash',
       'Xcode DerivedData & Archives',
       'Developer caches (npm, Homebrew, pip, Gradle, Yarn, pnpm, Cargo…)',
+      'AI app data (Ollama, LM Studio — never auto-selected)',
       'Old downloads & disk images',
       'Browser caches (Safari, Chrome, Firefox, Edge)',
       'Mail Downloads & MailData',
@@ -55,8 +56,9 @@ const featureSections = [
     lede: 'Mindful uninstall with related leftovers — nothing removed by surprise.',
     points: [
       'Browse user apps; search by name or bundle ID',
-      'See bundle size plus leftover size',
-      'Leftovers across Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, Crash Reporter',
+      'Strict / Enhanced / Deep leftover matching (Team ID, vendor prefixes, Spotlight)',
+      'Drag a .app onto the window to review leftovers',
+      'Leftovers across Preferences, Caches, Application Support, Containers, Group Containers, Launch Agents, and more',
       'Toggle whether to include the app bundle itself',
       'Finder recycle for /Applications, with admin fallback when needed',
       'Finder → Services → Uninstall with MacCleaner',
@@ -112,11 +114,13 @@ const featureSections = [
   {
     id: 'developer',
     title: 'Developer Cleanup',
-    lede: 'Toolchain caches in one place — Xcode, npm, Homebrew, and friends.',
+    lede: 'Toolchain caches, Simulator runtimes, Docker, and local AI models.',
     points: [
-      'Scan common developer cache locations',
-      'See size per target before cleanup',
-      'Selective Trash moves — nothing bulk-wiped by default',
+      'Xcode DerivedData, Archives, Device Support, Core Simulator',
+      'Simulator runtimes via simctl (permanent, opt-in)',
+      'Docker data folders plus optional builder prune when Docker is running',
+      'Ollama / LM Studio and package-manager caches',
+      'Folder targets go to Trash; simctl/Docker prune are labeled permanent',
     ],
   },
   {

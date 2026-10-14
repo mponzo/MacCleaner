@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import UniformTypeIdentifiers
 
 @MainActor
 @Observable
@@ -10,9 +11,11 @@ final class UninstallerEngine {
     var orphanLeftovers: [AppLeftover] = []
     var selectedAppID: InstalledApp.ID?
     var query = ""
+    var matchSensitivity: LeftoverMatchSensitivity = .enhanced
     var progressLabel = L10n.string("smartcare.idle")
     var lastResult: CleanResult?
     var errorMessage: String?
+    var isDropTargeted = false
 
     var filteredApps: [InstalledApp] {
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -43,7 +46,7 @@ final class UninstallerEngine {
 
         let listed = await ApplicationsCatalog.listInstalledApps()
         progressLabel = L10n.string("apps.scanning_leftovers")
-        apps = await ApplicationsCatalog.enrichWithLeftovers(listed)
+        apps = await ApplicationsCatalog.enrichWithLeftovers(listed, sensitivity: matchSensitivity)
 
         let ids = Set(apps.map(\.bundleIdentifier))
         progressLabel = L10n.string("apps.finding_orphans")
@@ -125,9 +128,19 @@ final class UninstallerEngine {
         }
     }
 
-    /// Focus Applications after Finder Service “Uninstall with MacCleaner”.
+    func setMatchSensitivity(_ sensitivity: LeftoverMatchSensitivity) {
+        guard matchSensitivity != sensitivity else { return }
+        matchSensitivity = sensitivity
+        Task { await refresh(clearFeedback: true) }
+    }
+
+    /// Focus Applications after Finder Service / drag-drop “Uninstall with MacCleaner”.
     func prepareForServiceUninstall(bundleURL: URL) async {
         let target = bundleURL.standardizedFileURL
+        guard target.pathExtension.lowercased() == "app" else {
+            errorMessage = L10n.string("apps.drop.invalid")
+            return
+        }
         await refresh(clearFeedback: true)
         if let match = apps.first(where: {
             $0.bundleURL.standardizedFileURL == target
@@ -139,30 +152,51 @@ final class UninstallerEngine {
         }
 
         // App may live outside catalog roots — synthesize a row for review.
-        let name = Bundle(url: target)?.infoDictionary?["CFBundleDisplayName"] as? String
-            ?? Bundle(url: target)?.infoDictionary?["CFBundleName"] as? String
-            ?? target.deletingPathExtension().lastPathComponent
-        let bundleID = Bundle(url: target)?.bundleIdentifier
-            ?? (Bundle(url: target)?.infoDictionary?["CFBundleIdentifier"] as? String)
-            ?? "unknown.\(target.lastPathComponent)"
+        let identity = AppIdentity.from(bundleURL: target)
         let version = Bundle(url: target)?.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
         let bytes = DiskSizer.allocatedBytes(at: target)
+        let isSystem = target.path.hasPrefix("/System")
+        let protected = LeftoverDiscovery.isProtected(bundleID: identity.bundleID) || isSystem
+        let leftovers = protected
+            ? []
+            : LeftoverDiscovery.leftovers(for: identity, sensitivity: matchSensitivity)
         let synthetic = InstalledApp(
-            name: name,
-            bundleIdentifier: bundleID,
+            name: identity.appName,
+            bundleIdentifier: identity.bundleID,
             version: version,
             bundleURL: target,
             byteCount: bytes,
-            isSystemApp: target.path.hasPrefix("/System"),
-            isProtected: target.path.hasPrefix("/System"),
-            leftovers: [],
-            includeAppBundle: true
+            isSystemApp: isSystem,
+            isProtected: protected,
+            leftovers: leftovers,
+            includeAppBundle: !protected
         )
         if !apps.contains(where: { $0.id == synthetic.id }) {
             apps.insert(synthetic, at: 0)
         }
         selectedAppID = synthetic.id
-        progressLabel = L10n.format("service.uninstall.ready", name)
+        progressLabel = L10n.format("service.uninstall.ready", identity.appName)
+    }
+
+    func handleDroppedProviders(_ providers: [NSItemProvider]) -> Bool {
+        guard let provider = providers.first else { return false }
+        let type = UTType.fileURL.identifier
+        guard provider.hasItemConformingToTypeIdentifier(type) else { return false }
+        provider.loadItem(forTypeIdentifier: type, options: nil) { item, _ in
+            let url: URL? = {
+                if let data = item as? Data {
+                    return URL(dataRepresentation: data, relativeTo: nil)
+                }
+                if let url = item as? URL { return url }
+                if let path = item as? String { return URL(fileURLWithPath: path) }
+                return nil
+            }()
+            guard let url else { return }
+            Task { @MainActor in
+                await self.prepareForServiceUninstall(bundleURL: url)
+            }
+        }
+        return true
     }
 
     func cleanSelectedOrphans() async {

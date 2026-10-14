@@ -50,6 +50,7 @@ Runs a multi-category scan and lets you pick what to free. Progress is per categ
 | Trash | `~/.Trash` |
 | Xcode | DerivedData, Archives |
 | Dev tool caches | npm, Homebrew, pip, Gradle, Yarn, pnpm, Cargo… |
+| AI app data | Ollama, LM Studio, Hugging Face caches (**never auto-selected**) |
 | Downloads | Files older than 30 days; `*.dmg` / `*.iso` |
 | Browsers | Safari, Chrome, Firefox, Edge caches |
 | Mail | Mail Downloads; MailData under `~/Library/Mail` |
@@ -60,9 +61,9 @@ Runs a multi-category scan and lets you pick what to free. Progress is per categ
 
 ### Applications
 
-Lists user apps, estimates bundle + leftover size, and finds related files under Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, and Crash Reporter. System apps cannot be uninstalled from here. Bundles under `/Applications` use Finder recycle with an admin fallback when needed.
+Lists user apps, estimates bundle + leftover size, and finds related files under Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, Crash Reporter, HTTPStorages, WebKit, and Application Scripts. Matching sensitivity is **Strict / Enhanced / Deep** (Team ID, vendor prefixes, Spotlight under `~/Library` on Deep). System apps cannot be uninstalled from here. Bundles under `/Applications` use Finder recycle with an admin fallback when needed.
 
-**Finder → Services → Uninstall with MacCleaner** sends a selected `.app` into the same uninstall flow.
+**Drag a `.app` onto the Applications view**, or use **Finder → Services → Uninstall with MacCleaner**, to open the same review flow.
 
 ### Orphan Finder
 
@@ -82,7 +83,13 @@ User Launch Agents (flag broken ones, remove selected from the user domain) plus
 
 ### Developer Cleanup
 
-Focused reclaim of common toolchain caches (Xcode DerivedData/Archives, npm, Homebrew, pip, Gradle, and similar) with selective Trash moves.
+Focused reclaim of toolchain caches (Xcode DerivedData/Archives, Core Simulator, npm, Homebrew, pip, Gradle, and similar) plus:
+
+- **Simulator runtimes** via `simctl` (permanent delete, never auto-selected)
+- **Docker** data folders and optional `docker builder prune` when Docker is installed
+- **AI tools** — Ollama / LM Studio folders (also listed in Smart Care as AI App Data)
+
+Folder targets go to the Trash; `simctl` / Docker prune actions are permanent and labeled as such.
 
 ### Space Explorer
 

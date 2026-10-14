@@ -7,6 +7,7 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
     case xcodeDerivedData
     case xcodeArchives
     case developerCaches
+    case aiAppCaches
     case downloadsClutter
     case unusedDiskImages
     case browserCaches
@@ -39,10 +40,10 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
         }
     }
 
-    /// Prefer off-by-default for personal mail indexes and large/old review files.
+    /// Prefer off-by-default for personal mail indexes, large/old review files, and AI models.
     var defaultSelected: Bool {
         switch self {
-        case .mailData, .largeOldFiles:
+        case .mailData, .largeOldFiles, .aiAppCaches:
             return false
         default:
             return isCleanable
@@ -67,6 +68,7 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
         case .xcodeDerivedData: return "hammer"
         case .xcodeArchives: return "shippingbox"
         case .developerCaches: return "chevron.left.forwardslash.chevron.right"
+        case .aiAppCaches: return "brain.head.profile"
         case .downloadsClutter: return "arrow.down.circle"
         case .unusedDiskImages: return "opticaldisc"
         case .browserCaches: return "globe"

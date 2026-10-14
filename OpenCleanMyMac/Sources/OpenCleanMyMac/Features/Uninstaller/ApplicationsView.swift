@@ -1,20 +1,35 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct ApplicationsView: View {
     @Bindable var uninstaller: UninstallerEngine
     @State private var confirmUninstall = false
 
     var body: some View {
-        HStack(alignment: .top, spacing: 14) {
-            appList
-                .frame(width: 300)
-                .frame(maxHeight: .infinity)
+        VStack(alignment: .leading, spacing: 10) {
+            dropHint
+            HStack(alignment: .top, spacing: 14) {
+                appList
+                    .frame(width: 300)
+                    .frame(maxHeight: .infinity)
 
-            detail
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                detail
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
         .padding(16)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background {
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .strokeBorder(
+                    uninstaller.isDropTargeted ? OCTheme.sea : Color.clear,
+                    lineWidth: 2
+                )
+                .padding(6)
+        }
+        .onDrop(of: [.fileURL], isTargeted: $uninstaller.isDropTargeted) { providers in
+            uninstaller.handleDroppedProviders(providers)
+        }
         .task {
             if uninstaller.apps.isEmpty {
                 await uninstaller.refresh()
@@ -34,6 +49,30 @@ struct ApplicationsView: View {
         } message: {
             Text(l10n: "apps.confirm_body")
         }
+    }
+
+    private var dropHint: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "app.dashed")
+                .foregroundStyle(OCTheme.sea)
+            Text(l10n: "apps.drop.hint")
+                .font(OCTheme.font(12))
+                .foregroundStyle(OCTheme.muted)
+            Spacer()
+            Picker("", selection: Binding(
+                get: { uninstaller.matchSensitivity },
+                set: { uninstaller.setMatchSensitivity($0) }
+            )) {
+                ForEach(LeftoverMatchSensitivity.allCases) { level in
+                    Text(level.title).tag(level)
+                }
+            }
+            .labelsHidden()
+            .pickerStyle(.segmented)
+            .frame(maxWidth: 320)
+            .help(uninstaller.matchSensitivity.detail)
+        }
+        .padding(.horizontal, 4)
     }
 
     private var appList: some View {

@@ -64,22 +64,30 @@ struct DeveloperCleanupView: View {
                                         Text(target.detail)
                                             .font(OCTheme.font(11))
                                             .foregroundStyle(OCTheme.muted)
-                                        Text(target.url.path)
-                                            .font(OCTheme.font(11))
-                                            .foregroundStyle(OCTheme.faint)
-                                            .lineLimit(1)
-                                            .textSelection(.enabled)
+                                        if let path = target.revealURL?.path {
+                                            Text(path)
+                                                .font(OCTheme.font(11))
+                                                .foregroundStyle(OCTheme.faint)
+                                                .lineLimit(1)
+                                                .textSelection(.enabled)
+                                        }
                                     }
                                     Spacer()
                                     Text(ByteFormat.string(target.byteCount))
                                         .font(OCTheme.font(13).monospacedDigit())
-                                    Button {
-                                        NSWorkspace.shared.activateFileViewerSelecting([target.url])
-                                    } label: {
-                                        Image(systemName: "folder")
+                                    if let url = target.revealURL {
+                                        Button {
+                                            NSWorkspace.shared.activateFileViewerSelecting([url])
+                                        } label: {
+                                            Image(systemName: "folder")
+                                        }
+                                        .buttonStyle(.plain)
+                                        .foregroundStyle(OCTheme.sea)
+                                    } else if !target.usesTrash {
+                                        Image(systemName: "exclamationmark.triangle")
+                                            .foregroundStyle(OCTheme.accent)
+                                            .help(L10n.string("dev.permanent_hint"))
                                     }
-                                    .buttonStyle(.plain)
-                                    .foregroundStyle(OCTheme.sea)
                                 }
                                 .padding(.vertical, 10)
                                 .overlay(alignment: .bottom) {
@@ -102,19 +110,26 @@ struct DeveloperCleanupView: View {
             }
 
             if !engine.targets.isEmpty {
-                HStack {
-                    Text(ByteFormat.string(engine.selectedBytes))
-                        .font(OCTheme.font(16, weight: .semibold).monospacedDigit())
-                    Text(l10n: "dev.selected")
-                        .foregroundStyle(OCTheme.muted)
-                    Spacer()
-                    Button {
-                        Task { await engine.cleanSelected() }
-                    } label: {
-                        Label(l10n: "dev.clean", systemImage: "trash")
+                VStack(alignment: .leading, spacing: 8) {
+                    if engine.targets.contains(where: { $0.isSelected && !$0.usesTrash }) {
+                        Text(l10n: "dev.permanent_hint")
+                            .font(OCTheme.font(11))
+                            .foregroundStyle(OCTheme.accent)
                     }
-                    .buttonStyle(AccentButtonStyle())
-                    .disabled(engine.selectedBytes == 0 || engine.isCleaning || engine.isScanning)
+                    HStack {
+                        Text(ByteFormat.string(engine.selectedBytes))
+                            .font(OCTheme.font(16, weight: .semibold).monospacedDigit())
+                        Text(l10n: "dev.selected")
+                            .foregroundStyle(OCTheme.muted)
+                        Spacer()
+                        Button {
+                            Task { await engine.cleanSelected() }
+                        } label: {
+                            Label(l10n: "dev.clean", systemImage: "trash")
+                        }
+                        .buttonStyle(AccentButtonStyle())
+                        .disabled(engine.selectedBytes == 0 || engine.isCleaning || engine.isScanning)
+                    }
                 }
                 .padding(.horizontal, 28)
                 .padding(.vertical, 16)

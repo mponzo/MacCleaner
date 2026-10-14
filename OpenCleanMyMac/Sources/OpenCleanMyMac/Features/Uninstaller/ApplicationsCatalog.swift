@@ -69,7 +69,10 @@ enum ApplicationsCatalog {
         }
     }
 
-    static func enrichWithLeftovers(_ apps: [InstalledApp]) async -> [InstalledApp] {
+    static func enrichWithLeftovers(
+        _ apps: [InstalledApp],
+        sensitivity: LeftoverMatchSensitivity = .enhanced
+    ) async -> [InstalledApp] {
         await withTaskGroup(of: InstalledApp.self) { group in
             for app in apps {
                 group.addTask {
@@ -77,7 +80,9 @@ enum ApplicationsCatalog {
                     if !app.isProtected {
                         copy.leftovers = LeftoverDiscovery.leftovers(
                             forBundleID: app.bundleIdentifier,
-                            appName: app.name
+                            appName: app.name,
+                            bundleURL: app.bundleURL,
+                            sensitivity: sensitivity
                         )
                     }
                     return copy

@@ -14,6 +14,7 @@ enum ScannerRegistry {
             XcodeDerivedDataScanner(),
             XcodeArchivesScanner(),
             DeveloperCachesScanner(),
+            AIAppCachesScanner(),
             DownloadsClutterScanner(),
             UnusedDiskImagesScanner(),
             BrowserCachesScanner(),
@@ -145,6 +146,36 @@ struct DeveloperCachesScanner: CategoryScanner {
             guard bytes > 1_048_576 else { return nil }
             return ScanItem(category: category, url: url, byteCount: bytes, displayName: name)
         }
+    }
+}
+
+/// Local LLM / AI tooling caches and models — never auto-selected.
+struct AIAppCachesScanner: CategoryScanner {
+    let category: ScanCategory = .aiAppCaches
+
+    func scan() async -> [ScanItem] {
+        let home = FileManager.default.homeDirectoryForCurrentUser
+        let candidates: [(String, String)] = [
+            ("Ollama", ".ollama"),
+            ("LM Studio cache", ".cache/lm-studio"),
+            ("LM Studio", "Library/Application Support/LM Studio"),
+            ("Hugging Face cache", ".cache/huggingface"),
+            ("Diffusers cache", ".cache/huggingface/diffusers")
+        ]
+        return candidates.compactMap { name, relative in
+            let url = home.appendingPathComponent(relative, isDirectory: true)
+            guard FileManager.default.fileExists(atPath: url.path) else { return nil }
+            let bytes = DiskSizer.allocatedBytes(at: url)
+            guard bytes > 1_048_576 else { return nil }
+            return ScanItem(
+                category: category,
+                url: url,
+                byteCount: bytes,
+                displayName: name,
+                isSelected: false
+            )
+        }
+        .sorted { $0.byteCount > $1.byteCount }
     }
 }
 

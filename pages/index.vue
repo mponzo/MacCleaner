@@ -1,11 +1,84 @@
 <script setup lang="ts">
-const version = '0.2.8'
+const version = '0.2.9'
+const siteUrl = 'https://mponzo.github.io/MacCleaner'
 const dmgUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.dmg`
 const zipUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.zip`
 const repoUrl = 'https://github.com/mponzo/MacCleaner'
 const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
 brew trust mponzo/maccleaner
 brew install --cask maccleaner`
+
+const pageTitle = 'MacCleaner — open-source Mac cleaner, zero telemetry'
+const pageDescription =
+  'Free open-source Mac cleaner for macOS 14+. Smart Care, uninstall with leftovers, Space Explorer, Schedule, System Monitor, Developer Cleanup. Fully local, zero telemetry, MIT.'
+
+useSeoMeta({
+  title: pageTitle,
+  description: pageDescription,
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
+  ogType: 'website',
+  ogUrl: `${siteUrl}/`,
+  ogImage: `${siteUrl}/icon.png`,
+  ogImageAlt: 'MacCleaner app icon',
+  twitterCard: 'summary_large_image',
+  twitterTitle: pageTitle,
+  twitterDescription: pageDescription,
+  twitterImage: `${siteUrl}/icon.png`,
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: `${siteUrl}/` }],
+  script: [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'SoftwareApplication',
+            name: 'MacCleaner',
+            applicationCategory: 'UtilitiesApplication',
+            operatingSystem: 'macOS 14+',
+            softwareVersion: version,
+            license: 'https://opensource.org/licenses/MIT',
+            downloadUrl: dmgUrl,
+            installUrl: dmgUrl,
+            url: `${siteUrl}/`,
+            image: `${siteUrl}/icon.png`,
+            description: pageDescription,
+            offers: {
+              '@type': 'Offer',
+              price: '0',
+              priceCurrency: 'USD',
+            },
+            featureList: [
+              'Smart Care multi-category disk cleanup',
+              'Application uninstaller with leftovers',
+              'Space Explorer',
+              'Scheduled Smart Care',
+              'System Monitor',
+              'Developer Cleanup',
+              'Zero telemetry',
+            ],
+          },
+          {
+            '@type': 'WebSite',
+            name: 'MacCleaner',
+            url: `${siteUrl}/`,
+            description: pageDescription,
+            inLanguage: 'en',
+          },
+          {
+            '@type': 'Organization',
+            name: 'MacCleaner',
+            url: repoUrl,
+          },
+        ],
+      }),
+    },
+  ],
+})
 
 const promises = [
   {
@@ -22,11 +95,43 @@ const promises = [
   },
 ]
 
-const featureSections = [
+type Motif =
+  | 'scan'
+  | 'apps'
+  | 'orphans'
+  | 'dupes'
+  | 'photos'
+  | 'startup'
+  | 'dev'
+  | 'space'
+  | 'privacy'
+  | 'schedule'
+  | 'monitor'
+  | 'helper'
+  | 'updates'
+  | 'menubar'
+  | 'onboard'
+  | 'settings'
+
+type FeatureSection = {
+  id: string
+  title: string
+  lede: string
+  points: string[]
+  categories?: string[]
+  motif: Motif
+  stageLabel: string
+  stageHint: string
+}
+
+const featureSections: FeatureSection[] = [
   {
     id: 'smart-care',
     title: 'Smart Care',
     lede: 'Multi-category reclaimable-space scan — you stay in control.',
+    motif: 'scan',
+    stageLabel: 'Scan overview',
+    stageHint: 'Select · review · Trash',
     points: [
       'Run Smart Care with per-category progress',
       'Metrics for reclaimable space, scanned size, and status',
@@ -54,6 +159,9 @@ const featureSections = [
     id: 'applications',
     title: 'Applications',
     lede: 'Mindful uninstall with related leftovers — nothing removed by surprise.',
+    motif: 'apps',
+    stageLabel: 'Uninstall review',
+    stageHint: 'App + leftovers',
     points: [
       'Browse user apps; search by name or bundle ID',
       'Strict / Enhanced / Deep leftover matching (Team ID, vendor prefixes, Spotlight)',
@@ -69,6 +177,9 @@ const featureSections = [
     id: 'orphans',
     title: 'Orphan Finder',
     lede: 'Leftovers whose apps are already gone — review, select, Trash.',
+    motif: 'orphans',
+    stageLabel: 'Orphan list',
+    stageHint: 'No matching app',
     points: [
       'Match Library debris against currently installed bundle IDs',
       'See path, kind, and size before acting',
@@ -80,6 +191,9 @@ const featureSections = [
     id: 'duplicates',
     title: 'Duplicate Finder',
     lede: 'Exact copies only — size + SHA-256, with one protected file per group.',
+    motif: 'dupes',
+    stageLabel: 'Duplicate groups',
+    stageHint: 'One kept · rest optional',
     points: [
       'Choose any folder to scan',
       'Hard links collapse to a single logical file',
@@ -92,6 +206,9 @@ const featureSections = [
     id: 'similar-photos',
     title: 'Similar Photos',
     lede: 'Visual estimate from local thumbnails — review only, never delete or upload.',
+    motif: 'photos',
+    stageLabel: 'Photo groups',
+    stageHint: 'Local thumbs only',
     points: [
       'Compare camera rolls and export folders on disk',
       'Groups likely matches for side-by-side review',
@@ -104,6 +221,9 @@ const featureSections = [
     id: 'startup',
     title: 'Startup',
     lede: 'Launch Agents and local snapshots that quietly eat disk or boot time.',
+    motif: 'startup',
+    stageLabel: 'Agents & snapshots',
+    stageHint: 'User domain',
     points: [
       'List user Launch Agents; flag broken ones',
       'Remove selected agents from the user domain only',
@@ -115,6 +235,9 @@ const featureSections = [
     id: 'developer',
     title: 'Developer Cleanup',
     lede: 'Toolchain caches, Simulator runtimes, Docker, and local AI models.',
+    motif: 'dev',
+    stageLabel: 'Dev targets',
+    stageHint: 'Trash or permanent',
     points: [
       'Xcode DerivedData, Archives, Device Support, Core Simulator',
       'Simulator runtimes via simctl (permanent, opt-in)',
@@ -127,6 +250,9 @@ const featureSections = [
     id: 'space-explorer',
     title: 'Space Explorer',
     lede: 'Drill into any folder and see what actually takes space.',
+    motif: 'space',
+    stageLabel: 'Folder map',
+    stageHint: 'Measure only',
     points: [
       'Open Home, Applications, or pick any directory',
       'Children ranked by size with breadcrumbs',
@@ -138,6 +264,9 @@ const featureSections = [
     id: 'privacy',
     title: 'Privacy',
     lede: 'See purgeable space and permission inventory — change nothing silently.',
+    motif: 'privacy',
+    stageLabel: 'Privacy hub',
+    stageHint: 'Read-only inventory',
     points: [
       'APFS purgeable estimate with optional snapshot thinning',
       'Read-only TCC inventory for your user domain',
@@ -149,6 +278,9 @@ const featureSections = [
     id: 'schedule',
     title: 'Schedule',
     lede: 'Background Smart Care while MacCleaner stays in the menu bar.',
+    motif: 'schedule',
+    stageLabel: 'Care cadence',
+    stageHint: 'Hourly → monthly',
     points: [
       'Intervals from every hour to monthly',
       'Optional auto-clean when reclaimable space meets a MB threshold',
@@ -160,6 +292,9 @@ const featureSections = [
     id: 'performance',
     title: 'System Monitor',
     lede: 'Live CPU, memory, and apps — with search, sort, and helper grouping.',
+    motif: 'monitor',
+    stageLabel: 'Live meters',
+    stageHint: 'CPU · Memory · Apps',
     points: [
       'Host CPU/memory/disk/uptime with delta-based CPU sampling',
       'Apps and processes with icons, live CPU%, memory, search, and sort',
@@ -173,6 +308,9 @@ const featureSections = [
     id: 'privileged',
     title: 'Privileged helper',
     lede: 'Elevated work only through a password prompt and an explicit path allowlist.',
+    motif: 'helper',
+    stageLabel: 'Admin bridge',
+    stageHint: 'Allowlisted paths',
     points: [
       'Admin bridge for system caches, logs, and agents',
       'DNS flush and APFS snapshot thinning',
@@ -184,6 +322,9 @@ const featureSections = [
     id: 'updates',
     title: 'Updates',
     lede: 'MacCleaner releases plus outdated Homebrew casks.',
+    motif: 'updates',
+    stageLabel: 'Release check',
+    stageHint: 'GitHub · brew',
     points: [
       'Compare local version with releases/version.json',
       'Download from GitHub Releases and install to ~/Applications',
@@ -196,6 +337,9 @@ const featureSections = [
     id: 'menubar',
     title: 'Menu bar',
     lede: 'One-click glass status panel next to the clock.',
+    motif: 'menubar',
+    stageLabel: 'Status panel',
+    stageHint: 'Always nearby',
     points: [
       'Live tiles for disk, memory, battery, CPU, network, and activity',
       'Smart Care tip and quick actions',
@@ -208,6 +352,9 @@ const featureSections = [
     id: 'onboarding',
     title: 'Onboarding & permissions',
     lede: 'First launch asks for Full Disk Access so protected Library paths can be scanned.',
+    motif: 'onboard',
+    stageLabel: 'FDA guide',
+    stageHint: 'System Settings link',
     points: [
       'Guided Full Disk Access slide with System Settings deep link',
       'Recheck while you grant access; continue when ready',
@@ -219,6 +366,9 @@ const featureSections = [
     id: 'settings',
     title: 'Settings',
     lede: 'Language, exclusions, and how MacCleaner stays out of the way.',
+    motif: 'settings',
+    stageLabel: 'Preferences',
+    stageHint: '10 languages',
     points: [
       'Languages: System, English, Italian, German, French, Spanish, Portuguese (Brazil), Japanese, Simplified Chinese, Greek, Russian',
       'Cleanup exclusion list for protected paths',
@@ -228,16 +378,58 @@ const featureSections = [
       'Full quit only from Settings → Quit',
     ],
   },
-]</script>
+]
+
+const vignetteBars: Record<string, { label: string; width: string; size: string }[]> = {
+  scan: [
+    { label: 'Caches', width: '78%', size: '4.2 GB' },
+    { label: 'Xcode', width: '62%', size: '2.8 GB' },
+    { label: 'Browsers', width: '44%', size: '1.1 GB' },
+    { label: 'Large & old', width: '91%', size: '6.4 GB' },
+  ],
+  space: [
+    { label: 'Library', width: '86%', size: '48 GB' },
+    { label: 'Documents', width: '58%', size: '22 GB' },
+    { label: 'Downloads', width: '41%', size: '9.4 GB' },
+    { label: 'Movies', width: '33%', size: '7.1 GB' },
+  ],
+}
+
+const vignetteApps = [
+  { name: 'Sketch', leftovers: '12 files' },
+  { name: 'Slack', leftovers: '8 files' },
+  { name: 'Figma', leftovers: '5 files' },
+]
+
+const vignetteOrphans = [
+  { path: '~/Library/Caches/com.old…', size: '812 MB' },
+  { path: '~/Library/Application Support/…', size: '240 MB' },
+  { path: '~/Library/Preferences/…', size: '48 KB' },
+]
+
+const vignetteDev = ['DerivedData', 'simctl', 'Docker', 'Ollama', 'npm', 'Cargo']
+
+const vignetteMeters = [
+  { label: 'CPU', value: '28%' },
+  { label: 'Memory', value: '14.2 GB' },
+  { label: 'Disk', value: '62%' },
+]
+
+const vignetteProcesses = [
+  { name: 'Safari', cpu: '12%', mem: '1.1 GB' },
+  { name: 'Xcode', cpu: '8%', mem: '2.4 GB' },
+  { name: 'Docker', cpu: '4%', mem: '890 MB' },
+]
+</script>
 
 <template>
   <div class="page">
     <header class="top">
-      <a class="brand" href="#" aria-label="MacCleaner">
+      <a class="brand" href="#" aria-label="MacCleaner home">
         <img src="/icon.png" alt="" width="36" height="36" class="brand-icon" />
         <span>MacCleaner</span>
       </a>
-      <nav class="nav">
+      <nav class="nav" aria-label="Primary">
         <a href="#privacy">Privacy</a>
         <a href="#features">Features</a>
         <a href="#install">Install</a>
@@ -246,10 +438,10 @@ const featureSections = [
     </header>
 
     <main>
-      <section class="hero">
+      <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">Open source · macOS 14+</p>
-          <h1 class="brand-hero">MacCleaner</h1>
+          <h1 id="hero-title" class="brand-hero">MacCleaner</h1>
           <p class="lede">
             Reclaim space, uninstall apps, explore disk use, clean orphans and
             startup clutter, and schedule Smart Care — with visible paths and
@@ -267,13 +459,13 @@ const featureSections = [
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="glow" />
-          <img src="/banner.svg" alt="" class="hero-banner" />
+          <img src="/banner.svg" alt="" class="hero-banner" width="960" height="640" />
         </div>
       </section>
 
-      <section id="privacy" class="section">
+      <section id="privacy" class="section" aria-labelledby="privacy-title">
         <div class="section-head">
-          <h2>Verifiable trust</h2>
+          <h2 id="privacy-title">Verifiable trust</h2>
           <p>A cleaner deserves transparency, not slogans. This is the contract.</p>
         </div>
         <div class="cards">
@@ -284,9 +476,9 @@ const featureSections = [
         </div>
       </section>
 
-      <section id="features" class="section">
+      <section id="features" class="section features-section" aria-labelledby="features-title">
         <div class="section-head">
-          <h2>Features</h2>
+          <h2 id="features-title">Features</h2>
           <p>
             Smart Care, uninstall, orphan finder, Space Explorer, startup tools,
             privacy hub, duplicates, similar photos, scheduling, and more —
@@ -304,39 +496,258 @@ const featureSections = [
           </a>
         </nav>
 
-        <article
-          v-for="section in featureSections"
-          :id="section.id"
-          :key="section.id"
-          class="feature-block"
-        >
-          <div class="feature-block-head">
-            <h3>{{ section.title }}</h3>
-            <p>{{ section.lede }}</p>
-          </div>
-          <ul class="point-list">
-            <li v-for="point in section.points" :key="point">{{ point }}</li>
-          </ul>
-          <div v-if="section.categories" class="cat-wrap">
-            <p class="cat-label">Scan categories</p>
-            <ul class="cat-list">
-              <li v-for="cat in section.categories" :key="cat">{{ cat }}</li>
-            </ul>
-          </div>
-        </article>
+        <div class="feature-rail">
+          <article
+            v-for="(section, index) in featureSections"
+            :id="section.id"
+            :key="section.id"
+            class="feature-scene"
+            :class="{ flip: index % 2 === 1 }"
+            :aria-labelledby="`${section.id}-title`"
+          >
+            <div class="feature-copy">
+              <h3 :id="`${section.id}-title`">{{ section.title }}</h3>
+              <p class="feature-lede">{{ section.lede }}</p>
+              <ul class="point-list">
+                <li v-for="point in section.points" :key="point">{{ point }}</li>
+              </ul>
+              <div v-if="section.categories" class="cat-wrap">
+                <p class="cat-label">Scan categories</p>
+                <ul class="cat-list">
+                  <li v-for="cat in section.categories" :key="cat">{{ cat }}</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="feature-stage" aria-hidden="true">
+              <div class="stage-frame" :data-motif="section.motif">
+                <div class="stage-chrome">
+                  <span class="stage-dots" />
+                  <span class="stage-title">{{ section.stageLabel }}</span>
+                  <span class="stage-hint">{{ section.stageHint }}</span>
+                </div>
+
+                <div v-if="section.motif === 'scan'" class="vignette vignette-scan">
+                  <div class="v-metric">
+                    <span>Reclaimable</span>
+                    <strong>14.5 GB</strong>
+                  </div>
+                  <div
+                    v-for="bar in vignetteBars.scan"
+                    :key="bar.label"
+                    class="v-bar-row"
+                  >
+                    <div class="v-bar-meta">
+                      <span>{{ bar.label }}</span>
+                      <span>{{ bar.size }}</span>
+                    </div>
+                    <div class="v-bar-track">
+                      <i :style="{ width: bar.width }" />
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'apps'" class="vignette vignette-apps">
+                  <div
+                    v-for="app in vignetteApps"
+                    :key="app.name"
+                    class="v-app-row"
+                  >
+                    <span class="v-app-icon" />
+                    <div>
+                      <strong>{{ app.name }}</strong>
+                      <span>{{ app.leftovers }}</span>
+                    </div>
+                    <em>Review</em>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'orphans'" class="vignette vignette-list">
+                  <div
+                    v-for="row in vignetteOrphans"
+                    :key="row.path"
+                    class="v-list-row"
+                  >
+                    <span class="v-check" />
+                    <code>{{ row.path }}</code>
+                    <span>{{ row.size }}</span>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'dupes'" class="vignette vignette-dupes">
+                  <div class="v-dupe-group">
+                    <span class="v-keep">Protected</span>
+                    <code>Report-final.pdf</code>
+                    <span>4.2 MB</span>
+                  </div>
+                  <div class="v-dupe-group muted">
+                    <span class="v-extra">Extra</span>
+                    <code>Report-final (1).pdf</code>
+                    <span>4.2 MB</span>
+                  </div>
+                  <div class="v-dupe-group muted">
+                    <span class="v-extra">Extra</span>
+                    <code>Report-final copy.pdf</code>
+                    <span>4.2 MB</span>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'photos'" class="vignette vignette-photos">
+                  <div class="v-photo" /><div class="v-photo" /><div class="v-photo" />
+                  <div class="v-photo" /><div class="v-photo" /><div class="v-photo" />
+                </div>
+
+                <div v-else-if="section.motif === 'startup'" class="vignette vignette-startup">
+                  <div class="v-agent">
+                    <strong>com.vendor.updater</strong>
+                    <span class="badge bad">Broken</span>
+                  </div>
+                  <div class="v-agent">
+                    <strong>com.tools.helper</strong>
+                    <span class="badge ok">Loaded</span>
+                  </div>
+                  <div class="v-snap">
+                    <span>Local snapshots</span>
+                    <strong>3 · 18.4 GB</strong>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'dev'" class="vignette vignette-chips">
+                  <span v-for="chip in vignetteDev" :key="chip" class="v-chip">{{ chip }}</span>
+                </div>
+
+                <div v-else-if="section.motif === 'space'" class="vignette vignette-scan">
+                  <div class="v-crumb">~/Library → Caches</div>
+                  <div
+                    v-for="bar in vignetteBars.space"
+                    :key="bar.label"
+                    class="v-bar-row"
+                  >
+                    <div class="v-bar-meta">
+                      <span>{{ bar.label }}</span>
+                      <span>{{ bar.size }}</span>
+                    </div>
+                    <div class="v-bar-track">
+                      <i :style="{ width: bar.width }" />
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'privacy'" class="vignette vignette-privacy">
+                  <div class="v-pill">Purgeable · ~6.2 GB</div>
+                  <div class="v-tcc">
+                    <span>Full Disk Access</span>
+                    <em class="on">On</em>
+                  </div>
+                  <div class="v-tcc">
+                    <span>Camera</span>
+                    <em>Denied</em>
+                  </div>
+                  <div class="v-tcc">
+                    <span>Contacts</span>
+                    <em>Not determined</em>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'schedule'" class="vignette vignette-schedule">
+                  <div class="v-clock">
+                    <strong>Every day</strong>
+                    <span>Next · 09:00</span>
+                  </div>
+                  <div class="v-threshold">
+                    <span>Auto-clean when</span>
+                    <strong>≥ 500 MB</strong>
+                  </div>
+                  <button type="button" tabindex="-1" class="v-run">Run cycle now</button>
+                </div>
+
+                <div v-else-if="section.motif === 'monitor'" class="vignette vignette-monitor">
+                  <div class="v-meters">
+                    <div v-for="m in vignetteMeters" :key="m.label" class="v-meter">
+                      <span>{{ m.label }}</span>
+                      <strong>{{ m.value }}</strong>
+                    </div>
+                  </div>
+                  <div
+                    v-for="proc in vignetteProcesses"
+                    :key="proc.name"
+                    class="v-proc"
+                  >
+                    <span class="v-app-icon sm" />
+                    <strong>{{ proc.name }}</strong>
+                    <span>{{ proc.cpu }}</span>
+                    <span>{{ proc.mem }}</span>
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'helper'" class="vignette vignette-helper">
+                  <div class="v-shield">Admin prompt</div>
+                  <code>/Library/Caches/…</code>
+                  <code>/private/var/log/…</code>
+                  <span class="v-allow">Allowlisted only</span>
+                </div>
+
+                <div v-else-if="section.motif === 'updates'" class="vignette vignette-updates">
+                  <div class="v-ver">
+                    <span>Installed</span>
+                    <strong>{{ version }}</strong>
+                  </div>
+                  <div class="v-ver latest">
+                    <span>Latest</span>
+                    <strong>{{ version }}</strong>
+                  </div>
+                  <div class="v-cask">Homebrew casks · 3 outdated</div>
+                </div>
+
+                <div v-else-if="section.motif === 'menubar'" class="vignette vignette-menubar">
+                  <div class="v-tile" v-for="t in ['Disk', 'Mem', 'CPU', 'Net']" :key="t">
+                    <span>{{ t }}</span>
+                    <i />
+                  </div>
+                </div>
+
+                <div v-else-if="section.motif === 'onboard'" class="vignette vignette-onboard">
+                  <strong>Full Disk Access</strong>
+                  <p>Grant access so protected Library paths can be scanned.</p>
+                  <span class="v-link">Open System Settings</span>
+                </div>
+
+                <div v-else class="vignette vignette-settings">
+                  <div class="v-setting">
+                    <span>Language</span>
+                    <em>System</em>
+                  </div>
+                  <div class="v-setting">
+                    <span>Menu bar icon</span>
+                    <em class="on">On</em>
+                  </div>
+                  <div class="v-setting">
+                    <span>Launch at login</span>
+                    <em class="on">On</em>
+                  </div>
+                  <div class="v-setting">
+                    <span>Exclusions</span>
+                    <em>4 paths</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       </section>
 
-      <section id="install" class="section install">
+      <section id="install" class="section install" aria-labelledby="install-title">
         <div class="section-head">
-          <h2>Install</h2>
+          <h2 id="install-title">Install</h2>
           <p>Pick DMG, Homebrew, or zip — same universal MacCleaner {{ version }} build.</p>
         </div>
         <img
           class="install-art install-flow"
           src="/install-flow.jpg"
-          alt="Download MacCleaner 0.2.8 DMG, drag into Applications, open the app"
+          :alt="`Download MacCleaner ${version} DMG, drag into Applications, open the app`"
           width="1120"
           height="630"
+          loading="lazy"
         />
         <img
           class="install-art install-dmg"
@@ -344,6 +755,7 @@ const featureSections = [
           alt="MacCleaner disk image: drag the app into Applications"
           width="1120"
           height="630"
+          loading="lazy"
         />
         <ol class="steps">
           <li>
@@ -378,7 +790,7 @@ const featureSections = [
     <footer class="footer">
       <div>
         <strong>MacCleaner</strong>
-        <span>MIT · 100% local privacy</span>
+        <span>MIT · 100% local privacy · v{{ version }}</span>
       </div>
       <a :href="repoUrl" target="_blank" rel="noreferrer">github.com/mponzo/MacCleaner</a>
     </footer>
@@ -387,7 +799,7 @@ const featureSections = [
 
 <style scoped>
 .page {
-  width: min(1120px, calc(100% - 2.5rem));
+  width: min(1180px, calc(100% - 2.5rem));
   margin: 0 auto;
   padding: 1.25rem 0 3rem;
 }
@@ -430,6 +842,13 @@ const featureSections = [
   color: var(--ink);
 }
 
+.nav a:focus-visible,
+.feature-jump a:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--sea);
+  outline-offset: 3px;
+}
+
 .nav-ghost {
   padding: 0.4rem 0.8rem;
   border: 1px solid var(--stroke);
@@ -466,7 +885,6 @@ const featureSections = [
   margin: 0;
   max-width: 100%;
   font-family: var(--font-display);
-  /* Fallback vw, then cqi so the single-line title shrinks to the column. */
   font-size: clamp(1.5rem, 9vw, 5.4rem);
   font-size: clamp(1.5rem, 10cqi, 5.4rem);
   font-weight: 800;
@@ -613,51 +1031,91 @@ const featureSections = [
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 0.65rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.25rem;
+  position: sticky;
+  top: 0.65rem;
+  z-index: 5;
+  padding: 0.65rem 0.75rem;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: rgba(7, 18, 36, 0.82);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(3, 10, 24, 0.35);
 }
 
 .feature-jump a {
   padding: 0.4rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
   color: var(--muted);
   font-size: 0.88rem;
   font-weight: 600;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .feature-jump a:hover {
   color: var(--ink);
   border-color: rgba(77, 163, 255, 0.45);
+  background: rgba(77, 163, 255, 0.08);
 }
 
-.feature-block {
-  padding: 1.4rem 1.45rem;
-  margin-bottom: 1rem;
-  border-radius: 20px;
+.feature-rail {
+  display: grid;
+  gap: 2.75rem;
+}
+
+.feature-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 1.75rem 2.25rem;
+  align-items: stretch;
+  scroll-margin-top: 5.5rem;
+  padding: 1.75rem;
+  border-radius: 28px;
   border: 1px solid var(--stroke);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(46, 107, 209, 0.1)),
-    rgba(10, 26, 51, 0.32);
-  scroll-margin-top: 1.25rem;
+    radial-gradient(ellipse 70% 80% at 100% 0%, rgba(77, 163, 255, 0.16), transparent 55%),
+    linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(10, 26, 51, 0.45));
+  box-shadow: 0 18px 48px rgba(3, 10, 24, 0.28);
 }
 
-.feature-block-head h3 {
+.feature-scene.flip {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+}
+
+.feature-scene.flip .feature-copy {
+  order: 2;
+}
+
+.feature-scene.flip .feature-stage {
+  order: 1;
+}
+
+.feature-scene.flip {
+  background:
+    radial-gradient(ellipse 70% 80% at 0% 0%, rgba(77, 163, 255, 0.16), transparent 55%),
+    linear-gradient(195deg, rgba(255, 255, 255, 0.07), rgba(10, 26, 51, 0.45));
+}
+
+.feature-copy h3 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
-.feature-block-head p {
-  margin: 0.4rem 0 0;
+.feature-lede {
+  margin: 0.65rem 0 0;
   color: var(--muted);
+  font-size: 1.08rem;
   line-height: 1.5;
+  max-width: 42ch;
 }
 
 .point-list,
 .cat-list {
-  margin: 1rem 0 0;
+  margin: 1.15rem 0 0;
   padding-left: 1.15rem;
   color: var(--muted);
   line-height: 1.55;
@@ -665,12 +1123,12 @@ const featureSections = [
 
 .point-list li + li,
 .cat-list li + li {
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
 }
 
 .cat-wrap {
-  margin-top: 1.15rem;
-  padding-top: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
   border-top: 1px solid var(--stroke);
 }
 
@@ -688,6 +1146,500 @@ const featureSections = [
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.25rem 1rem;
   margin-top: 0.65rem;
+}
+
+.feature-stage {
+  min-width: 0;
+  display: flex;
+}
+
+.stage-frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+  border-radius: 20px;
+  border: 1px solid var(--stroke);
+  background:
+    linear-gradient(180deg, rgba(22, 58, 107, 0.55), rgba(7, 18, 36, 0.92));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 16px 40px rgba(3, 10, 24, 0.35);
+  overflow: hidden;
+}
+
+.stage-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stage-dots {
+  width: 42px;
+  height: 10px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 5px 5px, #ff6b6b 4px, transparent 5px),
+    radial-gradient(circle at 21px 5px, #ffd166 4px, transparent 5px),
+    radial-gradient(circle at 37px 5px, #6bcb77 4px, transparent 5px);
+  opacity: 0.85;
+}
+
+.stage-title {
+  color: var(--faint);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stage-hint {
+  margin-left: auto;
+  color: var(--sea);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.vignette {
+  flex: 1;
+  padding: 1.1rem 1.15rem 1.25rem;
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
+}
+
+.v-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.v-metric span {
+  color: var(--faint);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.v-metric strong {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  letter-spacing: -0.03em;
+}
+
+.v-bar-row {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.v-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.v-bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.v-bar-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5bb0ff, var(--sea-deep));
+}
+
+.v-crumb {
+  color: var(--faint);
+  font-size: 0.82rem;
+  margin-bottom: 0.15rem;
+}
+
+.v-app-row,
+.v-list-row,
+.v-proc,
+.v-setting,
+.v-tcc,
+.v-agent {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.v-app-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #5bb0ff, #2e6bd1);
+  flex-shrink: 0;
+}
+
+.v-app-icon.sm {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+.v-app-row div {
+  display: grid;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.v-app-row strong,
+.v-proc strong,
+.v-agent strong {
+  font-size: 0.95rem;
+}
+
+.v-app-row span,
+.v-list-row span,
+.v-proc span {
+  color: var(--faint);
+  font-size: 0.8rem;
+}
+
+.v-app-row em {
+  color: var(--sea);
+  font-style: normal;
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.v-check {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1.5px solid var(--sea);
+  background: rgba(77, 163, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.v-list-row code,
+.v-dupe-group code,
+.vignette-helper code {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.v-dupe-group {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(77, 163, 255, 0.35);
+  background: rgba(77, 163, 255, 0.1);
+}
+
+.v-dupe-group.muted {
+  border-color: var(--stroke);
+  background: rgba(255, 255, 255, 0.03);
+  opacity: 0.85;
+}
+
+.v-keep,
+.v-extra {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sea);
+}
+
+.v-extra {
+  color: var(--accent);
+}
+
+.vignette-photos {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+.v-photo {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background:
+    linear-gradient(135deg, rgba(77, 163, 255, 0.35), rgba(255, 158, 72, 0.25)),
+    rgba(255, 255, 255, 0.05);
+}
+
+.v-photo:nth-child(2) {
+  background:
+    linear-gradient(160deg, rgba(46, 107, 209, 0.5), rgba(10, 26, 51, 0.2)),
+    rgba(255, 255, 255, 0.05);
+}
+
+.v-photo:nth-child(3n) {
+  background:
+    linear-gradient(200deg, rgba(255, 158, 72, 0.35), rgba(77, 163, 255, 0.2)),
+    rgba(255, 255, 255, 0.05);
+}
+
+.badge {
+  margin-left: auto;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.badge.bad {
+  color: #ffb4a2;
+  background: rgba(255, 110, 80, 0.18);
+}
+
+.badge.ok {
+  color: #9fe0b8;
+  background: rgba(80, 200, 120, 0.16);
+}
+
+.v-snap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.85rem 0.9rem;
+  border-radius: 12px;
+  border: 1px dashed rgba(77, 163, 255, 0.35);
+  color: var(--muted);
+}
+
+.v-snap strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+.vignette-chips {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.v-chip {
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.05);
+  text-align: center;
+  font-weight: 650;
+  font-size: 0.9rem;
+}
+
+.v-pill {
+  width: fit-content;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(77, 163, 255, 0.16);
+  color: var(--sea);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.v-tcc em,
+.v-setting em {
+  margin-left: auto;
+  font-style: normal;
+  color: var(--faint);
+  font-size: 0.82rem;
+}
+
+.v-tcc em.on,
+.v-setting em.on {
+  color: #9fe0b8;
+}
+
+.vignette-schedule {
+  align-content: center;
+  gap: 0.9rem;
+}
+
+.v-clock,
+.v-threshold {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1rem 1.05rem;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.v-clock strong,
+.v-threshold strong {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.v-clock span,
+.v-threshold span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.v-run {
+  appearance: none;
+  border: 0;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font: inherit;
+  font-weight: 650;
+  background: linear-gradient(180deg, #5bb0ff 0%, var(--sea-deep) 100%);
+  pointer-events: none;
+}
+
+.v-meters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.v-meter {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.v-meter span {
+  color: var(--faint);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.v-meter strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.v-proc {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+}
+
+.vignette-helper {
+  align-content: center;
+  text-align: center;
+  gap: 0.65rem;
+}
+
+.v-shield {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 158, 72, 0.16);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.v-allow {
+  color: var(--faint);
+  font-size: 0.82rem;
+  margin-top: 0.25rem;
+}
+
+.v-ver {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.v-ver.latest {
+  border-color: rgba(77, 163, 255, 0.4);
+  background: rgba(77, 163, 255, 0.1);
+}
+
+.v-ver span {
+  color: var(--muted);
+}
+
+.v-ver strong {
+  font-family: var(--font-display);
+}
+
+.v-cask {
+  color: var(--faint);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.vignette-menubar {
+  grid-template-columns: repeat(2, 1fr);
+  align-content: center;
+}
+
+.v-tile {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.v-tile span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.v-tile i {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sea), transparent);
+}
+
+.vignette-onboard {
+  align-content: center;
+  gap: 0.65rem;
+  text-align: left;
+}
+
+.vignette-onboard strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.vignette-onboard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.v-link {
+  color: var(--sea);
+  font-weight: 650;
+  font-size: 0.92rem;
 }
 
 .install {
@@ -839,14 +1791,35 @@ const featureSections = [
   }
 }
 
-@media (max-width: 900px) {
+@media (prefers-reduced-motion: reduce) {
+  .top,
+  .hero-copy,
+  .hero-visual,
+  .btn {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 960px) {
   .page {
-    width: min(1120px, calc(100% - 1.5rem));
+    width: min(1180px, calc(100% - 1.5rem));
   }
 
-  .hero {
+  .hero,
+  .feature-scene,
+  .feature-scene.flip {
     grid-template-columns: minmax(0, 1fr);
-    min-height: auto;
+  }
+
+  .feature-scene.flip .feature-copy,
+  .feature-scene.flip .feature-stage {
+    order: initial;
+  }
+
+  .feature-scene {
+    padding: 1.25rem;
+    gap: 1.25rem;
   }
 
   .cards,
@@ -857,6 +1830,10 @@ const featureSections = [
 
   .nav a:not(.nav-ghost) {
     display: none;
+  }
+
+  .feature-jump {
+    position: static;
   }
 }
 </style>

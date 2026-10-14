@@ -1,5 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const baseURL = process.env.NUXT_APP_BASE_URL || '/'
+const siteUrl = 'https://mponzo.github.io/MacCleaner'
+const title = 'MacCleaner — open-source Mac cleaner, zero telemetry'
+const description =
+  'Free open-source Mac cleaner for macOS 14+. Smart Care scan, app uninstaller with leftovers, Space Explorer, Schedule, System Monitor, Developer Cleanup. Fully local, zero telemetry, MIT.'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
@@ -10,28 +14,41 @@ export default defineNuxtConfig({
     baseURL,
     head: {
       htmlAttrs: { lang: 'en' },
-      title: 'MacCleaner — local cleanup, zero telemetry',
+      title,
+      titleTemplate: '%s',
       meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'description', content: description },
         {
-          name: 'description',
+          name: 'keywords',
           content:
-            'Open-source Mac cleaner: Smart Care, uninstall, performance, and maintenance. Zero telemetry, zero accounts, fully local.',
+            'Mac cleaner, macOS cleaner, Smart Care, uninstall Mac apps, free disk space, open source, zero telemetry, Homebrew cask, Time Machine snapshots, developer cleanup',
         },
+        { name: 'author', content: 'MacCleaner contributors' },
+        { name: 'robots', content: 'index, follow, max-image-preview:large' },
         { name: 'theme-color', content: '#0A1A33' },
-        { property: 'og:title', content: 'MacCleaner' },
-        {
-          property: 'og:description',
-          content: 'Reclaim space on your Mac. Open source. Zero telemetry.',
-        },
+        { name: 'application-name', content: 'MacCleaner' },
+        { name: 'apple-mobile-web-app-title', content: 'MacCleaner' },
+        { property: 'og:site_name', content: 'MacCleaner' },
+        { property: 'og:title', content: title },
+        { property: 'og:description', content: description },
         { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: `${siteUrl}/` },
+        { property: 'og:locale', content: 'en_US' },
+        { property: 'og:image', content: `${siteUrl}/icon.png` },
+        { property: 'og:image:type', content: 'image/png' },
+        { property: 'og:image:alt', content: 'MacCleaner app icon' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: title },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: `${siteUrl}/icon.png` },
       ],
       link: [
+        { rel: 'canonical', href: `${siteUrl}/` },
         { rel: 'icon', type: 'image/png', href: `${baseURL}icon.png` },
         { rel: 'apple-touch-icon', href: `${baseURL}icon.png` },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.googleapis.com',
-        },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         {
           rel: 'preconnect',
           href: 'https://fonts.gstatic.com',

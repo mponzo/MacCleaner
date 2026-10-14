@@ -54,3 +54,8 @@ button,
 .btn {
   font: inherit;
 }
+
+::selection {
+  background: rgba(77, 163, 255, 0.35);
+  color: #f5f9ff;
+}

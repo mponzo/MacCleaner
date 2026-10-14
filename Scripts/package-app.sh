@@ -9,8 +9,8 @@ APP_NAME="MacCleaner.app"
 APP="$DIST/$APP_NAME"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
-VERSION="0.2.8"
-BUILD="10"
+VERSION="0.2.9"
+BUILD="11"
 ICON_ICNS="$ROOT/packaging/AppIcon.icns"
 VERSION_JSON="$RELEASES/version.json"
 CASK="$ROOT/Casks/maccleaner.rb"
@@ -301,8 +301,8 @@ cat > "$VERSION_JSON" <<JSON
   "build": ${BUILD},
   "zip_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.zip",
   "dmg_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.dmg",
-  "notes": "Versioned DMG + zip installers; Homebrew cask support.",
-  "notes_it": "Installer DMG e zip versionati; supporto Homebrew cask."
+  "notes": "System Monitor parity, deeper uninstall, immersive site, 10 languages.",
+  "notes_it": "System Monitor a parità, uninstall più profondo, sito immersivo, 10 lingue."
 }
 JSON
 

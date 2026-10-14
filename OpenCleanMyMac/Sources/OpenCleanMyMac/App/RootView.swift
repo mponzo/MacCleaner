@@ -292,19 +292,14 @@ struct SmartCareView: View {
                     if isBeforeScan { welcome } else { summary }
                     if !fda.hasFullDiskAccess { fdaBanner }
                     if engine.isBusy {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Text(engine.progressLabel).font(OCTheme.font(13))
-                                Spacer()
-                                Button(L10n.string("smartcare.stop")) { engine.stop() }
-                                    .buttonStyle(GhostButtonStyle())
-                            }
-                            if engine.isScanning {
-                                ProgressView(value: engine.scanProgress)
-                            } else {
-                                ProgressView().controlSize(.small)
-                            }
-                        }
+                        OCOperationBanner(
+                            title: engine.progressLabel,
+                            detail: engine.isCleaning
+                                ? L10n.string("operation.cancel_safe")
+                                : L10n.format("operation.step", Int64(engine.completedCategories), Int64(engine.totalCategories)),
+                            progress: engine.isScanning ? engine.scanProgress : nil,
+                            onStop: { engine.stop() }
+                        )
                     }
                     if !engine.results.isEmpty { categoryList }
                     if let clean = engine.lastCleanResult {
@@ -472,17 +467,28 @@ struct SmartCareView: View {
     }
 
     private var footer: some View {
-        HStack(spacing: 20) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(ByteFormat.string(engine.reclaimableBytes) + " " + label("selected"))
-                    .font(OCTheme.font(16, weight: .semibold)).monospacedDigit()
-                Text(L10n.format("overview.selected_items", selectedCount))
-                    .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
+        VStack(alignment: .leading, spacing: 10) {
+            if engine.isCleaning {
+                OCOperationBanner(
+                    title: engine.progressLabel,
+                    detail: L10n.string("operation.cancel_safe"),
+                    progress: nil,
+                    onStop: { engine.stop() }
+                )
+            } else {
+                HStack(spacing: 20) {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(ByteFormat.string(engine.reclaimableBytes) + " " + label("selected"))
+                            .font(OCTheme.font(16, weight: .semibold)).monospacedDigit()
+                        Text(L10n.format("overview.selected_items", selectedCount))
+                            .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
+                    }
+                    Spacer()
+                    Button(label("review_clean")) { showReview = true }
+                        .buttonStyle(SeaButtonStyle())
+                        .disabled(engine.isBusy || engine.reclaimableBytes == 0)
+                }
             }
-            Spacer()
-            Button(label("review_clean")) { showReview = true }
-                .buttonStyle(SeaButtonStyle())
-                .disabled(engine.isBusy || engine.reclaimableBytes == 0)
         }
         .padding(.horizontal, 32).padding(.vertical, 20)
         .background(OCTheme.canvasElevated)

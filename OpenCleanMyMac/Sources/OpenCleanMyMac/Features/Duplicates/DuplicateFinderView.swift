@@ -20,7 +20,7 @@ struct DuplicateFinderView: View {
                             .frame(minWidth: 140)
                     }
                     .buttonStyle(SeaButtonStyle())
-                    .disabled(engine.isScanning || engine.isCleaning)
+                    .disabled(engine.isBusy)
 
                     if engine.rootURL != nil {
                         Button {
@@ -29,7 +29,7 @@ struct DuplicateFinderView: View {
                             Label(l10n: "dup.rescan", systemImage: "arrow.clockwise")
                         }
                         .buttonStyle(GhostButtonStyle())
-                        .disabled(engine.isScanning || engine.isCleaning)
+                        .disabled(engine.isBusy)
                     }
 
                     Button {
@@ -39,22 +39,14 @@ struct DuplicateFinderView: View {
                             .frame(minWidth: 150)
                     }
                     .buttonStyle(AccentButtonStyle())
-                    .disabled(engine.isScanning || engine.isCleaning || engine.reclaimableBytes == 0)
-
-                    if engine.isScanning || engine.isCleaning {
-                        Button {
-                            engine.stop()
-                        } label: {
-                            Label(l10n: "smartcare.stop", systemImage: "stop.fill")
-                        }
-                        .buttonStyle(GhostButtonStyle())
-                        ProgressView().controlSize(.small).tint(OCTheme.sea)
-                    }
+                    .disabled(engine.isBusy || engine.reclaimableBytes == 0)
 
                     Spacer()
-                    Text(ByteFormat.string(engine.reclaimableBytes))
-                        .font(.system(size: 16, weight: .semibold).monospacedDigit())
-                        .foregroundStyle(engine.reclaimableBytes > 0 ? OCTheme.accent : OCTheme.muted)
+                    if !engine.isBusy {
+                        Text(ByteFormat.string(engine.reclaimableBytes))
+                            .font(.system(size: 16, weight: .semibold).monospacedDigit())
+                            .foregroundStyle(engine.reclaimableBytes > 0 ? OCTheme.accent : OCTheme.muted)
+                    }
                 }
 
                 if let root = engine.rootURL {
@@ -64,9 +56,18 @@ struct DuplicateFinderView: View {
                         .lineLimit(2)
                 }
 
-                Text(engine.progressLabel)
-                    .font(.callout)
-                    .foregroundStyle(OCTheme.muted)
+                if engine.isBusy {
+                    OCOperationBanner(
+                        title: engine.progressLabel,
+                        detail: engine.operationDetail ?? L10n.string("operation.cancel_safe"),
+                        progress: engine.operationProgress.flatMap { $0 < 0 ? nil : $0 },
+                        onStop: { engine.stop() }
+                    )
+                } else {
+                    Text(engine.progressLabel)
+                        .font(.callout)
+                        .foregroundStyle(OCTheme.muted)
+                }
 
                 if engine.skippedCount > 0 {
                     Text(L10n.format("dup.skipped", Int64(engine.skippedCount)))
@@ -78,7 +79,9 @@ struct DuplicateFinderView: View {
                     Text(error).foregroundStyle(OCTheme.danger)
                 }
 
-                if engine.groups.isEmpty, !engine.isScanning {
+                if engine.isScanning {
+                    OCListSkeleton(rows: 6, showPath: true)
+                } else if engine.groups.isEmpty {
                     ContentUnavailableView(
                         L10n.string("dup.empty"),
                         systemImage: "doc.on.doc",

@@ -20,33 +20,30 @@ struct SpaceExplorerView: View {
                     controls
                     breadcrumbBar
 
-                    if explorer.isScanning {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Text(explorer.progressLabel)
-                                Spacer()
-                                Button(L10n.string("smartcare.stop")) { explorer.stop() }
-                                    .buttonStyle(GhostButtonStyle())
-                            }
-                            ProgressView()
-                                .controlSize(.small)
-                        }
-                    }
-
                     if let error = explorer.errorMessage {
                         Text(error).foregroundStyle(OCTheme.danger)
                     }
 
-                    if explorer.rootURL == nil {
+                    if explorer.isScanning {
+                        VStack(alignment: .leading, spacing: 12) {
+                            OCOperationBanner(
+                                title: explorer.progressLabel,
+                                detail: L10n.string("operation.cancel_safe"),
+                                progress: nil,
+                                onStop: { explorer.stop() }
+                            )
+                            OCFolderSkeleton(rows: 7)
+                        }
+                    } else if explorer.rootURL == nil {
                         emptyPrompt
-                    } else if explorer.children.isEmpty && !explorer.isScanning {
+                    } else if explorer.children.isEmpty {
                         ContentUnavailableView(
                             L10n.string("space.explorer.empty"),
                             systemImage: "folder",
                             description: Text(l10n: "space.explorer.empty.detail")
                         )
                         .frame(maxWidth: .infinity, minHeight: 180)
-                    } else if !explorer.children.isEmpty {
+                    } else {
                         folderList
                     }
 

@@ -14,6 +14,7 @@
 "common.on" = "开";
 "common.off" = "关";
 "common.unknown" = "未知";
+"common.loading" = "Loading…";
 
 /* Sidebar */
 "sidebar.smart_care" = "智能清理";
@@ -718,3 +719,8 @@
 "history.source.performance" = "System Monitor";
 "history.source.startup" = "Startup";
 "common.close" = "Close";
+
+/* Long-running operations */
+"operation.step" = "Step %lld of %lld";
+"operation.cancel_safe" = "You can stop anytime — already finished items stay done.";
+"dev.cleaning_item" = "Cleaning %@…";

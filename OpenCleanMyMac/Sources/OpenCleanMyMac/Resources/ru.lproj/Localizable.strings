@@ -14,6 +14,7 @@
 "common.on" = "Вкл.";
 "common.off" = "Выкл.";
 "common.unknown" = "Неизвестно";
+"common.loading" = "Loading…";
 
 /* Sidebar */
 "sidebar.smart_care" = "Smart Care";
@@ -718,3 +719,8 @@
 "history.source.performance" = "System Monitor";
 "history.source.startup" = "Startup";
 "common.close" = "Close";
+
+/* Long-running operations */
+"operation.step" = "Step %lld of %lld";
+"operation.cancel_safe" = "You can stop anytime — already finished items stay done.";
+"dev.cleaning_item" = "Cleaning %@…";

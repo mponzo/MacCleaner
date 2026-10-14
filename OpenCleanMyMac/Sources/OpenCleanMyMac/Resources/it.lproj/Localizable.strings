@@ -14,6 +14,7 @@
 "common.on" = "Attivo";
 "common.off" = "Disattivo";
 "common.unknown" = "Sconosciuto";
+"common.loading" = "Caricamento…";
 
 /* Sidebar */
 "sidebar.smart_care" = "Smart Care";
@@ -718,3 +719,8 @@
 "history.source.performance" = "System Monitor";
 "history.source.startup" = "Avvio";
 "common.close" = "Chiudi";
+
+/* Long-running operations */
+"operation.step" = "Passo %lld di %lld";
+"operation.cancel_safe" = "Puoi interrompere in qualsiasi momento — gli elementi già completati restano fatti.";
+"dev.cleaning_item" = "Pulizia di %@…";

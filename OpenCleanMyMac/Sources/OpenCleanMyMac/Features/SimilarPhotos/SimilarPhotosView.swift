@@ -36,15 +36,6 @@ struct SimilarPhotosView: View {
                         .disabled(engine.isScanning)
                     }
 
-                    if engine.isScanning {
-                        Button {
-                            engine.stop()
-                        } label: {
-                            Label(l10n: "smartcare.stop", systemImage: "stop.fill")
-                        }
-                        .buttonStyle(GhostButtonStyle())
-                        ProgressView().controlSize(.small).tint(OCTheme.sea)
-                    }
                     Spacer()
                 }
 
@@ -55,9 +46,18 @@ struct SimilarPhotosView: View {
                         .lineLimit(2)
                 }
 
-                Text(engine.progressLabel)
-                    .font(.callout)
-                    .foregroundStyle(OCTheme.muted)
+                if engine.isScanning {
+                    OCOperationBanner(
+                        title: engine.progressLabel,
+                        detail: L10n.string("operation.cancel_safe"),
+                        progress: nil,
+                        onStop: { engine.stop() }
+                    )
+                } else {
+                    Text(engine.progressLabel)
+                        .font(.callout)
+                        .foregroundStyle(OCTheme.muted)
+                }
 
                 if engine.hitLimit {
                     Text(l10n: "photos.limit")
@@ -65,7 +65,9 @@ struct SimilarPhotosView: View {
                         .foregroundStyle(OCTheme.accent)
                 }
 
-                if engine.groups.isEmpty, !engine.isScanning {
+                if engine.isScanning {
+                    OCPhotoSkeleton(groups: 3)
+                } else if engine.groups.isEmpty {
                     ContentUnavailableView(
                         L10n.string("photos.empty"),
                         systemImage: "photo.stack",

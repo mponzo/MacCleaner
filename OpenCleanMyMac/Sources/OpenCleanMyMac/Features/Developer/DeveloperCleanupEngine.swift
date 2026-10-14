@@ -41,27 +41,43 @@ final class DeveloperCleanupEngine {
     var progressLabel = L10n.string("dev.idle")
     var lastResult: CleanResult?
     var errorMessage: String?
+    /// `nil` idle · `< 0` indeterminate · `0...1` determinate.
+    var operationProgress: Double?
+    var operationDetail: String?
+
+    private var workTask: Task<Void, Never>?
+
+    var isBusy: Bool { isScanning || isCleaning }
 
     var selectedBytes: Int64 {
         targets.filter(\.isSelected).reduce(0) { $0 + $1.byteCount }
     }
 
-    func refresh() async {
-        guard !isScanning else { return }
-        isScanning = true
-        errorMessage = nil
-        progressLabel = L10n.string("dev.scanning")
+    func refresh() {
+        guard !isBusy else { return }
+        workTask?.cancel()
+        workTask = Task { await self.performRefresh() }
+    }
 
-        let found = await Task.detached(priority: .userInitiated) {
-            Self.discover()
-        }.value
-        targets = found
-        progressLabel = L10n.format(
-            "dev.summary",
-            Int64(found.count),
-            ByteFormat.string(found.reduce(0) { $0 + $1.byteCount })
-        )
+    func cleanSelected() {
+        guard !isBusy else { return }
+        let selected = targets.filter(\.isSelected)
+        guard !selected.isEmpty else { return }
+        workTask?.cancel()
+        workTask = Task { await self.performClean(selected: selected) }
+    }
+
+    /// Stops between items / trash steps — does not interrupt a single in-flight delete.
+    func stop() {
+        workTask?.cancel()
+        workTask = nil
+        if isScanning || isCleaning {
+            progressLabel = L10n.string("smartcare.stopped")
+        }
         isScanning = false
+        isCleaning = false
+        operationProgress = nil
+        operationDetail = nil
     }
 
     func toggle(_ id: String) {
@@ -75,9 +91,33 @@ final class DeveloperCleanupEngine {
         }
     }
 
-    func cleanSelected() async {
-        let selected = targets.filter(\.isSelected)
-        guard !selected.isEmpty, !isCleaning else { return }
+    private func performRefresh() async {
+        isScanning = true
+        operationProgress = -1
+        operationDetail = nil
+        errorMessage = nil
+        progressLabel = L10n.string("dev.scanning")
+
+        let found = await Task.detached(priority: .userInitiated) {
+            Self.discover()
+        }.value
+        if Task.isCancelled {
+            isScanning = false
+            operationProgress = nil
+            return
+        }
+        targets = found
+        progressLabel = L10n.format(
+            "dev.summary",
+            Int64(found.count),
+            ByteFormat.string(found.reduce(0) { $0 + $1.byteCount })
+        )
+        isScanning = false
+        operationProgress = nil
+        operationDetail = nil
+    }
+
+    private func performClean(selected: [DeveloperTarget]) async {
         isCleaning = true
         progressLabel = L10n.string("dev.cleaning")
         errorMessage = nil
@@ -86,24 +126,41 @@ final class DeveloperCleanupEngine {
         var moved = 0
         var failed: [(URL, String)] = []
 
-        let folders = selected.compactMap { target -> ScanItem? in
-            guard case .folder(let url) = target.kind else { return nil }
-            return ScanItem(
+        let folders = selected.filter {
+            if case .folder = $0.kind { return true }
+            return false
+        }
+        let permanent = selected.filter {
+            if case .folder = $0.kind { return false }
+            return true
+        }
+        let totalSteps = max(folders.count + permanent.count, 1)
+        var completed = 0
+        operationProgress = 0
+        operationDetail = L10n.format("operation.step", Int64(0), Int64(totalSteps))
+
+        for target in folders {
+            if Task.isCancelled { break }
+            guard case .folder(let url) = target.kind else { continue }
+            progressLabel = L10n.format("dev.cleaning_item", target.name)
+            let item = ScanItem(
                 category: .developerCaches,
                 url: url,
                 byteCount: target.byteCount,
                 displayName: target.name,
                 isSelected: true
             )
-        }
-        if !folders.isEmpty {
-            let result = await Cleaner.moveToTrash(folders)
+            let result = await Cleaner.moveToTrash([item], isCancelled: { Task.isCancelled })
             freed += result.freedBytes
             moved += result.movedCount
             failed.append(contentsOf: result.failed)
+            completed += 1
+            operationProgress = Double(completed) / Double(totalSteps)
+            operationDetail = L10n.format("operation.step", Int64(completed), Int64(totalSteps))
         }
 
-        for target in selected {
+        for target in permanent {
+            if Task.isCancelled { break }
             switch target.kind {
             case .folder:
                 continue
@@ -130,16 +187,29 @@ final class DeveloperCleanupEngine {
                     ))
                 }
             }
+            completed += 1
+            operationProgress = Double(completed) / Double(totalSteps)
+            operationDetail = L10n.format("operation.step", Int64(completed), Int64(totalSteps))
         }
 
         let result = CleanResult(freedBytes: freed, movedCount: moved, failed: failed)
-        lastResult = result
-        CleanupHistoryStore.shared.record(result: result, source: .developer)
+        let wasCancelled = Task.isCancelled
+        isCleaning = false
+        operationProgress = nil
+        operationDetail = nil
+
+        if moved > 0 || freed > 0 {
+            lastResult = result
+            CleanupHistoryStore.shared.record(result: result, source: .developer)
+        }
+        if wasCancelled {
+            progressLabel = L10n.string("smartcare.stopped")
+            return
+        }
         if !failed.isEmpty {
             errorMessage = L10n.format("smartcare.failed_count", Int64(failed.count))
         }
-        isCleaning = false
-        await refresh()
+        await performRefresh()
         if failed.isEmpty {
             progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
         }

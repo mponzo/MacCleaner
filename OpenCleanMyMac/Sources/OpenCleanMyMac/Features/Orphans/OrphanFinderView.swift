@@ -15,12 +15,12 @@ struct OrphanFinderView: View {
 
                     HStack(spacing: 10) {
                         Button {
-                            Task { await engine.refresh() }
+                            engine.refresh()
                         } label: {
                             Label(l10n: "orphan.scan", systemImage: "magnifyingglass")
                         }
                         .buttonStyle(SeaButtonStyle())
-                        .disabled(engine.isLoading || engine.isCleaning)
+                        .disabled(engine.isBusy)
 
                         Button(L10n.string("common.select_all")) {
                             engine.selectAll(true)
@@ -36,16 +36,25 @@ struct OrphanFinderView: View {
 
                         Spacer()
 
-                        Text(engine.progressLabel)
-                            .font(OCTheme.font(12))
-                            .foregroundStyle(OCTheme.muted)
+                        if !engine.isBusy {
+                            Text(engine.progressLabel)
+                                .font(OCTheme.font(12))
+                                .foregroundStyle(OCTheme.muted)
+                        }
+                    }
+
+                    if engine.isBusy {
+                        OCOperationBanner(
+                            title: engine.progressLabel,
+                            detail: engine.operationDetail ?? L10n.string("operation.cancel_safe"),
+                            progress: engine.operationProgress.flatMap { $0 < 0 ? nil : $0 },
+                            onStop: { engine.stop() }
+                        )
                     }
 
                     if engine.isLoading {
-                        ProgressView().controlSize(.small)
-                    }
-
-                    if engine.orphans.isEmpty && !engine.isLoading {
+                        OCListSkeleton(rows: 6, showPath: true)
+                    } else if engine.orphans.isEmpty {
                         ContentUnavailableView(
                             L10n.string("orphan.empty"),
                             systemImage: "checkmark.seal",
@@ -77,23 +86,39 @@ struct OrphanFinderView: View {
                 .padding(28)
             }
 
-            if !engine.orphans.isEmpty {
-                HStack {
-                    Text(L10n.format("orphan.selected", Int64(engine.selectedCount), ByteFormat.string(engine.selectedBytes)))
-                        .font(OCTheme.font(14, weight: .semibold))
-                    Spacer()
-                    Button {
-                        Task { await engine.cleanSelected() }
-                    } label: {
-                        Label(l10n: "orphan.clean", systemImage: "trash")
+            if !engine.orphans.isEmpty || engine.isCleaning {
+                VStack(alignment: .leading, spacing: 10) {
+                    if engine.isCleaning {
+                        OCOperationBanner(
+                            title: engine.progressLabel,
+                            detail: engine.operationDetail ?? L10n.string("operation.cancel_safe"),
+                            progress: engine.operationProgress.flatMap { $0 < 0 ? nil : $0 },
+                            onStop: { engine.stop() }
+                        )
+                    } else {
+                        HStack {
+                            Text(L10n.format("orphan.selected", Int64(engine.selectedCount), ByteFormat.string(engine.selectedBytes)))
+                                .font(OCTheme.font(14, weight: .semibold))
+                            Spacer()
+                            Button {
+                                engine.cleanSelected()
+                            } label: {
+                                Label(l10n: "orphan.clean", systemImage: "trash")
+                            }
+                            .buttonStyle(AccentButtonStyle())
+                            .disabled(engine.selectedBytes == 0 || engine.isBusy)
+                        }
                     }
-                    .buttonStyle(AccentButtonStyle())
-                    .disabled(engine.selectedBytes == 0 || engine.isBusy)
                 }
                 .padding(.horizontal, 28)
                 .padding(.vertical, 16)
                 .background(OCTheme.canvasElevated)
                 .overlay(alignment: .top) { Divider().overlay(OCTheme.stroke) }
+            }
+        }
+        .task {
+            if engine.orphans.isEmpty {
+                engine.refresh()
             }
         }
     }
@@ -131,8 +156,4 @@ struct OrphanFinderView: View {
         .padding(.vertical, 8)
         .overlay(alignment: .bottom) { Divider().overlay(OCTheme.stroke.opacity(0.6)) }
     }
-}
-
-private extension OrphanFinderEngine {
-    var isBusy: Bool { isLoading || isCleaning }
 }

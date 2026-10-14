@@ -34,8 +34,12 @@ final class DuplicateFinderEngine {
     var skippedCount = 0
     var errorMessage: String?
     var lastResult: CleanResult?
+    var operationProgress: Double?
+    var operationDetail: String?
 
     private var workTask: Task<Void, Never>?
+
+    var isBusy: Bool { isScanning || isCleaning }
 
     var reclaimableBytes: Int64 {
         groups.reduce(0) { $0 + $1.reclaimableBytes }
@@ -62,9 +66,13 @@ final class DuplicateFinderEngine {
     func stop() {
         workTask?.cancel()
         workTask = nil
+        if isScanning || isCleaning {
+            progressLabel = L10n.string("dup.stopped")
+        }
         isScanning = false
         isCleaning = false
-        progressLabel = L10n.string("dup.stopped")
+        operationProgress = nil
+        operationDetail = nil
     }
 
     func toggle(groupID: String, fileID: URL) {
@@ -83,6 +91,8 @@ final class DuplicateFinderEngine {
 
     private func scan(root: URL) async {
         isScanning = true
+        operationProgress = -1
+        operationDetail = nil
         errorMessage = nil
         lastResult = nil
         groups = []
@@ -97,6 +107,8 @@ final class DuplicateFinderEngine {
         if Task.isCancelled {
             progressLabel = L10n.string("dup.stopped")
             isScanning = false
+            operationProgress = nil
+            operationDetail = nil
             return
         }
 
@@ -106,6 +118,8 @@ final class DuplicateFinderEngine {
             ? L10n.string("dup.empty")
             : L10n.format("dup.summary", Int64(groups.count), ByteFormat.string(reclaimableBytes))
         isScanning = false
+        operationProgress = nil
+        operationDetail = nil
     }
 
     private func performClean() async {
@@ -115,18 +129,48 @@ final class DuplicateFinderEngine {
         let items = urls.map {
             ScanItem(category: .downloadsClutter, url: $0, byteCount: DiskSizer.allocatedBytes(at: $0), isSelected: true)
         }
-        let result = await Cleaner.moveToTrash(items)
-        lastResult = result
-        CleanupHistoryStore.shared.record(
-            result: result,
-            source: .duplicates,
-            detail: rootURL?.lastPathComponent
-        )
+        let total = max(items.count, 1)
+        var completed = 0
+        var freed: Int64 = 0
+        var moved = 0
+        var failed: [(URL, String)] = []
+        operationProgress = 0
+        operationDetail = L10n.format("operation.step", Int64(0), Int64(total))
+
+        for item in items {
+            if Task.isCancelled { break }
+            progressLabel = L10n.format("dev.cleaning_item", item.displayName)
+            let result = await Cleaner.moveToTrash([item], isCancelled: { Task.isCancelled })
+            freed += result.freedBytes
+            moved += result.movedCount
+            failed.append(contentsOf: result.failed)
+            completed += 1
+            operationProgress = Double(completed) / Double(total)
+            operationDetail = L10n.format("operation.step", Int64(completed), Int64(total))
+        }
+
+        let result = CleanResult(freedBytes: freed, movedCount: moved, failed: failed)
+        let wasCancelled = Task.isCancelled
+        isCleaning = false
+        operationProgress = nil
+        operationDetail = nil
+
+        if moved > 0 || freed > 0 {
+            lastResult = result
+            CleanupHistoryStore.shared.record(
+                result: result,
+                source: .duplicates,
+                detail: rootURL?.lastPathComponent
+            )
+        }
+        if wasCancelled {
+            progressLabel = L10n.string("dup.stopped")
+            return
+        }
         if !result.failed.isEmpty {
             errorMessage = L10n.format("dup.failed", Int64(result.failed.count))
         }
         progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
-        isCleaning = false
         if let rootURL {
             await scan(root: rootURL)
         }

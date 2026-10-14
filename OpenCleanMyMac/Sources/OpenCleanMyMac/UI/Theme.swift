@@ -108,20 +108,20 @@ struct OCGlassShape: View {
 /// Indeterminate shimmer bar for scans / loads.
 struct OCShimmerBar: View {
     var height: CGFloat = 4
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var phase: CGFloat = -1
 
     var body: some View {
         GeometryReader { geo in
             Capsule()
-                .fill(OCTheme.glassDeep.opacity(0.55))
+                .fill(OCTheme.ink.opacity(0.08))
                 .overlay(alignment: .leading) {
                     Capsule()
                         .fill(
                             LinearGradient(
                                 colors: [
                                     OCTheme.sea.opacity(0),
-                                    OCTheme.sea.opacity(0.95),
-                                    OCTheme.glassGlow.opacity(0.85),
+                                    OCTheme.sea.opacity(0.85),
                                     OCTheme.sea.opacity(0)
                                 ],
                                 startPoint: .leading,
@@ -129,12 +129,13 @@ struct OCShimmerBar: View {
                             )
                         )
                         .frame(width: geo.size.width * 0.38)
-                        .offset(x: phase * geo.size.width)
+                        .offset(x: (reduceMotion ? 0.3 : phase) * geo.size.width)
                 }
                 .clipShape(Capsule())
         }
         .frame(height: height)
         .onAppear {
+            guard !reduceMotion else { return }
             phase = -0.4
             withAnimation(.easeInOut(duration: 1.35).repeatForever(autoreverses: false)) {
                 phase = 1.15

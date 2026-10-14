@@ -90,7 +90,7 @@ struct OpenCleanMyMacApp: App {
                 Divider()
 
                 Button(L10n.string("menu.refresh_apps")) {
-                    Task { await uninstaller.refresh() }
+                    uninstaller.refresh()
                 }
                 .keyboardShortcut("u", modifiers: [.command, .shift])
 

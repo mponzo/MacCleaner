@@ -17,6 +17,10 @@ final class UninstallerEngine {
     var errorMessage: String?
     var isDropTargeted = false
 
+    private var workTask: Task<Void, Never>?
+
+    var isBusy: Bool { isLoading || isUninstalling }
+
     var filteredApps: [InstalledApp] {
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
         let base = apps.filter { !$0.isSystemApp }
@@ -35,8 +39,22 @@ final class UninstallerEngine {
         orphanLeftovers.filter(\.isSelected).reduce(0) { $0 + $1.byteCount }
     }
 
-    func refresh(clearFeedback: Bool = true) async {
-        guard !isLoading else { return }
+    /// Starts a cancellable refresh (scan). Safe to stop mid-scan.
+    func refresh(clearFeedback: Bool = true) {
+        guard !isBusy else { return }
+        workTask?.cancel()
+        workTask = Task { await self.performRefresh(clearFeedback: clearFeedback) }
+    }
+
+    func stop() {
+        guard isLoading else { return }
+        workTask?.cancel()
+        workTask = nil
+        isLoading = false
+        progressLabel = L10n.string("smartcare.stopped")
+    }
+
+    private func performRefresh(clearFeedback: Bool = true) async {
         isLoading = true
         progressLabel = L10n.string("apps.listing")
         if clearFeedback {
@@ -45,12 +63,24 @@ final class UninstallerEngine {
         }
 
         let listed = await ApplicationsCatalog.listInstalledApps()
+        if Task.isCancelled {
+            isLoading = false
+            return
+        }
         progressLabel = L10n.string("apps.scanning_leftovers")
         apps = await ApplicationsCatalog.enrichWithLeftovers(listed, sensitivity: matchSensitivity)
+        if Task.isCancelled {
+            isLoading = false
+            return
+        }
 
         let ids = Set(apps.map(\.bundleIdentifier))
         progressLabel = L10n.string("apps.finding_orphans")
         orphanLeftovers = await LeftoverDiscovery.orphanLeftovers(installedBundleIDs: ids)
+        if Task.isCancelled {
+            isLoading = false
+            return
+        }
 
         if let selectedAppID, apps.contains(where: { $0.id == selectedAppID }) {
             // keep current selection
@@ -107,7 +137,7 @@ final class UninstallerEngine {
         let report = await AppUninstall.trashLikePureMac(urls)
         let result = report.result
         isUninstalling = false
-        await refresh(clearFeedback: false)
+        await performRefresh(clearFeedback: false)
 
         lastResult = result
         CleanupHistoryStore.shared.record(result: result, source: .uninstaller, detail: app.name)
@@ -132,7 +162,7 @@ final class UninstallerEngine {
     func setMatchSensitivity(_ sensitivity: LeftoverMatchSensitivity) {
         guard matchSensitivity != sensitivity else { return }
         matchSensitivity = sensitivity
-        Task { await refresh(clearFeedback: true) }
+        refresh(clearFeedback: true)
     }
 
     /// Focus Applications after Finder Service / drag-drop “Uninstall with MacCleaner”.
@@ -142,7 +172,7 @@ final class UninstallerEngine {
             errorMessage = L10n.string("apps.drop.invalid")
             return
         }
-        await refresh(clearFeedback: true)
+        await performRefresh(clearFeedback: true)
         if let match = apps.first(where: {
             $0.bundleURL.standardizedFileURL == target
                 || $0.bundleURL.standardizedFileURL.path == target.path
@@ -211,7 +241,7 @@ final class UninstallerEngine {
         let report = await AppUninstall.trashLikePureMac(selected.map(\.url))
         let result = report.result
         isUninstalling = false
-        await refresh(clearFeedback: false)
+        await performRefresh(clearFeedback: false)
 
         lastResult = result
         CleanupHistoryStore.shared.record(result: result, source: .orphans)

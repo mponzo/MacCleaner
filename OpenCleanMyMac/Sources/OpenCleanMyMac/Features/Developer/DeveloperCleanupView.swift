@@ -15,31 +15,40 @@ struct DeveloperCleanupView: View {
 
                     HStack(spacing: 10) {
                         Button {
-                            Task { await engine.refresh() }
+                            engine.refresh()
                         } label: {
                             Label(l10n: "dev.scan", systemImage: "hammer")
                         }
                         .buttonStyle(SeaButtonStyle())
-                        .disabled(engine.isScanning || engine.isCleaning)
+                        .disabled(engine.isBusy)
 
                         Button(L10n.string("common.select_all")) { engine.selectAll(true) }
                             .buttonStyle(GhostButtonStyle())
-                            .disabled(engine.targets.isEmpty)
+                            .disabled(engine.targets.isEmpty || engine.isBusy)
                         Button(L10n.string("common.select_none")) { engine.selectAll(false) }
                             .buttonStyle(GhostButtonStyle())
-                            .disabled(engine.targets.isEmpty)
+                            .disabled(engine.targets.isEmpty || engine.isBusy)
 
                         Spacer()
-                        Text(engine.progressLabel)
-                            .font(OCTheme.font(12))
-                            .foregroundStyle(OCTheme.muted)
+                        if !engine.isBusy {
+                            Text(engine.progressLabel)
+                                .font(OCTheme.font(12))
+                                .foregroundStyle(OCTheme.muted)
+                        }
+                    }
+
+                    if engine.isBusy {
+                        OCOperationBanner(
+                            title: engine.progressLabel,
+                            detail: engine.operationDetail ?? L10n.string("operation.cancel_safe"),
+                            progress: engine.operationProgress.flatMap { $0 < 0 ? nil : $0 },
+                            onStop: { engine.stop() }
+                        )
                     }
 
                     if engine.isScanning {
-                        ProgressView().controlSize(.small)
-                    }
-
-                    if engine.targets.isEmpty && !engine.isScanning {
+                        OCListSkeleton(rows: 7, showPath: true)
+                    } else if engine.targets.isEmpty {
                         ContentUnavailableView(
                             L10n.string("dev.empty"),
                             systemImage: "hammer",
@@ -56,7 +65,7 @@ struct DeveloperCleanupView: View {
                                     ))
                                     .labelsHidden()
                                     .toggleStyle(.checkbox)
-                                    .disabled(engine.isCleaning)
+                                    .disabled(engine.isBusy)
 
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text(target.name)
@@ -83,6 +92,7 @@ struct DeveloperCleanupView: View {
                                         }
                                         .buttonStyle(.plain)
                                         .foregroundStyle(OCTheme.sea)
+                                        .disabled(engine.isBusy)
                                     } else if !target.usesTrash {
                                         Image(systemName: "exclamationmark.triangle")
                                             .foregroundStyle(OCTheme.accent)
@@ -90,6 +100,7 @@ struct DeveloperCleanupView: View {
                                     }
                                 }
                                 .padding(.vertical, 10)
+                                .opacity(engine.isCleaning ? 0.72 : 1)
                                 .overlay(alignment: .bottom) {
                                     Divider().overlay(OCTheme.stroke.opacity(0.6))
                                 }
@@ -109,26 +120,35 @@ struct DeveloperCleanupView: View {
                 .padding(28)
             }
 
-            if !engine.targets.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
+            if !engine.targets.isEmpty || engine.isCleaning {
+                VStack(alignment: .leading, spacing: 10) {
                     if engine.targets.contains(where: { $0.isSelected && !$0.usesTrash }) {
                         Text(l10n: "dev.permanent_hint")
                             .font(OCTheme.font(11))
                             .foregroundStyle(OCTheme.accent)
                     }
-                    HStack {
-                        Text(ByteFormat.string(engine.selectedBytes))
-                            .font(OCTheme.font(16, weight: .semibold).monospacedDigit())
-                        Text(l10n: "dev.selected")
-                            .foregroundStyle(OCTheme.muted)
-                        Spacer()
-                        Button {
-                            Task { await engine.cleanSelected() }
-                        } label: {
-                            Label(l10n: "dev.clean", systemImage: "trash")
+                    if engine.isCleaning {
+                        OCOperationBanner(
+                            title: engine.progressLabel,
+                            detail: engine.operationDetail ?? L10n.string("operation.cancel_safe"),
+                            progress: engine.operationProgress.flatMap { $0 < 0 ? nil : $0 },
+                            onStop: { engine.stop() }
+                        )
+                    } else {
+                        HStack {
+                            Text(ByteFormat.string(engine.selectedBytes))
+                                .font(OCTheme.font(16, weight: .semibold).monospacedDigit())
+                            Text(l10n: "dev.selected")
+                                .foregroundStyle(OCTheme.muted)
+                            Spacer()
+                            Button {
+                                engine.cleanSelected()
+                            } label: {
+                                Label(l10n: "dev.clean", systemImage: "trash")
+                            }
+                            .buttonStyle(AccentButtonStyle())
+                            .disabled(engine.selectedBytes == 0 || engine.isBusy)
                         }
-                        .buttonStyle(AccentButtonStyle())
-                        .disabled(engine.selectedBytes == 0 || engine.isCleaning || engine.isScanning)
                     }
                 }
                 .padding(.horizontal, 28)
@@ -139,7 +159,7 @@ struct DeveloperCleanupView: View {
         }
         .task {
             if engine.targets.isEmpty {
-                await engine.refresh()
+                engine.refresh()
             }
         }
     }

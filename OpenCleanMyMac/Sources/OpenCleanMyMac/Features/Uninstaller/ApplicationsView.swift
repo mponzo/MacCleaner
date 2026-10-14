@@ -32,7 +32,7 @@ struct ApplicationsView: View {
         }
         .task {
             if uninstaller.apps.isEmpty {
-                await uninstaller.refresh()
+                uninstaller.refresh()
             } else if uninstaller.selectedAppID == nil {
                 uninstaller.selectedAppID = uninstaller.filteredApps.first?.id
             }
@@ -81,31 +81,30 @@ struct ApplicationsView: View {
                 TextField(L10n.string("apps.search"), text: $uninstaller.query)
                     .textFieldStyle(.roundedBorder)
                 Button {
-                    Task { await uninstaller.refresh() }
+                    uninstaller.refresh()
                 } label: {
                     Image(systemName: "arrow.clockwise")
                 }
                 .buttonStyle(GhostButtonStyle())
-                .disabled(uninstaller.isLoading || uninstaller.isUninstalling)
+                .disabled(uninstaller.isBusy)
             }
             .padding(12)
 
             Divider().opacity(0.25)
 
             if uninstaller.isLoading {
-                VStack(spacing: 12) {
-                    OCShimmerBar(height: 4)
-                        .padding(.horizontal, 40)
-                    ProgressView()
-                        .controlSize(.small)
-                        .tint(OCTheme.sea)
-                    Text(uninstaller.progressLabel)
-                        .font(.caption)
-                        .foregroundStyle(OCTheme.muted)
-                        .multilineTextAlignment(.center)
+                VStack(alignment: .leading, spacing: 12) {
+                    OCOperationBanner(
+                        title: uninstaller.progressLabel,
+                        detail: L10n.string("operation.cancel_safe"),
+                        progress: nil,
+                        onStop: { uninstaller.stop() }
+                    )
+                    .padding(.horizontal, 14)
+                    OCAppListSkeleton(rows: 9)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .padding(.top, 8)
             } else if uninstaller.filteredApps.isEmpty {
                 ContentUnavailableView(
                     L10n.string("apps.select"),
@@ -234,7 +233,14 @@ struct ApplicationsView: View {
                 labeled(L10n.string("apps.selected_size"), ByteFormat.string(app.uninstallBytes))
             }
 
-            if app.isProtected {
+            if uninstaller.isUninstalling {
+                OCOperationBanner(
+                    title: uninstaller.progressLabel,
+                    detail: nil,
+                    progress: nil,
+                    onStop: nil
+                )
+            } else if app.isProtected {
                 Text(l10n: "apps.protected")
                     .foregroundStyle(OCTheme.accent)
             } else {
@@ -250,7 +256,7 @@ struct ApplicationsView: View {
                         .frame(minWidth: 160)
                 }
                 .buttonStyle(AccentButtonStyle())
-                .disabled(uninstaller.isUninstalling || app.uninstallBytes == 0)
+                .disabled(uninstaller.isBusy || app.uninstallBytes == 0)
             }
         }
     }

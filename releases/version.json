@@ -1,8 +1,8 @@
 {
-  "version": "0.2.7",
-  "build": 9,
-  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.7/MacCleaner-0.2.7.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.7/MacCleaner-0.2.7.dmg",
-  "notes": "Install to /Applications only; version in Settings; notarized.",
-  "notes_it": "Installazione solo in /Applications; versione in Impostazioni; notarizzato."
+  "version": "0.2.8",
+  "build": 10,
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.8/MacCleaner-0.2.8.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.8/MacCleaner-0.2.8.dmg",
+  "notes": "Fix packaging to ship current binary (duplicates/photos/scheduler); notarized.",
+  "notes_it": "Fix packaging: binario aggiornato (duplicati/foto/scheduler); notarizzato."
 }

@@ -9,8 +9,8 @@ APP_NAME="MacCleaner.app"
 APP="$DIST/$APP_NAME"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
-VERSION="0.2.7"
-BUILD="9"
+VERSION="0.2.8"
+BUILD="10"
 ICON_ICNS="$ROOT/packaging/AppIcon.icns"
 VERSION_JSON="$RELEASES/version.json"
 CASK="$ROOT/Casks/maccleaner.rb"
@@ -23,15 +23,22 @@ RELEASE_BASE="https://github.com/mponzo/MacCleaner/releases/download/v${VERSION}
 
 echo "==> Building universal release binary (arm64 + x86_64)"
 cd "$PKG"
+# Drop stale per-arch products so we never lipo yesterday's binary (SwiftPM now writes
+# the fat binary under .build/apple/Products/Release/).
+rm -f \
+  "$PKG/.build/arm64-apple-macosx/release/$BIN_NAME" \
+  "$PKG/.build/x86_64-apple-macosx/release/$BIN_NAME"
 swift build -c release --arch arm64 --arch x86_64 --product OpenCleanMyMac
 
+APPLE_BIN="$PKG/.build/apple/Products/Release/$BIN_NAME"
 ARM_BIN="$PKG/.build/arm64-apple-macosx/release/$BIN_NAME"
 X86_BIN="$PKG/.build/x86_64-apple-macosx/release/$BIN_NAME"
-test -x "$ARM_BIN"
-test -x "$X86_BIN"
+ARM_OBJ="$PKG/.build/apple/Intermediates.noindex/OpenCleanMyMac.build/Release/OpenCleanMyMac.build/Objects-normal/arm64/Binary/$BIN_NAME"
+X86_OBJ="$PKG/.build/apple/Intermediates.noindex/OpenCleanMyMac.build/Release/OpenCleanMyMac.build/Objects-normal/x86_64/Binary/$BIN_NAME"
 
 RESOURCE_BUNDLE=""
 for candidate in \
+  "$PKG/.build/apple/Products/Release/${BIN_NAME}_${BIN_NAME}.bundle" \
   "$PKG/.build/arm64-apple-macosx/release/${BIN_NAME}_${BIN_NAME}.bundle" \
   "$PKG/.build/x86_64-apple-macosx/release/${BIN_NAME}_${BIN_NAME}.bundle"
 do
@@ -46,8 +53,35 @@ rm -rf "$APP"
 rm -rf "$DIST/Open Clean My Mac.app"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
-lipo -create -output "$APP/Contents/MacOS/$BIN_NAME" "$ARM_BIN" "$X86_BIN"
-chmod +x "$APP/Contents/MacOS/$BIN_NAME"
+OUT_BIN="$APP/Contents/MacOS/$BIN_NAME"
+if [[ -x "$APPLE_BIN" ]] && lipo -info "$APPLE_BIN" 2>/dev/null | grep -q 'x86_64' \
+  && lipo -info "$APPLE_BIN" 2>/dev/null | grep -q 'arm64'; then
+  echo "==> Using SwiftPM universal product: $APPLE_BIN"
+  cp -f "$APPLE_BIN" "$OUT_BIN"
+elif [[ -x "$ARM_OBJ" && -x "$X86_OBJ" ]]; then
+  echo "==> lipo from apple Intermediates"
+  lipo -create -output "$OUT_BIN" "$ARM_OBJ" "$X86_OBJ"
+elif [[ -x "$ARM_BIN" && -x "$X86_BIN" ]]; then
+  echo "==> lipo from per-arch release folders"
+  lipo -create -output "$OUT_BIN" "$ARM_BIN" "$X86_BIN"
+else
+  echo "error: no release binary found under .build/" >&2
+  exit 1
+fi
+chmod +x "$OUT_BIN"
+
+# Sanity: refuse to ship a build that is missing known feature markers.
+# Avoid `grep -q` under `pipefail` (SIGPIPE from early close looks like failure).
+assert_marker() {
+  local needle="$1"
+  if ! strings "$OUT_BIN" | grep -F "$needle" >/dev/null; then
+    echo "error: packaged binary missing ${needle} — refusing stale build" >&2
+    exit 1
+  fi
+}
+assert_marker 'DuplicateFinderEngine'
+assert_marker 'sidebar.duplicates'
+assert_marker 'CleanupScheduler'
 
 if [[ -n "$RESOURCE_BUNDLE" ]]; then
   cp -R "$RESOURCE_BUNDLE" "$APP/Contents/Resources/"

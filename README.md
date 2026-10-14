@@ -4,7 +4,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 
 | | |
 |---|---|
-| **Download** | [MacCleaner 0.2.9 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.2.9/MacCleaner-0.2.9.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.2.9/MacCleaner-0.2.9.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
+| **Download** | [MacCleaner 0.3.0 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
 | **Homebrew** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
@@ -17,7 +17,7 @@ Universal binary (Apple silicon + Intel). UI in **English, Italian, German, Fren
 
 **DMG**
 
-1. Download [MacCleaner 0.2.9](https://github.com/mponzo/MacCleaner/releases/download/v0.2.9/MacCleaner-0.2.9.dmg)  
+1. Download [MacCleaner 0.3.0](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.dmg)  
 2. Open the disk image and drag the app into **Applications**  
 3. Launch MacCleaner  
 
@@ -118,9 +118,13 @@ Live **System Monitor** aligned with common cleaner apps:
 
 The menu bar glass panel continues to show live meters while MacCleaner stays resident.
 
+### App Updates
+
+Dedicated sidebar for **outdated Homebrew casks** (when `brew` is installed): review versions, select which apps to upgrade, stop mid-batch, and open Mac App Store updates for apps Homebrew does not manage.
+
 ### Updates
 
-Compares this build to [`releases/version.json`](releases/version.json) / GitHub Releases when you open the section. Also lists **outdated Homebrew casks** (when `brew` is installed) and can upgrade selected casks.
+Compares this MacCleaner build to [`releases/version.json`](releases/version.json) / GitHub Releases. Includes a compact Homebrew cask summary with a link to the full App Updates screen.
 
 ### Menu bar
 

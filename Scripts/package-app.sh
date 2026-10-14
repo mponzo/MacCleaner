@@ -9,8 +9,8 @@ APP_NAME="MacCleaner.app"
 APP="$DIST/$APP_NAME"
 BIN_NAME="OpenCleanMyMac"
 BUNDLE_ID="com.maccleaner.app"
-VERSION="0.2.9"
-BUILD="11"
+VERSION="0.3.0"
+BUILD="12"
 ICON_ICNS="$ROOT/packaging/AppIcon.icns"
 VERSION_JSON="$RELEASES/version.json"
 CASK="$ROOT/Casks/maccleaner.rb"
@@ -89,6 +89,9 @@ assert_marker 'OrphanFinderEngine'
 assert_marker 'StartupEngine'
 assert_marker 'DeveloperCleanupEngine'
 assert_marker 'PrivacyHubEngine'
+assert_marker 'CleanupHistoryStore'
+assert_marker 'HomebrewCaskEngine'
+assert_marker 'OCOperationBanner'
 
 if [[ -n "$RESOURCE_BUNDLE" ]]; then
   cp -R "$RESOURCE_BUNDLE" "$APP/Contents/Resources/"
@@ -301,8 +304,8 @@ cat > "$VERSION_JSON" <<JSON
   "build": ${BUILD},
   "zip_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.zip",
   "dmg_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.dmg",
-  "notes": "System Monitor parity, deeper uninstall, immersive site, 10 languages.",
-  "notes_it": "System Monitor a parità, uninstall più profondo, sito immersivo, 10 lingue."
+  "notes": "Cleanup History, dedicated App Updates (Homebrew casks), progress bars with Stop on long operations.",
+  "notes_it": "Cronologia cleanup, Aggiornamenti app dedicati (cask Homebrew), barre di progresso e Stop sulle operazioni lunghe."
 }
 JSON
 

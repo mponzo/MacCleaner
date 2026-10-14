@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const version = '0.2.9'
+const version = '0.3.0'
 const siteUrl = 'https://mponzo.github.io/MacCleaner'
 const dmgUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.dmg`
 const zipUrl = `https://github.com/mponzo/MacCleaner/releases/download/v${version}/MacCleaner-${version}.zip`
@@ -41,7 +41,7 @@ async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
 
 const pageTitle = 'MacCleaner — open-source Mac cleaner, zero telemetry'
 const pageDescription =
-  'Free open-source Mac cleaner for macOS 14+. Smart Care, deep uninstall, Space Explorer, Schedule, System Monitor, Developer Cleanup (Simulator, Docker, AI), 10 languages. Fully local, zero telemetry, MIT.'
+  'Free open-source Mac cleaner for macOS 14+. Smart Care, Cleanup History, App Updates (Homebrew casks), Space Explorer, System Monitor, Developer Cleanup, 10 languages. Fully local, zero telemetry, MIT.'
 
 const roadmapNext = [
   {
@@ -81,12 +81,13 @@ const roadmapLater = [
 ]
 
 const recentlyShipped = [
+  'App Updates — dedicated Homebrew cask upgrades + App Store shortcut',
+  'Progress bars with Stop on scans and cleans (where safe)',
   'Cleanup History — local log, 14-day chart, shareable card (no upload)',
   'Animated reclaim ribbons and System Monitor / menu bar meters',
   'System Monitor parity — CPU deltas, icons, search/sort, helper grouping',
   'Deeper uninstall — Strict / Enhanced / Deep + drag-and-drop .app',
   'Developer Cleanup — Simulator runtimes, Docker, AI app caches',
-  'Large & old files in Smart Care (never auto-selected)',
   '10 languages including Greek and Russian',
 ]
 
@@ -411,17 +412,30 @@ const featureSections: FeatureSection[] = [
     ],
   },
   {
+    id: 'app-updates',
+    title: 'App Updates',
+    lede: 'Upgrade Homebrew cask apps you already manage with brew.',
+    motif: 'updates',
+    stageLabel: 'Cask updates',
+    stageHint: 'Homebrew · App Store',
+    points: [
+      'Lists outdated casks from your local Homebrew install',
+      'Select which apps to upgrade; stop between packages',
+      'Shows installed → available versions and missing app bundles',
+      'Shortcut to Mac App Store updates for non-Homebrew apps',
+    ],
+  },
+  {
     id: 'updates',
     title: 'Updates',
-    lede: 'MacCleaner releases plus outdated Homebrew casks.',
+    lede: 'MacCleaner releases from GitHub, with a Homebrew summary.',
     motif: 'updates',
     stageLabel: 'Release check',
     stageHint: 'GitHub · brew',
     points: [
       'Compare local version with releases/version.json',
       'Download from GitHub Releases and install to ~/Applications',
-      'List outdated Homebrew casks when brew is installed',
-      'Upgrade selected casks from the same screen',
+      'Compact Homebrew cask summary linking to App Updates',
       'Network only to GitHub (and local brew), and only when you ask',
     ],
   },

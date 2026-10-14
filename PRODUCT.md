@@ -27,7 +27,7 @@ Original open implementation. Privileged work is allowlisted and password-prompt
 - Smart Care multi-category scan (incl. Mail) and selective Trash moves + exclusions
 - Applications leftovers, Finder Services uninstall, Orphan Finder
 - Space Explorer, Startup (agents + snapshots), Developer Cleanup, Privacy hub
-- Performance metrics, launch agents, maintenance tasks; Homebrew cask updates
+- Performance metrics, launch agents, maintenance tasks; dedicated Homebrew App Updates + MacCleaner self-update
 - Privileged admin bridge for system caches/logs/DNS/snapshots
 - Menu bar one-click status panel + launch at login
 - UI: EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans / EL / RU (system or user-chosen)

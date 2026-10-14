@@ -1,8 +1,8 @@
 {
-  "version": "0.2.9",
-  "build": 11,
-  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.9/MacCleaner-0.2.9.zip",
-  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.2.9/MacCleaner-0.2.9.dmg",
-  "notes": "System Monitor parity, deeper uninstall, immersive site, 10 languages.",
-  "notes_it": "System Monitor a parità, uninstall più profondo, sito immersivo, 10 lingue."
+  "version": "0.3.0",
+  "build": 12,
+  "zip_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.zip",
+  "dmg_url": "https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.dmg",
+  "notes": "Cleanup History, dedicated App Updates (Homebrew casks), progress bars with Stop on long operations.",
+  "notes_it": "Cronologia cleanup, Aggiornamenti app dedicati (cask Homebrew), barre di progresso e Stop sulle operazioni lunghe."
 }

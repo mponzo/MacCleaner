@@ -176,8 +176,8 @@ cat > "$VERSION_JSON" <<JSON
   "build": ${BUILD},
   "zip_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.zip",
   "dmg_url": "${RELEASE_BASE}/MacCleaner-${VERSION}.dmg",
-  "notes": "System Monitor parity, deeper uninstall, immersive site, 10 languages.",
-  "notes_it": "System Monitor a parità, uninstall più profondo, sito immersivo, 10 lingue."
+  "notes": "Cleanup History, dedicated App Updates (Homebrew casks), progress bars with Stop on long operations.",
+  "notes_it": "Cronologia cleanup, Aggiornamenti app dedicati (cask Homebrew), barre di progresso e Stop sulle operazioni lunghe."
 }
 JSON
 

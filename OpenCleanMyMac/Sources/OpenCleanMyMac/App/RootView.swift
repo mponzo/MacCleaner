@@ -18,6 +18,7 @@ struct RootView: View {
     @Bindable var privacy: PrivacyHubEngine
     @State private var fda = FullDiskAccessManager.shared
     @State private var exclusions = CleanupExclusions.shared
+    @State private var cleanupHistory = CleanupHistoryStore.shared
     @State private var destination: SidebarDestination = .overview
     /// When set, nested detail screens show Back and return here.
     @State private var nestedReturn: SidebarDestination?
@@ -138,6 +139,7 @@ struct RootView: View {
                 sidebarItem("sidebar.developer", icon: "hammer", tag: .developer)
                 sidebarItem("sidebar.space_lens", icon: "externaldrive.fill.badge.magnifyingglass", tag: .spaceLens)
                 sidebarItem("sidebar.privacy", icon: "hand.raised", tag: .privacy)
+                sidebarItem("sidebar.history", icon: "chart.line.uptrend.xyaxis", tag: .history)
             } header: {
                 Text(l10n: "sidebar.tools")
                     .font(OCTheme.font(11, weight: .semibold))
@@ -208,6 +210,8 @@ struct RootView: View {
             SpaceExplorerView(explorer: spaceExplorer, engine: engine)
         case .privacy:
             PrivacyHubView(engine: privacy, fda: fda)
+        case .history:
+            CleanupHistoryView(store: cleanupHistory)
         case .duplicates:
             DuplicateFinderView(engine: duplicates)
         case .similarPhotos:

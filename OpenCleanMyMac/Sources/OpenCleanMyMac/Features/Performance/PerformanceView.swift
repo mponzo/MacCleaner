@@ -259,12 +259,15 @@ struct PerformanceView: View {
                     metricCard(
                         L10n.string("perf.memory"),
                         L10n.format("perf.memory_used", Int64(m.memoryUsedPercent)),
-                        ByteFormat.string(Int64(m.usedMemoryBytes))
+                        ByteFormat.string(Int64(m.usedMemoryBytes)),
+                        progress: m.memoryUsedPercent / 100
                     )
                     metricCard(
                         L10n.string("perf.pressure"),
                         String(format: "%.0f%%", m.memoryPressurePercent),
-                        L10n.format("perf.compressed", ByteFormat.string(Int64(m.compressedMemoryBytes)))
+                        L10n.format("perf.compressed", ByteFormat.string(Int64(m.compressedMemoryBytes))),
+                        progress: m.memoryPressurePercent / 100,
+                        tint: m.memoryPressurePercent > 70 ? OCTheme.accent : OCTheme.sea
                     )
                     metricCard(
                         L10n.string("perf.free_ram"),
@@ -274,12 +277,15 @@ struct PerformanceView: View {
                     metricCard(
                         L10n.string("perf.cpu"),
                         String(format: "%.0f%%", m.cpuLoadPercent),
-                        L10n.format("perf.processes", Int64(m.processCount))
+                        L10n.format("perf.processes", Int64(m.processCount)),
+                        progress: m.cpuLoadPercent / 100,
+                        tint: m.cpuLoadPercent > 80 ? OCTheme.accent : OCTheme.sea
                     )
                     metricCard(
                         L10n.string("perf.disk_free"),
                         ByteFormat.string(m.diskFreeBytes),
-                        String(format: L10n.string("perf.disk_used"), m.diskUsedPercent)
+                        String(format: L10n.string("perf.disk_used"), m.diskUsedPercent),
+                        progress: m.diskUsedPercent / 100
                     )
                     metricCard(
                         L10n.string("perf.uptime"),
@@ -316,13 +322,22 @@ struct PerformanceView: View {
         }
     }
 
-    private func metricCard(_ title: String, _ value: String, _ subtitle: String) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+    private func metricCard(
+        _ title: String,
+        _ value: String,
+        _ subtitle: String,
+        progress: Double? = nil,
+        tint: Color = OCTheme.sea
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
             Text(title.uppercased())
                 .font(.system(size: 10, weight: .semibold, design: .rounded))
                 .foregroundStyle(OCTheme.muted)
             Text(value)
                 .font(.system(size: 22, weight: .semibold, design: .rounded).monospacedDigit())
+            if let progress {
+                OCAnimatedMeter(progress: progress, height: 5, tint: tint)
+            }
             Text(subtitle)
                 .font(.caption)
                 .foregroundStyle(OCTheme.muted)

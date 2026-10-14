@@ -81,12 +81,13 @@ const roadmapLater = [
 ]
 
 const recentlyShipped = [
+  'Cleanup History — local log, 14-day chart, shareable card (no upload)',
+  'Animated reclaim ribbons and System Monitor / menu bar meters',
   'System Monitor parity — CPU deltas, icons, search/sort, helper grouping',
   'Deeper uninstall — Strict / Enhanced / Deep + drag-and-drop .app',
   'Developer Cleanup — Simulator runtimes, Docker, AI app caches',
   'Large & old files in Smart Care (never auto-selected)',
   '10 languages including Greek and Russian',
-  'Back control on nested category detail',
 ]
 
 useSeoMeta({
@@ -349,6 +350,20 @@ const featureSections: FeatureSection[] = [
       'Read-only TCC inventory for your user domain',
       'Full Disk Access status',
       'Deep links into System Settings and browser privacy panes',
+    ],
+  },
+  {
+    id: 'history',
+    title: 'Cleanup History',
+    lede: 'Local log of what you freed — share a card, never upload a path.',
+    motif: 'space',
+    stageLabel: 'Freed over time',
+    stageHint: 'Local only',
+    points: [
+      'Lifetime and 30-day totals across Smart Care, uninstall, orphans, and more',
+      'Animated 14-day chart of space freed',
+      'Share or copy a session card — image and text stay on your Mac',
+      'Clear or delete entries anytime; nothing is sent to a server',
     ],
   },
   {

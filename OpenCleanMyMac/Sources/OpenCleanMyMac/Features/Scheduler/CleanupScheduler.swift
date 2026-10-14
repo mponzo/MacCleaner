@@ -168,7 +168,7 @@ final class CleanupScheduler {
         let thresholdBytes = Int64(thresholdMB) * 1_024 * 1_024
         if autoCleanAfterScan, reclaimable >= thresholdBytes, reclaimable > 0 {
             statusLabel = L10n.string("sched.cleaning")
-            engine.cleanSelected()
+            engine.cleanSelected(source: .scheduler)
             try? await Task.sleep(nanoseconds: 150_000_000)
             while engine.isBusy {
                 try? await Task.sleep(nanoseconds: 500_000_000)

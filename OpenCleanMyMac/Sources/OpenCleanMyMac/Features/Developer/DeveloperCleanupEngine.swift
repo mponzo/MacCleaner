@@ -134,6 +134,7 @@ final class DeveloperCleanupEngine {
 
         let result = CleanResult(freedBytes: freed, movedCount: moved, failed: failed)
         lastResult = result
+        CleanupHistoryStore.shared.record(result: result, source: .developer)
         if !failed.isEmpty {
             errorMessage = L10n.format("smartcare.failed_count", Int64(failed.count))
         }

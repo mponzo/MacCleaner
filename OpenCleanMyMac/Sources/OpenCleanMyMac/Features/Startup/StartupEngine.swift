@@ -62,6 +62,7 @@ final class StartupEngine {
             ScanItem(category: .brokenLaunchAgents, url: $0.url, byteCount: $0.byteCount, displayName: $0.label)
         }
         let result = await Cleaner.moveToTrash(items)
+        CleanupHistoryStore.shared.record(result: result, source: .startup)
         if result.failed.isEmpty {
             lastMessage = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
         } else {

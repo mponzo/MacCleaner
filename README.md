@@ -99,6 +99,10 @@ Interactive folder browser: pick Home, Applications, or any directory, drill int
 
 Read-only overview of **APFS purgeable** space (optional thin-snapshots helper), a **TCC permission inventory** for your user domain, Full Disk Access status, and deep links into System Settings / browser privacy panes. No silent permission changes.
 
+### Cleanup History
+
+Local-only log of successful cleanups (Smart Care, Schedule, uninstall, orphans, duplicates, developer, startup, System Monitor). Shows lifetime / 30-day totals, a **14-day freed-space chart**, and a **share card** you can export or copy as text — nothing is uploaded.
+
 ### Schedule
 
 Optional background Smart Care while the app stays in the menu bar. Choose an interval (hourly → monthly), optionally **auto-clean** when reclaimable space meets a MB threshold, and run a cycle immediately from Settings.

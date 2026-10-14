@@ -32,6 +32,7 @@ Original open implementation. Privileged work is allowlisted and password-prompt
 - Menu bar one-click status panel + launch at login
 - UI: EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans / EL / RU (system or user-chosen)
 - Nested category detail / Performance→Startup include a Back control
+- Cleanup History with local share card (no upload) + animated reclaim / meter charts
 
 ## Constraints
 

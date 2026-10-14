@@ -44,10 +44,10 @@ final class ScanEngine {
         workTask = Task { await self.performSmartCare() }
     }
 
-    func cleanSelected() {
+    func cleanSelected(source: CleanupHistorySource = .smartCare) {
         guard !isBusy else { return }
         workTask?.cancel()
-        workTask = Task { await self.performCleanSelected() }
+        workTask = Task { await self.performCleanSelected(source: source) }
     }
 
     func stop() {
@@ -104,7 +104,7 @@ final class ScanEngine {
         isScanning = false
     }
 
-    private func performCleanSelected() async {
+    private func performCleanSelected(source: CleanupHistorySource = .smartCare) async {
         isCleaning = true
         progressLabel = L10n.string("smartcare.moving")
         let exclusions = CleanupExclusions.shared
@@ -118,6 +118,7 @@ final class ScanEngine {
             return
         }
         lastCleanResult = result
+        CleanupHistoryStore.shared.record(result: result, source: source)
         if !result.failed.isEmpty {
             errorMessage = L10n.format("smartcare.failed_count", Int64(result.failed.count))
         }

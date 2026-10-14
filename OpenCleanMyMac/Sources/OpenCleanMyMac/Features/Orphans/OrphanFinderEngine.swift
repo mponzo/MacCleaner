@@ -57,6 +57,7 @@ final class OrphanFinderEngine {
 
         let report = await AppUninstall.trashLikePureMac(selected.map(\.url))
         lastResult = report.result
+        CleanupHistoryStore.shared.record(result: report.result, source: .orphans)
         if !report.result.failed.isEmpty {
             if report.needsFullDiskAccess {
                 errorMessage = L10n.format("apps.needs_fda_generic", Int64(report.result.failed.count))

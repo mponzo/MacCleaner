@@ -110,6 +110,7 @@ final class UninstallerEngine {
         await refresh(clearFeedback: false)
 
         lastResult = result
+        CleanupHistoryStore.shared.record(result: result, source: .uninstaller, detail: app.name)
         if result.failed.isEmpty {
             errorMessage = nil
             progressLabel = L10n.format("smartcare.freed", ByteFormat.string(result.freedBytes))
@@ -213,6 +214,7 @@ final class UninstallerEngine {
         await refresh(clearFeedback: false)
 
         lastResult = result
+        CleanupHistoryStore.shared.record(result: result, source: .orphans)
         if result.failed.isEmpty {
             errorMessage = nil
         } else if report.needsFullDiskAccess {

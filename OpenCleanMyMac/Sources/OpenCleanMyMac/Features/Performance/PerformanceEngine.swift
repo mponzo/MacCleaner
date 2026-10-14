@@ -104,6 +104,7 @@ final class PerformanceEngine {
         }
         let result = await Cleaner.moveToTrash(items)
         lastCleanResult = result
+        CleanupHistoryStore.shared.record(result: result, source: .performance)
         if !result.failed.isEmpty {
             errorMessage = L10n.format("perf.agents_failed", Int64(result.failed.count))
         }

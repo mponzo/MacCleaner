@@ -39,6 +39,7 @@ struct HomeSpaceMap: View {
                 }.padding(.vertical, 10)
             } else {
                 ForEach(Array(ranked.enumerated()), id: \.element.id) { index, result in
+                    let fraction = total > 0 ? Double(result.totalBytes) / Double(total) : 0
                     Button { onOpenCategory(result.category) } label: {
                         VStack(alignment: .leading, spacing: 7) {
                             HStack(spacing: 8) {
@@ -47,14 +48,10 @@ struct HomeSpaceMap: View {
                                 Text(ByteFormat.string(result.totalBytes)).monospacedDigit()
                             }
                             .font(OCTheme.font(11, weight: .medium)).foregroundStyle(OCTheme.ink)
-                            GeometryReader { geometry in
-                                let fraction = total > 0 ? Double(result.totalBytes) / Double(total) : 0
-                                ZStack(alignment: .leading) {
-                                    Capsule().fill(OCTheme.ink.opacity(0.05))
-                                    Capsule().fill(OCTheme.sea.opacity(1 - Double(index) * 0.18))
-                                        .frame(width: max(3, geometry.size.width * fraction))
-                                }
-                            }.frame(height: 6)
+                            OCAnimatedMeter(
+                                progress: fraction,
+                                tint: OCTheme.sea.opacity(1 - Double(index) * 0.18)
+                            )
                         }.contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)

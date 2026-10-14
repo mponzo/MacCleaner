@@ -117,6 +117,11 @@ final class DuplicateFinderEngine {
         }
         let result = await Cleaner.moveToTrash(items)
         lastResult = result
+        CleanupHistoryStore.shared.record(
+            result: result,
+            source: .duplicates,
+            detail: rootURL?.lastPathComponent
+        )
         if !result.failed.isEmpty {
             errorMessage = L10n.format("dup.failed", Int64(result.failed.count))
         }

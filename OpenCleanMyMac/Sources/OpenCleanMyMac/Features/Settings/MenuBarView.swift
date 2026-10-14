@@ -159,6 +159,13 @@ struct MenuBarView: View {
                 Text(L10n.format("menubar.disk_used", Int64(metrics.diskUsedPercent.rounded())))
                     .font(OCTheme.font(11))
                     .foregroundStyle(OCTheme.muted)
+                OCAnimatedMeter(
+                    progress: metrics.diskUsedPercent / 100,
+                    height: 4,
+                    tint: metrics.diskUsedPercent > 90 ? OCTheme.accent : OCTheme.sea,
+                    track: Color.white.opacity(0.12)
+                )
+                .padding(.vertical, 2)
                 Button(L10n.string("menubar.free_up")) {
                     openMainWindow()
                     DispatchQueue.main.async {
@@ -177,6 +184,13 @@ struct MenuBarView: View {
                 Text(ByteFormat.string(Int64(metrics.freeMemoryBytes)) + " " + L10n.string("menubar.free_short"))
                     .font(OCTheme.font(11))
                     .foregroundStyle(OCTheme.muted)
+                OCAnimatedMeter(
+                    progress: metrics.memoryUsedPercent / 100,
+                    height: 4,
+                    tint: metrics.memoryUsedPercent > 90 ? OCTheme.accent : OCTheme.sea,
+                    track: Color.white.opacity(0.12)
+                )
+                .padding(.vertical, 2)
                 Button(L10n.string("menubar.free_up")) {
                     openMainWindow(then: .ocmmOpenPerformance)
                 }

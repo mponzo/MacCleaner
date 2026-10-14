@@ -98,6 +98,7 @@ enum SidebarDestination: Hashable {
     case developer
     case spaceLens
     case privacy
+    case history
     case scheduler
     case updates
     case privileged

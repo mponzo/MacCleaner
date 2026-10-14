@@ -110,7 +110,7 @@ struct OpenCleanMyMacApp: App {
                 performance: performance
             )
         } label: {
-            Label(l10n: "app.name", systemImage: "internaldrive.fill")
+            Label(l10n: "app.name", systemImage: "broom.fill")
         }
         .menuBarExtraStyle(.window)
     }

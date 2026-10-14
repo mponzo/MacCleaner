@@ -875,46 +875,86 @@ const vignetteProcesses = [
       <section id="install" class="section install" aria-labelledby="install-title">
         <div class="section-head">
           <h2 id="install-title">Install</h2>
-          <p>Pick DMG, Homebrew, or zip — same universal MacCleaner {{ version }} build.</p>
+          <p>
+            One universal build for Apple silicon and Intel — DMG, zip, or
+            Homebrew. Version {{ version }}, Developer ID signed and notarized.
+          </p>
         </div>
-        <img
-          class="install-art install-flow"
-          src="/install-flow.jpg"
-          :alt="`Download MacCleaner ${version} DMG, drag into Applications, open the app`"
-          width="1120"
-          height="630"
-          loading="lazy"
-        />
-        <img
-          class="install-art install-dmg"
-          src="/dmg-drag-flow.jpg"
-          alt="MacCleaner disk image: drag the app into Applications"
-          width="1120"
-          height="630"
-          loading="lazy"
-        />
-        <ol class="steps">
-          <li>
-            <strong>Download</strong>
-            <span>MacCleaner {{ version }} (DMG)</span>
+
+        <ol class="install-path">
+          <li class="install-step">
+            <span class="install-step-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v12" />
+                <path d="m7 10 5 5 5-5" />
+                <path d="M5 19h14" />
+              </svg>
+            </span>
+            <div class="install-step-copy">
+              <strong>Download</strong>
+              <p>
+                <a :href="dmgUrl">MacCleaner-{{ version }}.dmg</a>
+                <span class="install-badge">Notarized</span>
+              </p>
+            </div>
           </li>
-          <li>
-            <strong>Drag</strong>
-            <span>into Applications</span>
+          <li class="install-step">
+            <span class="install-step-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="8" height="10" rx="1.5" />
+                <path d="M14 9h4.5a2.5 2.5 0 0 1 0 5H14" />
+                <path d="m16 11 3 3-3 3" />
+              </svg>
+            </span>
+            <div class="install-step-copy">
+              <strong>Drag into Applications</strong>
+              <p>Open the disk image and drop MacCleaner.app into Applications.</p>
+            </div>
           </li>
-          <li>
-            <strong>Open</strong>
-            <span>double-click MacCleaner</span>
+          <li class="install-step">
+            <span class="install-step-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M10 9.5v5l5-2.5-5-2.5z" fill="currentColor" stroke="none" />
+              </svg>
+            </span>
+            <div class="install-step-copy">
+              <strong>Open</strong>
+              <p>Launch from Applications — Gatekeeper accepts notarized builds.</p>
+            </div>
           </li>
         </ol>
-        <p class="gatekeeper-note">
-          v{{ version }} is Developer ID signed and notarized — Gatekeeper should
-          accept the download without extra steps.
-        </p>
+
+        <div class="install-stage" aria-hidden="true">
+          <div class="install-stage-orb">
+            <span class="install-app-tile">
+              <img src="/icon.png" alt="" width="28" height="28" />
+              MacCleaner.app
+            </span>
+          </div>
+          <svg class="install-stage-arrow" viewBox="0 0 80 24" width="80" height="24" fill="none">
+            <path d="M4 12h64" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M58 5l14 7-14 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="install-stage-orb apps">
+            <span class="install-apps-tile">
+              <svg viewBox="0 0 32 28" width="36" height="32" aria-hidden="true">
+                <path d="M4 8h24v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z" fill="#4da3ff" />
+                <path d="M2 8h12l3-4h13a2 2 0 0 1 2 2v2H2z" fill="#7ec0ff" />
+              </svg>
+              Applications
+            </span>
+          </div>
+        </div>
+
         <div class="cta-row install-ctas">
           <a class="btn btn-primary" :href="dmgUrl">Download MacCleaner {{ version }}</a>
-          <a class="btn btn-ghost" :href="zipUrl">Download zip {{ version }}</a>
+          <a class="btn btn-ghost" :href="zipUrl">Download zip</a>
+          <a class="btn btn-ghost" :href="`${repoUrl}/releases`" target="_blank" rel="noreferrer">
+            All releases
+          </a>
         </div>
+
         <div class="brew-box">
           <div class="brew-box-head">
             <h3>Homebrew</h3>
@@ -928,7 +968,7 @@ const vignetteProcesses = [
               {{ brewCopiedInstall ? 'Copied' : 'Copy' }}
             </button>
           </div>
-          <p>Yes — install with a cask from this repo:</p>
+          <p>Prefer the terminal? Same {{ version }} build via cask:</p>
           <pre><code>{{ brewCommands }}</code></pre>
         </div>
       </section>
@@ -2006,69 +2046,214 @@ const vignetteProcesses = [
 .install .section-head {
   margin-left: auto;
   margin-right: auto;
+  max-width: 40rem;
 }
 
-.install-art {
-  width: min(920px, 100%);
-  margin: 0 auto 1.5rem;
-  border-radius: 20px;
-  border: 1px solid var(--stroke);
-  background: rgba(7, 18, 36, 0.45);
-  display: block;
-}
-
-.install-flow,
-.install-dmg {
-  width: min(980px, 100%);
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  object-position: center;
-}
-
-.install-dmg {
-  margin-top: -0.35rem;
-}
-
-.steps {
+.install-path {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 1rem;
+  width: min(960px, 100%);
+  margin: 0 auto 1.75rem;
   padding: 0;
-  margin: 0 0 1.5rem;
   text-align: left;
 }
 
-.steps li {
-  display: grid;
-  gap: 0.25rem;
-  padding: 1rem 1.1rem;
-  border-radius: 14px;
+.install-step {
+  position: relative;
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 1.15rem 1.1rem;
+  border-radius: 16px;
   border: 1px solid var(--stroke);
-  background: rgba(255, 255, 255, 0.04);
+  background:
+    linear-gradient(165deg, rgba(77, 163, 255, 0.1), transparent 55%),
+    rgba(7, 18, 36, 0.55);
+  box-shadow: 0 10px 28px var(--shadow);
 }
 
-.steps strong {
+.install-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -0.65rem;
+  width: 0.9rem;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(77, 163, 255, 0.15), var(--sea));
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.install-step-mark {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  color: var(--sea);
+  background: rgba(77, 163, 255, 0.14);
+  border: 1px solid rgba(77, 163, 255, 0.28);
+}
+
+.install-step-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.install-step-copy strong {
   font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-.steps span {
-  color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.4;
-}
-
-.gatekeeper-note {
-  max-width: 42rem;
-  margin: -0.35rem auto 1.35rem;
+.install-step-copy p {
+  margin: 0;
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.45;
 }
 
+.install-step-copy a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(77, 163, 255, 0.45);
+  text-underline-offset: 0.18em;
+}
+
+.install-step-copy a:hover {
+  color: var(--sea);
+}
+
+.install-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #1a1208;
+  background: var(--accent);
+  vertical-align: 0.1em;
+}
+
+.install-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: min(520px, 100%);
+  margin: 0 auto 1.75rem;
+  padding: 1.35rem 1.5rem;
+  border-radius: 20px;
+  border: 1px solid var(--stroke);
+  background:
+    radial-gradient(ellipse 70% 80% at 20% 40%, rgba(255, 158, 72, 0.12), transparent 55%),
+    radial-gradient(ellipse 70% 80% at 80% 50%, rgba(77, 163, 255, 0.16), transparent 55%),
+    rgba(7, 18, 36, 0.65);
+}
+
+.install-stage-orb {
+  display: grid;
+  place-items: center;
+  width: 8.5rem;
+  height: 8.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.install-stage-orb.apps {
+  border-color: rgba(77, 163, 255, 0.28);
+}
+
+.install-app-tile,
+.install-apps-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.install-app-tile {
+  padding: 0.65rem 0.75rem;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffb36a, var(--accent));
+  color: #1a1208;
+  box-shadow: 0 8px 20px rgba(255, 158, 72, 0.28);
+}
+
+.install-app-tile img {
+  border-radius: 7px;
+}
+
+.install-stage-arrow {
+  color: var(--sea);
+  flex: 0 0 auto;
+  opacity: 0.85;
+  animation: install-nudge 2.4s ease-in-out infinite;
+}
+
+@keyframes install-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateX(6px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .install-stage-arrow {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
 .install-ctas {
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 1.5rem;
+}
+
+@media (max-width: 820px) {
+  .install-path {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .install-step:not(:last-child)::after {
+    display: none;
+  }
+
+  .install-stage {
+    gap: 0.65rem;
+    padding: 1.1rem;
+  }
+
+  .install-stage-orb {
+    width: 7rem;
+    height: 7rem;
+  }
+
+  .install-stage-arrow {
+    width: 48px;
+  }
 }
 
 .brew-box {
@@ -2218,7 +2403,6 @@ const vignetteProcesses = [
   }
 
   .cards,
-  .steps,
   .cat-list {
     grid-template-columns: minmax(0, 1fr);
   }

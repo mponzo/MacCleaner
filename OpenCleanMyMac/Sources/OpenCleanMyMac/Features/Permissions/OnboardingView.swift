@@ -58,13 +58,13 @@ struct OnboardingView: View {
     private var welcomePage: some View {
         VStack(spacing: 18) {
             Image(systemName: "internaldrive.fill")
-                .font(.system(size: 52, weight: .semibold))
+                .font(OCTheme.font(52, weight: .semibold))
                 .foregroundStyle(OCTheme.sea)
             Text(l10n: "onboarding.welcome.title")
-                .font(.system(size: 34, weight: .bold))
+                .font(OCTheme.font(34, weight: .bold))
                 .multilineTextAlignment(.center)
             Text(l10n: "onboarding.welcome.body")
-                .font(.system(size: 15))
+                .font(OCTheme.font(15))
                 .foregroundStyle(OCTheme.muted)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: 520)
@@ -78,7 +78,7 @@ struct OnboardingView: View {
                     ? L10n.string("onboarding.fda.title_granted")
                     : L10n.string("onboarding.fda.title")
             )
-            .font(.system(size: 30, weight: .bold))
+            .font(OCTheme.font(30, weight: .bold))
             .multilineTextAlignment(.center)
 
             Text(
@@ -86,7 +86,7 @@ struct OnboardingView: View {
                     ? L10n.string("onboarding.fda.body_granted")
                     : L10n.string("onboarding.fda.body")
             )
-            .font(.system(size: 14))
+            .font(OCTheme.font(14))
             .foregroundStyle(OCTheme.muted)
             .multilineTextAlignment(.center)
             .frame(maxWidth: 560)
@@ -94,16 +94,16 @@ struct OnboardingView: View {
             fdaDemoCard
 
             Text(l10n: "onboarding.fda.path")
-                .font(.system(size: 12, weight: .medium))
+                .font(OCTheme.font(12, weight: .medium))
                 .foregroundStyle(OCTheme.faint)
 
             if fda.hasFullDiskAccess {
                 Label(l10n: "onboarding.fda.ready", systemImage: "checkmark.circle.fill")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(OCTheme.font(14, weight: .semibold))
                     .foregroundStyle(OCTheme.success)
             } else if fda.isWatching {
                 Label(l10n: "onboarding.fda.watching", systemImage: "eye")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(OCTheme.font(13, weight: .medium))
                     .foregroundStyle(OCTheme.sea)
             }
 
@@ -136,7 +136,7 @@ struct OnboardingView: View {
                 Circle().fill(Color.green.opacity(0.85)).frame(width: 10, height: 10)
                 Spacer()
                 Text(l10n: "onboarding.fda.window_title")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(OCTheme.font(12, weight: .semibold))
                     .foregroundStyle(OCTheme.muted)
                 Spacer()
             }
@@ -190,16 +190,16 @@ struct OnboardingView: View {
     private var readyPage: some View {
         VStack(spacing: 18) {
             Image(systemName: "checkmark.seal.fill")
-                .font(.system(size: 52, weight: .semibold))
+                .font(OCTheme.font(52, weight: .semibold))
                 .foregroundStyle(OCTheme.success)
             Text(l10n: "onboarding.ready.title")
-                .font(.system(size: 32, weight: .bold))
+                .font(OCTheme.font(32, weight: .bold))
             Text(
                 fda.hasFullDiskAccess
                     ? L10n.string("onboarding.ready.body_fda")
                     : L10n.string("onboarding.ready.body_limited")
             )
-            .font(.system(size: 14))
+            .font(OCTheme.font(14))
             .foregroundStyle(OCTheme.muted)
             .multilineTextAlignment(.center)
             .frame(maxWidth: 520)

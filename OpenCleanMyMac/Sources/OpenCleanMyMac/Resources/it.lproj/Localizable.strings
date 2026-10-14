@@ -426,3 +426,21 @@
 "updates.error.install" = "Installazione non riuscita: %@";
 "updates.error.network" = "Errore di rete: %@";
 "updates.error.check_first" = "Controlla prima gli aggiornamenti.";
+
+/* Overview redesign */
+"overview.title" = "Più spazio. Meno superfluo.";
+"overview.intro" = "Scansiona il Mac e scegli cosa rimuovere.";
+"overview.scan" = "Scansiona il Mac";
+"overview.rescan" = "Ripeti scansione";
+"overview.available" = "di spazio recuperabile";
+"overview.categories" = "categorie analizzate";
+"overview.review" = "Rivedi cosa pulire";
+"overview.selected" = "selezionati";
+"overview.selected_items" = "%lld elementi · controlla i percorsi prima di pulire";
+"overview.empty_categories" = "Altre %lld categorie senza file da pulire";
+"overview.reassurance" = "Sei tu a scegliere cosa rimuovere. Apri una categoria per controllare i percorsi.";
+"overview.review_clean" = "Rivedi e pulisci…";
+"overview.partial" = "Categoria selezionata almeno in parte. Apri i dettagli per rivedere i singoli file.";
+"overview.confirm_body" = "Controlla i file selezionati. Verranno spostati nel Cestino; per i percorsi di sistema potrebbe servire la password amministratore.";
+"overview.back" = "Torna ai risultati";
+"overview.trash" = "Sposta nel Cestino";

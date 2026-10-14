@@ -25,6 +25,7 @@ struct RootView: View {
         .preferredColorScheme(.dark)
         .tint(OCTheme.sea)
         .foregroundStyle(OCTheme.ink)
+        .font(OCTheme.font(13))
         .frame(minWidth: 980, minHeight: 640)
         .id(preferences.languageRevision)
         .onAppear {
@@ -38,7 +39,7 @@ struct RootView: View {
             OCScreenBackground()
             NavigationSplitView {
                 sidebar
-                    .navigationSplitViewColumnWidth(min: 240, ideal: 280, max: 340)
+                    .navigationSplitViewColumnWidth(min: 210, ideal: 224, max: 270)
             } detail: {
                 detail
             }
@@ -67,9 +68,9 @@ struct RootView: View {
                 Label {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(l10n: "sidebar.overview")
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(OCTheme.font(13, weight: .semibold))
                         Text(engine.isScanning ? engine.progressLabel : L10n.string("sidebar.overview.subtitle"))
-                            .font(.system(size: 11))
+                            .font(OCTheme.font(11))
                             .foregroundStyle(OCTheme.muted)
                             .lineLimit(2)
                     }
@@ -81,7 +82,7 @@ struct RootView: View {
                 .tag(SidebarDestination.overview)
             } header: {
                 Text(l10n: "sidebar.smart_care")
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(OCTheme.font(11, weight: .semibold))
                     .foregroundStyle(OCTheme.faint)
                     .textCase(.uppercase)
                     .tracking(0.5)
@@ -91,45 +92,21 @@ struct RootView: View {
                 sidebarItem("sidebar.applications", icon: "app.badge.checkmark", tag: .applications)
                 sidebarItem("sidebar.duplicates", icon: "doc.on.doc", tag: .duplicates)
                 sidebarItem("sidebar.similar_photos", icon: "photo.on.rectangle.angled", tag: .similarPhotos)
-                sidebarItem("sidebar.scheduler", icon: "clock.arrow.circlepath", tag: .scheduler)
                 sidebarItem("sidebar.performance", icon: "gauge.with.dots.needle.67percent", tag: .performance)
-                sidebarItem("sidebar.privileged", icon: "lock.shield", tag: .privileged)
                 sidebarItem("sidebar.space_lens", icon: "chart.bar.fill", tag: .spaceLens)
-                sidebarItem("sidebar.updates", icon: "arrow.down.app", tag: .updates)
-                sidebarItem("sidebar.settings", icon: "gearshape", tag: .settings)
             } header: {
                 Text(l10n: "sidebar.tools")
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(OCTheme.font(11, weight: .semibold))
                     .foregroundStyle(OCTheme.faint)
                     .textCase(.uppercase)
                     .tracking(0.5)
             }
 
-            if !engine.results.isEmpty {
-                Section {
-                    ForEach(engine.results) { result in
-                        Label {
-                            HStack(spacing: 8) {
-                                Text(result.category.title)
-                                    .lineLimit(1)
-                                Spacer(minLength: 4)
-                                Text(ByteFormat.string(result.totalBytes))
-                                    .font(.system(size: 11).monospacedDigit())
-                                    .foregroundStyle(OCTheme.muted)
-                            }
-                        } icon: {
-                            Image(systemName: result.category.systemImage)
-                                .foregroundStyle(OCTheme.sea.opacity(0.9))
-                        }
-                        .tag(SidebarDestination.category(result.category))
-                    }
-                } header: {
-                    Text(l10n: "sidebar.modules")
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(OCTheme.faint)
-                        .textCase(.uppercase)
-                        .tracking(0.5)
-                }
+            Section {
+                sidebarItem("sidebar.scheduler", icon: "clock.arrow.circlepath", tag: .scheduler)
+                sidebarItem("sidebar.updates", icon: "arrow.down.app", tag: .updates)
+                sidebarItem("sidebar.privileged", icon: "lock.shield", tag: .privileged)
+                sidebarItem("sidebar.settings", icon: "gearshape", tag: .settings)
             }
         }
         .listStyle(.sidebar)
@@ -141,7 +118,7 @@ struct RootView: View {
     private func sidebarItem(_ key: String, icon: String, tag: SidebarDestination) -> some View {
         Label {
             Text(L10n.string(key: key))
-                .font(.system(size: 13, weight: .medium))
+                .font(OCTheme.font(13, weight: .medium))
         } icon: {
             Image(systemName: icon)
                 .foregroundStyle(OCTheme.sea.opacity(0.95))
@@ -188,151 +165,219 @@ struct SmartCareView: View {
     @Bindable var engine: ScanEngine
     @Bindable var fda: FullDiskAccessManager
     var onOpenCategory: (ScanCategory) -> Void = { _ in }
+    @State private var showReview = false
+    @State private var showEmpty = false
+
+    private var cleanable: [CategoryResult] {
+        engine.results.filter { $0.category.isCleanable }
+    }
+    private var availableBytes: Int64 { cleanable.reduce(0) { $0 + $1.totalBytes } }
+    private var selectedCount: Int { cleanable.flatMap(\.items).filter(\.isSelected).count }
+    private func label(_ key: String) -> String { L10n.string(key: "overview." + key) }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 22) {
-                heroGlass
-                if !fda.hasFullDiskAccess {
-                    fdaBanner
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 28) {
+                    HStack(alignment: .top, spacing: 20) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(label("title")).font(OCTheme.font(28, weight: .semibold))
+                            Text(engine.results.isEmpty ? label("intro") : engine.progressLabel)
+                                .font(OCTheme.font(13)).foregroundStyle(OCTheme.muted)
+                        }
+                        Spacer()
+                        Button(engine.results.isEmpty ? label("scan") : label("rescan")) {
+                            engine.runSmartCare()
+                        }
+                        .buttonStyle(GhostButtonStyle()).disabled(engine.isBusy)
+                    }
+                    summary
+                    if !fda.hasFullDiskAccess { fdaBanner }
+                    if engine.isBusy {
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Text(engine.progressLabel).font(OCTheme.font(13))
+                                Spacer()
+                                Button(L10n.string("smartcare.stop")) { engine.stop() }
+                                    .buttonStyle(GhostButtonStyle())
+                            }
+                            if engine.isScanning {
+                                ProgressView(value: engine.scanProgress)
+                            } else {
+                                ProgressView().controlSize(.small)
+                            }
+                        }
+                    }
+                    if !engine.results.isEmpty { categoryList }
+                    if let clean = engine.lastCleanResult {
+                        Text(L10n.format("smartcare.last_clean", clean.movedCount, ByteFormat.string(clean.freedBytes)))
+                            .foregroundStyle(OCTheme.muted)
+                    }
+                    if let error = engine.errorMessage {
+                        Text(error).foregroundStyle(OCTheme.danger).textSelection(.enabled)
+                    }
+                    Label(label("reassurance"), systemImage: "lock.shield")
+                        .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
                 }
-                actions
-                if engine.isBusy {
-                    scanStatusGlass
-                        .transition(.asymmetric(
-                            insertion: .opacity.combined(with: .move(edge: .top)).combined(with: .scale(scale: 0.98)),
-                            removal: .opacity
-                        ))
-                }
+                .padding(32)
+                .frame(maxWidth: 1100, alignment: .leading)
+                .frame(maxWidth: .infinity)
+            }
+            footer
+        }
+        .font(OCTheme.font(13))
+        .sheet(isPresented: $showReview) { review }
+    }
+
+    private var summary: some View {
+        HStack(alignment: .center, spacing: 36) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(ByteFormat.string(availableBytes))
+                    .font(OCTheme.font(42, weight: .semibold)).monospacedDigit()
+                Text(label("available")).foregroundStyle(OCTheme.muted)
+            }
+            Spacer()
+            VStack(alignment: .trailing, spacing: 8) {
+                Text(ByteFormat.string(engine.scannedBytes))
+                    .font(OCTheme.font(20, weight: .semibold)).monospacedDigit()
+                Text(L10n.string("smartcare.scanned")).foregroundStyle(OCTheme.muted)
                 if !engine.results.isEmpty {
-                    moduleGrid
-                }
-                if let clean = engine.lastCleanResult {
-                    Text(L10n.format("smartcare.last_clean", clean.movedCount, ByteFormat.string(clean.freedBytes)))
-                        .font(.callout)
-                        .foregroundStyle(OCTheme.muted)
-                }
-                if let error = engine.errorMessage {
-                    Text(error).foregroundStyle(OCTheme.danger)
+                    Text("\(engine.completedCategories)/\(engine.totalCategories) " + label("categories"))
+                        .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
                 }
             }
-            .padding(28)
-            .animation(.easeOut(duration: 0.35), value: engine.isBusy)
-            .animation(.easeOut(duration: 0.4), value: engine.results.count)
+        }
+        .padding(26).frame(maxWidth: .infinity, alignment: .leading)
+        .background(OCTheme.canvasElevated, in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var categoryList: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(label("review")).font(OCTheme.font(17, weight: .semibold))
+                Spacer()
+                Button(selectedCount > 0 ? L10n.string("common.select_none") : L10n.string("common.select_all")) {
+                    let select = selectedCount == 0
+                    for result in cleanable { engine.selectAll(in: result.category, selected: select) }
+                }
+                .buttonStyle(.plain).foregroundStyle(OCTheme.sea).disabled(engine.isBusy)
+            }.padding(.bottom, 18)
+            Divider().overlay(OCTheme.stroke)
+            ForEach(engine.results.filter { $0.totalBytes > 0 }) { result in categoryRow(result) }
+            let empty = engine.results.filter { $0.totalBytes == 0 }
+            if !empty.isEmpty {
+                DisclosureGroup(isExpanded: $showEmpty) {
+                    ForEach(empty) { result in categoryRow(result) }
+                } label: {
+                    Text(L10n.format("overview.empty_categories", empty.count))
+                        .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
+                }.padding(.top, 18)
+            }
         }
     }
 
-    private var heroGlass: some View {
-        ZStack(alignment: .topTrailing) {
-            if engine.isBusy {
-                OCBusyPulse()
-                    .frame(width: 180, height: 180)
-                    .offset(x: 40, y: -30)
-                    .allowsHitTesting(false)
+    private func categoryRow(_ result: CategoryResult) -> some View {
+        HStack(spacing: 14) {
+            if result.category.isCleanable {
+                Toggle(result.category.title, isOn: Binding(
+                    get: { !result.items.isEmpty && result.items.allSatisfy(\.isSelected) },
+                    set: { engine.selectAll(in: result.category, selected: $0) }
+                ))
+                .labelsHidden().toggleStyle(.checkbox)
+                .disabled(engine.isBusy || result.items.isEmpty)
+                .help(result.selectedBytes > 0 ? label("partial") : result.category.title)
+            } else {
+                Image(systemName: "info.circle").foregroundStyle(OCTheme.muted).frame(width: 16)
             }
-
-            VStack(alignment: .leading, spacing: 18) {
-                HStack(alignment: .top, spacing: 18) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        OCPageHeader(
-                            title: L10n.string("smartcare.title"),
-                            subtitle: L10n.string("smartcare.subtitle")
-                        )
+            Image(systemName: result.category.systemImage)
+                .font(OCTheme.font(18)).foregroundStyle(OCTheme.sea)
+                .frame(width: 36, height: 36)
+                .background(OCTheme.sea.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
+            Button { onOpenCategory(result.category) } label: {
+                HStack(spacing: 16) {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(result.category.title).font(OCTheme.font(13, weight: .semibold))
+                            .foregroundStyle(OCTheme.ink)
+                        Text(result.category.detail).font(OCTheme.font(12))
+                            .foregroundStyle(OCTheme.muted).lineLimit(2)
+                        if result.selectedBytes > 0 && !result.items.allSatisfy(\.isSelected) {
+                            Text(L10n.format("smartcare.items_selected", Int64(result.items.filter(\.isSelected).count), ByteFormat.string(result.selectedBytes)))
+                                .font(OCTheme.font(11)).foregroundStyle(OCTheme.sea)
+                        }
                     }
                     Spacer(minLength: 12)
-                    if engine.isBusy || engine.completedCategories > 0 {
-                        OCScanRing(
-                            progress: engine.isBusy
-                                ? (engine.isScanning ? engine.scanProgress : -1)
-                                : 1
-                        )
-                        .accessibilityLabel(engine.progressLabel)
-                    }
-                }
-
-                HStack(spacing: 10) {
-                    OCMetricChip(
-                        title: L10n.string("smartcare.reclaimable"),
-                        value: ByteFormat.string(engine.reclaimableBytes),
-                        emphasize: engine.reclaimableBytes > 0
-                    )
-                    OCMetricChip(
-                        title: L10n.string("smartcare.scanned"),
-                        value: ByteFormat.string(engine.scannedBytes)
-                    )
-                    OCMetricChip(
-                        title: L10n.string("smartcare.progress"),
-                        value: engine.isScanning
-                            ? "\(engine.completedCategories)/\(engine.totalCategories)"
-                            : (engine.results.isEmpty ? "—" : L10n.string("smartcare.ready"))
-                    )
-                }
-            }
-            .padding(20)
+                    Text(ByteFormat.string(result.totalBytes))
+                        .font(OCTheme.font(14, weight: .semibold)).monospacedDigit()
+                        .foregroundStyle(OCTheme.ink)
+                    Image(systemName: "chevron.right").font(OCTheme.font(11))
+                        .foregroundStyle(OCTheme.muted)
+                }.contentShape(Rectangle())
+            }.buttonStyle(.plain)
         }
-        .background { OCGlassShape(cornerRadius: 22, elevates: true, tintOpacity: 0.26) }
+        .padding(.vertical, 17).padding(.horizontal, 8)
+        .overlay(alignment: .bottom) { Divider().overlay(OCTheme.stroke) }
     }
 
-    private var scanStatusGlass: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 12) {
-                Image(systemName: engine.isCleaning ? "trash.circle.fill" : "waveform.path.ecg")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(OCTheme.sea)
-                    .symbolEffect(.pulse, options: .repeating, isActive: engine.isBusy)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(engine.isCleaning
-                         ? L10n.string("smartcare.moving")
-                         : L10n.string("smartcare.scanning"))
-                        .font(.system(size: 14, weight: .semibold))
-                    Text(engine.progressLabel)
-                        .font(.system(size: 12))
-                        .foregroundStyle(OCTheme.muted)
-                        .contentTransition(.opacity)
-                        .animation(.easeOut(duration: 0.22), value: engine.progressLabel)
-                }
-                Spacer()
-                if engine.isScanning, engine.totalCategories > 0 {
-                    Text("\(Int((engine.scanProgress * 100).rounded()))%")
-                        .font(.system(size: 15, weight: .semibold).monospacedDigit())
-                        .foregroundStyle(OCTheme.sea)
-                        .contentTransition(.numericText())
-                }
+    private var footer: some View {
+        HStack(spacing: 20) {
+            VStack(alignment: .leading, spacing: 5) {
+                Text(ByteFormat.string(engine.reclaimableBytes) + " " + label("selected"))
+                    .font(OCTheme.font(16, weight: .semibold)).monospacedDigit()
+                Text(L10n.format("overview.selected_items", selectedCount))
+                    .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
             }
-            OCShimmerBar(height: 5)
-            if engine.isScanning {
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Capsule().fill(OCTheme.glassDeep.opacity(0.5))
-                        Capsule()
-                            .fill(
-                                LinearGradient(
-                                    colors: [OCTheme.seaDeep, OCTheme.sea, OCTheme.glassGlow],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .frame(width: max(8, geo.size.width * engine.scanProgress))
-                            .animation(.easeOut(duration: 0.4), value: engine.scanProgress)
+            Spacer()
+            Button(label("review_clean")) { showReview = true }
+                .buttonStyle(SeaButtonStyle())
+                .disabled(engine.isBusy || engine.reclaimableBytes == 0)
+        }
+        .padding(.horizontal, 32).padding(.vertical, 20)
+        .background(OCTheme.canvasElevated)
+        .overlay(alignment: .top) { Divider().overlay(OCTheme.stroke) }
+    }
+
+    private var review: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            Text(label("review_clean")).font(OCTheme.font(22, weight: .semibold))
+            Text(label("confirm_body")).foregroundStyle(OCTheme.muted)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(cleanable.filter { $0.selectedBytes > 0 }) { result in
+                        Text(result.category.title).font(OCTheme.font(14, weight: .semibold))
+                        ForEach(result.items.filter(\.isSelected)) { item in
+                            HStack(alignment: .top) {
+                                Text(item.url.path).textSelection(.enabled)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Text(ByteFormat.string(item.byteCount)).monospacedDigit()
+                            }.font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
+                        }
                     }
                 }
-                .frame(height: 6)
+            }.frame(maxHeight: 320)
+            HStack {
+                Text(ByteFormat.string(engine.reclaimableBytes)).font(OCTheme.font(16, weight: .semibold))
+                Spacer()
+                Button(label("back")) { showReview = false }.keyboardShortcut(.cancelAction)
+                Button(label("trash")) {
+                    showReview = false
+                    engine.cleanSelected()
+                }.buttonStyle(SeaButtonStyle()).disabled(engine.isBusy || selectedCount == 0)
             }
         }
-        .padding(16)
-        .background { OCGlassShape(cornerRadius: 16, elevates: false, tintOpacity: 0.28) }
+        .font(OCTheme.font(13)).padding(28).frame(width: 640)
+        .background(OCTheme.canvas).preferredColorScheme(.dark)
     }
 
     private var fdaBanner: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: "lock.shield")
-                .font(.system(size: 18, weight: .semibold))
+                .font(OCTheme.font(18, weight: .semibold))
                 .foregroundStyle(OCTheme.accent)
             VStack(alignment: .leading, spacing: 4) {
                 Text(l10n: "fda.banner.title")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(OCTheme.font(14, weight: .semibold))
                 Text(l10n: "fda.banner.body")
-                    .font(.system(size: 12))
+                    .font(OCTheme.font(12))
                     .foregroundStyle(OCTheme.muted)
             }
             Spacer(minLength: 8)
@@ -359,105 +404,6 @@ struct SmartCareView: View {
         }
     }
 
-    private var actions: some View {
-        HStack(spacing: 10) {
-            Button {
-                engine.runSmartCare()
-            } label: {
-                Label(
-                    engine.isScanning ? L10n.string("smartcare.scanning") : L10n.string("smartcare.run"),
-                    systemImage: engine.isBusy ? "sparkles" : "play.fill"
-                )
-                .frame(minWidth: 150)
-                .symbolEffect(.bounce, value: engine.isScanning)
-            }
-            .buttonStyle(SeaButtonStyle())
-            .disabled(engine.isBusy)
-
-            Button {
-                engine.cleanSelected()
-            } label: {
-                Label(l10n: "smartcare.clean_selected", systemImage: "trash")
-                    .frame(minWidth: 130)
-            }
-            .buttonStyle(AccentButtonStyle())
-            .disabled(engine.isBusy || engine.reclaimableBytes == 0)
-
-            if engine.isBusy {
-                Button {
-                    engine.stop()
-                } label: {
-                    Label(l10n: "smartcare.stop", systemImage: "stop.fill")
-                        .frame(minWidth: 110)
-                }
-                .buttonStyle(GhostButtonStyle())
-            }
-        }
-    }
-
-    private var moduleGrid: some View {
-        let modules = engine.results.filter { $0.totalBytes > 0 || $0.category.isCleanable }
-        return LazyVGrid(
-            columns: [GridItem(.adaptive(minimum: 210), spacing: 14)],
-            spacing: 14
-        ) {
-            ForEach(Array(modules.enumerated()), id: \.element.id) { index, result in
-                Button {
-                    onOpenCategory(result.category)
-                } label: {
-                    VStack(alignment: .leading, spacing: 10) {
-                        HStack(spacing: 8) {
-                            Image(systemName: result.category.systemImage)
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(OCTheme.sea)
-                                .frame(width: 30, height: 30)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 9, style: .continuous)
-                                        .fill(.ultraThinMaterial)
-                                        .overlay {
-                                            RoundedRectangle(cornerRadius: 9, style: .continuous)
-                                                .fill(OCTheme.sea.opacity(0.18))
-                                        }
-                                }
-                            Text(result.category.title)
-                                .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(OCTheme.ink)
-                                .lineLimit(1)
-                            Spacer(minLength: 0)
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 11, weight: .semibold))
-                                .foregroundStyle(OCTheme.faint)
-                        }
-                        Text(ByteFormat.string(result.totalBytes))
-                            .font(.system(size: 26, weight: .semibold).monospacedDigit())
-                            .foregroundStyle(result.totalBytes > 0 ? OCTheme.ink : OCTheme.faint)
-                            .contentTransition(.numericText())
-                        Text(result.category.detail)
-                            .font(.system(size: 11))
-                            .foregroundStyle(OCTheme.muted)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.leading)
-                        Text(L10n.format("smartcare.items_selected", Int64(result.items.count), ByteFormat.string(result.selectedBytes)))
-                            .font(.system(size: 10))
-                            .foregroundStyle(OCTheme.faint)
-                    }
-                    .padding(16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .background { OCGlassShape(cornerRadius: 16, elevates: true, tintOpacity: 0.2) }
-                }
-                .buttonStyle(.plain)
-                .transition(.asymmetric(
-                    insertion: .opacity.combined(with: .scale(scale: 0.96)).combined(with: .offset(y: 8)),
-                    removal: .opacity
-                ))
-                .animation(
-                    .spring(response: 0.45, dampingFraction: 0.82).delay(Double(index) * 0.04),
-                    value: modules.count
-                )
-            }
-        }
-    }
 }
 
 struct CategoryDetailView: View {
@@ -474,9 +420,9 @@ struct CategoryDetailView: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(live.category.title)
-                        .font(.system(size: 24, weight: .bold))
+                        .font(OCTheme.font(24, weight: .bold))
                     Text(live.category.detail)
-                        .font(.system(size: 13))
+                        .font(OCTheme.font(13))
                         .foregroundStyle(OCTheme.muted)
                 }
                 Spacer()
@@ -512,10 +458,10 @@ struct CategoryDetailView: View {
                         }
                         VStack(alignment: .leading, spacing: 3) {
                             Text(item.displayName)
-                                .font(.system(size: 13, weight: .medium))
+                                .font(OCTheme.font(13, weight: .medium))
                                 .foregroundStyle(OCTheme.ink)
                             Text(item.url.path)
-                                .font(.system(size: 11))
+                                .font(OCTheme.font(11))
                                 .foregroundStyle(OCTheme.muted)
                                 .lineLimit(2)
                         }

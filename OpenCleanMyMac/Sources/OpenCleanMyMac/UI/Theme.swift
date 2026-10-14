@@ -1,14 +1,25 @@
 import AppKit
+import CoreText
 import SwiftUI
 
 /// Blue glass operate palette — frosted indigo panels.
 enum OCTheme {
-    static let canvas = Color(red: 0.05, green: 0.10, blue: 0.20)
-    static let canvasElevated = Color(red: 0.08, green: 0.16, blue: 0.30)
+    static func registerFonts() {
+        if let url = Bundle.module.url(forResource: "OpenSans", withExtension: "ttf") {
+            CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
+        }
+    }
+
+    static func font(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
+        Font.custom("Open Sans", size: size).weight(weight)
+    }
+
+    static let canvas = Color(red: 0.063, green: 0.106, blue: 0.173)
+    static let canvasElevated = Color(red: 0.09, green: 0.141, blue: 0.22)
     static let mist = Color(red: 0.12, green: 0.24, blue: 0.42)
 
     static let ink = Color(red: 0.96, green: 0.98, blue: 1.0)
-    static let muted = Color(red: 0.68, green: 0.78, blue: 0.92)
+    static let muted = Color(red: 0.66, green: 0.72, blue: 0.81)
     static let faint = Color(red: 0.48, green: 0.58, blue: 0.74)
 
     /// Primary action / links
@@ -65,32 +76,7 @@ struct OCGlassMaterial: NSViewRepresentable {
 }
 
 struct OCScreenBackground: View {
-    var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [
-                    Color(red: 0.10, green: 0.22, blue: 0.42),
-                    Color(red: 0.04, green: 0.08, blue: 0.18),
-                    Color(red: 0.06, green: 0.14, blue: 0.28)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            GeometryReader { geo in
-                Circle()
-                    .fill(OCTheme.glassGlow.opacity(0.30))
-                    .frame(width: 520, height: 520)
-                    .blur(radius: 80)
-                    .offset(x: geo.size.width - 200, y: -160)
-                Circle()
-                    .fill(OCTheme.sea.opacity(0.14))
-                    .frame(width: 380, height: 380)
-                    .blur(radius: 70)
-                    .offset(x: -120, y: geo.size.height - 180)
-            }
-        }
-        .ignoresSafeArea()
-    }
+    var body: some View { OCTheme.canvas.ignoresSafeArea() }
 }
 
 struct OCGlassPanel<Content: View>: View {
@@ -115,64 +101,7 @@ struct OCGlassShape: View {
 
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(.ultraThinMaterial)
-            .overlay {
-                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.14),
-                                OCTheme.glass.opacity(tintOpacity),
-                                OCTheme.glassDeep.opacity(0.45),
-                                Color.white.opacity(0.02)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-            .overlay(alignment: .top) {
-                // Specular highlight strip
-                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.white.opacity(0.22), Color.white.opacity(0)],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(height: max(18, cornerRadius * 1.1))
-                    .padding(.horizontal, 1)
-                    .padding(.top, 1)
-                    .allowsHitTesting(false)
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .stroke(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.42),
-                                Color.white.opacity(0.12),
-                                OCTheme.sea.opacity(0.18)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1
-                    )
-            }
-            .shadow(
-                color: elevates ? OCTheme.shadow.opacity(0.55) : .clear,
-                radius: elevates ? 18 : 0,
-                x: 0,
-                y: elevates ? 8 : 0
-            )
-            .shadow(
-                color: elevates ? OCTheme.sea.opacity(0.08) : .clear,
-                radius: elevates ? 24 : 0,
-                x: 0,
-                y: elevates ? 12 : 0
-            )
+            .fill(OCTheme.canvasElevated)
     }
 }
 
@@ -302,11 +231,11 @@ struct OCPageHeader: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.system(size: 32, weight: .bold))
+                .font(OCTheme.font(32, weight: .bold))
                 .foregroundStyle(OCTheme.ink)
                 .tracking(-0.3)
             Text(subtitle)
-                .font(.system(size: 14))
+                .font(OCTheme.font(14))
                 .foregroundStyle(OCTheme.muted)
                 .frame(maxWidth: 560, alignment: .leading)
                 .fixedSize(horizontal: false, vertical: true)
@@ -322,7 +251,7 @@ struct OCMetricChip: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
-                .font(.system(size: 11, weight: .semibold))
+                .font(OCTheme.font(11, weight: .semibold))
                 .foregroundStyle(OCTheme.faint)
                 .textCase(.uppercase)
                 .tracking(0.6)
@@ -354,34 +283,22 @@ struct OCMetricChip: View {
 }
 
 struct SeaButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) private var isEnabled
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 13, weight: .semibold))
-            .padding(.horizontal, 16)
-            .padding(.vertical, 9)
-            .background(
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: configuration.isPressed
-                                ? [OCTheme.seaDeep, OCTheme.seaDeep]
-                                : [OCTheme.sea, OCTheme.seaDeep],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .shadow(color: OCTheme.sea.opacity(configuration.isPressed ? 0 : 0.35), radius: 10, x: 0, y: 3)
-            )
-            .foregroundStyle(.white)
-            .scaleEffect(configuration.isPressed ? 0.98 : 1)
-            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+            .font(OCTheme.font(13, weight: .semibold))
+            .padding(.horizontal, 18).padding(.vertical, 11)
+            .background(OCTheme.sea.opacity(configuration.isPressed ? 0.8 : 1),
+                        in: RoundedRectangle(cornerRadius: 8))
+            .foregroundStyle(OCTheme.canvas)
+            .opacity(isEnabled ? 1 : 0.4)
     }
 }
 
 struct AccentButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 13, weight: .semibold))
+            .font(OCTheme.font(13, weight: .semibold))
             .padding(.horizontal, 16)
             .padding(.vertical, 9)
             .background(
@@ -398,7 +315,7 @@ struct AccentButtonStyle: ButtonStyle {
 struct GhostButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 13, weight: .medium))
+            .font(OCTheme.font(13, weight: .medium))
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(
@@ -416,7 +333,7 @@ struct GhostButtonStyle: ButtonStyle {
 struct QuitButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 13, weight: .semibold))
+            .font(OCTheme.font(13, weight: .semibold))
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
             .background(

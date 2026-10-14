@@ -226,7 +226,7 @@ struct SettingsView: View {
     private func group<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(.system(size: 15, weight: .semibold))
+                .font(OCTheme.font(15, weight: .semibold))
                 .foregroundStyle(OCTheme.ink)
             content()
         }

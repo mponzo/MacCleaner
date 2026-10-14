@@ -97,11 +97,11 @@ struct ApplicationsView: View {
             HStack(spacing: 10) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(app.name)
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(OCTheme.font(13, weight: .semibold))
                         .foregroundStyle(OCTheme.ink)
                         .lineLimit(1)
                     Text(app.bundleIdentifier)
-                        .font(.system(size: 10))
+                        .font(OCTheme.font(10))
                         .foregroundStyle(OCTheme.muted)
                         .lineLimit(1)
                 }
@@ -182,11 +182,11 @@ struct ApplicationsView: View {
     private func header(_ app: InstalledApp) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(app.name)
-                .font(.system(size: 28, weight: .bold))
+                .font(OCTheme.font(28, weight: .bold))
                 .foregroundStyle(OCTheme.ink)
 
             Text("\(app.bundleIdentifier) · v\(app.version)")
-                .font(.system(size: 12))
+                .font(OCTheme.font(12))
                 .foregroundStyle(OCTheme.muted)
 
             HStack(spacing: 20) {
@@ -296,7 +296,7 @@ struct ApplicationsView: View {
     private func labeled(_ title: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title.uppercased())
-                .font(.system(size: 10, weight: .semibold))
+                .font(OCTheme.font(10, weight: .semibold))
                 .foregroundStyle(OCTheme.muted)
             Text(value)
                 .font(.system(size: 18, weight: .semibold).monospacedDigit())

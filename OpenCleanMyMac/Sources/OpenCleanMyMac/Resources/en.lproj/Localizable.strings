@@ -426,3 +426,21 @@
 "updates.error.install" = "Install failed: %@";
 "updates.error.network" = "Network error: %@";
 "updates.error.check_first" = "Check for updates first.";
+
+/* Overview redesign */
+"overview.title" = "More space. Less clutter.";
+"overview.intro" = "Scan your Mac and choose what to remove.";
+"overview.scan" = "Scan your Mac";
+"overview.rescan" = "Scan again";
+"overview.available" = "of reclaimable space";
+"overview.categories" = "categories scanned";
+"overview.review" = "Review what to clean";
+"overview.selected" = "selected";
+"overview.selected_items" = "%lld items · review paths before cleaning";
+"overview.empty_categories" = "%lld more categories with no files to clean";
+"overview.reassurance" = "You choose what to remove. Open a category to review its paths.";
+"overview.review_clean" = "Review and clean…";
+"overview.partial" = "Category is at least partially selected. Open details to review individual files.";
+"overview.confirm_body" = "Review the selected files. They will be moved to Trash; system paths may require an administrator password.";
+"overview.back" = "Back to results";
+"overview.trash" = "Move to Trash";

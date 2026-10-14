@@ -15,6 +15,7 @@ struct OpenCleanMyMacApp: App {
     @State private var preferences = AppPreferences.shared
 
     init() {
+        OCTheme.registerFonts()
         let headless = CommandLine.arguments.contains(where: {
             $0 == "--scan-once" || $0 == "--apps-once" || $0 == "--perf-once" || $0 == "--priv-once"
         })

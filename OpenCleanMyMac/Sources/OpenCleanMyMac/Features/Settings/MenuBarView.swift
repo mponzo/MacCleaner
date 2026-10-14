@@ -98,13 +98,13 @@ struct MenuBarView: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
                     Text(l10n: "menubar.status_label")
-                        .font(.system(size: 18, weight: .bold))
+                        .font(OCTheme.font(18, weight: .bold))
                     Text(statusIsGood ? L10n.string("menubar.status.good") : L10n.string("menubar.status.attention"))
-                        .font(.system(size: 18, weight: .bold))
+                        .font(OCTheme.font(18, weight: .bold))
                         .foregroundStyle(statusIsGood ? OCTheme.sea : OCTheme.accent)
                 }
                 Text(hostName)
-                    .font(.system(size: 12))
+                    .font(OCTheme.font(12))
                     .foregroundStyle(OCTheme.muted)
             }
             Spacer(minLength: 0)
@@ -120,7 +120,7 @@ struct MenuBarView: View {
                     .frame(width: 48, height: 48)
                     .shadow(color: OCTheme.sea.opacity(0.40), radius: 10, x: 0, y: 2)
                 Image(systemName: "laptopcomputer")
-                    .font(.system(size: 22, weight: .medium))
+                    .font(OCTheme.font(22, weight: .medium))
                     .foregroundStyle(.white)
             }
         }
@@ -129,19 +129,19 @@ struct MenuBarView: View {
     private var protectionStrip: some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "checkmark.shield.fill")
-                .font(.system(size: 16, weight: .semibold))
+                .font(OCTheme.font(16, weight: .semibold))
                 .foregroundStyle(OCTheme.success)
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Text(l10n: "menubar.ready_title")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(OCTheme.font(12, weight: .semibold))
                     Spacer()
                     Text(l10n: "menubar.ready_badge")
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(OCTheme.font(11, weight: .semibold))
                         .foregroundStyle(OCTheme.success)
                 }
                 Text(L10n.format("menubar.ready_detail", uptimeText))
-                    .font(.system(size: 11))
+                    .font(OCTheme.font(11))
                     .foregroundStyle(OCTheme.muted)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -155,9 +155,9 @@ struct MenuBarView: View {
         return LazyVGrid(columns: columns, spacing: 8) {
             glassTile(icon: "internaldrive.fill", title: L10n.string("menubar.storage")) {
                 Text(L10n.format("menubar.available", ByteFormat.string(metrics.diskFreeBytes)))
-                    .font(.system(size: 12, weight: .medium))
+                    .font(OCTheme.font(12, weight: .medium))
                 Text(L10n.format("menubar.disk_used", Int64(metrics.diskUsedPercent.rounded())))
-                    .font(.system(size: 11))
+                    .font(OCTheme.font(11))
                     .foregroundStyle(OCTheme.muted)
                 Button(L10n.string("menubar.free_up")) {
                     openMainWindow()
@@ -166,22 +166,22 @@ struct MenuBarView: View {
                     }
                 }
                 .buttonStyle(.plain)
-                .font(.system(size: 12, weight: .semibold))
+                .font(OCTheme.font(12, weight: .semibold))
                 .foregroundStyle(OCTheme.sea)
                 .padding(.top, 2)
             }
 
             glassTile(icon: "memorychip.fill", title: L10n.string("menubar.memory")) {
                 Text(L10n.format("menubar.pressure", Int64(metrics.memoryUsedPercent.rounded())))
-                    .font(.system(size: 12, weight: .medium))
+                    .font(OCTheme.font(12, weight: .medium))
                 Text(ByteFormat.string(Int64(metrics.freeMemoryBytes)) + " " + L10n.string("menubar.free_short"))
-                    .font(.system(size: 11))
+                    .font(OCTheme.font(11))
                     .foregroundStyle(OCTheme.muted)
                 Button(L10n.string("menubar.free_up")) {
                     openMainWindow(then: .ocmmOpenPerformance)
                 }
                 .buttonStyle(.plain)
-                .font(.system(size: 12, weight: .semibold))
+                .font(OCTheme.font(12, weight: .semibold))
                 .foregroundStyle(OCTheme.sea)
                 .padding(.top, 2)
             }
@@ -193,24 +193,24 @@ struct MenuBarView: View {
                         .font(.system(size: 18, weight: .semibold).monospacedDigit())
                         .foregroundStyle(percent < 20 ? OCTheme.accent : OCTheme.ink)
                     Text(batteryDetail(battery))
-                        .font(.system(size: 11))
+                        .font(OCTheme.font(11))
                         .foregroundStyle(OCTheme.muted)
                 } else {
                     Text(l10n: "menubar.battery_unavailable")
-                        .font(.system(size: 11))
+                        .font(OCTheme.font(11))
                         .foregroundStyle(OCTheme.muted)
                 }
             }
 
             glassTile(icon: "cpu", title: L10n.string("menubar.cpu")) {
                 Text(L10n.format("menubar.cpu_usage", Int64(metrics.cpuLoadPercent.rounded())))
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(OCTheme.font(12, weight: .semibold))
                     .foregroundStyle(metrics.cpuLoadPercent > 70 ? OCTheme.accent : OCTheme.ink)
                 Text(L10n.format("menubar.processes", Int64(max(performance.processes.count, metrics.processCount))))
-                    .font(.system(size: 11))
+                    .font(OCTheme.font(11))
                     .foregroundStyle(OCTheme.muted)
                 Text(L10n.format("menubar.agents_brief", Int64(performance.brokenAgentCount)))
-                    .font(.system(size: 11))
+                    .font(OCTheme.font(11))
                     .foregroundStyle(performance.brokenAgentCount > 0 ? OCTheme.accent : OCTheme.muted)
             }
         }
@@ -227,7 +227,7 @@ struct MenuBarView: View {
                 .font(.system(size: 11, weight: .medium).monospacedDigit())
                 .foregroundStyle(OCTheme.ink)
                 Text(network.isSatisfied ? L10n.string("menubar.network_online") : L10n.string("menubar.network_offline"))
-                    .font(.system(size: 11))
+                    .font(OCTheme.font(11))
                     .foregroundStyle(network.isSatisfied ? OCTheme.success : OCTheme.danger)
                 Button(L10n.string("menubar.network_settings")) {
                     if let url = URL(string: "x-apple.systempreferences:com.apple.Network-Settings.extension") {
@@ -235,7 +235,7 @@ struct MenuBarView: View {
                     }
                 }
                 .buttonStyle(.plain)
-                .font(.system(size: 12, weight: .semibold))
+                .font(OCTheme.font(12, weight: .semibold))
                 .foregroundStyle(OCTheme.sea)
                 .padding(.top, 2)
             }
@@ -244,13 +244,13 @@ struct MenuBarView: View {
                 let tops = Array(performance.processes.prefix(2))
                 if tops.isEmpty {
                     Text(l10n: "menubar.activity_empty")
-                        .font(.system(size: 11))
+                        .font(OCTheme.font(11))
                         .foregroundStyle(OCTheme.muted)
                 } else {
                     ForEach(tops) { proc in
                         HStack {
                             Text(proc.name)
-                                .font(.system(size: 11, weight: .medium))
+                                .font(OCTheme.font(11, weight: .medium))
                                 .lineLimit(1)
                             Spacer(minLength: 4)
                             Text(ByteFormat.string(Int64(proc.memoryBytes)))
@@ -260,7 +260,7 @@ struct MenuBarView: View {
                     }
                 }
                 Text(L10n.format("menubar.reclaimable_brief", ByteFormat.string(engine.reclaimableBytes)))
-                    .font(.system(size: 11))
+                    .font(OCTheme.font(11))
                     .foregroundStyle(engine.reclaimableBytes > 0 ? OCTheme.accent : OCTheme.muted)
                     .padding(.top, 2)
             }
@@ -275,12 +275,12 @@ struct MenuBarView: View {
     private var tipCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(l10n: "menubar.tip_title")
-                .font(.system(size: 12, weight: .semibold))
+                .font(OCTheme.font(12, weight: .semibold))
                 .foregroundStyle(OCTheme.muted)
 
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: "hand.raised.fill")
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(OCTheme.font(18, weight: .semibold))
                     .foregroundStyle(.white)
                     .frame(width: 36, height: 36)
                     .background(
@@ -290,9 +290,9 @@ struct MenuBarView: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(l10n: "menubar.tip_headline")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(OCTheme.font(13, weight: .semibold))
                     Text(l10n: "menubar.tip_body")
-                        .font(.system(size: 11))
+                        .font(OCTheme.font(11))
                         .foregroundStyle(OCTheme.muted)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -328,7 +328,7 @@ struct MenuBarView: View {
                 openMainWindow(then: .ocmmOpenSettings)
             } label: {
                 Image(systemName: "gearshape.fill")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(OCTheme.font(13, weight: .semibold))
                     .frame(width: 36, height: 34)
             }
             .buttonStyle(GhostButtonStyle())
@@ -356,10 +356,10 @@ struct MenuBarView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 6) {
                 Image(systemName: icon)
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(OCTheme.font(11, weight: .semibold))
                     .foregroundStyle(OCTheme.sea)
                 Text(title)
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(OCTheme.font(11, weight: .semibold))
                     .foregroundStyle(OCTheme.muted)
                     .lineLimit(1)
             }

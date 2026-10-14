@@ -119,6 +119,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
     <string>pt-BR</string>
     <string>ja</string>
     <string>zh-Hans</string>
+    <string>el</string>
+    <string>ru</string>
   </array>
   <key>CFBundleExecutable</key>
   <string>${BIN_NAME}</string>
@@ -197,6 +199,8 @@ declare -A SERVICES_TITLES=(
   [pt-BR]="Desinstalar com MacCleaner"
   [ja]="MacCleaner でアンインストール"
   [zh-Hans]="使用 MacCleaner 卸载"
+  [el]="Απεγκατάσταση με το MacCleaner"
+  [ru]="Удалить с помощью MacCleaner"
 )
 for loc in "${!SERVICES_TITLES[@]}"; do
   mkdir -p "$SERVICES_DIR/${loc}.lproj"

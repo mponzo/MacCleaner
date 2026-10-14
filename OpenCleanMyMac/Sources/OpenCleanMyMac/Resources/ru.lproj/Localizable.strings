@@ -1,0 +1,683 @@
+/* General */
+"app.name" = "MacCleaner";
+"common.yes" = "Да — ~/Applications";
+"common.no" = "Нет";
+"common.run" = "Запустить";
+"common.refresh" = "Обновить";
+"common.status" = "Состояние";
+"common.admin" = "Админ";
+"common.broken" = "Повреждено";
+"common.user" = "Пользователь";
+"common.system" = "Система";
+"common.select_all" = "Выбрать всё";
+"common.select_none" = "Снять выбор";
+"common.on" = "Вкл.";
+"common.off" = "Выкл.";
+"common.unknown" = "Неизвестно";
+
+/* Sidebar */
+"sidebar.smart_care" = "Smart Care";
+"sidebar.overview" = "Обзор";
+"sidebar.overview.subtitle" = "Сканирование и освобождение места";
+"sidebar.tools" = "Инструменты";
+"sidebar.applications" = "Приложения";
+"sidebar.orphans" = "Orphan Finder";
+"sidebar.performance" = "Системный монитор";
+"sidebar.startup" = "Автозагрузка";
+"sidebar.developer" = "Очистка для разработчиков";
+"sidebar.privileged" = "Привилегированный помощник";
+"sidebar.space_lens" = "Space Explorer";
+"sidebar.privacy" = "Конфиденциальность и место";
+"sidebar.duplicates" = "Поиск дубликатов";
+"sidebar.similar_photos" = "Похожие фото";
+"sidebar.scheduler" = "Расписание";
+"sidebar.updates" = "Обновления";
+"sidebar.settings" = "Настройки";
+"sidebar.modules" = "Модули";
+
+"dup.title" = "Поиск дубликатов";
+"dup.subtitle" = "Точные совпадения по размеру и SHA-256. В каждой группе остаётся одна защищённая копия.";
+"dup.idle" = "Выберите папку для поиска точных дубликатов.";
+"dup.choose" = "Выбрать папку";
+"dup.rescan" = "Пересканировать";
+"dup.trash_selected" = "Переместить выбранные в Корзину";
+"dup.scanning" = "Сканирование файлов…";
+"dup.hashing" = "Хэширование кандидатов в дубликаты…";
+"dup.stopped" = "Сканирование остановлено.";
+"dup.trashing" = "Перемещение выбранных дубликатов в Корзину…";
+"dup.empty" = "Точных дубликатов не найдено";
+"dup.empty.detail" = "Выберите папку с файлами, которые могут содержать копии. Пакеты, символические и жёсткие ссылки пропускаются.";
+"dup.summary" = "%lld групп(ы) · %@ можно освободить";
+"dup.skipped" = "Пропущено %lld элемент(ов) (пакеты, ссылки или нечитаемые файлы).";
+"dup.failed" = "%lld путь(ей) не удалось переместить в Корзину.";
+"dup.group_title" = "%lld одинаковых файлов";
+"dup.protected" = "Защищено";
+"dup.reveal" = "Показать в Finder";
+"dup.progress_files" = "Проиндексировано %lld файлов…";
+
+"photos.title" = "Похожие фото";
+"photos.subtitle" = "Визуальная оценка по локальным миниатюрам — фото не удаляются и не загружаются.";
+"photos.disclaimer" = "Сходство — оценка, а не доказательство идентичности файлов. Используйте «Показать в Finder», чтобы сравнить оригиналы.";
+"photos.idle" = "Выберите папку с фото для сравнения.";
+"photos.choose" = "Выбрать папку с фото";
+"photos.rescan" = "Пересканировать";
+"photos.scanning" = "Сравнение локальных миниатюр…";
+"photos.stopped" = "Сканирование остановлено.";
+"photos.empty" = "Похожих групп не найдено";
+"photos.empty.detail" = "Попробуйте папку с камерными роликами или экспортом. Облачные заглушки и пакеты пропускаются.";
+"photos.summary" = "%lld похожих групп(ы) из %lld фото";
+"photos.limit" = "Достигнут лимит сканирования 500 фото / 10 000 записей. Сузьте папку для более полных результатов.";
+"photos.group_title" = "%lld похожих фото";
+"photos.reveal" = "Показать";
+
+"sched.title" = "Плановая очистка";
+"sched.subtitle" = "Запускайте Smart Care в фоне, пока MacCleaner остаётся в строке меню.";
+"sched.enable" = "Включить плановое сканирование";
+"sched.interval" = "Интервал сканирования";
+"sched.auto_clean" = "Автоочистка после сканирования";
+"sched.threshold" = "Минимальный объём к освобождению";
+"sched.help" = "Автоочистка выполняется только когда выбранный объём к освобождению достигает порога. Оставьте полный доступ к диску включённым для полных результатов.";
+"sched.status" = "Состояние";
+"sched.last_run" = "Последний запуск";
+"sched.next_run" = "Следующий запуск";
+"sched.never" = "Никогда";
+"sched.not_scheduled" = "Не запланировано";
+"sched.run_now" = "Запустить сейчас";
+"sched.idle" = "Планировщик простаивает";
+"sched.enabled" = "По расписанию";
+"sched.disabled" = "Отключено";
+"sched.running" = "Запуск Smart Care…";
+"sched.cleaning" = "Автоочистка выбранного…";
+"sched.busy" = "Smart Care уже занят";
+"sched.no_engine" = "Движок очистки недоступен";
+"sched.scanned" = "Сканирование завершено · %@ можно освободить";
+"sched.cleaned" = "Автоочистка завершена · освобождено %@";
+"sched.below_threshold" = "Ниже порога (%@ < %lld МБ) — автоочистка пропущена";
+"sched.interval.everyHour" = "Каждый час";
+"sched.interval.every3Hours" = "Каждые 3 часа";
+"sched.interval.every6Hours" = "Каждые 6 часов";
+"sched.interval.every12Hours" = "Каждые 12 часов";
+"sched.interval.daily" = "Ежедневно";
+"sched.interval.weekly" = "Еженедельно";
+"sched.interval.biweekly" = "Каждые 2 недели";
+"sched.interval.monthly" = "Ежемесячно";
+
+/* Smart Care */
+"smartcare.brand" = "MACCLEANER";
+"smartcare.title" = "Освободите место со Smart Care";
+"smartcare.subtitle" = "Открытый очиститель Mac для мусора, загрузок, Xcode, браузеров, остатков и удаления — прозрачные пути, всё локально.";
+"smartcare.reclaimable" = "Можно освободить";
+"smartcare.scanned" = "Просканировано";
+"smartcare.progress" = "Прогресс";
+"smartcare.ready" = "Готово";
+"smartcare.run" = "Запустить Smart Care";
+"smartcare.scanning" = "Сканирование…";
+"smartcare.stop" = "Стоп";
+"smartcare.stopped" = "Остановлено";
+"smartcare.clean_selected" = "Очистить выбранные";
+"smartcare.last_clean" = "Последняя очистка: перемещено %lld элемент(ов), освобождено %@.";
+"smartcare.items_selected" = "%lld элементов · %@ выбрано";
+"smartcare.run_prompt" = "Запустить Smart Care";
+"smartcare.idle" = "Простой";
+"smartcare.starting" = "Запуск Smart Care…";
+"smartcare.scanned_category" = "Просканировано %@";
+"smartcare.complete" = "Smart Care завершён";
+"smartcare.moving" = "Перемещение элементов в Корзину…";
+"smartcare.freed" = "Освобождено %@";
+"smartcare.failed_count" = "%lld элемент(ов) не удалось переместить.";
+
+/* Categories */
+"category.userCaches.title" = "Пользовательские кэши";
+"category.userCaches.detail" = "~/Library/Caches";
+"category.userLogs.title" = "Пользовательские журналы";
+"category.userLogs.detail" = "~/Library/Logs";
+"category.trash.title" = "Корзина";
+"category.trash.detail" = "~/.Trash";
+"category.xcodeDerivedData.title" = "Xcode DerivedData";
+"category.xcodeDerivedData.detail" = "~/Library/Developer/Xcode/DerivedData";
+"category.xcodeArchives.title" = "Архивы Xcode";
+"category.xcodeArchives.detail" = "~/Library/Developer/Xcode/Archives";
+"category.developerCaches.title" = "Кэши разработчика";
+"category.developerCaches.detail" = "npm, Homebrew, pip, Gradle";
+"category.downloadsClutter.title" = "Старые загрузки";
+"category.downloadsClutter.detail" = "Загрузки старше 30 дней";
+"category.unusedDiskImages.title" = "Образы дисков";
+"category.unusedDiskImages.detail" = "*.dmg / *.iso в Загрузках";
+"category.browserCaches.title" = "Кэши браузеров";
+"category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeOldFiles.title" = "Большие и старые файлы";
+"category.largeOldFiles.detail" = ">100 МБ или старше 1 года — Загрузки, Документы, Рабочий стол";
+"category.largeHomeFolders.title" = "Большие папки";
+"category.largeHomeFolders.detail" = "Крупнейшие папки в Home";
+"category.appLeftovers.title" = "Остатки приложений";
+"category.appLeftovers.detail" = "Осиротевшие настройки, кэши, контейнеры";
+"category.brokenLaunchAgents.title" = "Повреждённые Launch Agents";
+"category.brokenLaunchAgents.detail" = "Пользовательские LaunchAgents с отсутствующими бинарниками";
+"category.systemCaches.title" = "Системные кэши";
+"category.systemCaches.detail" = "/Library/Caches (нужен администратор)";
+"category.systemLogs.title" = "Системные журналы";
+"category.systemLogs.detail" = "/Library/Logs и /var/log (администратор)";
+"category.systemLaunchAgents.title" = "Повреждённые системные агенты";
+"category.systemLaunchAgents.detail" = "Повреждённые /Library/LaunchAgents (администратор)";
+
+/* Leftover kinds */
+"leftover.preferences" = "Настройки";
+"leftover.caches" = "Кэши";
+"leftover.applicationSupport" = "Application Support";
+"leftover.logs" = "Журналы";
+"leftover.savedState" = "Сохранённое состояние";
+"leftover.cookies" = "Cookies";
+"leftover.containers" = "Containers";
+"leftover.groupContainers" = "Group Containers";
+"leftover.launchAgents" = "Launch Agents";
+"leftover.crashReporter" = "Crash Reporter";
+
+/* Applications */
+"apps.search" = "Поиск приложений";
+"apps.brand" = "ПРИЛОЖЕНИЯ";
+"apps.select" = "Выберите приложение";
+"apps.select.detail" = "Сканируйте остатки и удаляйте вместе со связанными файлами.";
+"apps.protected" = "Защищённое системное приложение — остатки и удаление отключены.";
+"apps.include_bundle" = "Включить пакет приложения";
+"apps.uninstall_selected" = "Удалить выбранные";
+"apps.leftovers" = "Остатки";
+"apps.leftovers.empty" = "В путях Library пользователя связанные файлы не найдены.";
+"apps.orphans" = "Осиротевшие остатки";
+"apps.orphans.detail" = "Настройки/кэши/контейнеры, чей bundle ID не установлен.";
+"apps.clean_orphans" = "Очистить выбранные остатки";
+"apps.app_size" = "Размер приложения";
+"apps.leftovers_size" = "Остатки";
+"apps.selected_size" = "Выбрано";
+"apps.last_action" = "Последнее действие: перемещено %lld элемент(ов), освобождено %@.";
+"apps.failed_paths" = "%lld путь(ей) не удалось переместить в Корзину.";
+"apps.listing" = "Список приложений…";
+"apps.scanning_leftovers" = "Сканирование остатков…";
+"apps.finding_orphans" = "Поиск осиротевших остатков…";
+"apps.summary" = "%lld прилож. · %@ осиротевших остатков";
+"apps.uninstalling" = "Удаление %@…";
+"apps.cleaning_orphans" = "Очистка осиротевших остатков…";
+"apps.confirm_title" = "Переместить в Корзину?";
+"apps.confirm_body" = "MacCleaner переместит выбранное приложение и связанные файлы в Корзину. Элементы, требующие прав администратора, могут быть удалены безвозвратно. Проверьте выбор перед продолжением.";
+"apps.needs_fda" = "Удаление %@: %lld файл(ов) требуют полного доступа к диску. Предоставьте его в Настройках и повторите попытку.";
+"apps.needs_fda_generic" = "%lld файл(ов) требуют полного доступа к диску перед удалением.";
+"apps.fda_required_path" = "Нужен полный доступ к диску";
+"apps.admin_hint" = "Если macOS запросил пароль, а удаление всё равно не удалось, проверьте, что приложение не защищено.";
+"common.cancel" = "Отмена";
+
+/* Performance */
+"perf.brand" = "ПРОИЗВОДИТЕЛЬНОСТЬ";
+"perf.title" = "Системный монитор";
+"perf.subtitle" = "Живой системный монитор (CPU, память, приложения), обслуживание и ссылка на автозагрузку.";
+"perf.memory" = "Память";
+"perf.memory_used" = "%lld%% занято";
+"perf.free_ram" = "Свободная RAM";
+"perf.wired" = "Связанная %@";
+"perf.cpu" = "CPU (тики)";
+"perf.processes" = "%lld процессов";
+"perf.disk_free" = "Свободно на диске";
+"perf.disk_used" = "%.0f%% занято";
+"perf.maintenance" = "Обслуживание";
+"perf.agents" = "Launch Agents";
+"perf.agents.broken_count" = "%lld повреждено";
+"perf.agents.remove" = "Удалить выбранные";
+"perf.agents.help" = "Пользовательские агенты можно переместить в Корзину. Системные агенты показаны только для чтения.";
+"perf.top_processes" = "Топ процессов по памяти";
+"perf.pid" = "pid %d";
+"perf.removed_agents" = "Удалено %lld файл(ов) агентов, %@.";
+"perf.refreshing" = "Обновление производительности…";
+"perf.agents_summary" = "%lld агентов · %lld повреждено";
+"perf.moving_agents" = "Перемещение launch agents в Корзину…";
+"perf.agents_failed" = "%lld агент(ов) не удалось удалить.";
+"perf.running_task" = "Выполняется %@…";
+
+"maint.flushDNS.title" = "Очистить кэш DNS";
+"maint.flushDNS.detail" = "Очистить системный кэш DNS (может запросить пароль администратора)";
+"maint.flushDNS.ok" = "Кэш DNS очищен.";
+"maint.flushDNS.fail" = "Очистка DNS не удалась или отменена.";
+"maint.speedUpMail.title" = "Ускорить Mail";
+"maint.speedUpMail.detail" = "VACUUM Envelope Index Apple Mail (домен пользователя)";
+"maint.speedUpMail.missing" = "Envelope Index Apple Mail не найден. Закройте Mail и повторите, если вы им пользуетесь.";
+"maint.speedUpMail.vacuum_fail" = "sqlite3 VACUUM не выполнен (Mail закрыт?).";
+"maint.speedUpMail.ok" = "Индекс Mail оптимизирован. Из файла освобождено %@.";
+"maint.thinLocalSnapshots.title" = "Уменьшить локальные снимки";
+"maint.thinLocalSnapshots.detail" = "Попросить tmutil уменьшить локальные снимки APFS";
+"maint.thinLocalSnapshots.ok" = "Запрошено уменьшение локальных снимков.";
+"maint.thinLocalSnapshots.fail" = "Уменьшение снимков не удалось или отменено.";
+"maint.rebuildLaunchServices.title" = "Пересобрать Launch Services";
+"maint.rebuildLaunchServices.detail" = "Пересобрать базу Launch Services (пользователь)";
+"maint.rebuildLaunchServices.missing" = "lsregister не найден в этой версии macOS.";
+"maint.rebuildLaunchServices.ok" = "Запрошена пересборка базы Launch Services.";
+"maint.rebuildLaunchServices.fail_status" = "lsregister завершился со статусом %lld.";
+
+/* Privileged */
+"priv.brand" = "ПРИВИЛЕГИРОВАННЫЙ ПОМОЩНИК";
+"priv.title" = "Очистка на уровне системы";
+"priv.subtitle" = "MacCleaner использует мост администратора с белым списком (запрос пароля) для системных путей. Каркас подписанного демона SMAppService включён на будущее.";
+"priv.bridge" = "Мост";
+"priv.ready" = "Готово";
+"priv.busy" = "Занято…";
+"priv.osascript" = "osascript admin";
+"priv.system_caches" = "Системные кэши";
+"priv.system_logs" = "Системные журналы";
+"priv.broken_agents" = "Повреждённые агенты";
+"priv.maintenance" = "Привилегированное обслуживание";
+"priv.flush_dns" = "Очистить DNS";
+"priv.thin_snapshots" = "Уменьшить снимки";
+"priv.rescan" = "Пересканировать";
+"priv.clean_help" = "Очистка системных кэшей/журналов: запустите Smart Care, выберите элементы System Caches / System Logs, затем «Очистить выбранные» (запрос администратора).";
+"priv.roadmap" = "Дорожная карта подписанного помощника";
+"priv.roadmap.body" = "1. Соберите пакет приложения + цель OpenCleanPrivilegedHelper\n2. Подпишите оба одним Team ID (Apple Development подходит для локального SMAppService)\n3. Зарегистрируйте через SMAppService.daemon и замените запросы osascript\nСм. docs/PRIVILEGED_HELPER.md";
+"priv.status_bridge" = "Мост администратора готов (запрос пароля на каждую операцию). Подписанный помощник SMAppService ещё не установлен.";
+"priv.summary" = "Системные кэши %@ · журналы %@ · повреждённых агентов %lld";
+"priv.running" = "Выполняется %@…";
+"priv.completed" = "%@ завершено.";
+"priv.failed" = "%@ не удалось или отменено.";
+"priv.remove_failed" = "Привилегированное удаление не удалось.";
+"priv.allowlist_denied" = "Путь вне разрешённого списка привилегированных операций.";
+
+/* Installer errors */
+"install.package_first" = "Сначала упакуйте приложение (`./Scripts/package-app.sh`), затем установите из этого .app.";
+"install.failed" = "Установка не удалась: %@";
+"install.not_installed" = "MacCleaner не установлен в Applications.";
+
+/* Space Explorer */
+"space.brand" = "SPACE EXPLORER";
+"space.title" = "Space Explorer";
+"space.subtitle" = "Просматривайте любую папку по выделенному месту на диске. Файлы никогда не изменяются.";
+"space.empty" = "Нет данных сканирования";
+"space.empty.detail" = "Используйте Smart Care для измерения областей к освобождению.";
+"space.explorer.idle" = "Выберите папку для измерения";
+"space.explorer.choose" = "Выбрать папку";
+"space.explorer.choose_message" = "MacCleaner измеряет выделенный размер, не изменяя файлы.";
+"space.explorer.home" = "Home";
+"space.explorer.applications" = "Приложения";
+"space.explorer.parent" = "Родитель";
+"space.explorer.measuring" = "Измерение выделенного места…";
+"space.explorer.stopped" = "Измерение остановлено";
+"space.explorer.failed" = "Не удалось измерить эту папку";
+"space.explorer.summary" = "%lld элементов · %@";
+"space.explorer.empty" = "Здесь нечего измерить";
+"space.explorer.empty.detail" = "Скрытые элементы пропускаются. Попробуйте другую папку.";
+"space.explorer.prompt" = "Узнайте, что занимает больше всего места на диске";
+"space.explorer.prompt.detail" = "Выберите папку, чтобы увидеть, какие файлы и подпапки занимают больше всего выделенного места.";
+"space.explorer.read_only" = "Только чтение — Space Explorer ничего не удаляет.";
+"space.scan_breakdown" = "Категории Smart Care";
+"space.scan_breakdown.detail" = "Области к освобождению из последнего сканирования Smart Care.";
+
+/* Cleanup exclusions */
+"excl.title" = "Исключения очистки";
+"excl.help" = "Исключённые пути пропускаются при сканировании и очистке Smart Care. Добавляйте их из контекстного меню категории.";
+"excl.empty" = "Исключений пока нет.";
+"excl.remove" = "Удалить";
+"excl.clear" = "Очистить всё";
+"excl.always" = "Всегда исключать из очистки";
+
+/* Finder Service */
+"service.uninstall.no_app" = "Выберите приложение (.app) для удаления.";
+"service.uninstall.ready" = "Готово к удалению %@ — проверьте остатки, затем удалите.";
+
+/* Settings */
+"settings.brand" = "НАСТРОЙКИ";
+"settings.title" = "Установка и строка меню";
+"settings.subtitle" = "Установка в ~/Applications, значок в строке меню и автозапуск при входе.";
+"settings.language" = "Язык";
+"settings.language.system" = "Система";
+"settings.language.english" = "English";
+"settings.language.italian" = "Italiano";
+"settings.appearance" = "Оформление";
+"settings.show_menubar" = "Показывать значок в строке меню";
+"settings.hide_dock" = "Скрыть значок Dock (режим строки меню)";
+"settings.hide_dock.help" = "Режим строки меню оставляет приложение доступным через значок статуса рядом с часами.";
+"settings.launcher" = "Автозапуск";
+"settings.launch_at_login" = "Запуск при входе";
+"settings.open_login_items" = "Открыть настройки объектов входа";
+"settings.launch_help" = "Требуется установленный .app в Applications. macOS может один раз запросить подтверждение.";
+"settings.installation" = "Установка";
+"settings.installed" = "Установлено";
+"settings.install" = "Установить в Applications";
+"settings.reinstall" = "Переустановить";
+"settings.uninstall" = "Удалить";
+"settings.reveal" = "Показать в Finder";
+"settings.tip" = "Совет: выполните `./Scripts/package-app.sh`, откройте собранный .app, затем используйте «Установить» здесь.";
+"settings.login.enabled" = "Включено";
+"settings.login.not_registered" = "Не зарегистрировано";
+"settings.login.needs_approval" = "Нужно подтверждение в Системных настройках → Объекты входа";
+"settings.login.unavailable" = "Недоступно, пока не установлено как .app";
+"settings.login.unknown" = "Неизвестно";
+"settings.installed_to" = "Установлено в %@";
+"settings.uninstalled" = "Удалено из ~/Applications.";
+"settings.quit.help" = "Полностью выйти из MacCleaner, включая значок в строке меню. Закрытие главного окна оставляет приложение в строке меню.";
+"settings.permissions" = "Разрешения";
+"settings.fda" = "Полный доступ к диску";
+"settings.fda.on" = "Предоставлено";
+"settings.fda.off" = "Не предоставлено";
+"settings.fda.help" = "Нужен для полного сканирования Mail, данных Safari, контейнеров и других защищённых путей Library.";
+"settings.replay_onboarding" = "Показать настройку снова";
+"settings.protection" = "Защита";
+"settings.protection.filevault" = "FileVault";
+"settings.protection.gatekeeper" = "Gatekeeper";
+"settings.protection.help" = "Состояние только для чтения из macOS. MacCleaner не изменяет эти настройки.";
+
+"onboarding.back" = "Назад";
+"onboarding.continue" = "Продолжить";
+"onboarding.get_started" = "Начать";
+"onboarding.welcome.title" = "Добро пожаловать в MacCleaner";
+"onboarding.welcome.body" = "Освобождайте место на диске, удаляйте приложения с остатками и выполняйте обслуживание — полностью на вашем Mac, без телеметрии.";
+"onboarding.fda.title" = "Одно разрешение — и готово";
+"onboarding.fda.title_granted" = "Разрешение предоставлено";
+"onboarding.fda.body" = "MacCleaner нужен полный доступ к диску, чтобы удалять приложения, находить остатки и очищать защищённые кэши, которые macOS скрывает по умолчанию.";
+"onboarding.fda.body_granted" = "MacCleaner теперь может открывать защищённые расположения, которые macOS блокирует по умолчанию.";
+"onboarding.fda.window_title" = "Полный доступ к диску";
+"onboarding.fda.path" = "Конфиденциальность и безопасность → Полный доступ к диску";
+"onboarding.fda.terminal" = "Terminal";
+"onboarding.fda.open_settings" = "Открыть Системные настройки";
+"onboarding.fda.recheck" = "Я предоставил(а) — проверить снова";
+"onboarding.fda.watching" = "Ожидание разрешения…";
+"onboarding.fda.ready" = "Всё готово — переходите к следующему шагу.";
+"onboarding.ready.title" = "Всё готово";
+"onboarding.ready.body_fda" = "Smart Care и удаление приложений могут сканировать защищённые пути. Вы контролируете каждое удаление.";
+"onboarding.ready.body_limited" = "Можно продолжить с ограниченными результатами и предоставить полный доступ к диску позже в Настройках.";
+
+"fda.banner.title" = "Полный доступ к диску выключен";
+"fda.banner.body" = "Некоторые защищённые расположения недоступны. Предоставьте доступ для более полного сканирования и удаления.";
+"fda.banner.action" = "Предоставить доступ";
+
+/* Menu bar */
+"menubar.open" = "Открыть MacCleaner";
+"menubar.open_short" = "Открыть MacCleaner";
+"menubar.run_smart_care" = "Запустить Smart Care";
+"menubar.launch_at_login" = "Запуск при входе";
+"menubar.hide_dock" = "Скрыть значок Dock";
+"menubar.settings" = "Настройки…";
+"menubar.quit" = "Выйти";
+"menubar.status_label" = "Состояние Mac:";
+"menubar.status.good" = "Хорошо";
+"menubar.status.attention" = "Внимание";
+"menubar.storage" = "Macintosh HD";
+"menubar.available" = "Доступно: %@";
+"menubar.free_up" = "Освободить";
+"menubar.memory" = "Память";
+"menubar.pressure" = "Давление: %lld%%";
+"menubar.cpu" = "CPU";
+"menubar.processes" = "%lld процессов";
+"menubar.battery" = "Батарея";
+"menubar.battery_value" = "%lld%%";
+"menubar.battery_charging" = "Зарядка / подключено";
+"menubar.battery_on_battery" = "От батареи";
+"menubar.battery_unavailable" = "Нет батареи (настольный)";
+"menubar.tip_title" = "Совет дня";
+"menubar.tip_headline" = "Рекомендуется сканирование Smart Care";
+"menubar.tip_body" = "Найдите доступные кэши, остатки и старые загрузки за один проход.";
+"menubar.run_scan" = "Запустить Smart Care";
+
+/* Menu commands */
+"menu.clean" = "Очистить";
+"menu.run_smart_care" = "Запустить Smart Care";
+"menu.clean_selected" = "Очистить выбранные";
+"menu.refresh_apps" = "Обновить приложения";
+"menu.refresh_perf" = "Обновить производительность";
+
+"menubar.disk_used" = "Занято: %lld%%";
+"menubar.free_short" = "свободно";
+"menubar.cpu_usage" = "Загрузка: %lld%%";
+"menubar.agents_brief" = "%lld повреждённых агентов";
+"menubar.ready_title" = "Локальная очистка готова";
+"menubar.ready_badge" = "Готово";
+"menubar.ready_detail" = "Smart Care и инструменты обслуживания доступны · Время работы %@";
+"menubar.uptime_days" = "%lldд %lldч";
+"menubar.uptime_hours" = "%lldч %lldм";
+"menubar.network_online" = "Онлайн";
+"menubar.network_offline" = "Офлайн";
+"menubar.network_settings" = "Настройки сети";
+"menubar.activity" = "Активность";
+"menubar.activity_empty" = "Пока нет выборки процессов";
+"menubar.reclaimable_brief" = "Можно освободить: %@";
+"menubar.battery_full" = "Полностью заряжена";
+
+/* Updates */
+"updates.title" = "Обновления";
+"updates.subtitle" = "Проверьте и установите последнюю сборку MacCleaner, опубликованную в репозитории GitHub.";
+"updates.installed" = "Этот Mac";
+"updates.repository" = "Релиз репозитория";
+"updates.version" = "Версия";
+"updates.build" = "Сборка";
+"updates.latest" = "Последняя";
+"updates.last_check" = "Последняя проверка";
+"updates.not_checked" = "Ещё не проверялось.";
+"updates.checking" = "Проверка репозитория…";
+"updates.available" = "Доступно обновление: %@";
+"updates.up_to_date" = "У вас последняя версия.";
+"updates.check" = "Проверить обновления";
+"updates.install" = "Скачать и установить";
+"updates.downloading" = "Загрузка пакета…";
+"updates.installing" = "Установка…";
+"updates.relaunching" = "Перезапуск…";
+"updates.privacy" = "Конфиденциальность";
+"updates.privacy.body" = "Проверка обновлений обращается к GitHub только когда вы просите (или открываете эту страницу). Без телеметрии, аккаунтов и аналитики — только публичные version.json и MacCleaner.app.zip из репозитория с открытым исходным кодом.";
+"updates.error.manifest" = "Не удалось прочитать манифест обновления.";
+"updates.error.download" = "Ошибка загрузки: %@";
+"updates.error.package" = "Загруженный пакет недействителен.";
+"updates.error.install" = "Ошибка установки: %@";
+"updates.error.network" = "Ошибка сети: %@";
+"updates.error.check_first" = "Сначала проверьте обновления.";
+
+/* Overview redesign */
+"overview.title" = "Больше места. Меньше хлама.";
+"overview.intro" = "Просканируйте Mac и выберите, что удалить.";
+"overview.scan" = "Сканировать Mac";
+"overview.rescan" = "Сканировать снова";
+"overview.available" = "доступного к освобождению места";
+"overview.categories" = "категорий просканировано";
+"overview.review" = "Проверить, что очищать";
+"overview.selected" = "выбрано";
+"overview.selected_items" = "%lld элементов · проверьте пути перед очисткой";
+"overview.empty_categories" = "Ещё %lld категорий без файлов для очистки";
+"overview.reassurance" = "Вы выбираете, что удалить. Откройте категорию, чтобы просмотреть её пути.";
+"overview.review_clean" = "Проверить и очистить…";
+"overview.partial" = "Категория выбрана хотя бы частично. Откройте подробности, чтобы проверить отдельные файлы.";
+"overview.confirm_body" = "Проверьте выбранные файлы. Они будут перемещены в Корзину; для системных путей может потребоваться пароль администратора.";
+"overview.back" = "Назад к результатам";
+"overview.trash" = "Переместить в Корзину";
+
+/* Graphite home */
+"overview.vision_title" = "Освободите место для важного.";
+"overview.local" = "На вашем Mac. Только на вашем Mac.";
+"overview.awaiting_scan" = "Следующее сканирование начинается здесь.";
+"overview.analyzed" = "%@ проанализировано";
+"overview.map_title" = "Где прячется место";
+"overview.map_caption" = "Доля места к освобождению · ведущие категории";
+"overview.map_idle" = "Ваше пространство обретает форму.";
+"overview.map_idle_body" = "Запустите сканирование, чтобы увидеть, какие категории занимают больше всего места, и откройте их для просмотра файлов.";
+"overview.map_clear" = "В просканированных категориях нет файлов для очистки.";
+
+/* Before scanning */
+"overview.welcome_title" = "Начните с более ясной картины.";
+"overview.welcome_body" = "Узнайте, что занимает место. MacCleaner сканирует ваш Mac и помогает выбрать, что оставить, а что удалить.";
+"overview.welcome_cache" = "Кэши и временные файлы";
+"overview.welcome_cache_body" = "Кэши приложений, браузеры и диагностические журналы.";
+"overview.welcome_dev" = "Инструменты разработчика";
+"overview.welcome_dev_body" = "Xcode DerivedData и кэши npm, Homebrew, pip и Gradle.";
+"overview.welcome_files" = "Файлы для проверки";
+"overview.welcome_files_body" = "Старые загрузки, образы дисков и остатки приложений.";
+"overview.welcome_control" = "Сканирование не удаляет файлы. Проверьте выбор перед очисткой.";
+
+/* Orphan Finder */
+"orphan.title" = "Orphan Finder";
+"orphan.subtitle" = "Настройки, кэши и контейнеры, чей bundle ID больше не установлен.";
+"orphan.idle" = "Сканировать осиротевшие остатки";
+"orphan.scan" = "Найти остатки";
+"orphan.scanning" = "Поиск осиротевших остатков…";
+"orphan.summary" = "%lld остатков · %@";
+"orphan.empty" = "Осиротевших файлов нет";
+"orphan.empty.detail" = "Остатки настроек/кэшей/контейнеров удалённых приложений не найдены.";
+"orphan.selected" = "%lld выбрано · %@";
+"orphan.clean" = "Очистить выбранные остатки";
+"orphan.cleaning" = "Очистка осиротевших остатков…";
+
+/* Startup */
+"startup.title" = "Автозагрузка";
+"startup.subtitle" = "Просматривайте launch agents, объекты входа и локальные снимки Time Machine.";
+"startup.idle" = "Просмотр элементов автозагрузки и локальных снимков";
+"startup.refreshing" = "Проверка элементов автозагрузки и локальных снимков…";
+"startup.summary" = "%lld агентов · %lld повреждено · %lld снимков";
+"startup.login_items" = "Объекты входа";
+"startup.login_items.help" = "Приложения и помощники, открывающиеся при входе, управляются в Системных настройках.";
+"startup.agents" = "Элементы автозагрузки и фона";
+"startup.snapshots" = "Локальные снимки Time Machine";
+"startup.snapshots.help" = "Локальные снимки APFS можно просматривать и удалять по отдельности (нужен пароль администратора).";
+"startup.snapshots.empty" = "Time Machine не сообщил о снимках для загрузочного диска.";
+"startup.thin_all" = "Уменьшить все";
+"startup.delete_selected" = "Удалить выбранные";
+"startup.deleting_snapshot" = "Удаление снимка %@…";
+"startup.snapshots_deleted" = "Удалено %lld снимок(ков).";
+"startup.snapshots_failed" = "%lld снимок(ков) не удалось удалить.";
+
+/* Developer Cleanup */
+"dev.title" = "Очистка для разработчиков";
+"dev.subtitle" = "Xcode, симуляторы, Docker и кэши пакетных менеджеров — проверьте перед удалением.";
+"dev.idle" = "Сканировать папки разработчика";
+"dev.scan" = "Сканировать папки разработчика";
+"dev.scanning" = "Измерение папок разработчика…";
+"dev.summary" = "%lld целей · %@";
+"dev.empty" = "Ничего крупного не найдено";
+"dev.empty.detail" = "Кэши Xcode, Docker или пакетных менеджеров больше 1 МБ не найдены.";
+"dev.selected" = "выбрано";
+"dev.clean" = "Очистить выбранные";
+"dev.cleaning" = "Перемещение выбранных папок разработчика в Корзину…";
+"dev.item.derived" = "Продукты сборки и индексы";
+"dev.item.archives" = "Архивированные сборки";
+"dev.item.device_support" = "Символы устройств и файлы поддержки";
+"dev.item.watch_support" = "Файлы поддержки устройств watchOS";
+"dev.item.simulator" = "Устройства и данные Simulator";
+"dev.item.sim_caches" = "Кэши Simulator";
+"dev.item.docker" = "Данные VM и образов Docker";
+"dev.item.docker_desktop" = "Group container Docker Desktop";
+"dev.item.npm" = "Кэш загрузок npm";
+"dev.item.pnpm" = "Content-addressable store pnpm";
+"dev.item.yarn" = "Кэш загрузок Yarn";
+"dev.item.brew" = "Кэш загрузок Homebrew";
+"dev.item.pods" = "Кэш CocoaPods";
+"dev.item.gradle" = "Кэши зависимостей Gradle";
+"dev.item.pip" = "Кэш Python pip";
+"dev.item.cargo" = "Кэш реестра Rust Cargo";
+
+/* Privacy & purgeable */
+"privacy.title" = "Конфиденциальность и место";
+"privacy.subtitle" = "Очищаемое место на диске, руководства по конфиденциальности браузеров и инвентарь разрешений TCC только для чтения.";
+"privacy.purgeable" = "Очищаемое место";
+"privacy.purgeable.help" = "Зарезервировано macOS и освобождается автоматически при нехватке места. Уменьшение локальных снимков может вернуть часть этого пространства.";
+"privacy.purgeable.free" = "Свободно";
+"privacy.purgeable.amount" = "Очищаемое";
+"privacy.purgeable.important" = "Важное свободное";
+"privacy.purge.action" = "Уменьшить снимки для освобождения";
+"privacy.purge.ok" = "Запрошено уменьшение локальных снимков.";
+"privacy.purge.fail" = "Не удалось уменьшить снимки (отменено или ошибка).";
+"privacy.browser" = "Конфиденциальность браузера";
+"privacy.browser.help" = "Проверьте настройки конфиденциальности браузера на Mac. MacCleaner не синхронизирует и не загружает данные просмотра.";
+"privacy.safari" = "Руководство по конфиденциальности Safari";
+"privacy.safari.detail" = "Safari → Настройки → Конфиденциальность. При необходимости очищайте историю и данные сайтов в Safari.";
+"privacy.safari.open" = "Открыть Safari";
+"privacy.chrome" = "Руководство по конфиденциальности Chrome";
+"privacy.chrome.detail" = "Chrome → Настройки → Конфиденциальность и безопасность. При необходимости очищайте данные просмотра в Chrome.";
+"privacy.chrome.open" = "Открыть Chrome";
+"privacy.browser.caches_hint" = "Кэши браузеров по-прежнему доступны как категория Smart Care.";
+"privacy.tcc" = "База данных TCC";
+"privacy.tcc.help" = "Список разрешений приложений только для чтения при включённом полном доступе к диску. Очистку записей оставляем Системным настройкам.";
+"privacy.tcc.need_fda" = "Для чтения базы TCC нужен полный доступ к диску.";
+"privacy.tcc.open_failed" = "Не удалось открыть базу TCC.";
+"privacy.tcc.query_failed" = "Не удалось запросить строки доступа TCC.";
+"privacy.tcc.empty" = "Нет строк TCC для отображения.";
+"privacy.tcc.open_fda" = "Открыть полный доступ к диску";
+"privacy.tcc.open_camera" = "Камера";
+"privacy.tcc.open_mic" = "Микрофон";
+
+/* Performance → Startup link */
+"perf.startup_link.title" = "Автозагрузка и снимки";
+"perf.startup_link.body" = "Launch agents, Login Items и локальные снимки Time Machine перенесены в инструмент «Автозагрузка».";
+"perf.startup_link.open" = "Открыть Автозагрузку";
+
+/* Mail categories */
+"category.mailDownloads.title" = "Загрузки Mail";
+"category.mailDownloads.detail" = "Вложения, сохранённые из Apple Mail";
+"category.mailData.title" = "Данные Mail";
+"category.mailData.detail" = "Индексы Envelope — необязательно; Mail может пересоздать их (по умолчанию выкл.)";
+
+/* Homebrew casks */
+"brew.title" = "Обновления из Homebrew";
+"brew.help" = "Просматривайте и обновляйте приложения, установленные как casks Homebrew. Требуется локальная установка Homebrew.";
+"brew.idle" = "Проверить установленные приложения cask";
+"brew.check" = "Проверить casks";
+"brew.checking" = "Проверка casks Homebrew…";
+"brew.upgrade" = "Обновить выбранные";
+"brew.upgrading" = "Обновление %@…";
+"brew.summary" = "У %lld cask есть обновления";
+"brew.up_to_date" = "Приложения Homebrew обновлены";
+"brew.empty" = "Для приложений cask, которыми управляет Homebrew, обновлений сейчас нет.";
+"brew.not_found" = "Homebrew не найден в стандартном расположении.";
+"brew.command_failed" = "Команда Homebrew не выполнена.";
+"brew.bad_json" = "Homebrew вернул данные об обновлениях, которые не удалось прочитать.";
+"brew.upgraded" = "Homebrew обновил %lld выбранных приложений.";
+"brew.upgrade_partial" = "Обновлено %lld · %lld не удалось — проверьте снова.";
+
+/* Performance polish */
+"perf.pressure" = "Давление памяти";
+"perf.compressed" = "Сжатая %@";
+"perf.uptime" = "Время работы";
+"perf.uptime.detail" = "С последней перезагрузки";
+"perf.open_activity_monitor" = "Открыть Activity Monitor";
+"perf.activity_monitor.help" = "Системные процессы лучше просматривать в Activity Monitor.";
+
+/* Extra languages */
+"settings.language.german" = "Deutsch";
+"settings.language.french" = "Français";
+"settings.language.spanish" = "Español";
+"settings.language.portuguese" = "Português";
+"settings.language.japanese" = "日本語";
+"settings.language.chinese" = "简体中文";
+"settings.language.help" = "Выберите «Система», чтобы следовать macOS, или зафиксируйте язык, входящий в MacCleaner.";
+
+/* Uninstaller depth + Developer Simulator/Docker/AI */
+"apps.drop.hint" = "Перетащите .app сюда, чтобы просмотреть остатки и удалить приложение.";
+"apps.drop.invalid" = "Сюда можно перетаскивать только пакеты приложений (.app).";
+"apps.sensitivity.strict" = "Строгий";
+"apps.sensitivity.strict.detail" = "Только пути с точным bundle ID.";
+"apps.sensitivity.enhanced" = "Расширенный";
+"apps.sensitivity.enhanced.detail" = "Bundle ID плюс совпадения имени приложения и Team ID.";
+"apps.sensitivity.deep" = "Глубокий";
+"apps.sensitivity.deep.detail" = "Также ищет префиксы вендоров и Spotlight в ~/Library.";
+"category.aiAppCaches.title" = "Данные ИИ-приложений";
+"category.aiAppCaches.detail" = "Кэши Ollama, LM Studio, Hugging Face (никогда не выбираются автоматически)";
+"dev.item.sim_runtime" = "Runtime Simulator — удаление через simctl (безвозвратно)";
+"dev.item.sim_runtime_disk" = "Пакет .simruntime на диске";
+"dev.item.docker_builder" = "Кэш сборки Docker — docker builder prune (безвозвратно)";
+"dev.item.ollama" = "Модели и blobs Ollama";
+"dev.item.lmstudio" = "Кэш загрузок LM Studio";
+"dev.item.lmstudio_data" = "Application Support LM Studio";
+"dev.sim.delete" = "Удаление runtime Simulator %@…";
+"dev.sim.delete_failed" = "simctl не смог удалить этот runtime.";
+"dev.docker.pruning" = "Очистка кэша сборки Docker…";
+"dev.docker.prune_failed" = "Docker builder prune не выполнен (Docker запущен?).";
+"dev.permanent_hint" = "Выбранные элементы с предупреждением удаляются безвозвратно (не перемещаются в Корзину).";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "Назад";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "Системный монитор";
+"perf.monitor.help" = "CPU считается от полной мощности Mac. Helper-процессы группируются с приложением.";
+"perf.monitor.search" = "Поиск приложений и процессов";
+"perf.monitor.clear_search" = "Очистить поиск";
+"perf.monitor.sort_by" = "Сортировать по";
+"perf.monitor.sort_asc" = "По возрастанию";
+"perf.monitor.show_all" = "Показать все приложения и процессы";
+"perf.monitor.empty" = "Нет данных о процессах. Откройте «Мониторинг системы».";
+"perf.monitor.no_match" = "Нет подходящих приложений или процессов";
+"perf.monitor.system_note" = "Системные процессы не перечислены. Используйте «Мониторинг системы».";
+"perf.monitor.helpers" = "%lld helper";
+"perf.monitor.cpu_memory" = "CPU — Память";
+"perf.cpu_warming" = "Значения CPU появятся после следующего замера.";
+"perf.sort.memory" = "Память";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "Имя";

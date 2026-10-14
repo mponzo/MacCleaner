@@ -22,7 +22,7 @@
 "sidebar.tools" = "工具";
 "sidebar.applications" = "应用程序";
 "sidebar.orphans" = "残留文件";
-"sidebar.performance" = "性能";
+"sidebar.performance" = "系统监视器";
 "sidebar.startup" = "启动项";
 "sidebar.developer" = "开发者清理";
 "sidebar.privileged" = "特权助手";
@@ -206,8 +206,8 @@
 
 /* Performance */
 "perf.brand" = "性能";
-"perf.title" = "保持 Mac 响应迅速";
-"perf.subtitle" = "实时内存/CPU、启动代理与维护任务 — 多数操作无需特权助手。";
+"perf.title" = "系统监视器";
+"perf.subtitle" = "实时系统监视器（CPU、内存、应用）、维护工具，以及启动项入口。";
 "perf.memory" = "内存";
 "perf.memory_used" = "已用 %lld%%";
 "perf.free_ram" = "可用内存";
@@ -658,3 +658,26 @@
 "dev.docker.pruning" = "正在清理 Docker 构建缓存…";
 "dev.docker.prune_failed" = "docker builder prune 失败（Docker 是否在运行？）。";
 "dev.permanent_hint" = "带警告的项目将永久删除（不会移入废纸篓）。";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "返回";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "系统监视器";
+"perf.monitor.help" = "CPU 按整机总能力计算。辅助进程会归入对应应用。";
+"perf.monitor.search" = "搜索应用和进程";
+"perf.monitor.clear_search" = "清除搜索";
+"perf.monitor.sort_by" = "排序";
+"perf.monitor.sort_asc" = "升序";
+"perf.monitor.show_all" = "显示全部应用和进程";
+"perf.monitor.empty" = "无法获取进程信息。请尝试“活动监视器”。";
+"perf.monitor.no_match" = "没有匹配的应用或进程";
+"perf.monitor.system_note" = "不列出系统进程。请使用“活动监视器”。";
+"perf.monitor.helpers" = "%lld 个辅助进程";
+"perf.monitor.cpu_memory" = "CPU — 内存";
+"perf.cpu_warming" = "CPU 数值将在下一次采样后显示。";
+"perf.sort.memory" = "内存";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "名称";

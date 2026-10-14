@@ -21,6 +21,8 @@ LANGS = {
     "pt-BR": "pt-BR",
     "ja": "ja",
     "zh-Hans": "zh-Hans",
+    "el": "el",
+    "ru": "ru",
 }
 
 # MacCleaner-specific / missing phrases → per-locale overrides (English key value → translation).

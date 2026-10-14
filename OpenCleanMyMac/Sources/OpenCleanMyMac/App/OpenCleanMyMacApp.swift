@@ -168,9 +168,11 @@ enum HeadlessPerf {
         // Keep fully synchronous: blocking main in App.init + awaiting Task can deadlock.
         print("MacCleaner — headless Performance")
 
-        let metrics = MetricsCollector.snapshot()
+        // Two samples so host/process CPU deltas are meaningful.
+        _ = MetricsCollector.shared.snapshot(limit: 8)
+        Thread.sleep(forTimeInterval: 0.35)
+        let (metrics, top) = MetricsCollector.shared.snapshot(limit: 8)
         var metricsWithCount = metrics
-        let top = MetricsCollector.topProcesses(limit: 8)
         metricsWithCount.processCount = top.count
         print(String(
             format: "Memory used %.0f%% (%@ / %@)",
@@ -178,7 +180,7 @@ enum HeadlessPerf {
             ByteFormat.string(Int64(metricsWithCount.usedMemoryBytes)),
             ByteFormat.string(Int64(metricsWithCount.physicalMemoryBytes))
         ))
-        print(String(format: "CPU ticks busy %.0f%%", metricsWithCount.cpuLoadPercent))
+        print(String(format: "CPU busy %.0f%%", metricsWithCount.cpuLoadPercent))
         print("Disk free \(ByteFormat.string(metricsWithCount.diskFreeBytes)) / \(ByteFormat.string(metricsWithCount.diskTotalBytes))")
         print("Sampled processes: \(top.count)")
         print("Top memory:")

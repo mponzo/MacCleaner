@@ -1,0 +1,683 @@
+/* General */
+"app.name" = "MacCleaner";
+"common.yes" = "Ναι — ~/Applications";
+"common.no" = "Όχι";
+"common.run" = "Εκτέλεση";
+"common.refresh" = "Ανανέωση";
+"common.status" = "Κατάσταση";
+"common.admin" = "Διαχειριστής";
+"common.broken" = "Κατεστραμμένο";
+"common.user" = "Χρήστης";
+"common.system" = "Σύστημα";
+"common.select_all" = "Επιλογή όλων";
+"common.select_none" = "Αποεπιλογή όλων";
+"common.on" = "Ενεργό";
+"common.off" = "Ανενεργό";
+"common.unknown" = "Άγνωστο";
+
+/* Sidebar */
+"sidebar.smart_care" = "Smart Care";
+"sidebar.overview" = "Επισκόπηση";
+"sidebar.overview.subtitle" = "Σάρωση και ανάκτηση χώρου";
+"sidebar.tools" = "Εργαλεία";
+"sidebar.applications" = "Εφαρμογές";
+"sidebar.orphans" = "Orphan Finder";
+"sidebar.performance" = "Παρακολούθηση συστήματος";
+"sidebar.startup" = "Εκκίνηση";
+"sidebar.developer" = "Καθαρισμός προγραμματιστή";
+"sidebar.privileged" = "Βοηθός με δικαιώματα";
+"sidebar.space_lens" = "Space Explorer";
+"sidebar.privacy" = "Απόρρητο και χώρος";
+"sidebar.duplicates" = "Εύρεση διπλοτύπων";
+"sidebar.similar_photos" = "Παρόμοιες φωτογραφίες";
+"sidebar.scheduler" = "Πρόγραμμα";
+"sidebar.updates" = "Ενημερώσεις";
+"sidebar.settings" = "Ρυθμίσεις";
+"sidebar.modules" = "Ενότητες";
+
+"dup.title" = "Εύρεση διπλοτύπων";
+"dup.subtitle" = "Ακριβείς αντιστοιχίσεις κατά μέγεθος και SHA-256. Σε κάθε ομάδα παραμένει ένα προστατευμένο αντίγραφο.";
+"dup.idle" = "Επιλέξτε φάκελο για σάρωση ακριβών διπλοτύπων.";
+"dup.choose" = "Επιλογή φακέλου";
+"dup.rescan" = "Επανασάρωση";
+"dup.trash_selected" = "Μετακίνηση επιλεγμένων στον Κάδο";
+"dup.scanning" = "Σάρωση αρχείων…";
+"dup.hashing" = "Υπολογισμός hash υποψηφίων διπλοτύπων…";
+"dup.stopped" = "Η σάρωση διακόπηκε.";
+"dup.trashing" = "Μετακίνηση επιλεγμένων διπλοτύπων στον Κάδο…";
+"dup.empty" = "Δεν βρέθηκαν ακριβή αντίγραφα";
+"dup.empty.detail" = "Επιλέξτε φάκελο με αρχεία που μπορεί να περιέχουν αντίγραφα. Πακέτα, συμβολικοί σύνδεσμοι και hard links παραλείπονται.";
+"dup.summary" = "%lld ομάδα/ες · %@ ανακτήσιμα";
+"dup.skipped" = "Παραλείφθηκαν %lld στοιχείο/α (πακέτα, σύνδεσμοι ή μη αναγνώσιμα αρχεία).";
+"dup.failed" = "%lld διαδρομή/ές δεν μετακινήθηκαν στον Κάδο.";
+"dup.group_title" = "%lld πανομοιότυπα αρχεία";
+"dup.protected" = "Προστατευμένο";
+"dup.reveal" = "Εμφάνιση στο Finder";
+"dup.progress_files" = "Καταχωρίστηκαν %lld αρχεία…";
+
+"photos.title" = "Παρόμοιες φωτογραφίες";
+"photos.subtitle" = "Οπτική εκτίμηση από τοπικές μικρογραφίες — οι φωτογραφίες δεν διαγράφονται ούτε μεταφορτώνονται.";
+"photos.disclaimer" = "Η ομοιότητα είναι εκτίμηση, όχι απόδειξη ότι δύο αρχεία είναι πανομοιότυπα. Χρησιμοποιήστε Εμφάνιση στο Finder για σύγκριση πρωτοτύπων.";
+"photos.idle" = "Επιλέξτε φάκελο φωτογραφιών για σύγκριση.";
+"photos.choose" = "Επιλογή φακέλου φωτογραφιών";
+"photos.rescan" = "Επανασάρωση";
+"photos.scanning" = "Σύγκριση τοπικών μικρογραφιών…";
+"photos.stopped" = "Η σάρωση διακόπηκε.";
+"photos.empty" = "Δεν βρέθηκαν παρόμοιες ομάδες";
+"photos.empty.detail" = "Δοκιμάστε φάκελο με ρολά κάμερας ή εξαγωγές. Τα cloud-only placeholders και τα πακέτα παραλείπονται.";
+"photos.summary" = "%lld παρόμοια ομάδα/ες από %lld φωτογραφίες";
+"photos.limit" = "Φτάσατε το όριο σάρωσης 500 φωτογραφιών / 10.000 καταχωρίσεων. Περιορίστε τον φάκελο για πληρέστερα αποτελέσματα.";
+"photos.group_title" = "%lld παρόμοιες φωτογραφίες";
+"photos.reveal" = "Εμφάνιση";
+
+"sched.title" = "Προγραμματισμένος καθαρισμός";
+"sched.subtitle" = "Εκτελέστε Smart Care στο παρασκήνιο ενώ το MacCleaner παραμένει στη γραμμή μενού.";
+"sched.enable" = "Ενεργοποίηση προγραμματισμένης σάρωσης";
+"sched.interval" = "Διάστημα σάρωσης";
+"sched.auto_clean" = "Αυτόματος καθαρισμός μετά τη σάρωση";
+"sched.threshold" = "Ελάχιστο ανακτήσιμο μέγεθος";
+"sched.help" = "Ο αυτόματος καθαρισμός εκτελείται μόνο όταν ο επιλεγμένος ανακτήσιμος χώρος φτάνει το όριο. Διατηρήστε ενεργή την Πλήρη πρόσβαση στον δίσκο για πλήρη αποτελέσματα.";
+"sched.status" = "Κατάσταση";
+"sched.last_run" = "Τελευταία εκτέλεση";
+"sched.next_run" = "Επόμενη εκτέλεση";
+"sched.never" = "Ποτέ";
+"sched.not_scheduled" = "Μη προγραμματισμένο";
+"sched.run_now" = "Εκτέλεση τώρα";
+"sched.idle" = "Ο προγραμματιστής είναι σε αδράνεια";
+"sched.enabled" = "Προγραμματισμένο";
+"sched.disabled" = "Απενεργοποιημένο";
+"sched.running" = "Εκτέλεση Smart Care…";
+"sched.cleaning" = "Αυτόματος καθαρισμός επιλογής…";
+"sched.busy" = "Το Smart Care είναι ήδη απασχολημένο";
+"sched.no_engine" = "Η μηχανή καθαρισμού δεν είναι διαθέσιμη";
+"sched.scanned" = "Η σάρωση ολοκληρώθηκε · %@ ανακτήσιμα";
+"sched.cleaned" = "Ο αυτόματος καθαρισμός ολοκληρώθηκε · %@ απελευθερώθηκαν";
+"sched.below_threshold" = "Κάτω από το όριο (%@ < %lld MB) — παραλείφθηκε ο αυτόματος καθαρισμός";
+"sched.interval.everyHour" = "Κάθε ώρα";
+"sched.interval.every3Hours" = "Κάθε 3 ώρες";
+"sched.interval.every6Hours" = "Κάθε 6 ώρες";
+"sched.interval.every12Hours" = "Κάθε 12 ώρες";
+"sched.interval.daily" = "Καθημερινά";
+"sched.interval.weekly" = "Εβδομαδιαία";
+"sched.interval.biweekly" = "Κάθε 2 εβδομάδες";
+"sched.interval.monthly" = "Μηνιαία";
+
+/* Smart Care */
+"smartcare.brand" = "MACCLEANER";
+"smartcare.title" = "Ανακτήστε χώρο με το Smart Care";
+"smartcare.subtitle" = "Ανοιχτού κώδικα καθαριστής Mac για σκουπίδια, λήψεις, Xcode, προγράμματα περιήγησης, υπολείμματα και απεγκατάσταση — διαφανείς διαδρομές, τοπικά πρώτα.";
+"smartcare.reclaimable" = "Ανακτήσιμα";
+"smartcare.scanned" = "Σαρώθηκε";
+"smartcare.progress" = "Πρόοδος";
+"smartcare.ready" = "Έτοιμο";
+"smartcare.run" = "Εκτέλεση Smart Care";
+"smartcare.scanning" = "Σάρωση…";
+"smartcare.stop" = "Διακοπή";
+"smartcare.stopped" = "Διακόπηκε";
+"smartcare.clean_selected" = "Καθαρισμός επιλεγμένων";
+"smartcare.last_clean" = "Τελευταίος καθαρισμός: μετακινήθηκαν %lld στοιχείο/α, απελευθερώθηκαν %@.";
+"smartcare.items_selected" = "%lld στοιχεία · %@ επιλεγμένα";
+"smartcare.run_prompt" = "Εκτέλεση Smart Care";
+"smartcare.idle" = "Αδράνεια";
+"smartcare.starting" = "Έναρξη Smart Care…";
+"smartcare.scanned_category" = "Σαρώθηκε %@";
+"smartcare.complete" = "Το Smart Care ολοκληρώθηκε";
+"smartcare.moving" = "Μετακίνηση στοιχείων στον Κάδο…";
+"smartcare.freed" = "Απελευθερώθηκαν %@";
+"smartcare.failed_count" = "%lld στοιχείο/α δεν μετακινήθηκαν.";
+
+/* Categories */
+"category.userCaches.title" = "Κρυφές μνήμες χρήστη";
+"category.userCaches.detail" = "~/Library/Caches";
+"category.userLogs.title" = "Αρχεία καταγραφής χρήστη";
+"category.userLogs.detail" = "~/Library/Logs";
+"category.trash.title" = "Κάδος";
+"category.trash.detail" = "~/.Trash";
+"category.xcodeDerivedData.title" = "Xcode DerivedData";
+"category.xcodeDerivedData.detail" = "~/Library/Developer/Xcode/DerivedData";
+"category.xcodeArchives.title" = "Αρχεία Xcode";
+"category.xcodeArchives.detail" = "~/Library/Developer/Xcode/Archives";
+"category.developerCaches.title" = "Κρυφές μνήμες προγραμματιστή";
+"category.developerCaches.detail" = "npm, Homebrew, pip, Gradle";
+"category.downloadsClutter.title" = "Παλιές λήψεις";
+"category.downloadsClutter.detail" = "Λήψεις παλαιότερες από 30 ημέρες";
+"category.unusedDiskImages.title" = "Εικόνες δίσκου";
+"category.unusedDiskImages.detail" = "*.dmg / *.iso στις Λήψεις";
+"category.browserCaches.title" = "Κρυφές μνήμες προγράμματος περιήγησης";
+"category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeOldFiles.title" = "Μεγάλα και παλιά αρχεία";
+"category.largeOldFiles.detail" = ">100 MB ή παλαιότερα από 1 έτος — Λήψεις, Έγγραφα, Επιφάνεια εργασίας";
+"category.largeHomeFolders.title" = "Μεγάλοι φάκελοι";
+"category.largeHomeFolders.detail" = "Κορυφαίοι φάκελοι στο Home";
+"category.appLeftovers.title" = "Υπολείμματα εφαρμογών";
+"category.appLeftovers.detail" = "Ορφανές προτιμήσεις, κρυφές μνήμες, containers";
+"category.brokenLaunchAgents.title" = "Κατεστραμμένα Launch Agents";
+"category.brokenLaunchAgents.detail" = "LaunchAgents χρήστη με ελλιπή εκτελέσιμα";
+"category.systemCaches.title" = "Κρυφές μνήμες συστήματος";
+"category.systemCaches.detail" = "/Library/Caches (απαιτείται διαχειριστής)";
+"category.systemLogs.title" = "Αρχεία καταγραφής συστήματος";
+"category.systemLogs.detail" = "/Library/Logs και /var/log (διαχειριστής)";
+"category.systemLaunchAgents.title" = "Κατεστραμμένα agents συστήματος";
+"category.systemLaunchAgents.detail" = "Κατεστραμμένα /Library/LaunchAgents (διαχειριστής)";
+
+/* Leftover kinds */
+"leftover.preferences" = "Προτιμήσεις";
+"leftover.caches" = "Κρυφές μνήμες";
+"leftover.applicationSupport" = "Application Support";
+"leftover.logs" = "Αρχεία καταγραφής";
+"leftover.savedState" = "Αποθηκευμένη κατάσταση";
+"leftover.cookies" = "Cookies";
+"leftover.containers" = "Containers";
+"leftover.groupContainers" = "Group Containers";
+"leftover.launchAgents" = "Launch Agents";
+"leftover.crashReporter" = "Crash Reporter";
+
+/* Applications */
+"apps.search" = "Αναζήτηση εφαρμογών";
+"apps.brand" = "ΕΦΑΡΜΟΓΕΣ";
+"apps.select" = "Επιλέξτε μια εφαρμογή";
+"apps.select.detail" = "Σάρωση υπολειμμάτων και απεγκατάσταση με σχετικά αρχεία.";
+"apps.protected" = "Προστατευμένη εφαρμογή συστήματος — υπολείμματα και απεγκατάσταση απενεργοποιημένα.";
+"apps.include_bundle" = "Συμπερίληψη πακέτου εφαρμογής";
+"apps.uninstall_selected" = "Απεγκατάσταση επιλεγμένων";
+"apps.leftovers" = "Υπολείμματα";
+"apps.leftovers.empty" = "Δεν βρέθηκαν σχετικά αρχεία στις διαδρομές Library του χρήστη.";
+"apps.orphans" = "Ορφανά υπολείμματα";
+"apps.orphans.detail" = "Προτιμήσεις/κρυφές μνήμες/containers με bundle ID που δεν είναι εγκατεστημένο.";
+"apps.clean_orphans" = "Καθαρισμός επιλεγμένων ορφανών";
+"apps.app_size" = "Μέγεθος εφαρμογής";
+"apps.leftovers_size" = "Υπολείμματα";
+"apps.selected_size" = "Επιλεγμένα";
+"apps.last_action" = "Τελευταία ενέργεια: μετακινήθηκαν %lld στοιχείο/α, απελευθερώθηκαν %@.";
+"apps.failed_paths" = "%lld διαδρομή/ές δεν μετακινήθηκαν στον Κάδο.";
+"apps.listing" = "Λίστα εφαρμογών…";
+"apps.scanning_leftovers" = "Σάρωση υπολειμμάτων…";
+"apps.finding_orphans" = "Αναζήτηση ορφανών υπολειμμάτων…";
+"apps.summary" = "%lld εφαρμογές · %@ ορφανά υπολείμματα";
+"apps.uninstalling" = "Απεγκατάσταση %@…";
+"apps.cleaning_orphans" = "Καθαρισμός ορφανών υπολειμμάτων…";
+"apps.confirm_title" = "Μετακίνηση στον Κάδο;";
+"apps.confirm_body" = "Το MacCleaner θα μετακινήσει την επιλεγμένη εφαρμογή και τα σχετικά αρχεία στον Κάδο. Στοιχεία που χρειάζονται εξουσιοδότηση διαχειριστή ενδέχεται να διαγραφούν οριστικά. Ελέγξτε την επιλογή πριν συνεχίσετε.";
+"apps.needs_fda" = "Απεγκατάσταση %@: %lld αρχείο/α χρειάζονται Πλήρη πρόσβαση στον δίσκο. Παραχωρήστε την στις Ρυθμίσεις και δοκιμάστε ξανά.";
+"apps.needs_fda_generic" = "%lld αρχείο/α χρειάζονται Πλήρη πρόσβαση στον δίσκο πριν αφαιρεθούν.";
+"apps.fda_required_path" = "Απαιτείται Πλήρης πρόσβαση στον δίσκο";
+"apps.admin_hint" = "Αν το macOS ζήτησε τον κωδικό σας και η αφαίρεση απέτυχε, ελέγξτε ότι η εφαρμογή δεν είναι προστατευμένη.";
+"common.cancel" = "Ακύρωση";
+
+/* Performance */
+"perf.brand" = "ΑΠΟΔΟΣΗ";
+"perf.title" = "Παρακολούθηση συστήματος";
+"perf.subtitle" = "Ζωντανή παρακολούθηση (CPU, μνήμη, εφαρμογές), συντήρηση και σύνδεσμος Εκκίνησης.";
+"perf.memory" = "Μνήμη";
+"perf.memory_used" = "%lld%% σε χρήση";
+"perf.free_ram" = "Ελεύθερη RAM";
+"perf.wired" = "Δεσμευμένη %@";
+"perf.cpu" = "CPU (παλμοί)";
+"perf.processes" = "%lld διεργασίες";
+"perf.disk_free" = "Ελεύθερος δίσκος";
+"perf.disk_used" = "%.0f%% σε χρήση";
+"perf.maintenance" = "Συντήρηση";
+"perf.agents" = "Launch Agents";
+"perf.agents.broken_count" = "%lld κατεστραμμένα";
+"perf.agents.remove" = "Αφαίρεση επιλεγμένων";
+"perf.agents.help" = "Τα agents χρήστη μπορούν να μετακινηθούν στον Κάδο. Τα agents συστήματος εμφανίζονται μόνο για ανάγνωση.";
+"perf.top_processes" = "Κορυφαίες διεργασίες κατά μνήμη";
+"perf.pid" = "pid %d";
+"perf.removed_agents" = "Αφαιρέθηκαν %lld αρχείο/α agent, %@.";
+"perf.refreshing" = "Ανανέωση απόδοσης…";
+"perf.agents_summary" = "%lld agents · %lld κατεστραμμένα";
+"perf.moving_agents" = "Μετακίνηση launch agents στον Κάδο…";
+"perf.agents_failed" = "%lld agent(s) δεν αφαιρέθηκαν.";
+"perf.running_task" = "Εκτέλεση %@…";
+
+"maint.flushDNS.title" = "Εκκαθάριση κρυφής μνήμης DNS";
+"maint.flushDNS.detail" = "Εκκαθάριση κρυφής μνήμης DNS συστήματος (μπορεί να ζητήσει κωδικό διαχειριστή)";
+"maint.flushDNS.ok" = "Η κρυφή μνήμη DNS εκκαθαρίστηκε.";
+"maint.flushDNS.fail" = "Η εκκαθάριση DNS απέτυχε ή ακυρώθηκε.";
+"maint.speedUpMail.title" = "Επιτάχυνση Mail";
+"maint.speedUpMail.detail" = "VACUUM του Envelope Index του Apple Mail (χώρος χρήστη)";
+"maint.speedUpMail.missing" = "Το Envelope Index του Apple Mail δεν βρέθηκε. Κλείστε το Mail και δοκιμάστε ξανά αν το χρησιμοποιείτε.";
+"maint.speedUpMail.vacuum_fail" = "Το sqlite3 VACUUM απέτυχε (έχει κλείσει το Mail;).";
+"maint.speedUpMail.ok" = "Το ευρετήριο Mail βελτιστοποιήθηκε. %@ ανακτήθηκαν από το αρχείο.";
+"maint.thinLocalSnapshots.title" = "Μείωση τοπικών στιγμιότυπων";
+"maint.thinLocalSnapshots.detail" = "Αίτημα στο tmutil για μείωση τοπικών στιγμιότυπων APFS";
+"maint.thinLocalSnapshots.ok" = "Ζητήθηκε μείωση τοπικών στιγμιότυπων.";
+"maint.thinLocalSnapshots.fail" = "Η μείωση στιγμιότυπων απέτυχε ή ακυρώθηκε.";
+"maint.rebuildLaunchServices.title" = "Αναδημιουργία Launch Services";
+"maint.rebuildLaunchServices.detail" = "Αναδημιουργία βάσης Launch Services (χρήστης)";
+"maint.rebuildLaunchServices.missing" = "Το lsregister δεν βρέθηκε σε αυτό το macOS.";
+"maint.rebuildLaunchServices.ok" = "Ζητήθηκε αναδημιουργία βάσης Launch Services.";
+"maint.rebuildLaunchServices.fail_status" = "Το lsregister τερματίστηκε με κατάσταση %lld.";
+
+/* Privileged */
+"priv.brand" = "ΒΟΗΘΟΣ ΜΕ ΔΙΚΑΙΩΜΑΤΑ";
+"priv.title" = "Καθαρισμός σε επίπεδο συστήματος";
+"priv.subtitle" = "Το MacCleaner χρησιμοποιεί γέφυρα διαχειριστή με επιτρεπόμενη λίστα (προτροπή κωδικού) για διαδρομές συστήματος. Περιλαμβάνεται σκελετός υπογεγραμμένου SMAppService daemon για αργότερα.";
+"priv.bridge" = "Γέφυρα";
+"priv.ready" = "Έτοιμο";
+"priv.busy" = "Απασχολημένο…";
+"priv.osascript" = "osascript admin";
+"priv.system_caches" = "Κρυφές μνήμες συστήματος";
+"priv.system_logs" = "Αρχεία καταγραφής συστήματος";
+"priv.broken_agents" = "Κατεστραμμένα agents";
+"priv.maintenance" = "Συντήρηση με δικαιώματα";
+"priv.flush_dns" = "Εκκαθάριση DNS";
+"priv.thin_snapshots" = "Μείωση στιγμιότυπων";
+"priv.rescan" = "Επανασάρωση";
+"priv.clean_help" = "Καθαρισμός κρυφών μνημών/αρχείων καταγραφής συστήματος: εκτελέστε Smart Care, επιλέξτε στοιχεία System Caches / System Logs και μετά Καθαρισμός επιλεγμένων (προτροπή διαχειριστή).";
+"priv.roadmap" = "Οδικός χάρτης υπογεγραμμένου βοηθού";
+"priv.roadmap.body" = "1. Δημιουργήστε το πακέτο εφαρμογής + στόχο OpenCleanPrivilegedHelper\n2. Υπογράψτε και τα δύο με το ίδιο Team ID (το Apple Development λειτουργεί για τοπικό SMAppService)\n3. Καταχωρίστε μέσω SMAppService.daemon και αντικαταστήστε τις προτροπές osascript\nΔείτε docs/PRIVILEGED_HELPER.md";
+"priv.status_bridge" = "Η γέφυρα διαχειριστή είναι έτοιμη (προτροπή κωδικού ανά λειτουργία). Ο υπογεγραμμένος βοηθός SMAppService δεν έχει εγκατασταθεί ακόμη.";
+"priv.summary" = "Κρυφές μνήμες συστήματος %@ · αρχεία καταγραφής %@ · κατεστραμμένα agents %lld";
+"priv.running" = "Εκτέλεση %@…";
+"priv.completed" = "Το %@ ολοκληρώθηκε.";
+"priv.failed" = "Το %@ απέτυχε ή ακυρώθηκε.";
+"priv.remove_failed" = "Η αφαίρεση με δικαιώματα απέτυχε.";
+"priv.allowlist_denied" = "Η διαδρομή είναι εκτός της επιτρεπόμενης λίστας με δικαιώματα.";
+
+/* Installer errors */
+"install.package_first" = "Δημιουργήστε πρώτα το πακέτο (`./Scripts/package-app.sh`), μετά εγκαταστήστε από αυτό το .app.";
+"install.failed" = "Η εγκατάσταση απέτυχε: %@";
+"install.not_installed" = "Το MacCleaner δεν είναι εγκατεστημένο στις Applications.";
+
+/* Space Explorer */
+"space.brand" = "SPACE EXPLORER";
+"space.title" = "Space Explorer";
+"space.subtitle" = "Εξετάστε οποιονδήποτε φάκελο κατά δεσμευμένο χώρο δίσκου. Τα αρχεία δεν αλλάζουν ποτέ.";
+"space.empty" = "Δεν υπάρχουν δεδομένα σάρωσης";
+"space.empty.detail" = "Χρησιμοποιήστε το Smart Care για μέτρηση ανακτήσιμων περιοχών.";
+"space.explorer.idle" = "Επιλέξτε φάκελο για μέτρηση";
+"space.explorer.choose" = "Επιλογή φακέλου";
+"space.explorer.choose_message" = "Το MacCleaner μετρά τον δεσμευμένο χώρο χωρίς να αλλάζει αρχεία.";
+"space.explorer.home" = "Home";
+"space.explorer.applications" = "Εφαρμογές";
+"space.explorer.parent" = "Γονικός";
+"space.explorer.measuring" = "Μέτρηση δεσμευμένου χώρου…";
+"space.explorer.stopped" = "Η μέτρηση διακόπηκε";
+"space.explorer.failed" = "Αδυναμία μέτρησης αυτού του φακέλου";
+"space.explorer.summary" = "%lld στοιχεία · %@";
+"space.explorer.empty" = "Τίποτα μετρήσιμο εδώ";
+"space.explorer.empty.detail" = "Τα κρυφά στοιχεία παραλείπονται. Δοκιμάστε άλλον φάκελο.";
+"space.explorer.prompt" = "Βρείτε τι χρησιμοποιεί τον περισσότερο χώρο δίσκου";
+"space.explorer.prompt.detail" = "Επιλέξτε φάκελο για να δείτε ποια αρχεία και υποφάκελοι καταλαμβάνουν τον περισσότερο δεσμευμένο χώρο.";
+"space.explorer.read_only" = "Μόνο ανάγνωση — τίποτα δεν διαγράφεται από το Space Explorer.";
+"space.scan_breakdown" = "Κατηγορίες Smart Care";
+"space.scan_breakdown.detail" = "Ανακτήσιμες περιοχές από την τελευταία σάρωση Smart Care.";
+
+/* Cleanup exclusions */
+"excl.title" = "Εξαιρέσεις καθαρισμού";
+"excl.help" = "Οι εξαιρούμενες διαδρομές παραλείπονται από σαρώσεις και καθαρισμούς Smart Care. Προσθέστε τις από το μενού περιβάλλοντος μιας κατηγορίας.";
+"excl.empty" = "Δεν υπάρχουν εξαιρέσεις ακόμη.";
+"excl.remove" = "Αφαίρεση";
+"excl.clear" = "Εκκαθάριση όλων";
+"excl.always" = "Πάντα εξαίρεση από τον καθαρισμό";
+
+/* Finder Service */
+"service.uninstall.no_app" = "Επιλέξτε μια εφαρμογή (.app) για απεγκατάσταση.";
+"service.uninstall.ready" = "Έτοιμο για απεγκατάσταση %@ — ελέγξτε τα υπολείμματα και μετά απεγκαταστήστε.";
+
+/* Settings */
+"settings.brand" = "ΡΥΘΜΙΣΕΙΣ";
+"settings.title" = "Εγκατάσταση και γραμμή μενού";
+"settings.subtitle" = "Εγκατάσταση στο ~/Applications, εμφάνιση εικονιδίου γραμμής μενού και αυτόματη εκκίνηση στη σύνδεση.";
+"settings.language" = "Γλώσσα";
+"settings.language.system" = "Σύστημα";
+"settings.language.english" = "English";
+"settings.language.italian" = "Italiano";
+"settings.appearance" = "Εμφάνιση";
+"settings.show_menubar" = "Εμφάνιση εικονιδίου γραμμής μενού";
+"settings.hide_dock" = "Απόκρυψη εικονιδίου Dock (λειτουργία γραμμής μενού)";
+"settings.hide_dock.help" = "Η λειτουργία γραμμής μενού διατηρεί την εφαρμογή διαθέσιμη από το στοιχείο κατάστασης κοντά στο ρολόι.";
+"settings.launcher" = "Αυτόματος εκκινητής";
+"settings.launch_at_login" = "Εκκίνηση στη σύνδεση";
+"settings.open_login_items" = "Άνοιγμα ρυθμίσεων Στοιχείων σύνδεσης";
+"settings.launch_help" = "Απαιτείται το εγκατεστημένο .app στις Applications. Το macOS μπορεί να ζητήσει έγκριση μία φορά.";
+"settings.installation" = "Εγκατάσταση";
+"settings.installed" = "Εγκαταστάθηκε";
+"settings.install" = "Εγκατάσταση στις Applications";
+"settings.reinstall" = "Επανεγκατάσταση";
+"settings.uninstall" = "Απεγκατάσταση";
+"settings.reveal" = "Εμφάνιση στο Finder";
+"settings.tip" = "Συμβουλή: εκτελέστε `./Scripts/package-app.sh`, ανοίξτε το δημιουργημένο .app και μετά χρησιμοποιήστε Εγκατάσταση εδώ.";
+"settings.login.enabled" = "Ενεργό";
+"settings.login.not_registered" = "Μη καταχωρισμένο";
+"settings.login.needs_approval" = "Απαιτείται έγκριση στις Ρυθμίσεις συστήματος → Στοιχεία σύνδεσης";
+"settings.login.unavailable" = "Μη διαθέσιμο μέχρι να εγκατασταθεί ως .app";
+"settings.login.unknown" = "Άγνωστο";
+"settings.installed_to" = "Εγκαταστάθηκε στο %@";
+"settings.uninstalled" = "Απεγκαταστάθηκε από το ~/Applications.";
+"settings.quit.help" = "Πλήρης έξοδος από το MacCleaner, συμπεριλαμβανομένου του εικονιδίου γραμμής μενού. Το κλείσιμο του κύριου παραθύρου διατηρεί την εφαρμογή στη γραμμή μενού.";
+"settings.permissions" = "Άδειες";
+"settings.fda" = "Πλήρης πρόσβαση στον δίσκο";
+"settings.fda.on" = "Παραχωρήθηκε";
+"settings.fda.off" = "Δεν παραχωρήθηκε";
+"settings.fda.help" = "Απαιτείται για πλήρεις σαρώσεις Mail, δεδομένων Safari, containers και άλλων προστατευμένων διαδρομών Library.";
+"settings.replay_onboarding" = "Εμφάνιση ρύθμισης ξανά";
+"settings.protection" = "Προστασία";
+"settings.protection.filevault" = "FileVault";
+"settings.protection.gatekeeper" = "Gatekeeper";
+"settings.protection.help" = "Κατάσταση μόνο για ανάγνωση από το macOS. Το MacCleaner δεν αλλάζει αυτές τις ρυθμίσεις.";
+
+"onboarding.back" = "Πίσω";
+"onboarding.continue" = "Συνέχεια";
+"onboarding.get_started" = "Ξεκινήστε";
+"onboarding.welcome.title" = "Καλώς ήρθατε στο MacCleaner";
+"onboarding.welcome.body" = "Ανακτήστε χώρο δίσκου, απεγκαταστήστε εφαρμογές με υπολείμματα και εκτελέστε συντήρηση — εξολοκλήρου στο Mac σας, χωρίς τηλεμετρία.";
+"onboarding.fda.title" = "Μία άδεια και τελειώσαμε";
+"onboarding.fda.title_granted" = "Η άδεια παραχωρήθηκε";
+"onboarding.fda.body" = "Το MacCleaner χρειάζεται Πλήρη πρόσβαση στον δίσκο για απεγκατάσταση εφαρμογών, εύρεση υπολειμμάτων και καθαρισμό προστατευμένων κρυφών μνημών που το macOS αποκρύπτει από προεπιλογή.";
+"onboarding.fda.body_granted" = "Το MacCleaner μπορεί πλέον να έχει πρόσβαση στις προστατευμένες τοποθεσίες που το macOS κλειδώνει από προεπιλογή.";
+"onboarding.fda.window_title" = "Πλήρης πρόσβαση στον δίσκο";
+"onboarding.fda.path" = "Απόρρητο και ασφάλεια → Πλήρης πρόσβαση στον δίσκο";
+"onboarding.fda.terminal" = "Terminal";
+"onboarding.fda.open_settings" = "Άνοιγμα Ρυθμίσεων συστήματος";
+"onboarding.fda.recheck" = "Την παραχώρησα — επανέλεγχος";
+"onboarding.fda.watching" = "Αναμονή για άδεια…";
+"onboarding.fda.ready" = "Όλα έτοιμα — συνεχίστε στο επόμενο βήμα.";
+"onboarding.ready.title" = "Είστε έτοιμοι";
+"onboarding.ready.body_fda" = "Το Smart Care και ο απεγκαταστάτης μπορούν να σαρώσουν προστατευμένες διαδρομές. Εσείς ελέγχετε κάθε διαγραφή.";
+"onboarding.ready.body_limited" = "Μπορείτε να συνεχίσετε με περιορισμένα αποτελέσματα και να παραχωρήσετε Πλήρη πρόσβαση στον δίσκο αργότερα στις Ρυθμίσεις.";
+
+"fda.banner.title" = "Η Πλήρης πρόσβαση στον δίσκο είναι ανενεργή";
+"fda.banner.body" = "Ορισμένες προστατευμένες τοποθεσίες δεν είναι διαθέσιμες. Παραχωρήστε πρόσβαση για πληρέστερη σάρωση και απεγκατάσταση.";
+"fda.banner.action" = "Παραχώρηση πρόσβασης";
+
+/* Menu bar */
+"menubar.open" = "Άνοιγμα MacCleaner";
+"menubar.open_short" = "Άνοιγμα MacCleaner";
+"menubar.run_smart_care" = "Εκτέλεση Smart Care";
+"menubar.launch_at_login" = "Εκκίνηση στη σύνδεση";
+"menubar.hide_dock" = "Απόκρυψη εικονιδίου Dock";
+"menubar.settings" = "Ρυθμίσεις…";
+"menubar.quit" = "Έξοδος";
+"menubar.status_label" = "Κατάσταση Mac:";
+"menubar.status.good" = "Καλή";
+"menubar.status.attention" = "Προσοχή";
+"menubar.storage" = "Macintosh HD";
+"menubar.available" = "Διαθέσιμα: %@";
+"menubar.free_up" = "Απελευθέρωση";
+"menubar.memory" = "Μνήμη";
+"menubar.pressure" = "Πίεση: %lld%%";
+"menubar.cpu" = "CPU";
+"menubar.processes" = "%lld διεργασίες";
+"menubar.battery" = "Μπαταρία";
+"menubar.battery_value" = "%lld%%";
+"menubar.battery_charging" = "Φόρτιση / συνδεδεμένο";
+"menubar.battery_on_battery" = "Σε μπαταρία";
+"menubar.battery_unavailable" = "Χωρίς μπαταρία (επιτραπέζιο)";
+"menubar.tip_title" = "Συμβουλή της ημέρας";
+"menubar.tip_headline" = "Συνιστάται σάρωση Smart Care";
+"menubar.tip_body" = "Βρείτε ανακτήσιμες κρυφές μνήμες, υπολείμματα και παλιές λήψεις με μία σάρωση.";
+"menubar.run_scan" = "Εκτέλεση Smart Care";
+
+/* Menu commands */
+"menu.clean" = "Καθαρισμός";
+"menu.run_smart_care" = "Εκτέλεση Smart Care";
+"menu.clean_selected" = "Καθαρισμός επιλεγμένων";
+"menu.refresh_apps" = "Ανανέωση εφαρμογών";
+"menu.refresh_perf" = "Ανανέωση απόδοσης";
+
+"menubar.disk_used" = "Χρησιμοποιημένα: %lld%%";
+"menubar.free_short" = "ελεύθερα";
+"menubar.cpu_usage" = "Χρήση: %lld%%";
+"menubar.agents_brief" = "%lld κατεστραμμένα agents";
+"menubar.ready_title" = "Τοπικός καθαρισμός έτοιμος";
+"menubar.ready_badge" = "Έτοιμο";
+"menubar.ready_detail" = "Smart Care και εργαλεία συντήρησης διαθέσιμα · Χρόνος λειτουργίας %@";
+"menubar.uptime_days" = "%lldη %lldώ";
+"menubar.uptime_hours" = "%lldώ %lldλ";
+"menubar.network_online" = "Σε σύνδεση";
+"menubar.network_offline" = "Εκτός σύνδεσης";
+"menubar.network_settings" = "Ρυθμίσεις δικτύου";
+"menubar.activity" = "Δραστηριότητα";
+"menubar.activity_empty" = "Δεν υπάρχει ακόμη δείγμα διεργασίας";
+"menubar.reclaimable_brief" = "Ανακτήσιμα: %@";
+"menubar.battery_full" = "Πλήρως φορτισμένη";
+
+/* Updates */
+"updates.title" = "Ενημερώσεις";
+"updates.subtitle" = "Ελέγξτε και εγκαταστήστε το τελευταίο build MacCleaner που δημοσιεύτηκε στο αποθετήριο GitHub.";
+"updates.installed" = "Αυτό το Mac";
+"updates.repository" = "Κυκλοφορία αποθετηρίου";
+"updates.version" = "Έκδοση";
+"updates.build" = "Build";
+"updates.latest" = "Τελευταία";
+"updates.last_check" = "Τελευταίος έλεγχος";
+"updates.not_checked" = "Δεν έχει ελεγχθεί ακόμη.";
+"updates.checking" = "Έλεγχος αποθετηρίου…";
+"updates.available" = "Διαθέσιμη ενημέρωση: %@";
+"updates.up_to_date" = "Έχετε την πιο πρόσφατη έκδοση.";
+"updates.check" = "Έλεγχος για ενημερώσεις";
+"updates.install" = "Λήψη και εγκατάσταση";
+"updates.downloading" = "Λήψη πακέτου…";
+"updates.installing" = "Εγκατάσταση…";
+"updates.relaunching" = "Επανεκκίνηση…";
+"updates.privacy" = "Απόρρητο";
+"updates.privacy.body" = "Οι έλεγχοι ενημερώσεων επικοινωνούν με το GitHub μόνο όταν το ζητήσετε (ή ανοίξετε αυτή τη σελίδα). Χωρίς τηλεμετρία, λογαριασμούς ή αναλυτικά — μόνο το δημόσιο version.json και το MacCleaner.app.zip από το αποθετήριο ανοιχτού κώδικα.";
+"updates.error.manifest" = "Αδυναμία ανάγνωσης του μανιφέστου ενημέρωσης.";
+"updates.error.download" = "Η λήψη απέτυχε: %@";
+"updates.error.package" = "Το ληφθέν πακέτο δεν είναι έγκυρο.";
+"updates.error.install" = "Η εγκατάσταση απέτυχε: %@";
+"updates.error.network" = "Σφάλμα δικτύου: %@";
+"updates.error.check_first" = "Ελέγξτε πρώτα για ενημερώσεις.";
+
+/* Overview redesign */
+"overview.title" = "Περισσότερος χώρος. Λιγότερη ακαταστασία.";
+"overview.intro" = "Σαρώστε το Mac σας και επιλέξτε τι θα αφαιρέσετε.";
+"overview.scan" = "Σάρωση του Mac σας";
+"overview.rescan" = "Σάρωση ξανά";
+"overview.available" = "ανακτήσιμου χώρου";
+"overview.categories" = "κατηγορίες σαρώθηκαν";
+"overview.review" = "Έλεγχος προς καθαρισμό";
+"overview.selected" = "επιλεγμένα";
+"overview.selected_items" = "%lld στοιχεία · ελέγξτε τις διαδρομές πριν τον καθαρισμό";
+"overview.empty_categories" = "%lld ακόμη κατηγορίες χωρίς αρχεία προς καθαρισμό";
+"overview.reassurance" = "Εσείς επιλέγετε τι θα αφαιρέσετε. Ανοίξτε μια κατηγορία για να δείτε τις διαδρομές της.";
+"overview.review_clean" = "Έλεγχος και καθαρισμός…";
+"overview.partial" = "Η κατηγορία είναι τουλάχιστον μερικώς επιλεγμένη. Ανοίξτε τις λεπτομέρειες για έλεγχο μεμονωμένων αρχείων.";
+"overview.confirm_body" = "Ελέγξτε τα επιλεγμένα αρχεία. Θα μετακινηθούν στον Κάδο· διαδρομές συστήματος μπορεί να απαιτούν κωδικό διαχειριστή.";
+"overview.back" = "Επιστροφή στα αποτελέσματα";
+"overview.trash" = "Μετακίνηση στον Κάδο";
+
+/* Graphite home */
+"overview.vision_title" = "Κάντε χώρο για ό,τι έχει σημασία.";
+"overview.local" = "Στο Mac σας. Μόνο στο Mac σας.";
+"overview.awaiting_scan" = "Η επόμενη σάρωση ξεκινά εδώ.";
+"overview.analyzed" = "%@ αναλύθηκαν";
+"overview.map_title" = "Πού κρύβεται ο χώρος";
+"overview.map_caption" = "Μερίδιο ανακτήσιμου χώρου · κορυφαίες κατηγορίες";
+"overview.map_idle" = "Ο χώρος σας παίρνει μορφή.";
+"overview.map_idle_body" = "Ξεκινήστε μια σάρωση για να δείτε ποιες κατηγορίες καταλαμβάνουν περισσότερο χώρο και ανοίξτε τις για έλεγχο αρχείων.";
+"overview.map_clear" = "Δεν υπάρχουν αρχεία προς καθαρισμό στις σαρωμένες κατηγορίες.";
+
+/* Before scanning */
+"overview.welcome_title" = "Ξεκινήστε με μια πιο καθαρή εικόνα.";
+"overview.welcome_body" = "Ανακαλύψτε τι καταλαμβάνει χώρο. Το MacCleaner σαρώνει το Mac σας και σας βοηθά να επιλέξετε τι να κρατήσετε και τι να αφαιρέσετε.";
+"overview.welcome_cache" = "Κρυφές μνήμες και προσωρινά αρχεία";
+"overview.welcome_cache_body" = "Κρυφές μνήμες εφαρμογών, προγράμματα περιήγησης και διαγνωστικά αρχεία καταγραφής.";
+"overview.welcome_dev" = "Εργαλεία προγραμματιστή";
+"overview.welcome_dev_body" = "Xcode DerivedData και κρυφές μνήμες npm, Homebrew, pip και Gradle.";
+"overview.welcome_files" = "Αρχεία προς έλεγχο";
+"overview.welcome_files_body" = "Παλιές λήψεις, εικόνες δίσκου και υπολείμματα εφαρμογών.";
+"overview.welcome_control" = "Η σάρωση δεν διαγράφει αρχεία. Ελέγξτε την επιλογή σας πριν τον καθαρισμό.";
+
+/* Orphan Finder */
+"orphan.title" = "Orphan Finder";
+"orphan.subtitle" = "Προτιμήσεις, κρυφές μνήμες και containers με bundle ID που δεν είναι πλέον εγκατεστημένο.";
+"orphan.idle" = "Σάρωση για ορφανά υπολείμματα";
+"orphan.scan" = "Σάρωση για ορφανά";
+"orphan.scanning" = "Αναζήτηση ορφανών υπολειμμάτων…";
+"orphan.summary" = "%lld ορφανά · %@";
+"orphan.empty" = "Δεν υπάρχουν ορφανά αρχεία";
+"orphan.empty.detail" = "Δεν βρέθηκαν υπολείμματα προτιμήσεων/κρυφών μνημών/containers από απεγκατεστημένες εφαρμογές.";
+"orphan.selected" = "%lld επιλεγμένα · %@";
+"orphan.clean" = "Καθαρισμός επιλεγμένων ορφανών";
+"orphan.cleaning" = "Καθαρισμός ορφανών υπολειμμάτων…";
+
+/* Startup */
+"startup.title" = "Εκκίνηση";
+"startup.subtitle" = "Ελέγξτε launch agents, στοιχεία σύνδεσης και τοπικά στιγμιότυπα Time Machine.";
+"startup.idle" = "Έλεγχος στοιχείων εκκίνησης και τοπικών στιγμιότυπων";
+"startup.refreshing" = "Έλεγχος στοιχείων εκκίνησης και τοπικών στιγμιότυπων…";
+"startup.summary" = "%lld agents · %lld κατεστραμμένα · %lld στιγμιότυπα";
+"startup.login_items" = "Στοιχεία σύνδεσης";
+"startup.login_items.help" = "Οι εφαρμογές και οι βοηθοί που ανοίγουν στη σύνδεση διαχειρίζονται στις Ρυθμίσεις συστήματος.";
+"startup.agents" = "Στοιχεία εκκίνησης και παρασκηνίου";
+"startup.snapshots" = "Τοπικά στιγμιότυπα Time Machine";
+"startup.snapshots.help" = "Τα τοπικά στιγμιότυπα APFS μπορούν να ελεγχθούν και να αφαιρεθούν μεμονωμένα (απαιτείται κωδικός διαχειριστή).";
+"startup.snapshots.empty" = "Το Time Machine δεν ανέφερε στιγμιότυπα για τον δίσκο εκκίνησης.";
+"startup.thin_all" = "Μείωση όλων";
+"startup.delete_selected" = "Διαγραφή επιλεγμένων";
+"startup.deleting_snapshot" = "Διαγραφή στιγμιότυπου %@…";
+"startup.snapshots_deleted" = "Αφαιρέθηκαν %lld στιγμιότυπο/α.";
+"startup.snapshots_failed" = "%lld στιγμιότυπο/α δεν διαγράφηκαν.";
+
+/* Developer Cleanup */
+"dev.title" = "Καθαρισμός προγραμματιστή";
+"dev.subtitle" = "Xcode, προσομοιωτές, Docker και κρυφές μνήμες package managers — ελέγξτε πριν αφαιρέσετε.";
+"dev.idle" = "Σάρωση φακέλων προγραμματιστή";
+"dev.scan" = "Σάρωση φακέλων προγραμματιστή";
+"dev.scanning" = "Μέτρηση φακέλων προγραμματιστή…";
+"dev.summary" = "%lld στόχοι · %@";
+"dev.empty" = "Δεν βρέθηκε τίποτα μεγάλο";
+"dev.empty.detail" = "Δεν βρέθηκαν κρυφές μνήμες Xcode, Docker ή πακέτων άνω του 1 MB.";
+"dev.selected" = "επιλεγμένα";
+"dev.clean" = "Καθαρισμός επιλεγμένων";
+"dev.cleaning" = "Μετακίνηση επιλεγμένων φακέλων προγραμματιστή στον Κάδο…";
+"dev.item.derived" = "Προϊόντα build και ευρετήρια";
+"dev.item.archives" = "Αρχειοθετημένα builds";
+"dev.item.device_support" = "Σύμβολα συσκευών και αρχεία υποστήριξης";
+"dev.item.watch_support" = "Αρχεία υποστήριξης συσκευών watchOS";
+"dev.item.simulator" = "Συσκευές και δεδομένα Simulator";
+"dev.item.sim_caches" = "Κρυφές μνήμες Simulator";
+"dev.item.docker" = "Δεδομένα VM και εικόνων Docker";
+"dev.item.docker_desktop" = "Group container Docker Desktop";
+"dev.item.npm" = "Κρυφή μνήμη λήψεων npm";
+"dev.item.pnpm" = "Content-addressable store pnpm";
+"dev.item.yarn" = "Κρυφή μνήμη λήψεων Yarn";
+"dev.item.brew" = "Κρυφή μνήμη λήψεων Homebrew";
+"dev.item.pods" = "Κρυφή μνήμη CocoaPods";
+"dev.item.gradle" = "Κρυφές μνήμες εξαρτήσεων Gradle";
+"dev.item.pip" = "Κρυφή μνήμη Python pip";
+"dev.item.cargo" = "Κρυφή μνήμη registry Rust Cargo";
+
+/* Privacy & purgeable */
+"privacy.title" = "Απόρρητο και χώρος";
+"privacy.subtitle" = "Εκκαθαρίσιμος χώρος δίσκου, οδηγοί απορρήτου προγράμματος περιήγησης και απογραφή αδειών TCC μόνο για ανάγνωση.";
+"privacy.purgeable" = "Εκκαθαρίσιμος χώρος";
+"privacy.purgeable.help" = "Δεσμευμένος από το macOS και απελευθερώνεται αυτόματα όταν χρειάζεται χώρος. Η μείωση τοπικών στιγμιότυπων μπορεί να ανακτήσει μέρος του.";
+"privacy.purgeable.free" = "Ελεύθερος";
+"privacy.purgeable.amount" = "Εκκαθαρίσιμος";
+"privacy.purgeable.important" = "Σημαντικά διαθέσιμα";
+"privacy.purge.action" = "Μείωση στιγμιότυπων για ανάκτηση";
+"privacy.purge.ok" = "Ζητήθηκε μείωση τοπικών στιγμιότυπων.";
+"privacy.purge.fail" = "Αδυναμία μείωσης στιγμιότυπων (ακυρώθηκε ή απέτυχε).";
+"privacy.browser" = "Απόρρητο προγράμματος περιήγησης";
+"privacy.browser.help" = "Ελέγξτε τις ρυθμίσεις απορρήτου προγράμματος περιήγησης στο Mac σας. Το MacCleaner δεν συγχρονίζει ούτε μεταφορτώνει δεδομένα περιήγησης.";
+"privacy.safari" = "Οδηγός απορρήτου Safari";
+"privacy.safari.detail" = "Safari → Ρυθμίσεις → Απόρρητο. Εκκαθαρίστε ιστορικό και δεδομένα ιστοτόπων από το Safari όταν χρειάζεται.";
+"privacy.safari.open" = "Άνοιγμα Safari";
+"privacy.chrome" = "Οδηγός απορρήτου Chrome";
+"privacy.chrome.detail" = "Chrome → Ρυθμίσεις → Απόρρητο και ασφάλεια. Εκκαθαρίστε τα δεδομένα περιήγησης από το Chrome όταν χρειάζεται.";
+"privacy.chrome.open" = "Άνοιγμα Chrome";
+"privacy.browser.caches_hint" = "Οι κρυφές μνήμες προγράμματος περιήγησης παραμένουν διαθέσιμες ως κατηγορία Smart Care.";
+"privacy.tcc" = "Βάση δεδομένων TCC";
+"privacy.tcc.help" = "Λίστα μόνο για ανάγνωση των παραχωρήσεων αδειών εφαρμογών όταν είναι ενεργή η Πλήρης πρόσβαση στον δίσκο. Η εκκαθάριση καταχωρίσεων αφήνεται στις Ρυθμίσεις συστήματος.";
+"privacy.tcc.need_fda" = "Απαιτείται Πλήρης πρόσβαση στον δίσκο για ανάγνωση της βάσης TCC.";
+"privacy.tcc.open_failed" = "Αδυναμία ανοίγματος της βάσης TCC.";
+"privacy.tcc.query_failed" = "Αδυναμία ερωτήματος γραμμών πρόσβασης TCC.";
+"privacy.tcc.empty" = "Δεν υπάρχουν γραμμές TCC προς εμφάνιση.";
+"privacy.tcc.open_fda" = "Άνοιγμα Πλήρους πρόσβασης στον δίσκο";
+"privacy.tcc.open_camera" = "Κάμερα";
+"privacy.tcc.open_mic" = "Μικρόφωνο";
+
+/* Performance → Startup link */
+"perf.startup_link.title" = "Εκκίνηση και στιγμιότυπα";
+"perf.startup_link.body" = "Launch agents, Login Items και τοπικά στιγμιότυπα Time Machine μεταφέρθηκαν στο εργαλείο Εκκίνησης.";
+"perf.startup_link.open" = "Άνοιγμα Εκκίνησης";
+
+/* Mail categories */
+"category.mailDownloads.title" = "Λήψεις Mail";
+"category.mailDownloads.detail" = "Συνημμένα αποθηκευμένα από το Apple Mail";
+"category.mailData.title" = "Δεδομένα Mail";
+"category.mailData.detail" = "Ευρετήρια envelope — προαιρετικά· το Mail μπορεί να τα αναδημιουργήσει (απενεργοποιημένο από προεπιλογή)";
+
+/* Homebrew casks */
+"brew.title" = "Ενημερώσεις από Homebrew";
+"brew.help" = "Ελέγξτε και ενημερώστε εφαρμογές που εγκαταστάθηκαν ως Homebrew casks. Απαιτείται τοπική εγκατάσταση Homebrew.";
+"brew.idle" = "Έλεγχος εγκατεστημένων εφαρμογών cask";
+"brew.check" = "Έλεγχος casks";
+"brew.checking" = "Έλεγχος casks Homebrew…";
+"brew.upgrade" = "Αναβάθμιση επιλεγμένων";
+"brew.upgrading" = "Αναβάθμιση %@…";
+"brew.summary" = "%lld cask έχουν ενημερώσεις";
+"brew.up_to_date" = "Οι εφαρμογές Homebrew είναι ενημερωμένες";
+"brew.empty" = "Δεν υπάρχουν διαθέσιμες ενημερώσεις για τις εφαρμογές cask που διαχειρίζεται το Homebrew.";
+"brew.not_found" = "Το Homebrew δεν βρέθηκε σε τυπική τοποθεσία εγκατάστασης.";
+"brew.command_failed" = "Η εντολή Homebrew απέτυχε.";
+"brew.bad_json" = "Το Homebrew επέστρεψε πληροφορίες ενημέρωσης που δεν ήταν αναγνώσιμες.";
+"brew.upgraded" = "Το Homebrew ενημέρωσε τις %lld επιλεγμένες εφαρμογές.";
+"brew.upgrade_partial" = "Ενημερώθηκαν %lld · %lld απέτυχαν — ελέγξτε ξανά για επιβεβαίωση.";
+
+/* Performance polish */
+"perf.pressure" = "Πίεση μνήμης";
+"perf.compressed" = "Συμπιεσμένη %@";
+"perf.uptime" = "Χρόνος λειτουργίας";
+"perf.uptime.detail" = "Από την τελευταία επανεκκίνηση";
+"perf.open_activity_monitor" = "Άνοιγμα Activity Monitor";
+"perf.activity_monitor.help" = "Οι διεργασίες συστήματος ελέγχονται καλύτερα στο Activity Monitor.";
+
+/* Extra languages */
+"settings.language.german" = "Deutsch";
+"settings.language.french" = "Français";
+"settings.language.spanish" = "Español";
+"settings.language.portuguese" = "Português";
+"settings.language.japanese" = "日本語";
+"settings.language.chinese" = "简体中文";
+"settings.language.help" = "Επιλέξτε Σύστημα για να ακολουθείτε το macOS ή επιβάλετε μια γλώσσα που περιλαμβάνεται στο MacCleaner.";
+
+/* Uninstaller depth + Developer Simulator/Docker/AI */
+"apps.drop.hint" = "Σύρετε ένα .app εδώ για έλεγχο υπολειμμάτων και απεγκατάσταση.";
+"apps.drop.invalid" = "Εδώ μπορείτε να σύρετε μόνο πακέτα εφαρμογών (.app).";
+"apps.sensitivity.strict" = "Αυστηρή";
+"apps.sensitivity.strict.detail" = "Μόνο διαδρομές με ακριβές bundle ID.";
+"apps.sensitivity.enhanced" = "Ενισχυμένη";
+"apps.sensitivity.enhanced.detail" = "Bundle ID συν όνομα εφαρμογής και αντιστοιχίσεις Team ID.";
+"apps.sensitivity.deep" = "Βαθιά";
+"apps.sensitivity.deep.detail" = "Αναζητά επίσης προθέματα vendor και Spotlight στο ~/Library.";
+"category.aiAppCaches.title" = "Δεδομένα εφαρμογών AI";
+"category.aiAppCaches.detail" = "Κρυφές μνήμες Ollama, LM Studio, Hugging Face (ποτέ αυτόματη επιλογή)";
+"dev.item.sim_runtime" = "Runtime Simulator — διαγραφή μέσω simctl (μόνιμη)";
+"dev.item.sim_runtime_disk" = "Πακέτο .simruntime στον δίσκο";
+"dev.item.docker_builder" = "Κρυφή μνήμη build Docker — docker builder prune (μόνιμο)";
+"dev.item.ollama" = "Μοντέλα και blobs Ollama";
+"dev.item.lmstudio" = "Κρυφή μνήμη λήψεων LM Studio";
+"dev.item.lmstudio_data" = "Application Support LM Studio";
+"dev.sim.delete" = "Διαγραφή runtime Simulator %@…";
+"dev.sim.delete_failed" = "Το simctl δεν μπόρεσε να διαγράψει αυτό το runtime.";
+"dev.docker.pruning" = "Καθαρισμός κρυφής μνήμης build Docker…";
+"dev.docker.prune_failed" = "Το Docker builder prune απέτυχε (τρέχει το Docker;).";
+"dev.permanent_hint" = "Τα επιλεγμένα στοιχεία με προειδοποίηση διαγράφονται οριστικά (δεν μετακινούνται στον Κάδο).";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "Πίσω";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "Παρακολούθηση συστήματος";
+"perf.monitor.help" = "Η CPU χρησιμοποιεί τη συνολική ισχύ του Mac. Τα helper ομαδοποιούνται με την εφαρμογή τους.";
+"perf.monitor.search" = "Αναζήτηση εφαρμογών και διεργασιών";
+"perf.monitor.clear_search" = "Καθαρισμός αναζήτησης";
+"perf.monitor.sort_by" = "Ταξινόμηση κατά";
+"perf.monitor.sort_asc" = "Αύξουσα";
+"perf.monitor.show_all" = "Εμφάνιση όλων των εφαρμογών και διεργασιών";
+"perf.monitor.empty" = "Δεν υπάρχουν πληροφορίες διεργασιών. Δοκιμάστε την Παρακολούθηση δραστηριότητας.";
+"perf.monitor.no_match" = "Δεν βρέθηκαν εφαρμογές ή διεργασίες";
+"perf.monitor.system_note" = "Οι διεργασίες συστήματος δεν εμφανίζονται. Χρησιμοποιήστε την Παρακολούθηση δραστηριότητας.";
+"perf.monitor.helpers" = "%lld helpers";
+"perf.monitor.cpu_memory" = "CPU — Μνήμη";
+"perf.cpu_warming" = "Οι τιμές CPU εμφανίζονται στο επόμενο δείγμα.";
+"perf.sort.memory" = "Μνήμη";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "Όνομα";

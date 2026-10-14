@@ -22,7 +22,7 @@
 "sidebar.tools" = "Herramientas";
 "sidebar.applications" = "Aplicaciones";
 "sidebar.orphans" = "Huérfanos";
-"sidebar.performance" = "Rendimiento";
+"sidebar.performance" = "Monitor del sistema";
 "sidebar.startup" = "Inicio";
 "sidebar.developer" = "Limpieza de desarrollador";
 "sidebar.privileged" = "Helper privilegiado";
@@ -206,8 +206,8 @@
 
 /* Performance */
 "perf.brand" = "RENDIMIENTO";
-"perf.title" = "Mantén el Mac con buena respuesta";
-"perf.subtitle" = "Memoria/CPU en vivo, launch agents y tareas de mantenimiento — sin helper privilegiado para la mayoría de acciones.";
+"perf.title" = "Monitor del sistema";
+"perf.subtitle" = "Monitor del sistema en vivo (CPU, memoria, apps), mantenimiento y enlace a Inicio.";
 "perf.memory" = "Memoria";
 "perf.memory_used" = "%lld%% usada";
 "perf.free_ram" = "RAM libre";
@@ -658,3 +658,26 @@
 "dev.docker.pruning" = "Limpiando caché de build de Docker…";
 "dev.docker.prune_failed" = "Falló docker builder prune (¿Docker está en marcha?).";
 "dev.permanent_hint" = "Los elementos con aviso se eliminan de forma permanente (no van a la Papelera).";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "Atrás";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "Monitor del sistema";
+"perf.monitor.help" = "La CPU usa la capacidad total del Mac. Los helpers se agrupan con su app.";
+"perf.monitor.search" = "Buscar apps y procesos";
+"perf.monitor.clear_search" = "Borrar búsqueda";
+"perf.monitor.sort_by" = "Ordenar por";
+"perf.monitor.sort_asc" = "Ascendente";
+"perf.monitor.show_all" = "Mostrar todas las apps y procesos";
+"perf.monitor.empty" = "Información de procesos no disponible. Prueba el Monitor de actividad.";
+"perf.monitor.no_match" = "No hay apps o procesos coincidentes";
+"perf.monitor.system_note" = "Los procesos del sistema no se listan. Usa el Monitor de actividad.";
+"perf.monitor.helpers" = "%lld helpers";
+"perf.monitor.cpu_memory" = "CPU — Memoria";
+"perf.cpu_warming" = "Los valores de CPU aparecen en la siguiente muestra.";
+"perf.sort.memory" = "Memoria";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "Nombre";

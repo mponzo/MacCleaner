@@ -22,7 +22,7 @@
 "sidebar.tools" = "ツール";
 "sidebar.applications" = "アプリケーション";
 "sidebar.orphans" = "孤立ファイル";
-"sidebar.performance" = "パフォーマンス";
+"sidebar.performance" = "システムモニタ";
 "sidebar.startup" = "起動項目";
 "sidebar.developer" = "開発者クリーンアップ";
 "sidebar.privileged" = "特権ヘルパー";
@@ -206,8 +206,8 @@
 
 /* Performance */
 "perf.brand" = "パフォーマンス";
-"perf.title" = "Mac を快適に保つ";
-"perf.subtitle" = "ライブのメモリ/CPU、Launch Agents、メンテナンスタスク — ほとんどの操作に特権ヘルパーは不要です。";
+"perf.title" = "システムモニタ";
+"perf.subtitle" = "ライブのシステムモニタ（CPU、メモリ、アプリ）、メンテナンス、スタートアップへのリンク。";
 "perf.memory" = "メモリ";
 "perf.memory_used" = "%lld%% 使用中";
 "perf.free_ram" = "空き RAM";
@@ -658,3 +658,26 @@
 "dev.docker.pruning" = "Docker ビルドキャッシュを整理中…";
 "dev.docker.prune_failed" = "docker builder prune に失敗しました（Docker は起動していますか？）。";
 "dev.permanent_hint" = "警告付きの項目はゴミ箱ではなく完全に削除されます。";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "戻る";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "システムモニタ";
+"perf.monitor.help" = "CPU は Mac の総能力を基準にします。ヘルパーはアプリごとにまとめます。";
+"perf.monitor.search" = "アプリとプロセスを検索";
+"perf.monitor.clear_search" = "検索をクリア";
+"perf.monitor.sort_by" = "並び替え";
+"perf.monitor.sort_asc" = "昇順";
+"perf.monitor.show_all" = "すべてのアプリとプロセスを表示";
+"perf.monitor.empty" = "プロセス情報を取得できません。アクティビティモニタを試してください。";
+"perf.monitor.no_match" = "一致するアプリやプロセスはありません";
+"perf.monitor.system_note" = "システムプロセスは表示しません。アクティビティモニタを使用してください。";
+"perf.monitor.helpers" = "ヘルパー %lld";
+"perf.monitor.cpu_memory" = "CPU — メモリ";
+"perf.cpu_warming" = "CPU 値は次のサンプルで表示されます。";
+"perf.sort.memory" = "メモリ";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "名前";

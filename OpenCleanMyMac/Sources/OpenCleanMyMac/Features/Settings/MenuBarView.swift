@@ -17,7 +17,7 @@ struct MenuBarView: View {
     )
 
     private var metrics: SystemMetrics {
-        performance.metrics ?? MetricsCollector.snapshot()
+        performance.metrics ?? MetricsCollector.shared.snapshot(limit: 8).0
     }
 
     private var hostName: String {

@@ -2,10 +2,14 @@ import SwiftUI
 
 struct StartupView: View {
     @Bindable var engine: StartupEngine
+    var onBack: (() -> Void)?
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
+                if let onBack {
+                    NestedBackButton(action: onBack)
+                }
                 HStack(alignment: .top) {
                     OCPageHeader(
                         title: L10n.string("startup.title"),

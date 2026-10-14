@@ -22,7 +22,7 @@
 "sidebar.tools" = "Werkzeuge";
 "sidebar.applications" = "Programme";
 "sidebar.orphans" = "Verwaiste Dateien";
-"sidebar.performance" = "Leistung";
+"sidebar.performance" = "System Monitor";
 "sidebar.startup" = "Start";
 "sidebar.developer" = "Entwicklerbereinigung";
 "sidebar.privileged" = "Privilegierter Helper";
@@ -206,8 +206,8 @@
 
 /* Performance */
 "perf.brand" = "LEISTUNG";
-"perf.title" = "Den Mac reaktionsschnell halten";
-"perf.subtitle" = "Live-Speicher/CPU, Launch Agents und Wartungsaufgaben — für die meisten Aktionen kein privilegierter Helper nötig.";
+"perf.title" = "System Monitor";
+"perf.subtitle" = "Live-Systemmonitor (CPU, Speicher, Apps), Wartung und Link zu Startobjekten.";
 "perf.memory" = "Speicher";
 "perf.memory_used" = "%lld%% belegt";
 "perf.free_ram" = "Freier RAM";
@@ -658,3 +658,26 @@
 "dev.docker.pruning" = "Docker-Build-Cache wird bereinigt…";
 "dev.docker.prune_failed" = "docker builder prune fehlgeschlagen (läuft Docker?).";
 "dev.permanent_hint" = "Mit Warnung markierte Einträge werden dauerhaft gelöscht (nicht in den Papierkorb).";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "Zurück";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "System Monitor";
+"perf.monitor.help" = "CPU bezieht sich auf die Gesamtleistung des Mac. Helper werden mit ihrer App gruppiert.";
+"perf.monitor.search" = "Apps und Prozesse suchen";
+"perf.monitor.clear_search" = "Suche löschen";
+"perf.monitor.sort_by" = "Sortieren nach";
+"perf.monitor.sort_asc" = "Aufsteigend";
+"perf.monitor.show_all" = "Alle Apps und Prozesse anzeigen";
+"perf.monitor.empty" = "Prozessinformationen nicht verfügbar. Aktivitätsanzeige versuchen.";
+"perf.monitor.no_match" = "Keine passenden Apps oder Prozesse";
+"perf.monitor.system_note" = "Systemprozesse werden nicht aufgeführt. Nutzen Sie die Aktivitätsanzeige.";
+"perf.monitor.helpers" = "%lld Helper";
+"perf.monitor.cpu_memory" = "CPU — Speicher";
+"perf.cpu_warming" = "CPU-Werte erscheinen nach der nächsten Messung.";
+"perf.sort.memory" = "Speicher";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "Name";

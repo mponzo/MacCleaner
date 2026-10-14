@@ -22,7 +22,7 @@
 "sidebar.tools" = "Tools";
 "sidebar.applications" = "Applications";
 "sidebar.orphans" = "Orphan Finder";
-"sidebar.performance" = "Performance";
+"sidebar.performance" = "System Monitor";
 "sidebar.startup" = "Startup";
 "sidebar.developer" = "Developer Cleanup";
 "sidebar.privileged" = "Privileged Helper";
@@ -206,8 +206,8 @@
 
 /* Performance */
 "perf.brand" = "PERFORMANCE";
-"perf.title" = "Keep the Mac responsive";
-"perf.subtitle" = "Live memory/CPU, launch agents, and maintenance tasks — no privileged helper required for most actions.";
+"perf.title" = "System Monitor";
+"perf.subtitle" = "Live System Monitor (CPU, memory, apps), maintenance tools, and a link to Startup — no privileged helper required for most actions.";
 "perf.memory" = "Memory";
 "perf.memory_used" = "%lld%% used";
 "perf.free_ram" = "Free RAM";
@@ -658,3 +658,26 @@
 "dev.docker.pruning" = "Pruning Docker build cache…";
 "dev.docker.prune_failed" = "Docker builder prune failed (is Docker running?).";
 "dev.permanent_hint" = "Selected items marked with a warning are permanently deleted (not moved to Trash).";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "Back";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "System Monitor";
+"perf.monitor.help" = "CPU uses the Mac’s total capacity. App helpers are grouped with their app.";
+"perf.monitor.search" = "Search apps and processes";
+"perf.monitor.clear_search" = "Clear search";
+"perf.monitor.sort_by" = "Sort by";
+"perf.monitor.sort_asc" = "Ascending";
+"perf.monitor.show_all" = "Show all apps and processes";
+"perf.monitor.empty" = "Process information is unavailable. Try Activity Monitor for more detail.";
+"perf.monitor.no_match" = "No matching apps or processes";
+"perf.monitor.system_note" = "System processes are not listed. Use Activity Monitor for those.";
+"perf.monitor.helpers" = "%lld helpers";
+"perf.monitor.cpu_memory" = "CPU — Memory";
+"perf.cpu_warming" = "CPU values appear after the next sample.";
+"perf.sort.memory" = "Memory";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "Name";

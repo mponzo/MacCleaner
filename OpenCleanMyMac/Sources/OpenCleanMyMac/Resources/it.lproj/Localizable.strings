@@ -22,7 +22,7 @@
 "sidebar.tools" = "Strumenti";
 "sidebar.applications" = "Applicazioni";
 "sidebar.orphans" = "Orphan Finder";
-"sidebar.performance" = "Prestazioni";
+"sidebar.performance" = "System Monitor";
 "sidebar.startup" = "Avvio";
 "sidebar.developer" = "Pulizia developer";
 "sidebar.privileged" = "Helper privilegiato";
@@ -206,8 +206,8 @@
 
 /* Prestazioni */
 "perf.brand" = "PRESTAZIONI";
-"perf.title" = "Mantieni il Mac reattivo";
-"perf.subtitle" = "Memoria/CPU in tempo reale, launch agent e attività di manutenzione — senza helper privilegiato per la maggior parte delle azioni.";
+"perf.title" = "System Monitor";
+"perf.subtitle" = "System Monitor live (CPU, memoria, app), strumenti di manutenzione e collegamento ad Avvio — per la maggior parte delle azioni non serve helper privilegiato.";
 "perf.memory" = "Memoria";
 "perf.memory_used" = "%lld%% in uso";
 "perf.free_ram" = "RAM libera";
@@ -658,3 +658,26 @@
 "dev.docker.pruning" = "Pulizia cache build Docker…";
 "dev.docker.prune_failed" = "docker builder prune non riuscito (Docker è in esecuzione?).";
 "dev.permanent_hint" = "Gli elementi con avviso vengono eliminati in modo permanente (non vanno nel Cestino).";
+
+/* Back + Greek/Russian language labels */
+"common.back" = "Indietro";
+"settings.language.greek" = "Ελληνικά";
+"settings.language.russian" = "Русский";
+
+/* System Monitor */
+"perf.monitor.title" = "System Monitor";
+"perf.monitor.help" = "La CPU usa la capacità totale del Mac. Gli helper sono raggruppati con l’app.";
+"perf.monitor.search" = "Cerca app e processi";
+"perf.monitor.clear_search" = "Cancella ricerca";
+"perf.monitor.sort_by" = "Ordina per";
+"perf.monitor.sort_asc" = "Crescente";
+"perf.monitor.show_all" = "Mostra tutte le app e i processi";
+"perf.monitor.empty" = "Informazioni sui processi non disponibili. Prova Monitoraggio attività.";
+"perf.monitor.no_match" = "Nessuna app o processo corrispondente";
+"perf.monitor.system_note" = "I processi di sistema non sono elencati. Usa Monitoraggio attività.";
+"perf.monitor.helpers" = "%lld helper";
+"perf.monitor.cpu_memory" = "CPU — Memoria";
+"perf.cpu_warming" = "I valori CPU compaiono al campione successivo.";
+"perf.sort.memory" = "Memoria";
+"perf.sort.cpu" = "CPU";
+"perf.sort.name" = "Nome";

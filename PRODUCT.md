@@ -30,7 +30,8 @@ Original open implementation. Privileged work is allowlisted and password-prompt
 - Performance metrics, launch agents, maintenance tasks; Homebrew cask updates
 - Privileged admin bridge for system caches/logs/DNS/snapshots
 - Menu bar one-click status panel + launch at login
-- UI: EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans (system or user-chosen)
+- UI: EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans / EL / RU (system or user-chosen)
+- Nested category detail / Performance→Startup include a Back control
 
 ## Constraints
 

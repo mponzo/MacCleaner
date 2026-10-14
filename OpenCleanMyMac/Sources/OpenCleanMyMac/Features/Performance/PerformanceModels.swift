@@ -51,6 +51,57 @@ struct ProcessInfoRow: Identifiable, Hashable, Sendable {
     let name: String
     let memoryBytes: UInt64
     let cpuPercent: Double
+    let bundleIdentifier: String?
+    let bundleURL: URL?
+    let isHelper: Bool
+
+    init(
+        id: Int32,
+        pid: Int32,
+        name: String,
+        memoryBytes: UInt64,
+        cpuPercent: Double,
+        bundleIdentifier: String? = nil,
+        bundleURL: URL? = nil,
+        isHelper: Bool = false
+    ) {
+        self.id = id
+        self.pid = pid
+        self.name = name
+        self.memoryBytes = memoryBytes
+        self.cpuPercent = cpuPercent
+        self.bundleIdentifier = bundleIdentifier
+        self.bundleURL = bundleURL
+        self.isHelper = isHelper
+    }
+}
+
+enum ProcessSortKey: String, CaseIterable, Identifiable, Sendable {
+    case memory
+    case cpu
+    case name
+
+    var id: String { rawValue }
+
+    var title: String {
+        L10n.string(key: "perf.sort.\(rawValue)")
+    }
+}
+
+struct ProcessGroup: Identifiable, Hashable, Sendable {
+    var id: String
+    var primary: ProcessInfoRow
+    var helpers: [ProcessInfoRow]
+
+    var totalMemoryBytes: UInt64 {
+        helpers.reduce(primary.memoryBytes) { $0 + $1.memoryBytes }
+    }
+
+    var totalCPUPercent: Double {
+        helpers.reduce(primary.cpuPercent) { $0 + $1.cpuPercent }
+    }
+
+    var allRows: [ProcessInfoRow] { [primary] + helpers }
 }
 
 struct LaunchAgentItem: Identifiable, Hashable, Sendable {

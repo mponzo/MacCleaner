@@ -158,13 +158,15 @@ const featureSections = [
   },
   {
     id: 'performance',
-    title: 'Performance',
-    lede: 'A clear snapshot of load and a few safe maintenance tools.',
+    title: 'System Monitor',
+    lede: 'Live CPU, memory, and apps — with search, sort, and helper grouping.',
     points: [
-      'Memory, CPU, free disk, pressure, and uptime at a glance',
-      'Top processes by memory; jump to Activity Monitor',
-      'User Launch Agents (remove only in the user domain)',
+      'Host CPU/memory/disk/uptime with delta-based CPU sampling',
+      'Apps and processes with icons, live CPU%, memory, search, and sort',
+      'Helpers grouped under their parent app; show-all toggle for fuller lists',
+      'System processes left to Activity Monitor; jump there in one click',
       'Maintenance: DNS flush (admin), Mail VACUUM, APFS snapshot thinning (admin), Launch Services rebuild',
+      'Menu bar glass panel keeps live meters while the app stays resident',
     ],
   },
   {
@@ -218,7 +220,7 @@ const featureSections = [
     title: 'Settings',
     lede: 'Language, exclusions, and how MacCleaner stays out of the way.',
     points: [
-      'Languages: System, English, Italian, German, French, Spanish, Portuguese (Brazil), Japanese, Simplified Chinese',
+      'Languages: System, English, Italian, German, French, Spanish, Portuguese (Brazil), Japanese, Simplified Chinese, Greek, Russian',
       'Cleanup exclusion list for protected paths',
       'Show menu bar icon / hide Dock icon',
       'Launch at login',
@@ -260,7 +262,7 @@ const featureSections = [
             </a>
           </div>
           <p class="fine">
-            Universal Apple silicon + Intel · 8 languages · MIT · DMG {{ version }}
+            Universal Apple silicon + Intel · 10 languages · MIT · DMG {{ version }}
           </p>
         </div>
         <div class="hero-visual" aria-hidden="true">

@@ -19,6 +19,8 @@ struct RootView: View {
     @State private var fda = FullDiskAccessManager.shared
     @State private var exclusions = CleanupExclusions.shared
     @State private var destination: SidebarDestination = .overview
+    /// When set, nested detail screens show Back and return here.
+    @State private var nestedReturn: SidebarDestination?
 
     var body: some View {
         Group {
@@ -51,14 +53,29 @@ struct RootView: View {
             }
             .navigationTitle(L10n.string("app.name"))
         }
+        .onChange(of: destination) { _, newValue in
+            // Leaving a nested push via the sidebar clears the return target.
+            guard nestedReturn != nil else { return }
+            switch newValue {
+            case .category:
+                return
+            case .startup where nestedReturn == .performance:
+                return
+            default:
+                nestedReturn = nil
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .ocmmOpenSettings)) { _ in
+            nestedReturn = nil
             destination = .settings
         }
         .onReceive(NotificationCenter.default.publisher(for: .ocmmOpenPerformance)) { _ in
+            nestedReturn = nil
             destination = .performance
         }
         .onReceive(NotificationCenter.default.publisher(for: .ocmmUninstallAppFromService)) { note in
             guard let url = note.userInfo?["url"] as? URL else { return }
+            nestedReturn = nil
             destination = .applications
             Task { await uninstaller.prepareForServiceUninstall(bundleURL: url) }
         }
@@ -69,8 +86,20 @@ struct RootView: View {
             preferences.hideDockIcon = false
             preferences.applyActivationPolicy()
             NSApp.activate(ignoringOtherApps: true)
+            nestedReturn = nil
             destination = .overview
         }
+    }
+
+    private func openNested(_ dest: SidebarDestination, returnTo: SidebarDestination) {
+        nestedReturn = returnTo
+        destination = dest
+    }
+
+    private func goBackFromNested() {
+        let target = nestedReturn ?? .overview
+        nestedReturn = nil
+        destination = target
     }
 
     private var sidebar: some View {
@@ -159,7 +188,7 @@ struct RootView: View {
         switch destination {
         case .overview:
             SmartCareView(engine: engine, fda: fda) { category in
-                destination = .category(category)
+                openNested(.category(category), returnTo: .overview)
             }
         case .applications:
             ApplicationsView(uninstaller: uninstaller)
@@ -167,10 +196,10 @@ struct RootView: View {
             OrphanFinderView(engine: orphanFinder)
         case .performance:
             PerformanceView(performance: performance) {
-                destination = .startup
+                openNested(.startup, returnTo: .performance)
             }
         case .startup:
-            StartupView(engine: startup)
+            StartupView(engine: startup, onBack: nestedReturn == .performance ? goBackFromNested : nil)
         case .developer:
             DeveloperCleanupView(engine: developer)
         case .privileged:
@@ -191,11 +220,35 @@ struct RootView: View {
             SettingsView(preferences: preferences, fda: fda, exclusions: exclusions)
         case .category(let category):
             if let result = engine.results.first(where: { $0.category == category }) {
-                CategoryDetailView(engine: engine, result: result, exclusions: exclusions)
+                CategoryDetailView(
+                    engine: engine,
+                    result: result,
+                    exclusions: exclusions,
+                    onBack: goBackFromNested
+                )
             } else {
-                ContentUnavailableView(L10n.string("smartcare.run_prompt"), systemImage: "sparkles")
+                VStack(spacing: 16) {
+                    NestedBackButton(action: goBackFromNested)
+                    ContentUnavailableView(L10n.string("smartcare.run_prompt"), systemImage: "sparkles")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .padding(22)
             }
         }
+    }
+}
+
+struct NestedBackButton: View {
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(L10n.string("common.back"), systemImage: "chevron.backward")
+                .font(OCTheme.font(13, weight: .semibold))
+        }
+        .buttonStyle(GhostButtonStyle())
+        .help(L10n.string("common.back"))
+        .keyboardShortcut(.escape, modifiers: [])
     }
 }
 
@@ -506,6 +559,7 @@ struct CategoryDetailView: View {
     @Bindable var engine: ScanEngine
     let result: CategoryResult
     @Bindable var exclusions: CleanupExclusions
+    var onBack: (() -> Void)?
 
     /// Live result from the engine when available (stays in sync after toggles / rescans).
     private var live: CategoryResult {
@@ -514,24 +568,29 @@ struct CategoryDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(live.category.title)
-                        .font(OCTheme.font(24, weight: .bold))
-                    Text(live.category.detail)
-                        .font(OCTheme.font(13))
-                        .foregroundStyle(OCTheme.muted)
+            VStack(alignment: .leading, spacing: 12) {
+                if let onBack {
+                    NestedBackButton(action: onBack)
                 }
-                Spacer()
-                if live.category.isCleanable {
-                    Button(L10n.string("common.select_all")) {
-                        engine.selectAll(in: live.category, selected: true)
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(live.category.title)
+                            .font(OCTheme.font(24, weight: .bold))
+                        Text(live.category.detail)
+                            .font(OCTheme.font(13))
+                            .foregroundStyle(OCTheme.muted)
                     }
-                    .buttonStyle(GhostButtonStyle())
-                    Button(L10n.string("common.select_none")) {
-                        engine.selectAll(in: live.category, selected: false)
+                    Spacer()
+                    if live.category.isCleanable {
+                        Button(L10n.string("common.select_all")) {
+                            engine.selectAll(in: live.category, selected: true)
+                        }
+                        .buttonStyle(GhostButtonStyle())
+                        Button(L10n.string("common.select_none")) {
+                            engine.selectAll(in: live.category, selected: false)
+                        }
+                        .buttonStyle(GhostButtonStyle())
                     }
-                    .buttonStyle(GhostButtonStyle())
                 }
             }
             .padding(22)

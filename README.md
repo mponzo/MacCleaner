@@ -9,7 +9,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
 
-Universal binary (Apple silicon + Intel). UI in **English, Italian, German, French, Spanish, Portuguese (Brazil), Japanese, and Simplified Chinese**.
+Universal binary (Apple silicon + Intel). UI in **English, Italian, German, French, Spanish, Portuguese (Brazil), Japanese, Simplified Chinese, Greek, and Russian**.
 
 ---
 
@@ -103,9 +103,16 @@ Read-only overview of **APFS purgeable** space (optional thin-snapshots helper),
 
 Optional background Smart Care while the app stays in the menu bar. Choose an interval (hourly → monthly), optionally **auto-clean** when reclaimable space meets a MB threshold, and run a cycle immediately from Settings.
 
-### Performance
+### System Monitor (Performance)
 
-Live memory / CPU / free disk, memory pressure and uptime, top processes, user Launch Agents, plus maintenance helpers (DNS flush, Mail VACUUM, APFS snapshot thinning, Launch Services, open Activity Monitor) where elevation is required.
+Live **System Monitor** aligned with common cleaner apps:
+
+- Host CPU / memory / disk / uptime with correct CPU **delta** sampling  
+- Apps & processes with **icons**, live **CPU%**, memory, **search**, **sort** (CPU / memory / name), and **helper grouping**  
+- Option to show all user apps/processes (system processes stay in Activity Monitor)  
+- Maintenance helpers (DNS flush, Mail VACUUM, APFS snapshot thinning, Launch Services) and a link to Startup  
+
+The menu bar glass panel continues to show live meters while MacCleaner stays resident.
 
 ### Updates
 
@@ -117,7 +124,7 @@ Glass status panel (disk, RAM, battery, CPU, network, activity). Closing the mai
 
 ### Onboarding & Settings
 
-First launch walks through **Full Disk Access** (open System Settings, recheck, continue). Settings also show FDA status, FileVault / Gatekeeper read-only status, language (System / EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans), cleanup **exclusions**, menu bar / Dock, launch at login, and install/remove from `~/Applications`. Full quit is **Settings → Quit** only.
+First launch walks through **Full Disk Access** (open System Settings, recheck, continue). Settings also show FDA status, FileVault / Gatekeeper read-only status, language (System / EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans / EL / RU), cleanup **exclusions**, menu bar / Dock, launch at login, and install/remove from `~/Applications`. Full quit is **Settings → Quit** only. Category detail (and Startup when opened from Performance) include a **Back** control.
 
 **Shortcuts:** ⌘R Smart Care · ⌘K clean selected · ⇧⌘U refresh apps · ⇧⌘P refresh performance  
 

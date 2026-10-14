@@ -145,6 +145,8 @@
 "category.unusedDiskImages.detail" = "*.dmg / *.iso in Downloads";
 "category.browserCaches.title" = "Browser Caches";
 "category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeOldFiles.title" = "Large & Old Files";
+"category.largeOldFiles.detail" = ">100 MB or older than 1 year — Downloads, Documents, Desktop";
 "category.largeHomeFolders.title" = "Large Folders";
 "category.largeHomeFolders.detail" = "Top folders under Home";
 "category.appLeftovers.title" = "App Leftovers";

@@ -145,6 +145,8 @@
 "category.unusedDiskImages.detail" = "下载中的 *.dmg / *.iso";
 "category.browserCaches.title" = "浏览器缓存";
 "category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeOldFiles.title" = "大文件与旧文件";
+"category.largeOldFiles.detail" = "大于 100 MB 或超过 1 年 — 下载、文稿、桌面";
 "category.largeHomeFolders.title" = "大文件夹";
 "category.largeHomeFolders.detail" = "个人主目录下的主要文件夹";
 "category.appLeftovers.title" = "应用残留";

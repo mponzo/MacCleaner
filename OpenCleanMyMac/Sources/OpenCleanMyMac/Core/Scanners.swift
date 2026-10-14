@@ -19,6 +19,7 @@ enum ScannerRegistry {
             BrowserCachesScanner(),
             MailDownloadsScanner(),
             MailDataScanner(),
+            LargeOldFilesScanner(),
             AppLeftoversScanner(),
             BrokenLaunchAgentsScanner(),
             SystemCachesScanner(),
@@ -299,6 +300,112 @@ struct MailDataScanner: CategoryScanner {
         var seen = Set<String>()
         return items.filter { seen.insert($0.url.path).inserted }
             .sorted { $0.byteCount > $1.byteCount }
+    }
+}
+
+/// Files in Downloads / Documents / Desktop that are very large or very old.
+/// Never auto-selected — review before Trash.
+struct LargeOldFilesScanner: CategoryScanner {
+    let category: ScanCategory = .largeOldFiles
+
+    private static let largeBytes: Int64 = 100_000_000 // 100 MB
+    private static let oldMinBytes: Int64 = 5_000_000 // avoid tiny old clutter
+    private static let maxAgeDays: Double = 365
+    private static let maxResults = 120
+    private static let maxVisited = 25_000
+
+    func scan() async -> [ScanItem] {
+        let roots = Self.scanRoots()
+        let cutoff = Date().addingTimeInterval(-Self.maxAgeDays * 24 * 60 * 60)
+        let category = category
+
+        return await Task.detached(priority: .utility) {
+            var found: [ScanItem] = []
+            var visited = 0
+            let keys: Set<URLResourceKey> = [
+                .isRegularFileKey,
+                .isDirectoryKey,
+                .isSymbolicLinkKey,
+                .isPackageKey,
+                .contentModificationDateKey,
+                .totalFileAllocatedSizeKey,
+                .fileAllocatedSizeKey,
+                .fileSizeKey
+            ]
+
+            for root in roots {
+                guard FileManager.default.fileExists(atPath: root.path) else { continue }
+                guard let enumerator = FileManager.default.enumerator(
+                    at: root,
+                    includingPropertiesForKeys: Array(keys),
+                    options: [.skipsHiddenFiles, .skipsPackageDescendants]
+                ) else { continue }
+
+                for case let url as URL in enumerator {
+                    if visited >= Self.maxVisited { break }
+                    visited += 1
+
+                    guard let values = try? url.resourceValues(forKeys: keys) else { continue }
+                    if values.isSymbolicLink == true { continue }
+                    if values.isDirectory == true { continue }
+                    if values.isPackage == true { continue }
+                    guard values.isRegularFile == true else { continue }
+
+                    let bytes: Int64 = {
+                        if let total = values.totalFileAllocatedSize { return Int64(total) }
+                        if let allocated = values.fileAllocatedSize { return Int64(allocated) }
+                        if let size = values.fileSize { return Int64(size) }
+                        return 0
+                    }()
+                    guard bytes > 0 else { continue }
+
+                    let isLarge = bytes >= Self.largeBytes
+                    let isOld = (values.contentModificationDate.map { $0 < cutoff } ?? false)
+                        && bytes >= Self.oldMinBytes
+                    guard isLarge || isOld else { continue }
+
+                    let folder = root.lastPathComponent
+                    found.append(
+                        ScanItem(
+                            category: category,
+                            url: url,
+                            byteCount: bytes,
+                            displayName: "\(folder)/\(url.lastPathComponent)",
+                            isSelected: false
+                        )
+                    )
+                }
+            }
+
+            var seen = Set<String>()
+            return found
+                .filter { seen.insert($0.url.path).inserted }
+                .sorted { $0.byteCount > $1.byteCount }
+                .prefix(Self.maxResults)
+                .map { $0 }
+        }.value
+    }
+
+    private static func scanRoots() -> [URL] {
+        let fm = FileManager.default
+        let home = fm.homeDirectoryForCurrentUser
+        var roots: [URL] = []
+        if let downloads = fm.urls(for: .downloadsDirectory, in: .userDomainMask).first {
+            roots.append(downloads)
+        } else {
+            roots.append(home.appendingPathComponent("Downloads", isDirectory: true))
+        }
+        if let documents = fm.urls(for: .documentDirectory, in: .userDomainMask).first {
+            roots.append(documents)
+        } else {
+            roots.append(home.appendingPathComponent("Documents", isDirectory: true))
+        }
+        if let desktop = fm.urls(for: .desktopDirectory, in: .userDomainMask).first {
+            roots.append(desktop)
+        } else {
+            roots.append(home.appendingPathComponent("Desktop", isDirectory: true))
+        }
+        return roots
     }
 }
 

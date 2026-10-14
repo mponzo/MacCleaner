@@ -12,6 +12,7 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
     case browserCaches
     case mailDownloads
     case mailData
+    case largeOldFiles
     case largeHomeFolders
     case appLeftovers
     case brokenLaunchAgents
@@ -38,10 +39,10 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
         }
     }
 
-    /// Prefer off-by-default for personal mail indexes.
+    /// Prefer off-by-default for personal mail indexes and large/old review files.
     var defaultSelected: Bool {
         switch self {
-        case .mailData:
+        case .mailData, .largeOldFiles:
             return false
         default:
             return isCleanable
@@ -71,6 +72,7 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
         case .browserCaches: return "globe"
         case .mailDownloads: return "envelope.badge"
         case .mailData: return "envelope"
+        case .largeOldFiles: return "doc.badge.clock"
         case .largeHomeFolders: return "chart.bar"
         case .appLeftovers: return "app.badge.checkmark"
         case .brokenLaunchAgents: return "exclamationmark.triangle"

@@ -53,6 +53,7 @@ Runs a multi-category scan and lets you pick what to free. Progress is per categ
 | Downloads | Files older than 30 days; `*.dmg` / `*.iso` |
 | Browsers | Safari, Chrome, Firefox, Edge caches |
 | Mail | Mail Downloads; MailData under `~/Library/Mail` |
+| Large & old files | Downloads / Documents / Desktop — **>100 MB** or **older than 1 year** (never auto-selected) |
 | Leftovers / agents | Orphan prefs & containers; broken user Launch Agents |
 | Large folders | Top folders under Home (measure only) |
 | System (optional) | `/Library/Caches`, logs, system agents — password + path allowlist |

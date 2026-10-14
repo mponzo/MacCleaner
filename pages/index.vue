@@ -33,6 +33,7 @@ const featureSections = [
       'Click a module to open category detail',
       'Clean selected items into the macOS Trash',
       'Exclude paths you want to keep forever',
+      'Large & old files stay unselected until you review them',
       'Stop during scan or cleanup — scan keeps running if you change sections',
     ],
     categories: [
@@ -43,6 +44,7 @@ const featureSections = [
       'Old downloads & disk images',
       'Browser caches (Safari, Chrome, Firefox, Edge)',
       'Mail Downloads & MailData',
+      'Large & old files (>100 MB or older than 1 year — never auto-selected)',
       'App leftovers & invalid Launch Agents',
       'System caches / logs / agents (admin + allowlist)',
     ],

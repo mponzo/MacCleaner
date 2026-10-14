@@ -145,6 +145,8 @@
 "category.unusedDiskImages.detail" = "ダウンロード内の *.dmg / *.iso";
 "category.browserCaches.title" = "ブラウザキャッシュ";
 "category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeOldFiles.title" = "大きなファイル・古いファイル";
+"category.largeOldFiles.detail" = "100 MB超または1年以上前 — ダウンロード、書類、デスクトップ";
 "category.largeHomeFolders.title" = "大きなフォルダ";
 "category.largeHomeFolders.detail" = "ホーム配下の主要フォルダ";
 "category.appLeftovers.title" = "アプリの残り";

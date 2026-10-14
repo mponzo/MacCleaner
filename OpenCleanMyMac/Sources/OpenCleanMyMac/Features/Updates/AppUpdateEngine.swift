@@ -21,9 +21,10 @@ struct RemoteAppRelease: Decodable, Sendable, Equatable {
         let prefersItalian: Bool = {
             switch language {
             case .italian: return true
-            case .english: return false
             case .system:
                 return Locale.preferredLanguages.first?.hasPrefix("it") == true
+            default:
+                return false
             }
         }()
         if prefersItalian, let notesIT, !notesIT.isEmpty { return notesIT }

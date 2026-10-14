@@ -32,6 +32,7 @@ const featureSections = [
       'Metrics for reclaimable space, scanned size, and status',
       'Click a module to open category detail',
       'Clean selected items into the macOS Trash',
+      'Exclude paths you want to keep forever',
       'Stop during scan or cleanup — scan keeps running if you change sections',
     ],
     categories: [
@@ -41,6 +42,7 @@ const featureSections = [
       'Developer caches (npm, Homebrew, pip, Gradle, Yarn, pnpm, Cargo…)',
       'Old downloads & disk images',
       'Browser caches (Safari, Chrome, Firefox, Edge)',
+      'Mail Downloads & MailData',
       'App leftovers & invalid Launch Agents',
       'System caches / logs / agents (admin + allowlist)',
     ],
@@ -55,8 +57,19 @@ const featureSections = [
       'Leftovers across Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, Crash Reporter',
       'Toggle whether to include the app bundle itself',
       'Finder recycle for /Applications, with admin fallback when needed',
-      'Clean orphan leftovers left behind by removed apps',
+      'Finder → Services → Uninstall with MacCleaner',
       'System apps stay protected — uninstall disabled',
+    ],
+  },
+  {
+    id: 'orphans',
+    title: 'Orphan Finder',
+    lede: 'Leftovers whose apps are already gone — review, select, Trash.',
+    points: [
+      'Match Library debris against currently installed bundle IDs',
+      'See path, kind, and size before acting',
+      'Select all or cherry-pick; move to Trash only what you choose',
+      'Reveal any leftover in Finder',
     ],
   },
   {
@@ -84,6 +97,49 @@ const featureSections = [
     ],
   },
   {
+    id: 'startup',
+    title: 'Startup',
+    lede: 'Launch Agents and local snapshots that quietly eat disk or boot time.',
+    points: [
+      'List user Launch Agents; flag broken ones',
+      'Remove selected agents from the user domain only',
+      'Browse local Time Machine / APFS snapshots',
+      'Thin selected snapshots with an admin prompt when needed',
+    ],
+  },
+  {
+    id: 'developer',
+    title: 'Developer Cleanup',
+    lede: 'Toolchain caches in one place — Xcode, npm, Homebrew, and friends.',
+    points: [
+      'Scan common developer cache locations',
+      'See size per target before cleanup',
+      'Selective Trash moves — nothing bulk-wiped by default',
+    ],
+  },
+  {
+    id: 'space-explorer',
+    title: 'Space Explorer',
+    lede: 'Drill into any folder and see what actually takes space.',
+    points: [
+      'Open Home, Applications, or pick any directory',
+      'Children ranked by size with breadcrumbs',
+      'Reveal paths in Finder; navigate up or deeper',
+      'Measure-only — no silent deletes from this view',
+    ],
+  },
+  {
+    id: 'privacy',
+    title: 'Privacy',
+    lede: 'See purgeable space and permission inventory — change nothing silently.',
+    points: [
+      'APFS purgeable estimate with optional snapshot thinning',
+      'Read-only TCC inventory for your user domain',
+      'Full Disk Access status',
+      'Deep links into System Settings and browser privacy panes',
+    ],
+  },
+  {
     id: 'schedule',
     title: 'Schedule',
     lede: 'Background Smart Care while MacCleaner stays in the menu bar.',
@@ -99,8 +155,8 @@ const featureSections = [
     title: 'Performance',
     lede: 'A clear snapshot of load and a few safe maintenance tools.',
     points: [
-      'Memory, CPU, and free disk at a glance',
-      'Top processes by memory',
+      'Memory, CPU, free disk, pressure, and uptime at a glance',
+      'Top processes by memory; jump to Activity Monitor',
       'User Launch Agents (remove only in the user domain)',
       'Maintenance: DNS flush (admin), Mail VACUUM, APFS snapshot thinning (admin), Launch Services rebuild',
     ],
@@ -117,23 +173,15 @@ const featureSections = [
     ],
   },
   {
-    id: 'space-lens',
-    title: 'Space Lens',
-    lede: 'After Smart Care, see where reclaimable space sits across categories.',
-    points: [
-      'Category bars from the latest scan',
-      'Quick visual sense of what dominates disk use',
-    ],
-  },
-  {
     id: 'updates',
     title: 'Updates',
-    lede: 'Install the build published on the open GitHub repository.',
+    lede: 'MacCleaner releases plus outdated Homebrew casks.',
     points: [
       'Compare local version with releases/version.json',
       'Download from GitHub Releases and install to ~/Applications',
-      'Relaunch after update',
-      'Network only to GitHub, and only when you check or open this section',
+      'List outdated Homebrew casks when brew is installed',
+      'Upgrade selected casks from the same screen',
+      'Network only to GitHub (and local brew), and only when you ask',
     ],
   },
   {
@@ -162,17 +210,17 @@ const featureSections = [
   {
     id: 'settings',
     title: 'Settings',
-    lede: 'Keep MacCleaner out of the way until you need it.',
+    lede: 'Language, exclusions, and how MacCleaner stays out of the way.',
     points: [
-      'Language: System, English, or Italian',
+      'Languages: System, English, Italian, German, French, Spanish, Portuguese (Brazil), Japanese, Simplified Chinese',
+      'Cleanup exclusion list for protected paths',
       'Show menu bar icon / hide Dock icon',
       'Launch at login',
       'Install or remove from ~/Applications',
       'Full quit only from Settings → Quit',
     ],
   },
-]
-</script>
+]</script>
 
 <template>
   <div class="page">
@@ -195,9 +243,9 @@ const featureSections = [
           <p class="eyebrow">Open source · macOS 14+</p>
           <h1 class="brand-hero">MacCleaner</h1>
           <p class="lede">
-            Reclaim space, uninstall apps, find duplicates and similar photos,
-            and schedule cleanup — with visible paths and full control.
-            Zero telemetry. Zero accounts. Zero cloud.
+            Reclaim space, uninstall apps, explore disk use, clean orphans and
+            startup clutter, and schedule Smart Care — with visible paths and
+            full control. Zero telemetry. Zero accounts. Zero cloud.
           </p>
           <div class="cta-row">
             <a class="btn btn-primary" :href="dmgUrl">Download MacCleaner {{ version }}</a>
@@ -206,7 +254,7 @@ const featureSections = [
             </a>
           </div>
           <p class="fine">
-            Universal Apple silicon + Intel · MIT · DMG {{ version }}
+            Universal Apple silicon + Intel · 8 languages · MIT · DMG {{ version }}
           </p>
         </div>
         <div class="hero-visual" aria-hidden="true">
@@ -232,7 +280,8 @@ const featureSections = [
         <div class="section-head">
           <h2>Features</h2>
           <p>
-            Smart Care, uninstall, duplicates, similar photos, scheduling, and more —
+            Smart Care, uninstall, orphan finder, Space Explorer, startup tools,
+            privacy hub, duplicates, similar photos, scheduling, and more —
             every tool is local, selective, and path-visible.
           </p>
         </div>

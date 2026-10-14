@@ -24,12 +24,13 @@ Original open implementation. Privileged work is allowlisted and password-prompt
 
 ## Capabilities
 
-- Smart Care multi-category scan and selective Trash moves
-- Applications leftovers + orphan cleanup
-- Performance metrics, launch agents, maintenance tasks
+- Smart Care multi-category scan (incl. Mail) and selective Trash moves + exclusions
+- Applications leftovers, Finder Services uninstall, Orphan Finder
+- Space Explorer, Startup (agents + snapshots), Developer Cleanup, Privacy hub
+- Performance metrics, launch agents, maintenance tasks; Homebrew cask updates
 - Privileged admin bridge for system caches/logs/DNS/snapshots
 - Menu bar one-click status panel + launch at login
-- Italian / English UI (system or user-chosen)
+- UI: EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans (system or user-chosen)
 
 ## Constraints
 

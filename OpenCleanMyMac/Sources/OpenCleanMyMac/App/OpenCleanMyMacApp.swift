@@ -12,6 +12,11 @@ struct OpenCleanMyMacApp: App {
     @State private var duplicates = DuplicateFinderEngine()
     @State private var similarPhotos = SimilarPhotosEngine()
     @State private var scheduler = CleanupScheduler()
+    @State private var spaceExplorer = SpaceExplorerEngine()
+    @State private var orphanFinder = OrphanFinderEngine()
+    @State private var startup = StartupEngine()
+    @State private var developer = DeveloperCleanupEngine()
+    @State private var privacy = PrivacyHubEngine()
     @State private var preferences = AppPreferences.shared
 
     init() {
@@ -49,7 +54,12 @@ struct OpenCleanMyMacApp: App {
                 preferences: preferences,
                 duplicates: duplicates,
                 similarPhotos: similarPhotos,
-                scheduler: scheduler
+                scheduler: scheduler,
+                spaceExplorer: spaceExplorer,
+                orphanFinder: orphanFinder,
+                startup: startup,
+                developer: developer,
+                privacy: privacy
             )
             .preferredColorScheme(.dark)
             .background(OCTheme.canvas)

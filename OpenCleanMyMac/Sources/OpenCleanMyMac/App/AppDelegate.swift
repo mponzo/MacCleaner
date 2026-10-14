@@ -2,11 +2,14 @@ import AppKit
 
 /// Keeps MacCleaner running in the menu bar after the main window is dismissed.
 /// Full quit happens only via Settings → Esci (`NSApp.terminate`).
+/// Also hosts the Finder Service “Uninstall with MacCleaner”.
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var didInstallCloseGuard = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppPreferences.shared.finishLaunchSetup()
+        NSApp.servicesProvider = self
+        NSUpdateDynamicServices()
         installCloseGuardsIfNeeded()
         NotificationCenter.default.addObserver(
             self,
@@ -25,6 +28,42 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             NotificationCenter.default.post(name: .ocmmReopenMainWindow, object: nil)
         }
         return true
+    }
+
+    /// Finder Services entry — must match Info.plist `NSMessage` = `uninstallApp`.
+    @objc func uninstallApp(
+        _ pboard: NSPasteboard,
+        userData: String,
+        error: AutoreleasingUnsafeMutablePointer<NSString?>
+    ) {
+        let options: [NSPasteboard.ReadingOptionKey: Any] = [
+            .urlReadingFileURLsOnly: true
+        ]
+        guard let urls = pboard.readObjects(forClasses: [NSURL.self], options: options) as? [URL],
+              !urls.isEmpty
+        else {
+            error.pointee = L10n.string("service.uninstall.no_app") as NSString
+            return
+        }
+
+        let apps = urls.filter { $0.pathExtension.lowercased() == "app" }
+        guard let first = apps.first ?? urls.first else {
+            error.pointee = L10n.string("service.uninstall.no_app") as NSString
+            return
+        }
+
+        let target = first.standardizedFileURL
+        DispatchQueue.main.async {
+            AppPreferences.shared.hideDockIcon = false
+            AppPreferences.shared.applyActivationPolicy()
+            NSApp.activate(ignoringOtherApps: true)
+            NotificationCenter.default.post(name: .ocmmReopenMainWindow, object: nil)
+            NotificationCenter.default.post(
+                name: .ocmmUninstallAppFromService,
+                object: nil,
+                userInfo: ["url": target]
+            )
+        }
     }
 
     @objc private func windowDidBecomeKey(_ notification: Notification) {
@@ -68,4 +107,5 @@ final class MainWindowCloseGuard: NSObject {
 
 extension Notification.Name {
     static let ocmmReopenMainWindow = Notification.Name("ocmm.reopenMainWindow")
+    static let ocmmUninstallAppFromService = Notification.Name("ocmm.uninstallAppFromService")
 }

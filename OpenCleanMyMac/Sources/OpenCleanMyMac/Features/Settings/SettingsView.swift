@@ -4,6 +4,7 @@ import SwiftUI
 struct SettingsView: View {
     @Bindable var preferences: AppPreferences
     @Bindable var fda: FullDiskAccessManager
+    @Bindable var exclusions: CleanupExclusions
     @State private var protection = ProtectionStatus.snapshot()
 
     var body: some View {
@@ -18,6 +19,7 @@ struct SettingsView: View {
                     .foregroundStyle(OCTheme.faint)
                 permissions
                 protectionSection
+                exclusionsSection
                 language
                 appearance
                 launcher
@@ -120,6 +122,37 @@ struct SettingsView: View {
         }
     }
 
+    private var exclusionsSection: some View {
+        group(L10n.string("excl.title")) {
+            Text(l10n: "excl.help")
+                .font(.caption)
+                .foregroundStyle(OCTheme.muted)
+
+            if exclusions.isEmpty {
+                Text(l10n: "excl.empty")
+                    .foregroundStyle(OCTheme.muted)
+            } else {
+                ForEach(exclusions.paths, id: \.self) { path in
+                    HStack(alignment: .top, spacing: 10) {
+                        Text(path)
+                            .font(.caption)
+                            .foregroundStyle(OCTheme.ink)
+                            .textSelection(.enabled)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Button(L10n.string("excl.remove")) {
+                            exclusions.remove(path)
+                        }
+                        .buttonStyle(GhostButtonStyle())
+                    }
+                }
+                Button(L10n.string("excl.clear")) {
+                    exclusions.clear()
+                }
+                .buttonStyle(GhostButtonStyle())
+            }
+        }
+    }
+
     private var language: some View {
         group(L10n.string("settings.language")) {
             Picker(L10n.string("settings.language"), selection: $preferences.appLanguage) {
@@ -127,7 +160,7 @@ struct SettingsView: View {
                     Text(L10n.string(key: language.menuTitleKey)).tag(language)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
             .labelsHidden()
 
             Text(l10n: "settings.language.help")

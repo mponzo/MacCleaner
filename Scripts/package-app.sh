@@ -82,6 +82,13 @@ assert_marker() {
 assert_marker 'DuplicateFinderEngine'
 assert_marker 'sidebar.duplicates'
 assert_marker 'CleanupScheduler'
+assert_marker 'SpaceExplorerEngine'
+assert_marker 'CleanupExclusions'
+assert_marker 'uninstallApp'
+assert_marker 'OrphanFinderEngine'
+assert_marker 'StartupEngine'
+assert_marker 'DeveloperCleanupEngine'
+assert_marker 'PrivacyHubEngine'
 
 if [[ -n "$RESOURCE_BUNDLE" ]]; then
   cp -R "$RESOURCE_BUNDLE" "$APP/Contents/Resources/"
@@ -106,6 +113,12 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <array>
     <string>en</string>
     <string>it</string>
+    <string>de</string>
+    <string>fr</string>
+    <string>es</string>
+    <string>pt-BR</string>
+    <string>ja</string>
+    <string>zh-Hans</string>
   </array>
   <key>CFBundleExecutable</key>
   <string>${BIN_NAME}</string>
@@ -149,9 +162,47 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <string>MacCleaner uses Apple Events to interact with Finder when revealing or trashing files.</string>
   <key>NSSystemAdministrationUsageDescription</key>
   <string>MacCleaner needs administrator access to clean protected caches and uninstall some apps.</string>
+  <key>NSServices</key>
+  <array>
+    <dict>
+      <key>NSMenuItem</key>
+      <dict>
+        <key>default</key>
+        <string>Uninstall with MacCleaner</string>
+      </dict>
+      <key>NSMessage</key>
+      <string>uninstallApp</string>
+      <key>NSPortName</key>
+      <string>OpenCleanMyMac</string>
+      <key>NSRequiredContext</key>
+      <dict/>
+      <key>NSSendFileTypes</key>
+      <array>
+        <string>com.apple.application-bundle</string>
+      </array>
+    </dict>
+  </array>
 </dict>
 </plist>
 PLIST
+
+# Localized Finder Services menu title
+SERVICES_DIR="$APP/Contents/Resources"
+declare -A SERVICES_TITLES=(
+  [en]="Uninstall with MacCleaner"
+  [it]="Disinstalla con MacCleaner"
+  [de]="Mit MacCleaner deinstallieren"
+  [fr]="Désinstaller avec MacCleaner"
+  [es]="Desinstalar con MacCleaner"
+  [pt-BR]="Desinstalar com MacCleaner"
+  [ja]="MacCleaner でアンインストール"
+  [zh-Hans]="使用 MacCleaner 卸载"
+)
+for loc in "${!SERVICES_TITLES[@]}"; do
+  mkdir -p "$SERVICES_DIR/${loc}.lproj"
+  printf '/* Services menu */\n"Uninstall with MacCleaner" = "%s";\n' "${SERVICES_TITLES[$loc]}" \
+    > "$SERVICES_DIR/${loc}.lproj/ServicesMenu.strings"
+done
 
 echo -n "APPL????" > "$APP/Contents/PkgInfo"
 

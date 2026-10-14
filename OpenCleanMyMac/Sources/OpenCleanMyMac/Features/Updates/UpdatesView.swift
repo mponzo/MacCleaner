@@ -3,6 +3,7 @@ import SwiftUI
 struct UpdatesView: View {
     @Bindable var updater: AppUpdateEngine
     @Bindable var preferences: AppPreferences
+    @State private var brew = HomebrewCaskEngine()
 
     var body: some View {
         ScrollView {
@@ -14,6 +15,7 @@ struct UpdatesView: View {
 
                 currentVersionCard
                 remoteCard
+                HomebrewCaskSection(brew: brew)
                 privacyNote
 
                 if let error = updater.errorMessage {

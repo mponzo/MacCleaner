@@ -2,7 +2,7 @@ import AppKit
 import CoreText
 import SwiftUI
 
-/// Blue glass operate palette — frosted indigo panels.
+/// Graphite, ivory and mint native utility palette.
 enum OCTheme {
     static func registerFonts() {
         if let url = Bundle.module.url(forResource: "OpenSans", withExtension: "ttf") {
@@ -14,16 +14,16 @@ enum OCTheme {
         Font.custom("Open Sans", size: size).weight(weight)
     }
 
-    static let canvas = Color(red: 0.063, green: 0.106, blue: 0.173)
-    static let canvasElevated = Color(red: 0.09, green: 0.141, blue: 0.22)
+    static let canvas = Color(red: 0.063, green: 0.071, blue: 0.075)
+    static let canvasElevated = Color(red: 0.098, green: 0.110, blue: 0.114)
     static let mist = Color(red: 0.12, green: 0.24, blue: 0.42)
 
-    static let ink = Color(red: 0.96, green: 0.98, blue: 1.0)
-    static let muted = Color(red: 0.66, green: 0.72, blue: 0.81)
-    static let faint = Color(red: 0.48, green: 0.58, blue: 0.74)
+    static let ink = Color(red: 0.95, green: 0.95, blue: 0.91)
+    static let muted = Color(red: 0.66, green: 0.70, blue: 0.68)
+    static let faint = Color(red: 0.56, green: 0.61, blue: 0.59)
 
     /// Primary action / links
-    static let sea = Color(red: 0.30, green: 0.68, blue: 1.0)
+    static let sea = Color(red: 0.29, green: 0.63, blue: 1.0)
     static let seaDeep = Color(red: 0.16, green: 0.48, blue: 0.92)
     /// Heat / attention
     static let accent = Color(red: 1.0, green: 0.62, blue: 0.28)
@@ -43,7 +43,7 @@ enum OCTheme {
     static let cardHover = Color.white.opacity(0.12)
     static let stroke = Color.white.opacity(0.14)
     static let strokeStrong = Color.white.opacity(0.22)
-    static let sidebarFill = Color(red: 0.04, green: 0.08, blue: 0.16).opacity(0.75)
+    static let sidebarFill = Color(red: 0.047, green: 0.055, blue: 0.059)
 
     static let shadow = Color.black.opacity(0.40)
 

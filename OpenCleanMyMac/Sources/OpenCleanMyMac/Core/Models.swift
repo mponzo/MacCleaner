@@ -10,6 +10,8 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
     case downloadsClutter
     case unusedDiskImages
     case browserCaches
+    case mailDownloads
+    case mailData
     case largeHomeFolders
     case appLeftovers
     case brokenLaunchAgents
@@ -28,7 +30,22 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
     }
 
     var isCleanable: Bool {
-        self != .largeHomeFolders
+        switch self {
+        case .largeHomeFolders:
+            return false
+        default:
+            return true
+        }
+    }
+
+    /// Prefer off-by-default for personal mail indexes.
+    var defaultSelected: Bool {
+        switch self {
+        case .mailData:
+            return false
+        default:
+            return isCleanable
+        }
     }
 
     /// Categories whose selected items usually need the privileged bridge.
@@ -52,6 +69,8 @@ enum ScanCategory: String, CaseIterable, Identifiable, Codable, Hashable {
         case .downloadsClutter: return "arrow.down.circle"
         case .unusedDiskImages: return "opticaldisc"
         case .browserCaches: return "globe"
+        case .mailDownloads: return "envelope.badge"
+        case .mailData: return "envelope"
         case .largeHomeFolders: return "chart.bar"
         case .appLeftovers: return "app.badge.checkmark"
         case .brokenLaunchAgents: return "exclamationmark.triangle"
@@ -83,7 +102,8 @@ struct ScanItem: Identifiable, Hashable {
         self.url = url
         self.byteCount = byteCount
         self.displayName = displayName ?? url.lastPathComponent
-        self.isSelected = isSelected && category.isCleanable
+        // Cleanable + caller wants selection + category default-on (mail data stays off).
+        self.isSelected = category.isCleanable && isSelected && category.defaultSelected
     }
 }
 

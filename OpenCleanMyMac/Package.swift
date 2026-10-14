@@ -14,6 +14,9 @@ let package = Package(
             path: "Sources/OpenCleanMyMac",
             resources: [
                 .process("Resources")
+            ],
+            linkerSettings: [
+                .linkedLibrary("sqlite3")
             ]
         )
     ]

@@ -1,7 +1,9 @@
+import AppKit
 import SwiftUI
 
 struct PerformanceView: View {
     @Bindable var performance: PerformanceEngine
+    var onOpenStartup: () -> Void = {}
 
     var body: some View {
         ScrollView {
@@ -10,8 +12,9 @@ struct PerformanceView: View {
                 if let metrics = performance.metrics {
                     metricsGrid(metrics)
                 }
+                monitorActions
+                startupLink
                 maintenanceSection
-                agentsSection
                 processesSection
                 if let result = performance.lastTaskResult {
                     Text(result.message)
@@ -65,6 +68,11 @@ struct PerformanceView: View {
                 ByteFormat.string(Int64(m.usedMemoryBytes))
             )
             metricCard(
+                L10n.string("perf.pressure"),
+                String(format: "%.0f%%", m.memoryPressurePercent),
+                L10n.format("perf.compressed", ByteFormat.string(Int64(m.compressedMemoryBytes)))
+            )
+            metricCard(
                 L10n.string("perf.free_ram"),
                 ByteFormat.string(Int64(m.freeMemoryBytes)),
                 L10n.format("perf.wired", ByteFormat.string(Int64(m.wiredMemoryBytes)))
@@ -79,6 +87,36 @@ struct PerformanceView: View {
                 ByteFormat.string(m.diskFreeBytes),
                 String(format: L10n.string("perf.disk_used"), m.diskUsedPercent)
             )
+            metricCard(
+                L10n.string("perf.uptime"),
+                m.uptimeLabel,
+                L10n.string("perf.uptime.detail")
+            )
+        }
+    }
+
+    private var monitorActions: some View {
+        HStack(spacing: 10) {
+            Button {
+                openActivityMonitor()
+            } label: {
+                Label(l10n: "perf.open_activity_monitor", systemImage: "gauge.with.dots.needle.67percent")
+            }
+            .buttonStyle(SeaButtonStyle())
+
+            Text(l10n: "perf.activity_monitor.help")
+                .font(OCTheme.font(12))
+                .foregroundStyle(OCTheme.muted)
+            Spacer()
+        }
+    }
+
+    private func openActivityMonitor() {
+        let url = URL(fileURLWithPath: "/System/Applications/Utilities/Activity Monitor.app")
+        if FileManager.default.fileExists(atPath: url.path) {
+            NSWorkspace.shared.open(url)
+        } else if let fallback = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor") {
+            NSWorkspace.shared.open(fallback)
         }
     }
 
@@ -98,6 +136,28 @@ struct PerformanceView: View {
         .background(OCTheme.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(OCTheme.stroke, lineWidth: 1))
         .shadow(color: OCTheme.shadow.opacity(0.3), radius: 6, x: 0, y: 2)
+    }
+
+    private var startupLink: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "power")
+                .foregroundStyle(OCTheme.sea)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(l10n: "perf.startup_link.title")
+                    .font(OCTheme.font(14, weight: .semibold))
+                Text(l10n: "perf.startup_link.body")
+                    .font(OCTheme.font(12))
+                    .foregroundStyle(OCTheme.muted)
+            }
+            Spacer()
+            Button(L10n.string("perf.startup_link.open")) {
+                onOpenStartup()
+            }
+            .buttonStyle(SeaButtonStyle())
+        }
+        .padding(14)
+        .background(OCTheme.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(OCTheme.stroke))
     }
 
     private var maintenanceSection: some View {
@@ -140,73 +200,6 @@ struct PerformanceView: View {
                 }
             }
         }
-    }
-
-    private var agentsSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(l10n: "perf.agents")
-                    .font(.title3.weight(.semibold))
-                Spacer()
-                Text(L10n.format("perf.agents.broken_count", Int64(performance.brokenAgentCount)))
-                    .foregroundStyle(performance.brokenAgentCount > 0 ? OCTheme.accent : .secondary)
-                Button(L10n.string("perf.agents.remove")) {
-                    Task { await performance.removeSelectedAgents() }
-                }
-                .disabled(performance.selectedAgentBytes == 0 || performance.isRunningTask)
-            }
-            Text(l10n: "perf.agents.help")
-                .font(.caption)
-                .foregroundStyle(OCTheme.muted)
-
-            ForEach(performance.launchAgents.prefix(40)) { agent in
-                HStack(alignment: .top, spacing: 10) {
-                    if agent.isUserDomain {
-                        Toggle("", isOn: Binding(
-                            get: { agent.isSelected },
-                            set: { _ in performance.toggleAgent(agent.id) }
-                        ))
-                        .labelsHidden()
-                        .toggleStyle(.checkbox)
-                    } else {
-                        Image(systemName: "lock.fill")
-                            .foregroundStyle(OCTheme.muted)
-                            .frame(width: 18)
-                    }
-                    VStack(alignment: .leading, spacing: 2) {
-                        HStack {
-                            Text(agent.label).font(.body.weight(.medium))
-                            if agent.isBroken {
-                                Text(l10n: "common.broken")
-                                    .font(.caption2.weight(.bold))
-                                    .foregroundStyle(.white)
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 2)
-                                    .background(OCTheme.accent, in: Capsule())
-                            }
-                        }
-                        Text(agent.url.path)
-                            .font(.caption)
-                            .foregroundStyle(OCTheme.muted)
-                            .lineLimit(1)
-                        if let exe = agent.executablePath {
-                            Text(exe)
-                                .font(.caption2)
-                                .foregroundStyle(OCTheme.muted)
-                                .lineLimit(1)
-                        }
-                    }
-                    Spacer()
-                    Text(agent.isUserDomain ? L10n.string("common.user") : L10n.string("common.system"))
-                        .font(.caption2)
-                        .foregroundStyle(OCTheme.muted)
-                }
-                .padding(.vertical, 4)
-            }
-        }
-        .padding(16)
-        .background(OCTheme.card, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(OCTheme.stroke))
     }
 
     private var processesSection: some View {

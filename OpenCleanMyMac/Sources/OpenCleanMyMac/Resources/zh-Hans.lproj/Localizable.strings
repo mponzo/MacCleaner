@@ -1,0 +1,635 @@
+/* General */
+"app.name" = "MacCleaner";
+"common.yes" = "是 — ~/Applications";
+"common.no" = "否";
+"common.run" = "运行";
+"common.refresh" = "刷新";
+"common.status" = "状态";
+"common.admin" = "管理员";
+"common.broken" = "已损坏";
+"common.user" = "用户";
+"common.system" = "系统";
+"common.select_all" = "全选";
+"common.select_none" = "取消全选";
+"common.on" = "开";
+"common.off" = "关";
+"common.unknown" = "未知";
+
+/* Sidebar */
+"sidebar.smart_care" = "智能清理";
+"sidebar.overview" = "概览";
+"sidebar.overview.subtitle" = "扫描并回收空间";
+"sidebar.tools" = "工具";
+"sidebar.applications" = "应用程序";
+"sidebar.orphans" = "残留文件";
+"sidebar.performance" = "性能";
+"sidebar.startup" = "启动项";
+"sidebar.developer" = "开发者清理";
+"sidebar.privileged" = "特权助手";
+"sidebar.space_lens" = "空间浏览器";
+"sidebar.privacy" = "隐私与空间";
+"sidebar.duplicates" = "重复文件";
+"sidebar.similar_photos" = "相似照片";
+"sidebar.scheduler" = "计划任务";
+"sidebar.updates" = "更新";
+"sidebar.settings" = "设置";
+"sidebar.modules" = "模块";
+
+"dup.title" = "重复文件查找";
+"dup.subtitle" = "按大小和 SHA-256 精确匹配。每组保留一份受保护副本。";
+"dup.idle" = "选择要扫描精确重复项的文件夹。";
+"dup.choose" = "选择文件夹";
+"dup.rescan" = "重新扫描";
+"dup.trash_selected" = "将所选移到废纸篓";
+"dup.scanning" = "正在扫描文件…";
+"dup.hashing" = "正在对候选重复项计算哈希…";
+"dup.stopped" = "扫描已停止。";
+"dup.trashing" = "正在将所选重复项移到废纸篓…";
+"dup.empty" = "未找到精确重复项";
+"dup.empty.detail" = "请选择可能包含副本的文件夹。将跳过程序包、符号链接和硬链接。";
+"dup.summary" = "%lld 组 · 可回收 %@";
+"dup.skipped" = "已跳过 %lld 项（程序包、链接或无法读取的文件）。";
+"dup.failed" = "%lld 个路径无法移到废纸篓。";
+"dup.group_title" = "%lld 个相同文件";
+"dup.protected" = "受保护";
+"dup.reveal" = "在 Finder 中显示";
+"dup.progress_files" = "已索引 %lld 个文件…";
+
+"photos.title" = "相似照片";
+"photos.subtitle" = "基于本地缩略图的视觉估计 — 照片不会被删除或上传。";
+"photos.disclaimer" = "相似度只是估计，不能证明两个文件相同。请用“在 Finder 中显示”比较原图。";
+"photos.idle" = "选择要比较的照片文件夹。";
+"photos.choose" = "选择照片文件夹";
+"photos.rescan" = "重新扫描";
+"photos.scanning" = "正在比较本地缩略图…";
+"photos.stopped" = "扫描已停止。";
+"photos.empty" = "未找到相似分组";
+"photos.empty.detail" = "请尝试相机胶卷或导出文件夹。将跳过仅云端占位符和程序包。";
+"photos.summary" = "%lld 个相似组（共 %lld 张照片）";
+"photos.limit" = "已达到 500 张照片 / 10,000 条目扫描上限。缩小文件夹可获得更完整结果。";
+"photos.group_title" = "%lld 张相似照片";
+"photos.reveal" = "显示";
+
+"sched.title" = "计划清理";
+"sched.subtitle" = "在 MacCleaner 留在菜单栏时于后台运行 Smart Care。";
+"sched.enable" = "启用计划扫描";
+"sched.interval" = "扫描间隔";
+"sched.auto_clean" = "扫描后自动清理";
+"sched.threshold" = "最小可回收大小";
+"sched.help" = "仅当所选可回收空间达到阈值时才会自动清理。请保持开启“完全磁盘访问权限”以获得完整结果。";
+"sched.status" = "状态";
+"sched.last_run" = "上次运行";
+"sched.next_run" = "下次运行";
+"sched.never" = "从未";
+"sched.not_scheduled" = "未安排";
+"sched.run_now" = "立即运行";
+"sched.idle" = "计划任务空闲";
+"sched.enabled" = "已安排";
+"sched.disabled" = "已禁用";
+"sched.running" = "正在运行 Smart Care…";
+"sched.cleaning" = "正在自动清理所选内容…";
+"sched.busy" = "Smart Care 已在忙";
+"sched.no_engine" = "清理引擎不可用";
+"sched.scanned" = "扫描完成 · 可回收 %@";
+"sched.cleaned" = "自动清理完成 · 已释放 %@";
+"sched.below_threshold" = "低于阈值（%@ < %lld MB）— 已跳过自动清理";
+"sched.interval.everyHour" = "每小时";
+"sched.interval.every3Hours" = "每 3 小时";
+"sched.interval.every6Hours" = "每 6 小时";
+"sched.interval.every12Hours" = "每 12 小时";
+"sched.interval.daily" = "每天";
+"sched.interval.weekly" = "每周";
+"sched.interval.biweekly" = "每 2 周";
+"sched.interval.monthly" = "每月";
+
+/* Smart Care */
+"smartcare.brand" = "MACCLEANER";
+"smartcare.title" = "用 Smart Care 回收空间";
+"smartcare.subtitle" = "开源 Mac 清理工具，面向垃圾、下载、Xcode、浏览器、残留与卸载 — 路径透明，本地优先。";
+"smartcare.reclaimable" = "可回收";
+"smartcare.scanned" = "已扫描";
+"smartcare.progress" = "进度";
+"smartcare.ready" = "就绪";
+"smartcare.run" = "运行 Smart Care";
+"smartcare.scanning" = "正在扫描…";
+"smartcare.stop" = "停止";
+"smartcare.stopped" = "已停止";
+"smartcare.clean_selected" = "清理所选";
+"smartcare.last_clean" = "上次清理：已移动 %lld 项，释放 %@。";
+"smartcare.items_selected" = "%lld 项 · 已选 %@";
+"smartcare.run_prompt" = "运行 Smart Care";
+"smartcare.idle" = "空闲";
+"smartcare.starting" = "正在启动 Smart Care…";
+"smartcare.scanned_category" = "已扫描 %@";
+"smartcare.complete" = "Smart Care 完成";
+"smartcare.moving" = "正在将项目移到废纸篓…";
+"smartcare.freed" = "已释放 %@";
+"smartcare.failed_count" = "%lld 项无法移动。";
+
+/* Categories */
+"category.userCaches.title" = "用户缓存";
+"category.userCaches.detail" = "~/Library/Caches";
+"category.userLogs.title" = "用户日志";
+"category.userLogs.detail" = "~/Library/Logs";
+"category.trash.title" = "废纸篓";
+"category.trash.detail" = "~/.Trash";
+"category.xcodeDerivedData.title" = "Xcode DerivedData";
+"category.xcodeDerivedData.detail" = "~/Library/Developer/Xcode/DerivedData";
+"category.xcodeArchives.title" = "Xcode 归档";
+"category.xcodeArchives.detail" = "~/Library/Developer/Xcode/Archives";
+"category.developerCaches.title" = "开发者缓存";
+"category.developerCaches.detail" = "npm、Homebrew、pip、Gradle";
+"category.downloadsClutter.title" = "旧下载";
+"category.downloadsClutter.detail" = "超过 30 天的下载";
+"category.unusedDiskImages.title" = "磁盘映像";
+"category.unusedDiskImages.detail" = "下载中的 *.dmg / *.iso";
+"category.browserCaches.title" = "浏览器缓存";
+"category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeHomeFolders.title" = "大文件夹";
+"category.largeHomeFolders.detail" = "个人主目录下的主要文件夹";
+"category.appLeftovers.title" = "应用残留";
+"category.appLeftovers.detail" = "孤立的偏好设置、缓存、容器";
+"category.brokenLaunchAgents.title" = "损坏的 Launch Agents";
+"category.brokenLaunchAgents.detail" = "二进制文件缺失的用户 LaunchAgents";
+"category.systemCaches.title" = "系统缓存";
+"category.systemCaches.detail" = "/Library/Caches（清理需管理员）";
+"category.systemLogs.title" = "系统日志";
+"category.systemLogs.detail" = "/Library/Logs 与 /var/log（管理员）";
+"category.systemLaunchAgents.title" = "损坏的系统代理";
+"category.systemLaunchAgents.detail" = "损坏的 /Library/LaunchAgents（管理员）";
+
+/* Leftover kinds */
+"leftover.preferences" = "偏好设置";
+"leftover.caches" = "缓存";
+"leftover.applicationSupport" = "Application Support";
+"leftover.logs" = "日志";
+"leftover.savedState" = "已保存状态";
+"leftover.cookies" = "Cookie";
+"leftover.containers" = "容器";
+"leftover.groupContainers" = "Group Containers";
+"leftover.launchAgents" = "Launch Agents";
+"leftover.crashReporter" = "Crash Reporter";
+
+/* Applications */
+"apps.search" = "搜索应用";
+"apps.brand" = "应用程序";
+"apps.select" = "选择一个应用程序";
+"apps.select.detail" = "扫描残留并连同相关文件一并卸载。";
+"apps.protected" = "受保护的系统应用 — 残留与卸载已禁用。";
+"apps.include_bundle" = "包含应用套装";
+"apps.uninstall_selected" = "卸载所选";
+"apps.leftovers" = "残留";
+"apps.leftovers.empty" = "在用户 Library 路径中未找到相关文件。";
+"apps.orphans" = "孤立残留";
+"apps.orphans.detail" = "其套装 ID 未安装的偏好设置/缓存/容器。";
+"apps.clean_orphans" = "清理所选孤立项";
+"apps.app_size" = "应用大小";
+"apps.leftovers_size" = "残留";
+"apps.selected_size" = "已选";
+"apps.last_action" = "上次操作：已移动 %lld 项，释放 %@。";
+"apps.failed_paths" = "%lld 个路径无法移到废纸篓。";
+"apps.listing" = "正在列出应用程序…";
+"apps.scanning_leftovers" = "正在扫描残留…";
+"apps.finding_orphans" = "正在查找孤立残留…";
+"apps.summary" = "%lld 个应用 · %@ 孤立残留";
+"apps.uninstalling" = "正在卸载 %@…";
+"apps.cleaning_orphans" = "正在清理孤立残留…";
+"apps.confirm_title" = "移到废纸篓？";
+"apps.confirm_body" = "MacCleaner 会将所选应用及相关文件移到废纸篓。需要管理员授权的项目可能会被永久删除。继续前请核对选择。";
+"apps.needs_fda" = "卸载 %@: %lld 个文件需要完全磁盘访问权限。请在设置中授予后再试。";
+"apps.needs_fda_generic" = "移除前，%lld 个文件需要完全磁盘访问权限。";
+"apps.fda_required_path" = "需要完全磁盘访问权限";
+"apps.admin_hint" = "如果 macOS 要求输入密码后仍无法移除，请检查该应用是否受保护。";
+"common.cancel" = "取消";
+
+/* Performance */
+"perf.brand" = "性能";
+"perf.title" = "保持 Mac 响应迅速";
+"perf.subtitle" = "实时内存/CPU、启动代理与维护任务 — 多数操作无需特权助手。";
+"perf.memory" = "内存";
+"perf.memory_used" = "已用 %lld%%";
+"perf.free_ram" = "可用内存";
+"perf.wired" = "固定 %@";
+"perf.cpu" = "CPU（ticks）";
+"perf.processes" = "%lld 个进程";
+"perf.disk_free" = "磁盘可用";
+"perf.disk_used" = "已用 %.0f%%";
+"perf.maintenance" = "维护";
+"perf.agents" = "Launch Agents";
+"perf.agents.broken_count" = "%lld 个已损坏";
+"perf.agents.remove" = "移除所选";
+"perf.agents.help" = "用户代理可移到废纸篓。系统代理仅只读列出。";
+"perf.top_processes" = "按内存排序的顶部进程";
+"perf.pid" = "pid %d";
+"perf.removed_agents" = "已移除 %lld 个代理文件，%@。";
+"perf.refreshing" = "正在刷新性能…";
+"perf.agents_summary" = "%lld 个代理 · %lld 个已损坏";
+"perf.moving_agents" = "正在将启动代理移到废纸篓…";
+"perf.agents_failed" = "%lld 个代理无法移除。";
+"perf.running_task" = "正在运行 %@…";
+
+"maint.flushDNS.title" = "刷新 DNS 缓存";
+"maint.flushDNS.detail" = "清除系统 DNS 缓存（可能要求管理员密码）";
+"maint.flushDNS.ok" = "DNS 缓存已刷新。";
+"maint.flushDNS.fail" = "刷新 DNS 失败或已取消。";
+"maint.speedUpMail.title" = "加快邮件";
+"maint.speedUpMail.detail" = "对 Apple Mail Envelope Index 执行 VACUUM（用户域）";
+"maint.speedUpMail.missing" = "未找到 Apple Mail Envelope Index。若使用邮件，请退出后再试。";
+"maint.speedUpMail.vacuum_fail" = "sqlite3 VACUUM 失败（邮件已退出吗？）。";
+"maint.speedUpMail.ok" = "邮件索引已优化。从文件回收了 %@。";
+"maint.thinLocalSnapshots.title" = "精简本地快照";
+"maint.thinLocalSnapshots.detail" = "请求 tmutil 精简本地 APFS 快照";
+"maint.thinLocalSnapshots.ok" = "已请求精简本地快照。";
+"maint.thinLocalSnapshots.fail" = "精简快照失败或已取消。";
+"maint.rebuildLaunchServices.title" = "重建 Launch Services";
+"maint.rebuildLaunchServices.detail" = "重建 Launch Services 数据库（用户）";
+"maint.rebuildLaunchServices.missing" = "此 macOS 上未找到 lsregister。";
+"maint.rebuildLaunchServices.ok" = "已请求重建 Launch Services 数据库。";
+"maint.rebuildLaunchServices.fail_status" = "lsregister 以状态 %lld 退出。";
+
+/* Privileged */
+"priv.brand" = "特权助手";
+"priv.title" = "系统级清理";
+"priv.subtitle" = "MacCleaner 使用带白名单的管理员桥接（密码提示）处理系统路径。包含供后续使用的已签名 SMAppService 守护进程脚手架。";
+"priv.bridge" = "桥接";
+"priv.ready" = "就绪";
+"priv.busy" = "忙碌…";
+"priv.osascript" = "osascript admin";
+"priv.system_caches" = "系统缓存";
+"priv.system_logs" = "系统日志";
+"priv.broken_agents" = "损坏的代理";
+"priv.maintenance" = "特权维护";
+"priv.flush_dns" = "刷新 DNS";
+"priv.thin_snapshots" = "精简快照";
+"priv.rescan" = "重新扫描";
+"priv.clean_help" = "清理系统缓存/日志：运行 Smart Care，选择系统缓存 / 系统日志，然后清理所选（管理员提示）。";
+"priv.roadmap" = "已签名助手路线图";
+"priv.roadmap.body" = "1. 构建应用套装 + OpenCleanPrivilegedHelper\n2. 用同一 Team ID 为两者签名（本地 SMAppService 可用 Apple Development）\n3. 通过 SMAppService.daemon 注册并替换 osascript 提示\n参见 docs/PRIVILEGED_HELPER.md";
+"priv.status_bridge" = "管理员桥接已就绪（每次操作提示密码）。尚未安装已签名的 SMAppService 助手。";
+"priv.summary" = "系统缓存 %@ · 日志 %@ · 损坏代理 %lld";
+"priv.running" = "正在运行 %@…";
+"priv.completed" = "%@ 已完成。";
+"priv.failed" = "%@ 失败或已取消。";
+"priv.remove_failed" = "特权移除失败。";
+"priv.allowlist_denied" = "路径不在特权白名单内。";
+
+/* Installer errors */
+"install.package_first" = "请先打包应用（`./Scripts/package-app.sh`），再从该 .app 安装。";
+"install.failed" = "安装失败：%@";
+"install.not_installed" = "MacCleaner 未安装在 Applications 中。";
+
+/* Space Explorer */
+"space.brand" = "SPACE EXPLORER";
+"space.title" = "空间浏览器";
+"space.subtitle" = "按已分配磁盘空间检查任意文件夹。文件绝不会被更改。";
+"space.empty" = "无扫描数据";
+"space.empty.detail" = "使用 Smart Care 测量可回收区域。";
+"space.explorer.idle" = "选择要测量的文件夹";
+"space.explorer.choose" = "选择文件夹";
+"space.explorer.choose_message" = "MacCleaner 在不更改文件的情况下测量已分配大小。";
+"space.explorer.home" = "个人主目录";
+"space.explorer.applications" = "应用程序";
+"space.explorer.parent" = "上级";
+"space.explorer.measuring" = "正在测量已分配空间…";
+"space.explorer.stopped" = "测量已停止";
+"space.explorer.failed" = "无法测量此文件夹";
+"space.explorer.summary" = "%lld 项 · %@";
+"space.explorer.empty" = "此处无可测量内容";
+"space.explorer.empty.detail" = "将跳过隐藏项。请尝试其他文件夹。";
+"space.explorer.prompt" = "找出占用磁盘最多的内容";
+"space.explorer.prompt.detail" = "选择文件夹以查看哪些文件和子文件夹占用最多已分配空间。";
+"space.explorer.read_only" = "只读 — Space Explorer 不会删除任何内容。";
+"space.scan_breakdown" = "Smart Care 类别";
+"space.scan_breakdown.detail" = "来自上一次 Smart Care 扫描的可回收区域。";
+
+/* Cleanup exclusions */
+"excl.title" = "清理排除项";
+"excl.help" = "Smart Care 扫描与清理会跳过排除路径。可从类别的快捷菜单添加。";
+"excl.empty" = "尚无排除项。";
+"excl.remove" = "移除";
+"excl.clear" = "全部清除";
+"excl.always" = "始终从清理中排除";
+
+/* Finder Service */
+"service.uninstall.no_app" = "请选择要卸载的应用程序（.app）。";
+"service.uninstall.ready" = "已准备卸载 %@ — 请查看残留后再卸载。";
+
+/* Settings */
+"settings.brand" = "设置";
+"settings.title" = "安装与菜单栏";
+"settings.subtitle" = "安装到 ~/Applications，显示菜单栏图标，并在登录时自动启动。";
+"settings.language" = "语言";
+"settings.language.system" = "系统";
+"settings.language.english" = "English";
+"settings.language.italian" = "Italiano";
+"settings.appearance" = "外观";
+"settings.show_menubar" = "显示菜单栏图标";
+"settings.hide_dock" = "隐藏程序坞图标（菜单栏模式）";
+"settings.hide_dock.help" = "菜单栏模式可让应用通过时钟附近的状态项使用。";
+"settings.launcher" = "自动启动";
+"settings.launch_at_login" = "登录时打开";
+"settings.open_login_items" = "打开“登录项”设置";
+"settings.launch_help" = "需要已安装到 Applications 的 .app。macOS 可能要求批准一次。";
+"settings.installation" = "安装";
+"settings.installed" = "已安装";
+"settings.install" = "安装到 Applications";
+"settings.reinstall" = "重新安装";
+"settings.uninstall" = "卸载";
+"settings.reveal" = "在 Finder 中显示";
+"settings.tip" = "提示：运行 `./Scripts/package-app.sh`，打开生成的 .app，然后在此使用安装。";
+"settings.login.enabled" = "已启用";
+"settings.login.not_registered" = "未注册";
+"settings.login.needs_approval" = "需在“系统设置 → 登录项”中批准";
+"settings.login.unavailable" = "安装为 .app 前不可用";
+"settings.login.unknown" = "未知";
+"settings.installed_to" = "已安装到 %@";
+"settings.uninstalled" = "已从 ~/Applications 卸载。";
+"settings.quit.help" = "完全退出 MacCleaner（含菜单栏图标）。关闭主窗口会让应用保留在菜单栏。";
+"settings.permissions" = "权限";
+"settings.fda" = "完全磁盘访问权限";
+"settings.fda.on" = "已授予";
+"settings.fda.off" = "未授予";
+"settings.fda.help" = "完整扫描邮件、Safari 数据、容器及其他受保护 Library 路径时需要。";
+"settings.replay_onboarding" = "再次显示设置向导";
+"settings.protection" = "保护";
+"settings.protection.filevault" = "FileVault";
+"settings.protection.gatekeeper" = "Gatekeeper";
+"settings.protection.help" = "来自 macOS 的只读状态。MacCleaner 不会更改这些设置。";
+
+"onboarding.back" = "返回";
+"onboarding.continue" = "继续";
+"onboarding.get_started" = "开始使用";
+"onboarding.welcome.title" = "欢迎使用 MacCleaner";
+"onboarding.welcome.body" = "回收磁盘空间、卸载带残留的应用并运行维护 — 全部在你的 Mac 上完成，无遥测。";
+"onboarding.fda.title" = "只需一项权限，即可完成";
+"onboarding.fda.title_granted" = "已授予权限";
+"onboarding.fda.body" = "MacCleaner 需要完全磁盘访问权限，以便卸载应用、查找残留，并清理 macOS 默认隐藏的受保护缓存。";
+"onboarding.fda.body_granted" = "MacCleaner 现在可以访问 macOS 默认锁定的受保护位置。";
+"onboarding.fda.window_title" = "完全磁盘访问权限";
+"onboarding.fda.path" = "隐私与安全性 → 完全磁盘访问权限";
+"onboarding.fda.terminal" = "终端";
+"onboarding.fda.open_settings" = "打开系统设置";
+"onboarding.fda.recheck" = "我已授予 — 重新检查";
+"onboarding.fda.watching" = "正在等待权限…";
+"onboarding.fda.ready" = "一切就绪 — 继续下一步。";
+"onboarding.ready.title" = "你已准备就绪";
+"onboarding.ready.body_fda" = "Smart Care 和应用卸载器可扫描受保护路径。每次删除都由你掌控。";
+"onboarding.ready.body_limited" = "你可以先以有限结果继续使用，稍后再在设置中授予完全磁盘访问权限。";
+
+"fda.banner.title" = "完全磁盘访问权限已关闭";
+"fda.banner.body" = "部分受保护位置不可用。授予访问权限可获得更完整的扫描与卸载。";
+"fda.banner.action" = "授予访问权限";
+
+/* Menu bar */
+"menubar.open" = "打开 MacCleaner";
+"menubar.open_short" = "打开 MacCleaner";
+"menubar.run_smart_care" = "运行 Smart Care";
+"menubar.launch_at_login" = "登录时打开";
+"menubar.hide_dock" = "隐藏程序坞图标";
+"menubar.settings" = "设置…";
+"menubar.quit" = "退出";
+"menubar.status_label" = "Mac 状态：";
+"menubar.status.good" = "良好";
+"menubar.status.attention" = "注意";
+"menubar.storage" = "Macintosh HD";
+"menubar.available" = "可用：%@";
+"menubar.free_up" = "释放空间";
+"menubar.memory" = "内存";
+"menubar.pressure" = "压力：%lld%%";
+"menubar.cpu" = "CPU";
+"menubar.processes" = "%lld 个进程";
+"menubar.battery" = "电池";
+"menubar.battery_value" = "%lld%%";
+"menubar.battery_charging" = "正在充电 / 已接通电源";
+"menubar.battery_on_battery" = "使用电池";
+"menubar.battery_unavailable" = "无电池（台式）";
+"menubar.tip_title" = "今日提示";
+"menubar.tip_headline" = "建议运行 Smart Care 扫描";
+"menubar.tip_body" = "一次找出可回收的缓存、残留和旧下载。";
+"menubar.run_scan" = "运行 Smart Care";
+
+/* Menu commands */
+"menu.clean" = "清理";
+"menu.run_smart_care" = "运行 Smart Care";
+"menu.clean_selected" = "清理所选";
+"menu.refresh_apps" = "刷新应用程序";
+"menu.refresh_perf" = "刷新性能";
+
+"menubar.disk_used" = "已用：%lld%%";
+"menubar.free_short" = "可用";
+"menubar.cpu_usage" = "使用率：%lld%%";
+"menubar.agents_brief" = "%lld 个损坏代理";
+"menubar.ready_title" = "本地清理已就绪";
+"menubar.ready_badge" = "就绪";
+"menubar.ready_detail" = "Smart Care 与维护工具可用 · 运行时间 %@";
+"menubar.uptime_days" = "%lld 天 %lld 小时";
+"menubar.uptime_hours" = "%lld 小时 %lld 分";
+"menubar.network_online" = "在线";
+"menubar.network_offline" = "离线";
+"menubar.network_settings" = "网络设置";
+"menubar.activity" = "活动";
+"menubar.activity_empty" = "尚无进程采样";
+"menubar.reclaimable_brief" = "可回收：%@";
+"menubar.battery_full" = "已充满";
+
+/* Updates */
+"updates.title" = "更新";
+"updates.subtitle" = "检查并安装 GitHub 仓库中发布的最新 MacCleaner 构建。";
+"updates.installed" = "此 Mac";
+"updates.repository" = "仓库发布";
+"updates.version" = "版本";
+"updates.build" = "构建";
+"updates.latest" = "最新";
+"updates.last_check" = "上次检查";
+"updates.not_checked" = "尚未检查。";
+"updates.checking" = "正在检查仓库…";
+"updates.available" = "有可用更新：%@";
+"updates.up_to_date" = "你已是最新版本。";
+"updates.check" = "检查更新";
+"updates.install" = "下载并安装";
+"updates.downloading" = "正在下载软件包…";
+"updates.installing" = "正在安装…";
+"updates.relaunching" = "正在重新启动…";
+"updates.privacy" = "隐私";
+"updates.privacy.body" = "仅在你请求（或打开此页）时才会联系 GitHub 检查更新。无遥测、账户或分析 — 只有开源仓库中的公开 version.json 和 MacCleaner.app.zip。";
+"updates.error.manifest" = "无法读取更新清单。";
+"updates.error.download" = "下载失败：%@";
+"updates.error.package" = "下载的软件包无效。";
+"updates.error.install" = "安装失败：%@";
+"updates.error.network" = "网络错误：%@";
+"updates.error.check_first" = "请先检查更新。";
+
+/* Overview redesign */
+"overview.title" = "更多空间。更少杂乱。";
+"overview.intro" = "扫描你的 Mac，并选择要移除的内容。";
+"overview.scan" = "扫描你的 Mac";
+"overview.rescan" = "再次扫描";
+"overview.available" = "可回收空间";
+"overview.categories" = "个已扫描类别";
+"overview.review" = "查看要清理的内容";
+"overview.selected" = "已选";
+"overview.selected_items" = "%lld 项 · 清理前请核对路径";
+"overview.empty_categories" = "另有 %lld 个类别无可清理文件";
+"overview.reassurance" = "由你决定移除什么。打开类别以查看其路径。";
+"overview.review_clean" = "查看并清理…";
+"overview.partial" = "类别至少已部分选中。打开详情以查看单个文件。";
+"overview.confirm_body" = "请核对所选文件。它们将移到废纸篓；系统路径可能需要管理员密码。";
+"overview.back" = "返回结果";
+"overview.trash" = "移到废纸篓";
+
+/* Graphite home */
+"overview.vision_title" = "为真正重要的事腾出空间。";
+"overview.local" = "在你的 Mac 上。仅在你的 Mac 上。";
+"overview.awaiting_scan" = "下一次扫描从这里开始。";
+"overview.analyzed" = "已分析 %@";
+"overview.map_title" = "空间藏在哪里";
+"overview.map_caption" = "可回收空间占比 · 主要类别";
+"overview.map_idle" = "你的空间轮廓正在成形。";
+"overview.map_idle_body" = "开始扫描以查看哪些类别占用最多，并打开它们检查文件。";
+"overview.map_clear" = "已扫描类别中没有可清理文件。";
+
+/* Before scanning */
+"overview.welcome_title" = "先看清全貌。";
+"overview.welcome_body" = "发现占用空间的内容。MacCleaner 会扫描你的 Mac，帮你选择保留与移除。";
+"overview.welcome_cache" = "缓存与临时文件";
+"overview.welcome_cache_body" = "应用缓存、浏览器与诊断日志。";
+"overview.welcome_dev" = "开发者工具";
+"overview.welcome_dev_body" = "Xcode DerivedData 以及 npm、Homebrew、pip 和 Gradle 缓存。";
+"overview.welcome_files" = "待检查文件";
+"overview.welcome_files_body" = "旧下载、磁盘映像和应用残留。";
+"overview.welcome_control" = "扫描不会删除文件。清理前请核对选择。";
+
+/* Orphan Finder */
+"orphan.title" = "残留文件查找";
+"orphan.subtitle" = "其套装 ID 已不再安装的偏好设置、缓存和容器。";
+"orphan.idle" = "扫描孤立残留";
+"orphan.scan" = "扫描孤立项";
+"orphan.scanning" = "正在查找孤立残留…";
+"orphan.summary" = "%lld 个孤立项 · %@";
+"orphan.empty" = "无孤立文件";
+"orphan.empty.detail" = "未找到已卸载应用留下的偏好设置/缓存/容器。";
+"orphan.selected" = "已选 %lld · %@";
+"orphan.clean" = "清理所选孤立项";
+"orphan.cleaning" = "正在清理孤立残留…";
+
+/* Startup */
+"startup.title" = "启动项";
+"startup.subtitle" = "查看启动代理、登录项和 Time Machine 本地快照。";
+"startup.idle" = "检查启动项与本地快照";
+"startup.refreshing" = "正在检查启动项与本地快照…";
+"startup.summary" = "%lld 个代理 · %lld 个已损坏 · %lld 个快照";
+"startup.login_items" = "登录项";
+"startup.login_items.help" = "登录时打开的应用与助手在系统设置中管理。";
+"startup.agents" = "启动与后台项目";
+"startup.snapshots" = "Time Machine 本地快照";
+"startup.snapshots.help" = "可逐个查看并删除本地 APFS 快照（需要管理员密码）。";
+"startup.snapshots.empty" = "Time Machine 未报告启动磁盘的任何快照。";
+"startup.thin_all" = "全部精简";
+"startup.delete_selected" = "删除所选";
+"startup.deleting_snapshot" = "正在删除快照 %@…";
+"startup.snapshots_deleted" = "已移除 %lld 个快照。";
+"startup.snapshots_failed" = "%lld 个快照无法删除。";
+
+/* Developer Cleanup */
+"dev.title" = "开发者清理";
+"dev.subtitle" = "Xcode、模拟器、Docker 与包管理器缓存 — 移除前请先核对。";
+"dev.idle" = "扫描开发者文件夹";
+"dev.scan" = "扫描开发者文件夹";
+"dev.scanning" = "正在测量开发者文件夹…";
+"dev.summary" = "%lld 个目标 · %@";
+"dev.empty" = "未发现较大项目";
+"dev.empty.detail" = "未找到超过 1 MB 的 Xcode、Docker 或包缓存。";
+"dev.selected" = "已选";
+"dev.clean" = "清理所选";
+"dev.cleaning" = "正在将所选开发者文件夹移到废纸篓…";
+"dev.item.derived" = "构建产物与索引";
+"dev.item.archives" = "已归档构建";
+"dev.item.device_support" = "设备符号与支持文件";
+"dev.item.watch_support" = "watchOS 设备支持文件";
+"dev.item.simulator" = "模拟器设备与数据";
+"dev.item.sim_caches" = "模拟器缓存";
+"dev.item.docker" = "Docker 虚拟机与镜像数据";
+"dev.item.docker_desktop" = "Docker Desktop 组容器";
+"dev.item.npm" = "npm 下载缓存";
+"dev.item.pnpm" = "pnpm 内容寻址存储";
+"dev.item.yarn" = "Yarn 下载缓存";
+"dev.item.brew" = "Homebrew 下载缓存";
+"dev.item.pods" = "CocoaPods 缓存";
+"dev.item.gradle" = "Gradle 依赖缓存";
+"dev.item.pip" = "Python pip 缓存";
+"dev.item.cargo" = "Rust Cargo 注册表缓存";
+
+/* Privacy & purgeable */
+"privacy.title" = "隐私与空间";
+"privacy.subtitle" = "可清除磁盘空间、浏览器隐私指南，以及只读 TCC 权限清单。";
+"privacy.purgeable" = "可清除空间";
+"privacy.purgeable.help" = "由 macOS 预留，在需要空间时自动释放。精简本地快照可回收一部分。";
+"privacy.purgeable.free" = "可用";
+"privacy.purgeable.amount" = "可清除";
+"privacy.purgeable.important" = "重要可用";
+"privacy.purge.action" = "精简快照以回收";
+"privacy.purge.ok" = "已请求精简本地快照。";
+"privacy.purge.fail" = "无法精简快照（已取消或失败）。";
+"privacy.browser" = "浏览器隐私";
+"privacy.browser.help" = "在 Mac 上查看浏览器隐私设置。MacCleaner 不会同步或上传浏览数据。";
+"privacy.safari" = "Safari 隐私指南";
+"privacy.safari.detail" = "Safari → 设置 → 隐私。需要时在 Safari 中清除历史记录与网站数据。";
+"privacy.safari.open" = "打开 Safari";
+"privacy.chrome" = "Chrome 隐私指南";
+"privacy.chrome.detail" = "Chrome → 设置 → 隐私和安全。需要时在 Chrome 中清除浏览数据。";
+"privacy.chrome.open" = "打开 Chrome";
+"privacy.browser.caches_hint" = "浏览器缓存仍可作为 Smart Care 类别使用。";
+"privacy.tcc" = "TCC 数据库";
+"privacy.tcc.help" = "启用完全磁盘访问权限后，只读列出应用权限授予。清除条目请在系统设置中完成。";
+"privacy.tcc.need_fda" = "读取 TCC 数据库需要完全磁盘访问权限。";
+"privacy.tcc.open_failed" = "无法打开 TCC 数据库。";
+"privacy.tcc.query_failed" = "无法查询 TCC 访问行。";
+"privacy.tcc.empty" = "没有可显示的 TCC 行。";
+"privacy.tcc.open_fda" = "打开完全磁盘访问权限";
+"privacy.tcc.open_camera" = "相机";
+"privacy.tcc.open_mic" = "麦克风";
+
+/* Performance → Startup link */
+"perf.startup_link.title" = "启动项与快照";
+"perf.startup_link.body" = "启动代理、登录项和 Time Machine 本地快照已移至“启动项”工具。";
+"perf.startup_link.open" = "打开启动项";
+
+/* Mail categories */
+"category.mailDownloads.title" = "邮件下载";
+"category.mailDownloads.detail" = "从 Apple Mail 保存的附件";
+"category.mailData.title" = "邮件数据";
+"category.mailData.detail" = "Envelope 索引 — 可选；Mail 可能会重建（默认关闭）";
+
+/* Homebrew casks */
+"brew.title" = "来自 Homebrew 的更新";
+"brew.help" = "查看并更新以 Homebrew cask 安装的应用。需要本地 Homebrew。";
+"brew.idle" = "检查已安装的 cask 应用";
+"brew.check" = "检查 cask";
+"brew.checking" = "正在检查 Homebrew cask…";
+"brew.upgrade" = "升级所选";
+"brew.upgrading" = "正在升级 %@…";
+"brew.summary" = "%lld 个 cask 有更新";
+"brew.up_to_date" = "Homebrew 应用已是最新";
+"brew.empty" = "Homebrew 管理的 cask 应用目前没有可用更新。";
+"brew.not_found" = "在标准安装位置未找到 Homebrew。";
+"brew.command_failed" = "Homebrew 命令失败。";
+"brew.bad_json" = "Homebrew 返回了无法读取的更新信息。";
+"brew.upgraded" = "Homebrew 已更新所选的 %lld 个应用。";
+"brew.upgrade_partial" = "已更新 %lld · 失败 %lld — 请再次检查以确认。";
+
+/* Performance polish */
+"perf.pressure" = "内存压力";
+"perf.compressed" = "已压缩 %@";
+"perf.uptime" = "运行时间";
+"perf.uptime.detail" = "自上次重启以来";
+"perf.open_activity_monitor" = "打开活动监视器";
+"perf.activity_monitor.help" = "系统进程最好在活动监视器中查看。";
+
+/* Extra languages */
+"settings.language.german" = "Deutsch";
+"settings.language.french" = "Français";
+"settings.language.spanish" = "Español";
+"settings.language.portuguese" = "Português";
+"settings.language.japanese" = "日本語";
+"settings.language.chinese" = "简体中文";
+"settings.language.help" = "选择“系统”以跟随 macOS，或强制使用 MacCleaner 自带的语言。";

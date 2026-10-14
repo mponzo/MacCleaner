@@ -17,6 +17,8 @@ enum ScannerRegistry {
             DownloadsClutterScanner(),
             UnusedDiskImagesScanner(),
             BrowserCachesScanner(),
+            MailDownloadsScanner(),
+            MailDataScanner(),
             AppLeftoversScanner(),
             BrokenLaunchAgentsScanner(),
             SystemCachesScanner(),
@@ -129,7 +131,10 @@ struct DeveloperCachesScanner: CategoryScanner {
             ("CocoaPods", "Library/Caches/CocoaPods"),
             ("Yarn", "Library/Caches/Yarn"),
             ("pnpm", "Library/pnpm/store"),
-            ("Cargo", ".cargo/registry/cache")
+            ("Cargo", ".cargo/registry/cache"),
+            ("Core Simulator", "Library/Developer/CoreSimulator"),
+            ("iOS Device Support", "Library/Developer/Xcode/iOS DeviceSupport"),
+            ("Docker", "Library/Containers/com.docker.docker/Data")
         ]
 
         return candidates.compactMap { name, relative in
@@ -213,6 +218,87 @@ struct BrowserCachesScanner: CategoryScanner {
             guard bytes > 1_048_576 else { return nil }
             return ScanItem(category: category, url: url, byteCount: bytes, displayName: name, isSelected: false)
         }
+    }
+}
+
+struct MailDownloadsScanner: CategoryScanner {
+    let category: ScanCategory = .mailDownloads
+
+    func scan() async -> [ScanItem] {
+        let home = FileManager.default.homeDirectoryForCurrentUser
+        let roots = [
+            home.appendingPathComponent(
+                "Library/Containers/com.apple.mail/Data/Library/Mail Downloads",
+                isDirectory: true
+            ),
+            home.appendingPathComponent("Library/Mail Downloads", isDirectory: true)
+        ]
+        var items: [ScanItem] = []
+        for root in roots {
+            items.append(contentsOf: directoryChildren(at: root, category: category, minBytes: 256_000))
+        }
+        // Deduplicate by path
+        var seen = Set<String>()
+        return items.filter { seen.insert($0.url.path).inserted }
+            .sorted { $0.byteCount > $1.byteCount }
+            .prefix(80)
+            .map { $0 }
+    }
+}
+
+struct MailDataScanner: CategoryScanner {
+    let category: ScanCategory = .mailData
+
+    func scan() async -> [ScanItem] {
+        let mailRoot = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/Mail", isDirectory: true)
+        guard let versions = try? FileManager.default.contentsOfDirectory(
+            at: mailRoot,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        ) else { return [] }
+
+        var items: [ScanItem] = []
+        for version in versions {
+            let mailData = version.appendingPathComponent("MailData", isDirectory: true)
+            guard FileManager.default.fileExists(atPath: mailData.path) else { continue }
+            // Large envelope / index files — optional cleanup, off by default.
+            let names = [
+                "Envelope Index",
+                "Envelope Index-shm",
+                "Envelope Index-wal",
+                "ExternalUpdates.storedata",
+                "AvailableFeeds"
+            ]
+            for name in names {
+                let url = mailData.appendingPathComponent(name)
+                guard FileManager.default.fileExists(atPath: url.path) else { continue }
+                let bytes = DiskSizer.allocatedBytes(at: url)
+                guard bytes > 1_048_576 else { continue }
+                items.append(
+                    ScanItem(
+                        category: category,
+                        url: url,
+                        byteCount: bytes,
+                        displayName: "\(version.lastPathComponent)/\(name)"
+                    )
+                )
+            }
+            let bytes = DiskSizer.allocatedBytes(at: mailData)
+            if bytes > 50_000_000 {
+                items.append(
+                    ScanItem(
+                        category: category,
+                        url: mailData,
+                        byteCount: bytes,
+                        displayName: "\(version.lastPathComponent) MailData"
+                    )
+                )
+            }
+        }
+        var seen = Set<String>()
+        return items.filter { seen.insert($0.url.path).inserted }
+            .sorted { $0.byteCount > $1.byteCount }
     }
 }
 

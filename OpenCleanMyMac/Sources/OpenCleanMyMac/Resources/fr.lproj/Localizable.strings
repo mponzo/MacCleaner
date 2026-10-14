@@ -1,0 +1,635 @@
+/* General */
+"app.name" = "MacCleaner";
+"common.yes" = "Oui — ~/Applications";
+"common.no" = "Non";
+"common.run" = "Exécuter";
+"common.refresh" = "Actualiser";
+"common.status" = "État";
+"common.admin" = "Admin";
+"common.broken" = "Cassé";
+"common.user" = "Utilisateur";
+"common.system" = "Système";
+"common.select_all" = "Tout sélectionner";
+"common.select_none" = "Tout désélectionner";
+"common.on" = "Activé";
+"common.off" = "Désactivé";
+"common.unknown" = "Inconnu";
+
+/* Sidebar */
+"sidebar.smart_care" = "Smart Care";
+"sidebar.overview" = "Vue d’ensemble";
+"sidebar.overview.subtitle" = "Analyser et récupérer de l’espace";
+"sidebar.tools" = "Outils";
+"sidebar.applications" = "Applications";
+"sidebar.orphans" = "Fichiers orphelins";
+"sidebar.performance" = "Performances";
+"sidebar.startup" = "Démarrage";
+"sidebar.developer" = "Nettoyage développeur";
+"sidebar.privileged" = "Helper privilégié";
+"sidebar.space_lens" = "Explorateur d’espace";
+"sidebar.privacy" = "Confidentialité et espace";
+"sidebar.duplicates" = "Doublons";
+"sidebar.similar_photos" = "Photos similaires";
+"sidebar.scheduler" = "Planification";
+"sidebar.updates" = "Mises à jour";
+"sidebar.settings" = "Réglages";
+"sidebar.modules" = "Modules";
+
+"dup.title" = "Recherche de doublons";
+"dup.subtitle" = "Correspondances exactes par taille et SHA-256. Une copie protégée reste dans chaque groupe.";
+"dup.idle" = "Choisissez un dossier pour chercher des doublons exacts.";
+"dup.choose" = "Choisir un dossier";
+"dup.rescan" = "Réanalyser";
+"dup.trash_selected" = "Mettre la sélection à la Corbeille";
+"dup.scanning" = "Analyse des fichiers…";
+"dup.hashing" = "Hachage des doublons candidats…";
+"dup.stopped" = "Analyse arrêtée.";
+"dup.trashing" = "Déplacement des doublons sélectionnés vers la Corbeille…";
+"dup.empty" = "Aucun doublon exact trouvé";
+"dup.empty.detail" = "Choisissez un dossier pouvant contenir des copies. Les paquets, liens symboliques et hard links sont ignorés.";
+"dup.summary" = "%lld groupe(s) · %@ récupérable";
+"dup.skipped" = "%lld élément(s) ignoré(s) (paquets, liens ou fichiers illisibles).";
+"dup.failed" = "%lld chemin(s) n’ont pas pu être mis à la Corbeille.";
+"dup.group_title" = "%lld fichiers identiques";
+"dup.protected" = "Protégé";
+"dup.reveal" = "Afficher dans le Finder";
+"dup.progress_files" = "%lld fichiers indexés…";
+
+"photos.title" = "Photos similaires";
+"photos.subtitle" = "Estimation visuelle à partir de miniatures locales — les photos ne sont jamais supprimées ni envoyées.";
+"photos.disclaimer" = "La similarité est une estimation, pas une preuve d’identité. Utilisez Afficher dans le Finder pour comparer les originaux.";
+"photos.idle" = "Choisissez un dossier de photos à comparer.";
+"photos.choose" = "Choisir un dossier de photos";
+"photos.rescan" = "Réanalyser";
+"photos.scanning" = "Comparaison des miniatures locales…";
+"photos.stopped" = "Analyse arrêtée.";
+"photos.empty" = "Aucun groupe similaire trouvé";
+"photos.empty.detail" = "Essayez un dossier de pellicules ou d’exports. Les espaces réservés cloud-only et les paquets sont ignorés.";
+"photos.summary" = "%lld groupe(s) similaire(s) parmi %lld photos";
+"photos.limit" = "Limite de 500 photos / 10 000 entrées atteinte. Réduisez le dossier pour des résultats plus complets.";
+"photos.group_title" = "%lld photos similaires";
+"photos.reveal" = "Afficher";
+
+"sched.title" = "Nettoyage planifié";
+"sched.subtitle" = "Exécutez Smart Care en arrière-plan pendant que MacCleaner reste dans la barre de menus.";
+"sched.enable" = "Activer l’analyse planifiée";
+"sched.interval" = "Intervalle d’analyse";
+"sched.auto_clean" = "Nettoyer automatiquement après l’analyse";
+"sched.threshold" = "Taille minimale récupérable";
+"sched.help" = "Le nettoyage auto ne s’exécute que si l’espace récupérable sélectionné atteint le seuil. Gardez l’accès complet au disque activé pour des résultats complets.";
+"sched.status" = "État";
+"sched.last_run" = "Dernière exécution";
+"sched.next_run" = "Prochaine exécution";
+"sched.never" = "Jamais";
+"sched.not_scheduled" = "Non planifié";
+"sched.run_now" = "Exécuter maintenant";
+"sched.idle" = "Planificateur inactif";
+"sched.enabled" = "Planifié";
+"sched.disabled" = "Désactivé";
+"sched.running" = "Smart Care en cours…";
+"sched.cleaning" = "Nettoyage automatique de la sélection…";
+"sched.busy" = "Smart Care est déjà occupé";
+"sched.no_engine" = "Moteur de nettoyage indisponible";
+"sched.scanned" = "Analyse terminée · %@ récupérable";
+"sched.cleaned" = "Nettoyage auto terminé · %@ libéré";
+"sched.below_threshold" = "Sous le seuil (%@ < %lld Mo) — nettoyage auto ignoré";
+"sched.interval.everyHour" = "Chaque heure";
+"sched.interval.every3Hours" = "Toutes les 3 heures";
+"sched.interval.every6Hours" = "Toutes les 6 heures";
+"sched.interval.every12Hours" = "Toutes les 12 heures";
+"sched.interval.daily" = "Quotidien";
+"sched.interval.weekly" = "Hebdomadaire";
+"sched.interval.biweekly" = "Toutes les 2 semaines";
+"sched.interval.monthly" = "Mensuel";
+
+/* Smart Care */
+"smartcare.brand" = "MACCLEANER";
+"smartcare.title" = "Récupérez de l’espace avec Smart Care";
+"smartcare.subtitle" = "Nettoyeur Mac open source pour indésirables, téléchargements, Xcode, navigateurs, résidus et désinstallation — chemins transparents, local d’abord.";
+"smartcare.reclaimable" = "Récupérable";
+"smartcare.scanned" = "Analysé";
+"smartcare.progress" = "Progression";
+"smartcare.ready" = "Prêt";
+"smartcare.run" = "Lancer Smart Care";
+"smartcare.scanning" = "Analyse…";
+"smartcare.stop" = "Arrêter";
+"smartcare.stopped" = "Arrêté";
+"smartcare.clean_selected" = "Nettoyer la sélection";
+"smartcare.last_clean" = "Dernier nettoyage : %lld élément(s) déplacé(s), %@ libéré.";
+"smartcare.items_selected" = "%lld éléments · %@ sélectionné";
+"smartcare.run_prompt" = "Lancer Smart Care";
+"smartcare.idle" = "Inactif";
+"smartcare.starting" = "Démarrage de Smart Care…";
+"smartcare.scanned_category" = "%@ analysé";
+"smartcare.complete" = "Smart Care terminé";
+"smartcare.moving" = "Déplacement vers la Corbeille…";
+"smartcare.freed" = "%@ libéré";
+"smartcare.failed_count" = "%lld élément(s) n’ont pas pu être déplacés.";
+
+/* Categories */
+"category.userCaches.title" = "Caches utilisateur";
+"category.userCaches.detail" = "~/Library/Caches";
+"category.userLogs.title" = "Journaux utilisateur";
+"category.userLogs.detail" = "~/Library/Logs";
+"category.trash.title" = "Corbeille";
+"category.trash.detail" = "~/.Trash";
+"category.xcodeDerivedData.title" = "Xcode DerivedData";
+"category.xcodeDerivedData.detail" = "~/Library/Developer/Xcode/DerivedData";
+"category.xcodeArchives.title" = "Archives Xcode";
+"category.xcodeArchives.detail" = "~/Library/Developer/Xcode/Archives";
+"category.developerCaches.title" = "Caches développeur";
+"category.developerCaches.detail" = "npm, Homebrew, pip, Gradle";
+"category.downloadsClutter.title" = "Anciens téléchargements";
+"category.downloadsClutter.detail" = "Téléchargements de plus de 30 jours";
+"category.unusedDiskImages.title" = "Images disque";
+"category.unusedDiskImages.detail" = "*.dmg / *.iso dans Téléchargements";
+"category.browserCaches.title" = "Caches navigateur";
+"category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeHomeFolders.title" = "Grands dossiers";
+"category.largeHomeFolders.detail" = "Principaux dossiers sous Home";
+"category.appLeftovers.title" = "Résidus d’apps";
+"category.appLeftovers.detail" = "Préférences, caches et conteneurs orphelins";
+"category.brokenLaunchAgents.title" = "Launch Agents cassés";
+"category.brokenLaunchAgents.detail" = "LaunchAgents utilisateur avec binaires manquants";
+"category.systemCaches.title" = "Caches système";
+"category.systemCaches.detail" = "/Library/Caches (admin pour nettoyer)";
+"category.systemLogs.title" = "Journaux système";
+"category.systemLogs.detail" = "/Library/Logs & /var/log (admin)";
+"category.systemLaunchAgents.title" = "Agents système cassés";
+"category.systemLaunchAgents.detail" = "/Library/LaunchAgents cassés (admin)";
+
+/* Leftover kinds */
+"leftover.preferences" = "Préférences";
+"leftover.caches" = "Caches";
+"leftover.applicationSupport" = "Application Support";
+"leftover.logs" = "Journaux";
+"leftover.savedState" = "État enregistré";
+"leftover.cookies" = "Cookies";
+"leftover.containers" = "Conteneurs";
+"leftover.groupContainers" = "Group Containers";
+"leftover.launchAgents" = "Launch Agents";
+"leftover.crashReporter" = "Crash Reporter";
+
+/* Applications */
+"apps.search" = "Rechercher des apps";
+"apps.brand" = "APPLICATIONS";
+"apps.select" = "Sélectionner une application";
+"apps.select.detail" = "Analyser les résidus et désinstaller avec les fichiers associés.";
+"apps.protected" = "App système protégée — résidus et désinstallation désactivés.";
+"apps.include_bundle" = "Inclure le bundle de l’app";
+"apps.uninstall_selected" = "Désinstaller la sélection";
+"apps.leftovers" = "Résidus";
+"apps.leftovers.empty" = "Aucun fichier associé trouvé dans les chemins Library utilisateur.";
+"apps.orphans" = "Résidus orphelins";
+"apps.orphans.detail" = "Préférences/caches/conteneurs dont l’ID de bundle n’est pas installé.";
+"apps.clean_orphans" = "Nettoyer les orphelins sélectionnés";
+"apps.app_size" = "Taille de l’app";
+"apps.leftovers_size" = "Résidus";
+"apps.selected_size" = "Sélectionné";
+"apps.last_action" = "Dernière action : %lld élément(s) déplacé(s), %@ libéré.";
+"apps.failed_paths" = "%lld chemin(s) n’ont pas pu être mis à la Corbeille.";
+"apps.listing" = "Liste des applications…";
+"apps.scanning_leftovers" = "Analyse des résidus…";
+"apps.finding_orphans" = "Recherche de résidus orphelins…";
+"apps.summary" = "%lld apps · %@ résidus orphelins";
+"apps.uninstalling" = "Désinstallation de %@…";
+"apps.cleaning_orphans" = "Nettoyage des résidus orphelins…";
+"apps.confirm_title" = "Mettre à la Corbeille ?";
+"apps.confirm_body" = "MacCleaner déplacera l’app sélectionnée et les fichiers associés vers la Corbeille. Les éléments nécessitant une autorisation administrateur peuvent être supprimés définitivement. Vérifiez la sélection avant de continuer.";
+"apps.needs_fda" = "Désinstallation de %@: %lld fichier(s) nécessitent l’accès complet au disque. Accordez-le dans Réglages, puis réessayez.";
+"apps.needs_fda_generic" = "%lld fichier(s) nécessitent l’accès complet au disque avant de pouvoir être supprimés.";
+"apps.fda_required_path" = "Accès complet au disque requis";
+"apps.admin_hint" = "Si macOS a demandé votre mot de passe et que la suppression a quand même échoué, vérifiez que l’app n’est pas protégée.";
+"common.cancel" = "Annuler";
+
+/* Performance */
+"perf.brand" = "PERFORMANCES";
+"perf.title" = "Garder le Mac réactif";
+"perf.subtitle" = "Mémoire/CPU en direct, launch agents et tâches de maintenance — pas d’helper privilégié pour la plupart des actions.";
+"perf.memory" = "Mémoire";
+"perf.memory_used" = "%lld%% utilisée";
+"perf.free_ram" = "RAM libre";
+"perf.wired" = "Wired %@";
+"perf.cpu" = "CPU (ticks)";
+"perf.processes" = "%lld processus";
+"perf.disk_free" = "Disque libre";
+"perf.disk_used" = "%.0f%% utilisé";
+"perf.maintenance" = "Maintenance";
+"perf.agents" = "Launch Agents";
+"perf.agents.broken_count" = "%lld cassé(s)";
+"perf.agents.remove" = "Supprimer la sélection";
+"perf.agents.help" = "Les agents utilisateur peuvent aller à la Corbeille. Les agents système sont listés en lecture seule.";
+"perf.top_processes" = "Principaux processus par mémoire";
+"perf.pid" = "pid %d";
+"perf.removed_agents" = "%lld fichier(s) agent retiré(s), %@.";
+"perf.refreshing" = "Actualisation des performances…";
+"perf.agents_summary" = "%lld agents · %lld cassé(s)";
+"perf.moving_agents" = "Déplacement des launch agents vers la Corbeille…";
+"perf.agents_failed" = "%lld agent(s) n’ont pas pu être retirés.";
+"perf.running_task" = "Exécution de %@…";
+
+"maint.flushDNS.title" = "Vider le cache DNS";
+"maint.flushDNS.detail" = "Effacer le cache DNS système (peut demander le mot de passe admin)";
+"maint.flushDNS.ok" = "Cache DNS vidé.";
+"maint.flushDNS.fail" = "Vidage DNS échoué ou annulé.";
+"maint.speedUpMail.title" = "Accélérer Mail";
+"maint.speedUpMail.detail" = "VACUUM de l’Envelope Index d’Apple Mail (domaine utilisateur)";
+"maint.speedUpMail.missing" = "Envelope Index d’Apple Mail introuvable. Quittez Mail et réessayez si vous utilisez Mail.";
+"maint.speedUpMail.vacuum_fail" = "VACUUM sqlite3 a échoué (Mail est quitté ?).";
+"maint.speedUpMail.ok" = "Index Mail optimisé. %@ récupéré du fichier.";
+"maint.thinLocalSnapshots.title" = "Réduire les snapshots locaux";
+"maint.thinLocalSnapshots.detail" = "Demander à tmutil de réduire les snapshots APFS locaux";
+"maint.thinLocalSnapshots.ok" = "Réduction des snapshots locaux demandée.";
+"maint.thinLocalSnapshots.fail" = "Réduction des snapshots échouée ou annulée.";
+"maint.rebuildLaunchServices.title" = "Reconstruire Launch Services";
+"maint.rebuildLaunchServices.detail" = "Reconstruire la base Launch Services (utilisateur)";
+"maint.rebuildLaunchServices.missing" = "lsregister introuvable sur ce macOS.";
+"maint.rebuildLaunchServices.ok" = "Reconstruction de la base Launch Services demandée.";
+"maint.rebuildLaunchServices.fail_status" = "lsregister s’est terminé avec le statut %lld.";
+
+/* Privileged */
+"priv.brand" = "HELPER PRIVILÉGIÉ";
+"priv.title" = "Nettoyage au niveau système";
+"priv.subtitle" = "MacCleaner utilise un pont admin sur liste blanche (invite mot de passe) pour les chemins système. Un squelette de démon SMAppService signé est inclus pour plus tard.";
+"priv.bridge" = "Pont";
+"priv.ready" = "Prêt";
+"priv.busy" = "Occupé…";
+"priv.osascript" = "osascript admin";
+"priv.system_caches" = "Caches système";
+"priv.system_logs" = "Journaux système";
+"priv.broken_agents" = "Agents cassés";
+"priv.maintenance" = "Maintenance privilégiée";
+"priv.flush_dns" = "Vider DNS";
+"priv.thin_snapshots" = "Réduire les snapshots";
+"priv.rescan" = "Réanalyser";
+"priv.clean_help" = "Nettoyer caches/journaux système : lancez Smart Care, sélectionnez Caches système / Journaux système, puis Nettoyer la sélection (invite admin).";
+"priv.roadmap" = "Feuille de route helper signé";
+"priv.roadmap.body" = "1. Compiler le bundle app + OpenCleanPrivilegedHelper\n2. Signer les deux avec le même Team ID (Apple Development convient pour SMAppService local)\n3. Enregistrer via SMAppService.daemon et remplacer les invites osascript\nVoir docs/PRIVILEGED_HELPER.md";
+"priv.status_bridge" = "Pont admin prêt (invite mot de passe par opération). Helper SMAppService signé pas encore installé.";
+"priv.summary" = "Caches système %@ · journaux %@ · agents cassés %lld";
+"priv.running" = "Exécution de %@…";
+"priv.completed" = "%@ terminé.";
+"priv.failed" = "%@ a échoué ou a été annulé.";
+"priv.remove_failed" = "Suppression privilégiée échouée.";
+"priv.allowlist_denied" = "Le chemin est hors de la liste blanche privilégiée.";
+
+/* Installer errors */
+"install.package_first" = "Empaquetez d’abord l’app (`./Scripts/package-app.sh`), puis installez depuis ce .app.";
+"install.failed" = "Installation échouée : %@";
+"install.not_installed" = "MacCleaner n’est pas installé dans Applications.";
+
+/* Space Explorer */
+"space.brand" = "SPACE EXPLORER";
+"space.title" = "Explorateur d’espace";
+"space.subtitle" = "Inspectez n’importe quel dossier selon l’espace alloué. Les fichiers ne sont jamais modifiés.";
+"space.empty" = "Aucune donnée d’analyse";
+"space.empty.detail" = "Utilisez Smart Care pour mesurer les zones récupérables.";
+"space.explorer.idle" = "Choisissez un dossier à mesurer";
+"space.explorer.choose" = "Choisir un dossier";
+"space.explorer.choose_message" = "MacCleaner mesure la taille allouée sans modifier les fichiers.";
+"space.explorer.home" = "Dossier personnel";
+"space.explorer.applications" = "Applications";
+"space.explorer.parent" = "Parent";
+"space.explorer.measuring" = "Mesure de l’espace alloué…";
+"space.explorer.stopped" = "Mesure arrêtée";
+"space.explorer.failed" = "Impossible de mesurer ce dossier";
+"space.explorer.summary" = "%lld éléments · %@";
+"space.explorer.empty" = "Rien de mesurable ici";
+"space.explorer.empty.detail" = "Les éléments masqués sont ignorés. Essayez un autre dossier.";
+"space.explorer.prompt" = "Trouver ce qui utilise le plus d’espace disque";
+"space.explorer.prompt.detail" = "Choisissez un dossier pour voir quels fichiers et sous-dossiers occupent le plus d’espace alloué.";
+"space.explorer.read_only" = "Lecture seule — rien n’est supprimé depuis Space Explorer.";
+"space.scan_breakdown" = "Catégories Smart Care";
+"space.scan_breakdown.detail" = "Zones récupérables de la dernière analyse Smart Care.";
+
+/* Cleanup exclusions */
+"excl.title" = "Exclusions de nettoyage";
+"excl.help" = "Les chemins exclus sont ignorés par les analyses et nettoyages Smart Care. Ajoutez-les depuis le menu contextuel d’une catégorie.";
+"excl.empty" = "Aucune exclusion pour l’instant.";
+"excl.remove" = "Supprimer";
+"excl.clear" = "Tout effacer";
+"excl.always" = "Toujours exclure du nettoyage";
+
+/* Finder Service */
+"service.uninstall.no_app" = "Sélectionnez une application (.app) à désinstaller.";
+"service.uninstall.ready" = "Prêt à désinstaller %@ — vérifiez les résidus, puis désinstallez.";
+
+/* Settings */
+"settings.brand" = "RÉGLAGES";
+"settings.title" = "Installation et barre de menus";
+"settings.subtitle" = "Installer dans ~/Applications, afficher une icône dans la barre de menus et démarrer automatiquement à la connexion.";
+"settings.language" = "Langue";
+"settings.language.system" = "Système";
+"settings.language.english" = "English";
+"settings.language.italian" = "Italiano";
+"settings.appearance" = "Apparence";
+"settings.show_menubar" = "Afficher l’icône de la barre de menus";
+"settings.hide_dock" = "Masquer l’icône du Dock (mode barre de menus)";
+"settings.hide_dock.help" = "Le mode barre de menus garde l’app disponible via l’élément d’état près de l’horloge.";
+"settings.launcher" = "Lancement automatique";
+"settings.launch_at_login" = "Ouvrir à la connexion";
+"settings.open_login_items" = "Ouvrir les réglages des éléments d’ouverture";
+"settings.launch_help" = "Nécessite le .app installé dans Applications. macOS peut demander une approbation une fois.";
+"settings.installation" = "Installation";
+"settings.installed" = "Installé";
+"settings.install" = "Installer dans Applications";
+"settings.reinstall" = "Réinstaller";
+"settings.uninstall" = "Désinstaller";
+"settings.reveal" = "Afficher dans le Finder";
+"settings.tip" = "Astuce : exécutez `./Scripts/package-app.sh`, ouvrez le .app généré, puis utilisez Installer ici.";
+"settings.login.enabled" = "Activé";
+"settings.login.not_registered" = "Non enregistré";
+"settings.login.needs_approval" = "Approbation requise dans Réglages Système → Éléments d’ouverture";
+"settings.login.unavailable" = "Indisponible tant que non installé en .app";
+"settings.login.unknown" = "Inconnu";
+"settings.installed_to" = "Installé dans %@";
+"settings.uninstalled" = "Désinstallé de ~/Applications.";
+"settings.quit.help" = "Quitter entièrement MacCleaner, y compris l’icône de la barre de menus. Fermer la fenêtre principale laisse l’app dans la barre de menus.";
+"settings.permissions" = "Autorisations";
+"settings.fda" = "Accès complet au disque";
+"settings.fda.on" = "Accordé";
+"settings.fda.off" = "Non accordé";
+"settings.fda.help" = "Nécessaire pour des analyses complètes de Mail, des données Safari, des conteneurs et d’autres chemins Library protégés.";
+"settings.replay_onboarding" = "Réafficher la configuration";
+"settings.protection" = "Protection";
+"settings.protection.filevault" = "FileVault";
+"settings.protection.gatekeeper" = "Gatekeeper";
+"settings.protection.help" = "État en lecture seule depuis macOS. MacCleaner ne modifie pas ces réglages.";
+
+"onboarding.back" = "Retour";
+"onboarding.continue" = "Continuer";
+"onboarding.get_started" = "Commencer";
+"onboarding.welcome.title" = "Bienvenue dans MacCleaner";
+"onboarding.welcome.body" = "Récupérez de l’espace, désinstallez des apps avec leurs résidus et lancez la maintenance — entièrement sur votre Mac, sans télémétrie.";
+"onboarding.fda.title" = "Une autorisation, et c’est tout";
+"onboarding.fda.title_granted" = "Autorisation accordée";
+"onboarding.fda.body" = "MacCleaner a besoin de l’accès complet au disque pour désinstaller des apps, trouver des résidus et nettoyer les caches protégés que macOS masque par défaut.";
+"onboarding.fda.body_granted" = "MacCleaner peut maintenant atteindre les emplacements protégés que macOS verrouille par défaut.";
+"onboarding.fda.window_title" = "Accès complet au disque";
+"onboarding.fda.path" = "Confidentialité et sécurité → Accès complet au disque";
+"onboarding.fda.terminal" = "Terminal";
+"onboarding.fda.open_settings" = "Ouvrir Réglages Système";
+"onboarding.fda.recheck" = "Je l’ai accordé — revérifier";
+"onboarding.fda.watching" = "En attente de l’autorisation…";
+"onboarding.fda.ready" = "Tout est prêt — passez à l’étape suivante.";
+"onboarding.ready.title" = "Vous êtes prêt";
+"onboarding.ready.body_fda" = "Smart Care et le désinstalleur peuvent analyser les chemins protégés. Vous gardez le contrôle de chaque suppression.";
+"onboarding.ready.body_limited" = "Vous pouvez continuer avec des résultats limités et accorder l’accès complet au disque plus tard dans Réglages.";
+
+"fda.banner.title" = "L’accès complet au disque est désactivé";
+"fda.banner.body" = "Certains emplacements protégés sont indisponibles. Accordez l’accès pour une analyse et une désinstallation plus complètes.";
+"fda.banner.action" = "Accorder l’accès";
+
+/* Menu bar */
+"menubar.open" = "Ouvrir MacCleaner";
+"menubar.open_short" = "Ouvrir MacCleaner";
+"menubar.run_smart_care" = "Lancer Smart Care";
+"menubar.launch_at_login" = "Ouvrir à la connexion";
+"menubar.hide_dock" = "Masquer l’icône du Dock";
+"menubar.settings" = "Réglages…";
+"menubar.quit" = "Quitter";
+"menubar.status_label" = "État du Mac :";
+"menubar.status.good" = "Bon";
+"menubar.status.attention" = "Attention";
+"menubar.storage" = "Macintosh HD";
+"menubar.available" = "Disponible : %@";
+"menubar.free_up" = "Libérer";
+"menubar.memory" = "Mémoire";
+"menubar.pressure" = "Pression : %lld%%";
+"menubar.cpu" = "CPU";
+"menubar.processes" = "%lld processus";
+"menubar.battery" = "Batterie";
+"menubar.battery_value" = "%lld%%";
+"menubar.battery_charging" = "En charge / branché";
+"menubar.battery_on_battery" = "Sur batterie";
+"menubar.battery_unavailable" = "Pas de batterie (ordinateur de bureau)";
+"menubar.tip_title" = "Conseil du jour";
+"menubar.tip_headline" = "Analyse Smart Care recommandée";
+"menubar.tip_body" = "Trouvez caches, résidus et anciens téléchargements récupérables en une seule passe.";
+"menubar.run_scan" = "Lancer Smart Care";
+
+/* Menu commands */
+"menu.clean" = "Nettoyer";
+"menu.run_smart_care" = "Lancer Smart Care";
+"menu.clean_selected" = "Nettoyer la sélection";
+"menu.refresh_apps" = "Actualiser les applications";
+"menu.refresh_perf" = "Actualiser les performances";
+
+"menubar.disk_used" = "Utilisé : %lld%%";
+"menubar.free_short" = "libre";
+"menubar.cpu_usage" = "Utilisation : %lld%%";
+"menubar.agents_brief" = "%lld agents cassés";
+"menubar.ready_title" = "Nettoyage local prêt";
+"menubar.ready_badge" = "Prêt";
+"menubar.ready_detail" = "Smart Care et maintenance disponibles · Activité %@";
+"menubar.uptime_days" = "%lldj %lldh";
+"menubar.uptime_hours" = "%lldh %lldm";
+"menubar.network_online" = "En ligne";
+"menubar.network_offline" = "Hors ligne";
+"menubar.network_settings" = "Réglages réseau";
+"menubar.activity" = "Activité";
+"menubar.activity_empty" = "Aucun échantillon de processus";
+"menubar.reclaimable_brief" = "Récupérable : %@";
+"menubar.battery_full" = "Entièrement chargée";
+
+/* Updates */
+"updates.title" = "Mises à jour";
+"updates.subtitle" = "Vérifier et installer la dernière build MacCleaner publiée sur le dépôt GitHub.";
+"updates.installed" = "Ce Mac";
+"updates.repository" = "Release du dépôt";
+"updates.version" = "Version";
+"updates.build" = "Build";
+"updates.latest" = "Dernière";
+"updates.last_check" = "Dernière vérification";
+"updates.not_checked" = "Pas encore vérifié.";
+"updates.checking" = "Vérification du dépôt…";
+"updates.available" = "Mise à jour disponible : %@";
+"updates.up_to_date" = "Vous avez la dernière version.";
+"updates.check" = "Rechercher des mises à jour";
+"updates.install" = "Télécharger et installer";
+"updates.downloading" = "Téléchargement du paquet…";
+"updates.installing" = "Installation…";
+"updates.relaunching" = "Redémarrage…";
+"updates.privacy" = "Confidentialité";
+"updates.privacy.body" = "Les vérifications de mise à jour contactent GitHub uniquement sur demande (ou à l’ouverture de cette page). Pas de télémétrie, comptes ni analytics — seulement version.json et MacCleaner.app.zip publics du dépôt open source.";
+"updates.error.manifest" = "Impossible de lire le manifeste de mise à jour.";
+"updates.error.download" = "Échec du téléchargement : %@";
+"updates.error.package" = "Le paquet téléchargé est invalide.";
+"updates.error.install" = "Échec de l’installation : %@";
+"updates.error.network" = "Erreur réseau : %@";
+"updates.error.check_first" = "Recherchez d’abord les mises à jour.";
+
+/* Overview redesign */
+"overview.title" = "Plus d’espace. Moins d’encombrement.";
+"overview.intro" = "Analysez votre Mac et choisissez quoi supprimer.";
+"overview.scan" = "Analyser votre Mac";
+"overview.rescan" = "Réanalyser";
+"overview.available" = "d’espace récupérable";
+"overview.categories" = "catégories analysées";
+"overview.review" = "Revoir ce qu’il faut nettoyer";
+"overview.selected" = "sélectionné";
+"overview.selected_items" = "%lld éléments · vérifier les chemins avant de nettoyer";
+"overview.empty_categories" = "%lld autres catégories sans fichiers à nettoyer";
+"overview.reassurance" = "Vous choisissez ce qui est supprimé. Ouvrez une catégorie pour revoir ses chemins.";
+"overview.review_clean" = "Revoir et nettoyer…";
+"overview.partial" = "Catégorie au moins partiellement sélectionnée. Ouvrez les détails pour revoir chaque fichier.";
+"overview.confirm_body" = "Vérifiez les fichiers sélectionnés. Ils seront mis à la Corbeille ; les chemins système peuvent demander un mot de passe administrateur.";
+"overview.back" = "Retour aux résultats";
+"overview.trash" = "Mettre à la Corbeille";
+
+/* Graphite home */
+"overview.vision_title" = "Faites de la place pour l’essentiel.";
+"overview.local" = "Sur votre Mac. Uniquement sur votre Mac.";
+"overview.awaiting_scan" = "Votre prochaine analyse commence ici.";
+"overview.analyzed" = "%@ analysé";
+"overview.map_title" = "Où se cache l’espace";
+"overview.map_caption" = "Part de l’espace récupérable · catégories principales";
+"overview.map_idle" = "Votre espace prend forme.";
+"overview.map_idle_body" = "Lancez une analyse pour voir quelles catégories occupent le plus d’espace et ouvrez-les pour inspecter leurs fichiers.";
+"overview.map_clear" = "Aucun fichier à nettoyer dans les catégories analysées.";
+
+/* Before scanning */
+"overview.welcome_title" = "Commencez par une vue plus claire.";
+"overview.welcome_body" = "Découvrez ce qui occupe de l’espace. MacCleaner analyse votre Mac et vous aide à choisir quoi garder et quoi supprimer.";
+"overview.welcome_cache" = "Caches et fichiers temporaires";
+"overview.welcome_cache_body" = "Caches d’apps, navigateurs et journaux de diagnostic.";
+"overview.welcome_dev" = "Outils développeur";
+"overview.welcome_dev_body" = "Xcode DerivedData et caches npm, Homebrew, pip et Gradle.";
+"overview.welcome_files" = "Fichiers à revoir";
+"overview.welcome_files_body" = "Anciens téléchargements, images disque et résidus d’applications.";
+"overview.welcome_control" = "L’analyse ne supprime pas de fichiers. Vérifiez votre sélection avant de nettoyer.";
+
+/* Orphan Finder */
+"orphan.title" = "Fichiers orphelins";
+"orphan.subtitle" = "Préférences, caches et conteneurs dont l’ID de bundle n’est plus installé.";
+"orphan.idle" = "Chercher des résidus orphelins";
+"orphan.scan" = "Chercher les orphelins";
+"orphan.scanning" = "Recherche de résidus orphelins…";
+"orphan.summary" = "%lld orphelins · %@";
+"orphan.empty" = "Aucun fichier orphelin";
+"orphan.empty.detail" = "Aucun résidu de préférences/caches/conteneurs d’apps désinstallées trouvé.";
+"orphan.selected" = "%lld sélectionné(s) · %@";
+"orphan.clean" = "Nettoyer les orphelins sélectionnés";
+"orphan.cleaning" = "Nettoyage des résidus orphelins…";
+
+/* Startup */
+"startup.title" = "Démarrage";
+"startup.subtitle" = "Examinez les launch agents, éléments d’ouverture et snapshots Time Machine locaux.";
+"startup.idle" = "Inspecter les éléments de démarrage et snapshots locaux";
+"startup.refreshing" = "Inspection des éléments de démarrage et snapshots locaux…";
+"startup.summary" = "%lld agents · %lld cassé(s) · %lld snapshots";
+"startup.login_items" = "Éléments d’ouverture";
+"startup.login_items.help" = "Les apps et helpers à la connexion se gèrent dans Réglages Système.";
+"startup.agents" = "Éléments de démarrage et en arrière-plan";
+"startup.snapshots" = "Snapshots Time Machine locaux";
+"startup.snapshots.help" = "Les snapshots APFS locaux peuvent être examinés et supprimés individuellement (mot de passe admin requis).";
+"startup.snapshots.empty" = "Time Machine n’a signalé aucun snapshot pour le disque de démarrage.";
+"startup.thin_all" = "Tout réduire";
+"startup.delete_selected" = "Supprimer la sélection";
+"startup.deleting_snapshot" = "Suppression du snapshot %@…";
+"startup.snapshots_deleted" = "%lld snapshot(s) retiré(s).";
+"startup.snapshots_failed" = "%lld snapshot(s) n’ont pas pu être supprimés.";
+
+/* Developer Cleanup */
+"dev.title" = "Nettoyage développeur";
+"dev.subtitle" = "Xcode, simulateurs, Docker et caches de gestionnaires de paquets — vérifiez avant de supprimer.";
+"dev.idle" = "Analyser les dossiers développeur";
+"dev.scan" = "Analyser les dossiers développeur";
+"dev.scanning" = "Mesure des dossiers développeur…";
+"dev.summary" = "%lld cibles · %@";
+"dev.empty" = "Rien de volumineux trouvé";
+"dev.empty.detail" = "Aucun cache Xcode, Docker ou de paquets au-dessus de 1 Mo.";
+"dev.selected" = "sélectionné";
+"dev.clean" = "Nettoyer la sélection";
+"dev.cleaning" = "Déplacement des dossiers développeur sélectionnés vers la Corbeille…";
+"dev.item.derived" = "Produits de compilation et index";
+"dev.item.archives" = "Builds archivés";
+"dev.item.device_support" = "Symboles et fichiers de prise en charge des appareils";
+"dev.item.watch_support" = "Fichiers de prise en charge watchOS";
+"dev.item.simulator" = "Appareils et données Simulator";
+"dev.item.sim_caches" = "Caches Simulator";
+"dev.item.docker" = "Données VM et images Docker";
+"dev.item.docker_desktop" = "Conteneur de groupe Docker Desktop";
+"dev.item.npm" = "Cache de téléchargement npm";
+"dev.item.pnpm" = "Store content-addressable pnpm";
+"dev.item.yarn" = "Cache de téléchargement Yarn";
+"dev.item.brew" = "Cache de téléchargement Homebrew";
+"dev.item.pods" = "Cache CocoaPods";
+"dev.item.gradle" = "Caches de dépendances Gradle";
+"dev.item.pip" = "Cache pip Python";
+"dev.item.cargo" = "Cache du registre Cargo Rust";
+
+/* Privacy & purgeable */
+"privacy.title" = "Confidentialité et espace";
+"privacy.subtitle" = "Espace purgeable, guides de confidentialité navigateur et inventaire TCC en lecture seule.";
+"privacy.purgeable" = "Espace purgeable";
+"privacy.purgeable.help" = "Réservé par macOS et libéré automatiquement quand l’espace manque. Réduire les snapshots locaux peut en récupérer une partie.";
+"privacy.purgeable.free" = "Libre";
+"privacy.purgeable.amount" = "Purgeable";
+"privacy.purgeable.important" = "Disp. importante";
+"privacy.purge.action" = "Réduire les snapshots pour récupérer";
+"privacy.purge.ok" = "Réduction des snapshots locaux demandée.";
+"privacy.purge.fail" = "Impossible de réduire les snapshots (annulé ou échoué).";
+"privacy.browser" = "Confidentialité navigateur";
+"privacy.browser.help" = "Examinez les réglages de confidentialité du navigateur sur votre Mac. MacCleaner ne synchronise ni n’envoie de données de navigation.";
+"privacy.safari" = "Guide confidentialité Safari";
+"privacy.safari.detail" = "Safari → Réglages → Confidentialité. Effacez l’historique et les données de sites depuis Safari si besoin.";
+"privacy.safari.open" = "Ouvrir Safari";
+"privacy.chrome" = "Guide confidentialité Chrome";
+"privacy.chrome.detail" = "Chrome → Paramètres → Confidentialité et sécurité. Effacez les données de navigation depuis Chrome si besoin.";
+"privacy.chrome.open" = "Ouvrir Chrome";
+"privacy.browser.caches_hint" = "Les caches navigateur restent disponibles comme catégorie Smart Care.";
+"privacy.tcc" = "Base TCC";
+"privacy.tcc.help" = "Liste en lecture seule des autorisations d’apps si l’accès complet au disque est activé. Effacer les entrées reste dans Réglages Système.";
+"privacy.tcc.need_fda" = "L’accès complet au disque est requis pour lire la base TCC.";
+"privacy.tcc.open_failed" = "Impossible d’ouvrir la base TCC.";
+"privacy.tcc.query_failed" = "Impossible d’interroger les lignes d’accès TCC.";
+"privacy.tcc.empty" = "Aucune ligne TCC à afficher.";
+"privacy.tcc.open_fda" = "Ouvrir Accès complet au disque";
+"privacy.tcc.open_camera" = "Caméra";
+"privacy.tcc.open_mic" = "Microphone";
+
+/* Performance → Startup link */
+"perf.startup_link.title" = "Démarrage et snapshots";
+"perf.startup_link.body" = "Launch agents, éléments d’ouverture et snapshots Time Machine locaux sont dans l’outil Démarrage.";
+"perf.startup_link.open" = "Ouvrir Démarrage";
+
+/* Mail categories */
+"category.mailDownloads.title" = "Téléchargements Mail";
+"category.mailDownloads.detail" = "Pièces jointes enregistrées depuis Apple Mail";
+"category.mailData.title" = "Données Mail";
+"category.mailData.detail" = "Index Envelope — optionnel ; Mail peut les reconstruire (désactivé par défaut)";
+
+/* Homebrew casks */
+"brew.title" = "Mises à jour Homebrew";
+"brew.help" = "Examinez et mettez à jour les apps installées en casks Homebrew. Nécessite Homebrew en local.";
+"brew.idle" = "Vérifier les apps cask installées";
+"brew.check" = "Vérifier les casks";
+"brew.checking" = "Vérification des casks Homebrew…";
+"brew.upgrade" = "Mettre à jour la sélection";
+"brew.upgrading" = "Mise à jour de %@…";
+"brew.summary" = "%lld cask(s) ont des mises à jour";
+"brew.up_to_date" = "Les apps Homebrew sont à jour";
+"brew.empty" = "Aucune mise à jour disponible pour les casks gérés par Homebrew.";
+"brew.not_found" = "Homebrew introuvable à un emplacement d’installation standard.";
+"brew.command_failed" = "La commande Homebrew a échoué.";
+"brew.bad_json" = "Homebrew a renvoyé des informations de mise à jour illisibles.";
+"brew.upgraded" = "Homebrew a mis à jour %lld app(s) sélectionnée(s).";
+"brew.upgrade_partial" = "%lld mis à jour · %lld échoué(s) — revérifiez pour confirmer.";
+
+/* Performance polish */
+"perf.pressure" = "Pression mémoire";
+"perf.compressed" = "Compressée %@";
+"perf.uptime" = "Temps de fonctionnement";
+"perf.uptime.detail" = "Depuis le dernier redémarrage";
+"perf.open_activity_monitor" = "Ouvrir Moniteur d’activité";
+"perf.activity_monitor.help" = "Les processus système se consultent mieux dans Moniteur d’activité.";
+
+/* Extra languages */
+"settings.language.german" = "Deutsch";
+"settings.language.french" = "Français";
+"settings.language.spanish" = "Español";
+"settings.language.portuguese" = "Português";
+"settings.language.japanese" = "日本語";
+"settings.language.chinese" = "简体中文";
+"settings.language.help" = "Choisissez Système pour suivre macOS, ou forcez une langue fournie avec MacCleaner.";

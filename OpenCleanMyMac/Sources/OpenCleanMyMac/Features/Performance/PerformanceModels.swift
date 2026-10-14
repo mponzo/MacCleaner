@@ -18,9 +18,30 @@ struct SystemMetrics: Sendable, Hashable {
         return Double(usedMemoryBytes) / Double(physicalMemoryBytes) * 100
     }
 
+    /// Rough pressure proxy: wired + compressed share of physical RAM.
+    var memoryPressurePercent: Double {
+        guard physicalMemoryBytes > 0 else { return 0 }
+        let pressure = wiredMemoryBytes + compressedMemoryBytes
+        return min(100, Double(pressure) / Double(physicalMemoryBytes) * 100)
+    }
+
     var diskUsedPercent: Double {
         guard diskTotalBytes > 0 else { return 0 }
         return Double(diskTotalBytes - diskFreeBytes) / Double(diskTotalBytes) * 100
+    }
+
+    var uptimeLabel: String {
+        let total = Int(uptimeSeconds)
+        let days = total / 86_400
+        let hours = (total % 86_400) / 3_600
+        let minutes = (total % 3_600) / 60
+        if days > 0 {
+            return String(format: "%dd %dh", days, hours)
+        }
+        if hours > 0 {
+            return String(format: "%dh %dm", hours, minutes)
+        }
+        return String(format: "%dm", minutes)
     }
 }
 

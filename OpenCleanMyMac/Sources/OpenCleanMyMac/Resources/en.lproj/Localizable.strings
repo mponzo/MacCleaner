@@ -21,9 +21,13 @@
 "sidebar.overview.subtitle" = "Scan & reclaim space";
 "sidebar.tools" = "Tools";
 "sidebar.applications" = "Applications";
+"sidebar.orphans" = "Orphan Finder";
 "sidebar.performance" = "Performance";
+"sidebar.startup" = "Startup";
+"sidebar.developer" = "Developer Cleanup";
 "sidebar.privileged" = "Privileged Helper";
-"sidebar.space_lens" = "Space Lens";
+"sidebar.space_lens" = "Space Explorer";
+"sidebar.privacy" = "Privacy & Space";
 "sidebar.duplicates" = "Duplicate Finder";
 "sidebar.similar_photos" = "Similar Photos";
 "sidebar.scheduler" = "Schedule";
@@ -274,12 +278,41 @@
 "install.failed" = "Install failed: %@";
 "install.not_installed" = "MacCleaner is not installed in Applications.";
 
-/* Space Lens */
-"space.brand" = "SPACE LENS";
-"space.title" = "Where space goes";
-"space.subtitle" = "Visual breakdown of scanned categories. Run Smart Care first to populate sizes.";
+/* Space Explorer */
+"space.brand" = "SPACE EXPLORER";
+"space.title" = "Space Explorer";
+"space.subtitle" = "Inspect any folder by allocated disk space. Files are never changed.";
 "space.empty" = "No scan data";
 "space.empty.detail" = "Use Smart Care to measure reclaimable areas.";
+"space.explorer.idle" = "Choose a folder to measure";
+"space.explorer.choose" = "Choose Folder";
+"space.explorer.choose_message" = "MacCleaner measures allocated size without changing files.";
+"space.explorer.home" = "Home";
+"space.explorer.applications" = "Applications";
+"space.explorer.parent" = "Parent";
+"space.explorer.measuring" = "Measuring allocated space…";
+"space.explorer.stopped" = "Measurement stopped";
+"space.explorer.failed" = "Could not measure this folder";
+"space.explorer.summary" = "%lld items · %@";
+"space.explorer.empty" = "Nothing measurable here";
+"space.explorer.empty.detail" = "Hidden items are skipped. Try another folder.";
+"space.explorer.prompt" = "Find what uses the most disk space";
+"space.explorer.prompt.detail" = "Pick a folder to see which files and subfolders occupy the most allocated space.";
+"space.explorer.read_only" = "Read-only — nothing is deleted from Space Explorer.";
+"space.scan_breakdown" = "Smart Care categories";
+"space.scan_breakdown.detail" = "Reclaimable areas from the last Smart Care scan.";
+
+/* Cleanup exclusions */
+"excl.title" = "Cleanup Exclusions";
+"excl.help" = "Excluded paths are skipped by Smart Care scans and cleans. Add them from a category’s context menu.";
+"excl.empty" = "No exclusions yet.";
+"excl.remove" = "Remove";
+"excl.clear" = "Clear all";
+"excl.always" = "Always exclude from cleanup";
+
+/* Finder Service */
+"service.uninstall.no_app" = "Select an application (.app) to uninstall.";
+"service.uninstall.ready" = "Ready to uninstall %@ — review leftovers, then uninstall.";
 
 /* Settings */
 "settings.brand" = "SETTINGS";
@@ -289,7 +322,6 @@
 "settings.language.system" = "System";
 "settings.language.english" = "English";
 "settings.language.italian" = "Italiano";
-"settings.language.help" = "Choose System to follow macOS, or force English / Italian in the app.";
 "settings.appearance" = "Appearance";
 "settings.show_menubar" = "Show menu bar icon";
 "settings.hide_dock" = "Hide Dock icon (menu bar mode)";
@@ -444,3 +476,160 @@
 "overview.confirm_body" = "Review the selected files. They will be moved to Trash; system paths may require an administrator password.";
 "overview.back" = "Back to results";
 "overview.trash" = "Move to Trash";
+
+/* Graphite home */
+"overview.vision_title" = "Make room for what matters.";
+"overview.local" = "On your Mac. Only on your Mac.";
+"overview.awaiting_scan" = "Your next scan starts here.";
+"overview.analyzed" = "%@ analyzed";
+"overview.map_title" = "Where space is hiding";
+"overview.map_caption" = "Share of reclaimable space · leading categories";
+"overview.map_idle" = "Your space takes shape.";
+"overview.map_idle_body" = "Start a scan to see which categories take up the most space and open them to inspect their files.";
+"overview.map_clear" = "No files to clean in the scanned categories.";
+
+/* Before scanning */
+"overview.welcome_title" = "Start with a clearer picture.";
+"overview.welcome_body" = "Discover what takes up space. MacCleaner scans your Mac and helps you choose what to keep and what to remove.";
+"overview.welcome_cache" = "Caches and temporary files";
+"overview.welcome_cache_body" = "App caches, browsers and diagnostic logs.";
+"overview.welcome_dev" = "Developer tools";
+"overview.welcome_dev_body" = "Xcode DerivedData and npm, Homebrew, pip and Gradle caches.";
+"overview.welcome_files" = "Files to review";
+"overview.welcome_files_body" = "Old downloads, disk images and application leftovers.";
+"overview.welcome_control" = "Scanning does not delete files. Review your selection before cleaning.";
+
+/* Orphan Finder */
+"orphan.title" = "Orphan Finder";
+"orphan.subtitle" = "Prefs, caches, and containers whose bundle ID is no longer installed.";
+"orphan.idle" = "Scan for orphan leftovers";
+"orphan.scan" = "Scan for Orphans";
+"orphan.scanning" = "Finding orphan leftovers…";
+"orphan.summary" = "%lld orphans · %@";
+"orphan.empty" = "No orphaned files";
+"orphan.empty.detail" = "No leftover prefs/caches/containers from uninstalled apps were found.";
+"orphan.selected" = "%lld selected · %@";
+"orphan.clean" = "Clean Selected Orphans";
+"orphan.cleaning" = "Cleaning orphan leftovers…";
+
+/* Startup */
+"startup.title" = "Startup";
+"startup.subtitle" = "Review launch agents, login items, and local Time Machine snapshots.";
+"startup.idle" = "Inspect startup items and local snapshots";
+"startup.refreshing" = "Inspecting startup items and local snapshots…";
+"startup.summary" = "%lld agents · %lld broken · %lld snapshots";
+"startup.login_items" = "Login Items";
+"startup.login_items.help" = "Apps and helpers that open at login are managed in System Settings.";
+"startup.agents" = "Startup and background items";
+"startup.snapshots" = "Time Machine local snapshots";
+"startup.snapshots.help" = "Local APFS snapshots can be reviewed and removed individually (admin password required).";
+"startup.snapshots.empty" = "Time Machine did not report any snapshots for the startup disk.";
+"startup.thin_all" = "Thin all";
+"startup.delete_selected" = "Delete selected";
+"startup.deleting_snapshot" = "Deleting snapshot %@…";
+"startup.snapshots_deleted" = "Removed %lld snapshot(s).";
+"startup.snapshots_failed" = "%lld snapshot(s) could not be deleted.";
+
+/* Developer Cleanup */
+"dev.title" = "Developer Cleanup";
+"dev.subtitle" = "Xcode, simulators, Docker, and package-manager caches — review before removing.";
+"dev.idle" = "Scan developer folders";
+"dev.scan" = "Scan Developer Folders";
+"dev.scanning" = "Measuring developer folders…";
+"dev.summary" = "%lld targets · %@";
+"dev.empty" = "Nothing large found";
+"dev.empty.detail" = "No Xcode, Docker, or package caches above 1 MB were found.";
+"dev.selected" = "selected";
+"dev.clean" = "Clean Selected";
+"dev.cleaning" = "Moving selected developer folders to Trash…";
+"dev.item.derived" = "Build products and indexes";
+"dev.item.archives" = "Archived builds";
+"dev.item.device_support" = "Device symbols and support files";
+"dev.item.watch_support" = "watchOS device support files";
+"dev.item.simulator" = "Simulator devices and data";
+"dev.item.sim_caches" = "Simulator caches";
+"dev.item.docker" = "Docker VM and image data";
+"dev.item.docker_desktop" = "Docker Desktop group container";
+"dev.item.npm" = "npm download cache";
+"dev.item.pnpm" = "pnpm content-addressable store";
+"dev.item.yarn" = "Yarn download cache";
+"dev.item.brew" = "Homebrew download cache";
+"dev.item.pods" = "CocoaPods cache";
+"dev.item.gradle" = "Gradle dependency caches";
+"dev.item.pip" = "Python pip cache";
+"dev.item.cargo" = "Rust Cargo registry cache";
+
+/* Privacy & purgeable */
+"privacy.title" = "Privacy & Space";
+"privacy.subtitle" = "Purgeable disk space, browser privacy guides, and a read-only TCC permission inventory.";
+"privacy.purgeable" = "Purgeable Space";
+"privacy.purgeable.help" = "Reserved by macOS and freed automatically when space is needed. Thinning local snapshots can reclaim some of it.";
+"privacy.purgeable.free" = "Free";
+"privacy.purgeable.amount" = "Purgeable";
+"privacy.purgeable.important" = "Important avail.";
+"privacy.purge.action" = "Thin snapshots to reclaim";
+"privacy.purge.ok" = "Requested local snapshot thinning.";
+"privacy.purge.fail" = "Could not thin snapshots (cancelled or failed).";
+"privacy.browser" = "Browser privacy";
+"privacy.browser.help" = "Review browser privacy settings on your Mac. MacCleaner does not sync or upload browsing data.";
+"privacy.safari" = "Safari privacy guide";
+"privacy.safari.detail" = "Safari → Settings → Privacy. Clear history and website data from Safari when needed.";
+"privacy.safari.open" = "Open Safari";
+"privacy.chrome" = "Chrome privacy guide";
+"privacy.chrome.detail" = "Chrome → Settings → Privacy and security. Clear browsing data from Chrome when needed.";
+"privacy.chrome.open" = "Open Chrome";
+"privacy.browser.caches_hint" = "Browser caches remain available as a Smart Care category.";
+"privacy.tcc" = "TCC Database";
+"privacy.tcc.help" = "Read-only list of app permission grants when Full Disk Access is enabled. Clearing entries is left to System Settings.";
+"privacy.tcc.need_fda" = "Full Disk Access is required to read the TCC database.";
+"privacy.tcc.open_failed" = "Could not open the TCC database.";
+"privacy.tcc.query_failed" = "Could not query TCC access rows.";
+"privacy.tcc.empty" = "No TCC rows to show.";
+"privacy.tcc.open_fda" = "Open Full Disk Access";
+"privacy.tcc.open_camera" = "Camera";
+"privacy.tcc.open_mic" = "Microphone";
+
+/* Performance → Startup link */
+"perf.startup_link.title" = "Startup & snapshots";
+"perf.startup_link.body" = "Launch agents, Login Items, and Time Machine local snapshots moved to the Startup tool.";
+"perf.startup_link.open" = "Open Startup";
+
+/* Mail categories */
+"category.mailDownloads.title" = "Mail Downloads";
+"category.mailDownloads.detail" = "Attachments saved from Apple Mail";
+"category.mailData.title" = "Mail Data";
+"category.mailData.detail" = "Envelope indexes — optional; Mail may rebuild them (off by default)";
+
+/* Homebrew casks */
+"brew.title" = "Updates from Homebrew";
+"brew.help" = "Review and update apps installed as Homebrew casks. Requires a local Homebrew install.";
+"brew.idle" = "Check installed cask apps";
+"brew.check" = "Check casks";
+"brew.checking" = "Checking Homebrew casks…";
+"brew.upgrade" = "Upgrade selected";
+"brew.upgrading" = "Upgrading %@…";
+"brew.summary" = "%lld cask(s) have updates";
+"brew.up_to_date" = "Homebrew apps are up to date";
+"brew.empty" = "No updates are currently available for the cask apps Homebrew manages.";
+"brew.not_found" = "Homebrew was not found in a standard installation location.";
+"brew.command_failed" = "Homebrew command failed.";
+"brew.bad_json" = "Homebrew returned update information that could not be read.";
+"brew.upgraded" = "Homebrew updated the %lld selected app(s).";
+"brew.upgrade_partial" = "Updated %lld · %lld failed — check again to verify.";
+
+/* Performance polish */
+"perf.pressure" = "Memory pressure";
+"perf.compressed" = "Compressed %@";
+"perf.uptime" = "Uptime";
+"perf.uptime.detail" = "Since last restart";
+"perf.open_activity_monitor" = "Open Activity Monitor";
+"perf.activity_monitor.help" = "System processes are best inspected in Activity Monitor.";
+
+/* Extra languages */
+"settings.language.german" = "Deutsch";
+"settings.language.french" = "Français";
+"settings.language.spanish" = "Español";
+"settings.language.portuguese" = "Português";
+"settings.language.japanese" = "日本語";
+"settings.language.chinese" = "简体中文";
+"settings.language.help" = "Choose System to follow macOS, or force a language shipped with MacCleaner.";

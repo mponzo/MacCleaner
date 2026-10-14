@@ -11,7 +11,13 @@ struct RootView: View {
     @Bindable var duplicates: DuplicateFinderEngine
     @Bindable var similarPhotos: SimilarPhotosEngine
     @Bindable var scheduler: CleanupScheduler
+    @Bindable var spaceExplorer: SpaceExplorerEngine
+    @Bindable var orphanFinder: OrphanFinderEngine
+    @Bindable var startup: StartupEngine
+    @Bindable var developer: DeveloperCleanupEngine
+    @Bindable var privacy: PrivacyHubEngine
     @State private var fda = FullDiskAccessManager.shared
+    @State private var exclusions = CleanupExclusions.shared
     @State private var destination: SidebarDestination = .overview
 
     var body: some View {
@@ -50,6 +56,11 @@ struct RootView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .ocmmOpenPerformance)) { _ in
             destination = .performance
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .ocmmUninstallAppFromService)) { note in
+            guard let url = note.userInfo?["url"] as? URL else { return }
+            destination = .applications
+            Task { await uninstaller.prepareForServiceUninstall(bundleURL: url) }
         }
         .onReceive(
             DistributedNotificationCenter.default()
@@ -90,10 +101,14 @@ struct RootView: View {
 
             Section {
                 sidebarItem("sidebar.applications", icon: "app.badge.checkmark", tag: .applications)
+                sidebarItem("sidebar.orphans", icon: "doc.text.magnifyingglass", tag: .orphans)
                 sidebarItem("sidebar.duplicates", icon: "doc.on.doc", tag: .duplicates)
                 sidebarItem("sidebar.similar_photos", icon: "photo.on.rectangle.angled", tag: .similarPhotos)
                 sidebarItem("sidebar.performance", icon: "gauge.with.dots.needle.67percent", tag: .performance)
-                sidebarItem("sidebar.space_lens", icon: "chart.bar.fill", tag: .spaceLens)
+                sidebarItem("sidebar.startup", icon: "power", tag: .startup)
+                sidebarItem("sidebar.developer", icon: "hammer", tag: .developer)
+                sidebarItem("sidebar.space_lens", icon: "externaldrive.fill.badge.magnifyingglass", tag: .spaceLens)
+                sidebarItem("sidebar.privacy", icon: "hand.raised", tag: .privacy)
             } header: {
                 Text(l10n: "sidebar.tools")
                     .font(OCTheme.font(11, weight: .semibold))
@@ -108,6 +123,19 @@ struct RootView: View {
                 sidebarItem("sidebar.privileged", icon: "lock.shield", tag: .privileged)
                 sidebarItem("sidebar.settings", icon: "gearshape", tag: .settings)
             }
+        }
+        .safeAreaInset(edge: .top, spacing: 0) {
+            HStack(spacing: 10) {
+                OCBrandIcon().frame(width: 34, height: 34)
+                Text("MacCleaner").font(OCTheme.font(17, weight: .semibold))
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 20).padding(.top, 18).padding(.bottom, 22)
+        }
+        .safeAreaInset(edge: .bottom) {
+            Label(L10n.string("overview.local"), systemImage: "lock.shield")
+                .font(OCTheme.font(11)).foregroundStyle(OCTheme.muted)
+                .padding(20).frame(maxWidth: .infinity, alignment: .leading)
         }
         .listStyle(.sidebar)
         .scrollContentBackground(.hidden)
@@ -135,12 +163,22 @@ struct RootView: View {
             }
         case .applications:
             ApplicationsView(uninstaller: uninstaller)
+        case .orphans:
+            OrphanFinderView(engine: orphanFinder)
         case .performance:
-            PerformanceView(performance: performance)
+            PerformanceView(performance: performance) {
+                destination = .startup
+            }
+        case .startup:
+            StartupView(engine: startup)
+        case .developer:
+            DeveloperCleanupView(engine: developer)
         case .privileged:
             PrivilegedHelperView(privileged: privileged)
         case .spaceLens:
-            SpaceLensView(engine: engine)
+            SpaceExplorerView(explorer: spaceExplorer, engine: engine)
+        case .privacy:
+            PrivacyHubView(engine: privacy, fda: fda)
         case .duplicates:
             DuplicateFinderView(engine: duplicates)
         case .similarPhotos:
@@ -150,10 +188,10 @@ struct RootView: View {
         case .updates:
             UpdatesView(updater: updater, preferences: preferences)
         case .settings:
-            SettingsView(preferences: preferences, fda: fda)
+            SettingsView(preferences: preferences, fda: fda, exclusions: exclusions)
         case .category(let category):
             if let result = engine.results.first(where: { $0.category == category }) {
-                CategoryDetailView(engine: engine, result: result)
+                CategoryDetailView(engine: engine, result: result, exclusions: exclusions)
             } else {
                 ContentUnavailableView(L10n.string("smartcare.run_prompt"), systemImage: "sparkles")
             }
@@ -172,6 +210,7 @@ struct SmartCareView: View {
         engine.results.filter { $0.category.isCleanable }
     }
     private var availableBytes: Int64 { cleanable.reduce(0) { $0 + $1.totalBytes } }
+    private var isBeforeScan: Bool { engine.results.isEmpty && !engine.isBusy }
     private var selectedCount: Int { cleanable.flatMap(\.items).filter(\.isSelected).count }
     private func label(_ key: String) -> String { L10n.string(key: "overview." + key) }
 
@@ -181,17 +220,19 @@ struct SmartCareView: View {
                 VStack(alignment: .leading, spacing: 28) {
                     HStack(alignment: .top, spacing: 20) {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(label("title")).font(OCTheme.font(28, weight: .semibold))
+                            Text(label("vision_title")).font(OCTheme.font(34, weight: .semibold)).tracking(-1)
                             Text(engine.results.isEmpty ? label("intro") : engine.progressLabel)
                                 .font(OCTheme.font(13)).foregroundStyle(OCTheme.muted)
                         }
                         Spacer()
-                        Button(engine.results.isEmpty ? label("scan") : label("rescan")) {
-                            engine.runSmartCare()
+                        if !isBeforeScan {
+                            Button(engine.results.isEmpty ? label("scan") : label("rescan")) {
+                                engine.runSmartCare()
+                            }
+                            .buttonStyle(SeaButtonStyle()).disabled(engine.isBusy)
                         }
-                        .buttonStyle(GhostButtonStyle()).disabled(engine.isBusy)
                     }
-                    summary
+                    if isBeforeScan { welcome } else { summary }
                     if !fda.hasFullDiskAccess { fdaBanner }
                     if engine.isBusy {
                         VStack(alignment: .leading, spacing: 10) {
@@ -223,32 +264,87 @@ struct SmartCareView: View {
                 .frame(maxWidth: 1100, alignment: .leading)
                 .frame(maxWidth: .infinity)
             }
-            footer
+            if !engine.results.isEmpty { footer }
         }
         .font(OCTheme.font(13))
         .sheet(isPresented: $showReview) { review }
     }
 
-    private var summary: some View {
-        HStack(alignment: .center, spacing: 36) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(ByteFormat.string(availableBytes))
-                    .font(OCTheme.font(42, weight: .semibold)).monospacedDigit()
-                Text(label("available")).foregroundStyle(OCTheme.muted)
-            }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 8) {
-                Text(ByteFormat.string(engine.scannedBytes))
-                    .font(OCTheme.font(20, weight: .semibold)).monospacedDigit()
-                Text(L10n.string("smartcare.scanned")).foregroundStyle(OCTheme.muted)
-                if !engine.results.isEmpty {
-                    Text("\(engine.completedCategories)/\(engine.totalCategories) " + label("categories"))
-                        .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
+    private var welcome: some View {
+        VStack(alignment: .leading, spacing: 28) {
+            HStack(alignment: .top, spacing: 24) {
+                OCBrandIcon().frame(width: 88, height: 88)
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(label("welcome_title")).font(OCTheme.font(24, weight: .semibold))
+                    Text(label("welcome_body"))
+                        .font(OCTheme.font(13)).foregroundStyle(OCTheme.muted)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button { engine.runSmartCare() } label: {
+                        Label(label("scan"), systemImage: "viewfinder")
+                    }
+                    .buttonStyle(SeaButtonStyle()).padding(.top, 8)
                 }
+                Spacer(minLength: 0)
+            }
+            Divider().overlay(OCTheme.stroke)
+            VStack(alignment: .leading, spacing: 20) {
+                welcomeRow("externaldrive", title: "welcome_cache", body: "welcome_cache_body")
+                welcomeRow("hammer", title: "welcome_dev", body: "welcome_dev_body")
+                welcomeRow("doc.on.doc", title: "welcome_files", body: "welcome_files_body")
+            }
+            Label(label("welcome_control"), systemImage: "checkmark.shield")
+                .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
+                .padding(.top, 4)
+        }
+        .padding(28)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(OCTheme.canvasElevated, in: RoundedRectangle(cornerRadius: 16))
+    }
+
+    private func welcomeRow(_ icon: String, title: String, body: String) -> some View {
+        HStack(alignment: .top, spacing: 14) {
+            Image(systemName: icon).font(.system(size: 18))
+                .foregroundStyle(OCTheme.sea).frame(width: 26, height: 26)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(label(title)).font(OCTheme.font(13, weight: .semibold))
+                Text(label(body)).font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
             }
         }
-        .padding(26).frame(maxWidth: .infinity, alignment: .leading)
-        .background(OCTheme.canvasElevated, in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var summary: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .top, spacing: 34) {
+                spaceMetrics.frame(width: 230, alignment: .leading)
+                Rectangle().fill(OCTheme.stroke).frame(width: 1)
+                HomeSpaceMap(results: cleanable, onOpenCategory: onOpenCategory)
+                    .frame(minWidth: 300, maxWidth: .infinity)
+            }
+            VStack(alignment: .leading, spacing: 28) {
+                spaceMetrics
+                HomeSpaceMap(results: cleanable, onOpenCategory: onOpenCategory)
+            }
+        }
+        .padding(.vertical, 26)
+        .overlay(alignment: .top) { Divider().overlay(OCTheme.stroke) }
+        .overlay(alignment: .bottom) { Divider().overlay(OCTheme.stroke) }
+    }
+
+    private var spaceMetrics: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(label("available")).font(OCTheme.font(13)).foregroundStyle(OCTheme.muted)
+            Text(engine.results.isEmpty ? "—" : ByteFormat.string(availableBytes))
+                .font(OCTheme.font(40, weight: .semibold)).monospacedDigit()
+                .foregroundStyle(OCTheme.sea).tracking(-1)
+                .lineLimit(1).minimumScaleFactor(0.7)
+            Text(engine.results.isEmpty ? label("awaiting_scan") : L10n.format("overview.analyzed", ByteFormat.string(engine.scannedBytes)))
+                .font(OCTheme.font(12)).foregroundStyle(OCTheme.muted)
+            HStack(spacing: 7) {
+                Circle().fill(engine.isBusy ? OCTheme.accent : OCTheme.sea).frame(width: 5, height: 5)
+                Text(engine.isBusy ? engine.progressLabel : label("local"))
+                    .font(OCTheme.font(11)).foregroundStyle(OCTheme.muted)
+            }.padding(.top, 12)
+        }
     }
 
     private var categoryList: some View {
@@ -409,6 +505,7 @@ struct SmartCareView: View {
 struct CategoryDetailView: View {
     @Bindable var engine: ScanEngine
     let result: CategoryResult
+    @Bindable var exclusions: CleanupExclusions
 
     /// Live result from the engine when available (stays in sync after toggles / rescans).
     private var live: CategoryResult {
@@ -472,9 +569,23 @@ struct CategoryDetailView: View {
                     }
                     .padding(.vertical, 3)
                     .listRowBackground(OCTheme.card.opacity(0.85))
+                    .contextMenu {
+                        Button(L10n.string("excl.always")) {
+                            exclusions.add(item.url)
+                            removeFromResults(item)
+                        }
+                        Button(L10n.string("settings.reveal")) {
+                            NSWorkspace.shared.activateFileViewerSelecting([item.url])
+                        }
+                    }
                 }
             }
             .scrollContentBackground(.hidden)
         }
+    }
+
+    private func removeFromResults(_ item: ScanItem) {
+        guard let cIdx = engine.results.firstIndex(where: { $0.category == item.category }) else { return }
+        engine.results[cIdx].items.removeAll { $0.id == item.id }
     }
 }

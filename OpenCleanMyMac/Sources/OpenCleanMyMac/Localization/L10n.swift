@@ -1,20 +1,32 @@
 import Foundation
 import SwiftUI
 
-/// App language: system default, or forced English / Italian.
+/// App language: system default, or a forced locale shipped with the app.
 enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
     case system
     case english
     case italian
+    case german
+    case french
+    case spanish
+    case portuguese
+    case japanese
+    case chineseSimplified
 
     var id: String { rawValue }
 
-    /// ISO code for `.lproj`, or `nil` to follow the Mac language.
+    /// ISO / BCP-47 code for `.lproj`, or `nil` to follow the Mac language.
     var localizationCode: String? {
         switch self {
         case .system: return nil
         case .english: return "en"
         case .italian: return "it"
+        case .german: return "de"
+        case .french: return "fr"
+        case .spanish: return "es"
+        case .portuguese: return "pt-BR"
+        case .japanese: return "ja"
+        case .chineseSimplified: return "zh-Hans"
         }
     }
 
@@ -23,6 +35,12 @@ enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
         case .system: return "settings.language.system"
         case .english: return "settings.language.english"
         case .italian: return "settings.language.italian"
+        case .german: return "settings.language.german"
+        case .french: return "settings.language.french"
+        case .spanish: return "settings.language.spanish"
+        case .portuguese: return "settings.language.portuguese"
+        case .japanese: return "settings.language.japanese"
+        case .chineseSimplified: return "settings.language.chinese"
         }
     }
 }
@@ -33,13 +51,15 @@ enum L10n {
     static var overrideCode: String?
 
     static var bundle: Bundle {
-        guard let code = overrideCode,
-              let path = Bundle.module.path(forResource: code, ofType: "lproj"),
-              let localized = Bundle(path: path)
-        else {
-            return .module
+        guard let code = overrideCode else { return .module }
+        // SPM may emit lowercase .lproj folder names (e.g. pt-br, zh-hans).
+        for candidate in [code, code.lowercased()] {
+            if let path = Bundle.module.path(forResource: candidate, ofType: "lproj"),
+               let localized = Bundle(path: path) {
+                return localized
+            }
         }
-        return localized
+        return .module
     }
 
     static var locale: Locale {

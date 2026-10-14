@@ -88,7 +88,8 @@ final class ScanEngine {
                     break
                 }
                 guard let result else { continue }
-                results.append(result)
+                let filtered = CleanupExclusions.shared.filterItems(result.items)
+                results.append(CategoryResult(category: result.category, items: filtered))
                 results.sort { $0.totalBytes > $1.totalBytes }
                 completedCategories += 1
                 progressLabel = L10n.format("smartcare.scanned_category", result.category.title)
@@ -106,7 +107,10 @@ final class ScanEngine {
     private func performCleanSelected() async {
         isCleaning = true
         progressLabel = L10n.string("smartcare.moving")
-        let selected = results.flatMap(\.items).filter { $0.isSelected && $0.category.isCleanable }
+        let exclusions = CleanupExclusions.shared
+        let selected = results
+            .flatMap(\.items)
+            .filter { $0.isSelected && $0.category.isCleanable && !exclusions.contains($0.url) }
         let result = await Cleaner.moveToTrash(selected, isCancelled: { Task.isCancelled })
         if Task.isCancelled {
             progressLabel = L10n.string("smartcare.stopped")

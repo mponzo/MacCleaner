@@ -125,6 +125,46 @@ final class UninstallerEngine {
         }
     }
 
+    /// Focus Applications after Finder Service “Uninstall with MacCleaner”.
+    func prepareForServiceUninstall(bundleURL: URL) async {
+        let target = bundleURL.standardizedFileURL
+        await refresh(clearFeedback: true)
+        if let match = apps.first(where: {
+            $0.bundleURL.standardizedFileURL == target
+                || $0.bundleURL.standardizedFileURL.path == target.path
+        }) {
+            selectedAppID = match.id
+            progressLabel = L10n.format("service.uninstall.ready", match.name)
+            return
+        }
+
+        // App may live outside catalog roots — synthesize a row for review.
+        let name = Bundle(url: target)?.infoDictionary?["CFBundleDisplayName"] as? String
+            ?? Bundle(url: target)?.infoDictionary?["CFBundleName"] as? String
+            ?? target.deletingPathExtension().lastPathComponent
+        let bundleID = Bundle(url: target)?.bundleIdentifier
+            ?? (Bundle(url: target)?.infoDictionary?["CFBundleIdentifier"] as? String)
+            ?? "unknown.\(target.lastPathComponent)"
+        let version = Bundle(url: target)?.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
+        let bytes = DiskSizer.allocatedBytes(at: target)
+        let synthetic = InstalledApp(
+            name: name,
+            bundleIdentifier: bundleID,
+            version: version,
+            bundleURL: target,
+            byteCount: bytes,
+            isSystemApp: target.path.hasPrefix("/System"),
+            isProtected: target.path.hasPrefix("/System"),
+            leftovers: [],
+            includeAppBundle: true
+        )
+        if !apps.contains(where: { $0.id == synthetic.id }) {
+            apps.insert(synthetic, at: 0)
+        }
+        selectedAppID = synthetic.id
+        progressLabel = L10n.format("service.uninstall.ready", name)
+    }
+
     func cleanSelectedOrphans() async {
         guard !isUninstalling else { return }
         let selected = orphanLeftovers.filter(\.isSelected)

@@ -1,6 +1,6 @@
 # MacCleaner
 
-Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, uninstalls apps with leftovers, finds duplicates and similar photos, and can schedule Smart Care — all on-device.
+Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, uninstalls apps with leftovers, explores disk use, finds duplicates and similar photos, and can schedule Smart Care — all on-device.
 
 | | |
 |---|---|
@@ -9,7 +9,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
 
-Universal binary (Apple silicon + Intel). UI in **English** and **Italian**.
+Universal binary (Apple silicon + Intel). UI in **English, Italian, German, French, Spanish, Portuguese (Brazil), Japanese, and Simplified Chinese**.
 
 ---
 
@@ -42,7 +42,7 @@ brew uninstall --cask maccleaner # remove
 
 ### Smart Care
 
-Runs a multi-category scan and lets you pick what to free. Progress is per category; you can **Stop** mid-scan or mid-clean. Selected user items go to the **Trash**.
+Runs a multi-category scan and lets you pick what to free. Progress is per category; you can **Stop** mid-scan or mid-clean. Selected user items go to the **Trash**. Paths can be **excluded** from future cleans (Settings or from category detail).
 
 | Category | Location / notes |
 |---|---|
@@ -52,6 +52,7 @@ Runs a multi-category scan and lets you pick what to free. Progress is per categ
 | Dev tool caches | npm, Homebrew, pip, Gradle, Yarn, pnpm, Cargo… |
 | Downloads | Files older than 30 days; `*.dmg` / `*.iso` |
 | Browsers | Safari, Chrome, Firefox, Edge caches |
+| Mail | Mail Downloads; MailData under `~/Library/Mail` |
 | Leftovers / agents | Orphan prefs & containers; broken user Launch Agents |
 | Large folders | Top folders under Home (measure only) |
 | System (optional) | `/Library/Caches`, logs, system agents — password + path allowlist |
@@ -59,6 +60,12 @@ Runs a multi-category scan and lets you pick what to free. Progress is per categ
 ### Applications
 
 Lists user apps, estimates bundle + leftover size, and finds related files under Preferences, Caches, Application Support, Logs, Saved State, Cookies, Containers, Group Containers, Launch Agents, and Crash Reporter. System apps cannot be uninstalled from here. Bundles under `/Applications` use Finder recycle with an admin fallback when needed.
+
+**Finder → Services → Uninstall with MacCleaner** sends a selected `.app` into the same uninstall flow.
+
+### Orphan Finder
+
+Scans Library leftovers whose bundle ID no longer matches an installed app, then lets you select and Trash them — dedicated hub for post-uninstall debris.
 
 ### Duplicate Finder
 
@@ -68,23 +75,41 @@ Pick a folder; MacCleaner groups **exact** copies by size + SHA-256. Hard links 
 
 Visual estimate from **local thumbnails** only (up to 500 photos / 10,000 directory entries). Groups likely matches for side-by-side review and **Reveal in Finder**. Photos are never deleted or uploaded — similarity is an estimate, not proof of identity.
 
+### Startup
+
+User Launch Agents (flag broken ones, remove selected from the user domain) plus local **Time Machine / APFS snapshots** you can thin selectively.
+
+### Developer Cleanup
+
+Focused reclaim of common toolchain caches (Xcode DerivedData/Archives, npm, Homebrew, pip, Gradle, and similar) with selective Trash moves.
+
+### Space Explorer
+
+Interactive folder browser: pick Home, Applications, or any directory, drill into children with sizes, and open paths in Finder. Replaces the old chart-only Space Lens view.
+
+### Privacy
+
+Read-only overview of **APFS purgeable** space (optional thin-snapshots helper), a **TCC permission inventory** for your user domain, Full Disk Access status, and deep links into System Settings / browser privacy panes. No silent permission changes.
+
 ### Schedule
 
 Optional background Smart Care while the app stays in the menu bar. Choose an interval (hourly → monthly), optionally **auto-clean** when reclaimable space meets a MB threshold, and run a cycle immediately from Settings.
 
 ### Performance
 
-Live memory / CPU / free disk, top processes, user Launch Agents, plus maintenance helpers (DNS flush, Mail VACUUM, APFS snapshot thinning, Launch Services) where elevation is required.
+Live memory / CPU / free disk, memory pressure and uptime, top processes, user Launch Agents, plus maintenance helpers (DNS flush, Mail VACUUM, APFS snapshot thinning, Launch Services, open Activity Monitor) where elevation is required.
 
-### Space Lens, menu bar, updates
+### Updates
 
-- **Space Lens** — bar chart of categories from the last Smart Care run  
-- **Menu bar** — glass status panel (disk, RAM, battery, CPU, network, activity); closing the main window keeps the app in the menu bar  
-- **Updates** — compares this build to [`releases/version.json`](releases/version.json) / GitHub Releases when you open the section  
+Compares this build to [`releases/version.json`](releases/version.json) / GitHub Releases when you open the section. Also lists **outdated Homebrew casks** (when `brew` is installed) and can upgrade selected casks.
+
+### Menu bar
+
+Glass status panel (disk, RAM, battery, CPU, network, activity). Closing the main window keeps the app in the menu bar.
 
 ### Onboarding & Settings
 
-First launch walks through **Full Disk Access** (open System Settings, recheck, continue). Settings also show FDA status, FileVault / Gatekeeper read-only status, language (System / EN / IT), menu bar / Dock, launch at login, and install/remove from `~/Applications`. Full quit is **Settings → Quit** only.
+First launch walks through **Full Disk Access** (open System Settings, recheck, continue). Settings also show FDA status, FileVault / Gatekeeper read-only status, language (System / EN / IT / DE / FR / ES / pt-BR / JA / zh-Hans), cleanup **exclusions**, menu bar / Dock, launch at login, and install/remove from `~/Applications`. Full quit is **Settings → Quit** only.
 
 **Shortcuts:** ⌘R Smart Care · ⌘K clean selected · ⇧⌘U refresh apps · ⇧⌘P refresh performance  
 
@@ -94,7 +119,7 @@ First launch walks through **Full Disk Access** (open System Settings, recheck, 
 
 MacCleaner is built so you can see the path before anything moves:
 
-- Scans and cleanup work **offline** (updates only contact GitHub when you ask)  
+- Scans and cleanup work **offline** (updates only contact GitHub when you ask; Homebrew cask checks use local `brew`)  
 - No accounts, subscriptions, or product analytics  
 - User cleanup uses `trashItem` (macOS Trash), not a silent wipe  
 - Elevated system paths go through an admin prompt and an **allowlist**  
@@ -149,8 +174,6 @@ Landing site (Nuxt → GitHub Pages): `npm install && npm run generate` — see 
 
 - Signed `SMAppService` helper instead of password prompts for system paths  
 - Wider scanner coverage and UI polish  
-- More locales beyond EN/IT  
-- Finder Services “Uninstall with MacCleaner” (parity with common cleaners)  
 
 ---
 

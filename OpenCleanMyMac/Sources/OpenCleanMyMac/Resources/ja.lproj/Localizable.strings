@@ -1,0 +1,635 @@
+/* General */
+"app.name" = "MacCleaner";
+"common.yes" = "はい — ~/Applications";
+"common.no" = "いいえ";
+"common.run" = "実行";
+"common.refresh" = "更新";
+"common.status" = "状態";
+"common.admin" = "管理者";
+"common.broken" = "破損";
+"common.user" = "ユーザ";
+"common.system" = "システム";
+"common.select_all" = "すべて選択";
+"common.select_none" = "選択解除";
+"common.on" = "オン";
+"common.off" = "オフ";
+"common.unknown" = "不明";
+
+/* Sidebar */
+"sidebar.smart_care" = "スマートケア";
+"sidebar.overview" = "概要";
+"sidebar.overview.subtitle" = "スキャンして空き容量を確保";
+"sidebar.tools" = "ツール";
+"sidebar.applications" = "アプリケーション";
+"sidebar.orphans" = "孤立ファイル";
+"sidebar.performance" = "パフォーマンス";
+"sidebar.startup" = "起動項目";
+"sidebar.developer" = "開発者クリーンアップ";
+"sidebar.privileged" = "特権ヘルパー";
+"sidebar.space_lens" = "スペースエクスプローラー";
+"sidebar.privacy" = "プライバシーと容量";
+"sidebar.duplicates" = "重複ファインダー";
+"sidebar.similar_photos" = "類似写真";
+"sidebar.scheduler" = "スケジュール";
+"sidebar.updates" = "アップデート";
+"sidebar.settings" = "設定";
+"sidebar.modules" = "モジュール";
+
+"dup.title" = "重複ファインダー";
+"dup.subtitle" = "サイズと SHA-256 による完全一致。各グループに保護されたコピーが1つ残ります。";
+"dup.idle" = "完全一致の重複をスキャンするフォルダを選択してください。";
+"dup.choose" = "フォルダを選択";
+"dup.rescan" = "再スキャン";
+"dup.trash_selected" = "選択項目をゴミ箱へ";
+"dup.scanning" = "ファイルをスキャン中…";
+"dup.hashing" = "候補の重複をハッシュ中…";
+"dup.stopped" = "スキャンを停止しました。";
+"dup.trashing" = "選択した重複をゴミ箱へ移動中…";
+"dup.empty" = "完全一致の重複は見つかりませんでした";
+"dup.empty.detail" = "コピーが含まれそうなフォルダを選んでください。パッケージ、シンボリックリンク、ハードリンクはスキップされます。";
+"dup.summary" = "%lld グループ · %@ 回収可能";
+"dup.skipped" = "%lld 項目をスキップしました（パッケージ、リンク、または読み取れないファイル）。";
+"dup.failed" = "%lld 個のパスをゴミ箱へ移動できませんでした。";
+"dup.group_title" = "%lld 個の同一ファイル";
+"dup.protected" = "保護済み";
+"dup.reveal" = "Finder に表示";
+"dup.progress_files" = "%lld ファイルをインデックス済み…";
+
+"photos.title" = "類似写真";
+"photos.subtitle" = "ローカルのサムネイルによる視覚的な推定 — 写真は削除もアップロードもされません。";
+"photos.disclaimer" = "類似性は推定であり、同一であることの証明ではありません。Finder に表示で原本を比較してください。";
+"photos.idle" = "比較する写真フォルダを選択してください。";
+"photos.choose" = "写真フォルダを選択";
+"photos.rescan" = "再スキャン";
+"photos.scanning" = "ローカルのサムネイルを比較中…";
+"photos.stopped" = "スキャンを停止しました。";
+"photos.empty" = "類似グループは見つかりませんでした";
+"photos.empty.detail" = "カメラロールや書き出しフォルダを試してください。クラウドのみのプレースホルダとパッケージはスキップされます。";
+"photos.summary" = "%lld 個の類似グループ（%lld 枚の写真）";
+"photos.limit" = "500 枚 / 10,000 エントリのスキャン上限に達しました。フォルダを絞ると結果が充実します。";
+"photos.group_title" = "%lld 枚の類似写真";
+"photos.reveal" = "表示";
+
+"sched.title" = "スケジュール済みクリーン";
+"sched.subtitle" = "MacCleaner をメニューバーに置いたまま、バックグラウンドで Smart Care を実行します。";
+"sched.enable" = "スケジュールスキャンを有効にする";
+"sched.interval" = "スキャン間隔";
+"sched.auto_clean" = "スキャン後に自動クリーン";
+"sched.threshold" = "最小回収サイズ";
+"sched.help" = "自動クリーンは、選択した回収可能容量がしきい値以上のときのみ実行されます。完全な結果にはフルディスクアクセスを有効のままにしてください。";
+"sched.status" = "状態";
+"sched.last_run" = "前回の実行";
+"sched.next_run" = "次回の実行";
+"sched.never" = "なし";
+"sched.not_scheduled" = "未スケジュール";
+"sched.run_now" = "今すぐ実行";
+"sched.idle" = "スケジューラ待機中";
+"sched.enabled" = "スケジュール済み";
+"sched.disabled" = "無効";
+"sched.running" = "Smart Care を実行中…";
+"sched.cleaning" = "選択項目を自動クリーン中…";
+"sched.busy" = "Smart Care はすでに実行中です";
+"sched.no_engine" = "クリーンアップエンジンを利用できません";
+"sched.scanned" = "スキャン完了 · %@ 回収可能";
+"sched.cleaned" = "自動クリーン完了 · %@ 解放";
+"sched.below_threshold" = "しきい値未満（%@ < %lld MB）— 自動クリーンをスキップ";
+"sched.interval.everyHour" = "1時間ごと";
+"sched.interval.every3Hours" = "3時間ごと";
+"sched.interval.every6Hours" = "6時間ごと";
+"sched.interval.every12Hours" = "12時間ごと";
+"sched.interval.daily" = "毎日";
+"sched.interval.weekly" = "毎週";
+"sched.interval.biweekly" = "2週間ごと";
+"sched.interval.monthly" = "毎月";
+
+/* Smart Care */
+"smartcare.brand" = "MACCLEANER";
+"smartcare.title" = "Smart Care で空き容量を確保";
+"smartcare.subtitle" = "ジャンク、ダウンロード、Xcode、ブラウザ、残りファイル、アンインストール向けのオープンソース Mac クリーナー — パスは透明、ローカル優先。";
+"smartcare.reclaimable" = "回収可能";
+"smartcare.scanned" = "スキャン済み";
+"smartcare.progress" = "進行状況";
+"smartcare.ready" = "準備完了";
+"smartcare.run" = "Smart Care を実行";
+"smartcare.scanning" = "スキャン中…";
+"smartcare.stop" = "停止";
+"smartcare.stopped" = "停止しました";
+"smartcare.clean_selected" = "選択をクリーン";
+"smartcare.last_clean" = "前回のクリーン: %lld 項目を移動、%@ を解放。";
+"smartcare.items_selected" = "%lld 項目 · %@ 選択中";
+"smartcare.run_prompt" = "Smart Care を実行";
+"smartcare.idle" = "待機中";
+"smartcare.starting" = "Smart Care を開始中…";
+"smartcare.scanned_category" = "%@ をスキャン済み";
+"smartcare.complete" = "Smart Care 完了";
+"smartcare.moving" = "項目をゴミ箱へ移動中…";
+"smartcare.freed" = "%@ を解放";
+"smartcare.failed_count" = "%lld 項目を移動できませんでした。";
+
+/* Categories */
+"category.userCaches.title" = "ユーザキャッシュ";
+"category.userCaches.detail" = "~/Library/Caches";
+"category.userLogs.title" = "ユーザログ";
+"category.userLogs.detail" = "~/Library/Logs";
+"category.trash.title" = "ゴミ箱";
+"category.trash.detail" = "~/.Trash";
+"category.xcodeDerivedData.title" = "Xcode DerivedData";
+"category.xcodeDerivedData.detail" = "~/Library/Developer/Xcode/DerivedData";
+"category.xcodeArchives.title" = "Xcode アーカイブ";
+"category.xcodeArchives.detail" = "~/Library/Developer/Xcode/Archives";
+"category.developerCaches.title" = "開発者キャッシュ";
+"category.developerCaches.detail" = "npm、Homebrew、pip、Gradle";
+"category.downloadsClutter.title" = "古いダウンロード";
+"category.downloadsClutter.detail" = "30日より古いダウンロード";
+"category.unusedDiskImages.title" = "ディスクイメージ";
+"category.unusedDiskImages.detail" = "ダウンロード内の *.dmg / *.iso";
+"category.browserCaches.title" = "ブラウザキャッシュ";
+"category.browserCaches.detail" = "Safari / Chrome / Firefox";
+"category.largeHomeFolders.title" = "大きなフォルダ";
+"category.largeHomeFolders.detail" = "ホーム配下の主要フォルダ";
+"category.appLeftovers.title" = "アプリの残り";
+"category.appLeftovers.detail" = "孤立した環境設定・キャッシュ・コンテナ";
+"category.brokenLaunchAgents.title" = "破損した Launch Agents";
+"category.brokenLaunchAgents.detail" = "バイナリが見つからないユーザ LaunchAgents";
+"category.systemCaches.title" = "システムキャッシュ";
+"category.systemCaches.detail" = "/Library/Caches（クリーンには管理者）";
+"category.systemLogs.title" = "システムログ";
+"category.systemLogs.detail" = "/Library/Logs と /var/log（管理者）";
+"category.systemLaunchAgents.title" = "破損したシステムエージェント";
+"category.systemLaunchAgents.detail" = "破損した /Library/LaunchAgents（管理者）";
+
+/* Leftover kinds */
+"leftover.preferences" = "環境設定";
+"leftover.caches" = "キャッシュ";
+"leftover.applicationSupport" = "Application Support";
+"leftover.logs" = "ログ";
+"leftover.savedState" = "保存された状態";
+"leftover.cookies" = "Cookie";
+"leftover.containers" = "コンテナ";
+"leftover.groupContainers" = "Group Containers";
+"leftover.launchAgents" = "Launch Agents";
+"leftover.crashReporter" = "Crash Reporter";
+
+/* Applications */
+"apps.search" = "アプリを検索";
+"apps.brand" = "アプリケーション";
+"apps.select" = "アプリケーションを選択";
+"apps.select.detail" = "残りファイルをスキャンし、関連ファイルと一緒にアンインストールします。";
+"apps.protected" = "保護されたシステムアプリ — 残りファイルとアンインストールは無効です。";
+"apps.include_bundle" = "アプリバンドルを含める";
+"apps.uninstall_selected" = "選択をアンインストール";
+"apps.leftovers" = "残りファイル";
+"apps.leftovers.empty" = "ユーザの Library パスに関連ファイルは見つかりませんでした。";
+"apps.orphans" = "孤立した残り";
+"apps.orphans.detail" = "バンドル ID がインストールされていない環境設定/キャッシュ/コンテナ。";
+"apps.clean_orphans" = "選択した孤立項目をクリーン";
+"apps.app_size" = "アプリサイズ";
+"apps.leftovers_size" = "残りファイル";
+"apps.selected_size" = "選択中";
+"apps.last_action" = "前回の操作: %lld 項目を移動、%@ を解放。";
+"apps.failed_paths" = "%lld 個のパスをゴミ箱へ移動できませんでした。";
+"apps.listing" = "アプリケーションを一覧表示中…";
+"apps.scanning_leftovers" = "残りファイルをスキャン中…";
+"apps.finding_orphans" = "孤立した残りを検索中…";
+"apps.summary" = "%lld アプリ · %@ の孤立した残り";
+"apps.uninstalling" = "%@ をアンインストール中…";
+"apps.cleaning_orphans" = "孤立した残りをクリーン中…";
+"apps.confirm_title" = "ゴミ箱へ移動しますか？";
+"apps.confirm_body" = "MacCleaner は選択したアプリと関連ファイルをゴミ箱へ移動します。管理者認証が必要な項目は完全に削除される場合があります。続行前に選択内容を確認してください。";
+"apps.needs_fda" = "%@ のアンインストール: %lld 個のファイルにフルディスクアクセスが必要です。設定で許可してから再試行してください。";
+"apps.needs_fda_generic" = "削除する前に %lld 個のファイルにフルディスクアクセスが必要です。";
+"apps.fda_required_path" = "フルディスクアクセスが必要";
+"apps.admin_hint" = "macOS がパスワードを求めたのに削除に失敗した場合は、アプリが保護されていないか確認してください。";
+"common.cancel" = "キャンセル";
+
+/* Performance */
+"perf.brand" = "パフォーマンス";
+"perf.title" = "Mac を快適に保つ";
+"perf.subtitle" = "ライブのメモリ/CPU、Launch Agents、メンテナンスタスク — ほとんどの操作に特権ヘルパーは不要です。";
+"perf.memory" = "メモリ";
+"perf.memory_used" = "%lld%% 使用中";
+"perf.free_ram" = "空き RAM";
+"perf.wired" = "Wired %@";
+"perf.cpu" = "CPU（ticks）";
+"perf.processes" = "%lld プロセス";
+"perf.disk_free" = "ディスク空き";
+"perf.disk_used" = "%.0f%% 使用中";
+"perf.maintenance" = "メンテナンス";
+"perf.agents" = "Launch Agents";
+"perf.agents.broken_count" = "%lld 破損";
+"perf.agents.remove" = "選択を削除";
+"perf.agents.help" = "ユーザエージェントはゴミ箱へ移動できます。システムエージェントは読み取り専用で一覧表示されます。";
+"perf.top_processes" = "メモリ使用量上位のプロセス";
+"perf.pid" = "pid %d";
+"perf.removed_agents" = "エージェントファイル %lld 個を削除、%@。";
+"perf.refreshing" = "パフォーマンスを更新中…";
+"perf.agents_summary" = "%lld エージェント · %lld 破損";
+"perf.moving_agents" = "Launch Agents をゴミ箱へ移動中…";
+"perf.agents_failed" = "%lld 個のエージェントを削除できませんでした。";
+"perf.running_task" = "%@ を実行中…";
+
+"maint.flushDNS.title" = "DNS キャッシュを消去";
+"maint.flushDNS.detail" = "システムの DNS キャッシュを消去（管理者パスワードが求められる場合あり）";
+"maint.flushDNS.ok" = "DNS キャッシュを消去しました。";
+"maint.flushDNS.fail" = "DNS の消去に失敗したか、キャンセルされました。";
+"maint.speedUpMail.title" = "Mail を高速化";
+"maint.speedUpMail.detail" = "Apple Mail の Envelope Index を VACUUM（ユーザドメイン）";
+"maint.speedUpMail.missing" = "Apple Mail の Envelope Index が見つかりません。Mail を使っている場合は終了して再試行してください。";
+"maint.speedUpMail.vacuum_fail" = "sqlite3 VACUUM に失敗しました（Mail は終了していますか？）。";
+"maint.speedUpMail.ok" = "Mail インデックスを最適化しました。ファイルから %@ を回収。";
+"maint.thinLocalSnapshots.title" = "ローカルスナップショットを間引く";
+"maint.thinLocalSnapshots.detail" = "tmutil にローカル APFS スナップショットの間引きを依頼";
+"maint.thinLocalSnapshots.ok" = "ローカルスナップショットの間引きを要求しました。";
+"maint.thinLocalSnapshots.fail" = "スナップショットの間引きに失敗したか、キャンセルされました。";
+"maint.rebuildLaunchServices.title" = "Launch Services を再構築";
+"maint.rebuildLaunchServices.detail" = "Launch Services データベースを再構築（ユーザ）";
+"maint.rebuildLaunchServices.missing" = "この macOS に lsregister が見つかりません。";
+"maint.rebuildLaunchServices.ok" = "Launch Services データベースの再構築を要求しました。";
+"maint.rebuildLaunchServices.fail_status" = "lsregister がステータス %lld で終了しました。";
+
+/* Privileged */
+"priv.brand" = "特権ヘルパー";
+"priv.title" = "システムレベルのクリーンアップ";
+"priv.subtitle" = "MacCleaner はシステムパス用の許可リスト付き管理者ブリッジ（パスワードプロンプト）を使います。後続用の署名済み SMAppService デーモンスカフォールドが含まれます。";
+"priv.bridge" = "ブリッジ";
+"priv.ready" = "準備完了";
+"priv.busy" = "処理中…";
+"priv.osascript" = "osascript admin";
+"priv.system_caches" = "システムキャッシュ";
+"priv.system_logs" = "システムログ";
+"priv.broken_agents" = "破損エージェント";
+"priv.maintenance" = "特権メンテナンス";
+"priv.flush_dns" = "DNS を消去";
+"priv.thin_snapshots" = "スナップショットを間引く";
+"priv.rescan" = "再スキャン";
+"priv.clean_help" = "システムキャッシュ/ログのクリーン: Smart Care を実行し、システムキャッシュ / システムログを選んでから選択をクリーン（管理者プロンプト）。";
+"priv.roadmap" = "署名済みヘルパーのロードマップ";
+"priv.roadmap.body" = "1. アプリバンドル + OpenCleanPrivilegedHelper をビルド\n2. 同じ Team ID で両方に署名（ローカル SMAppService には Apple Development で可）\n3. SMAppService.daemon で登録し、osascript プロンプトを置き換え\ndocs/PRIVILEGED_HELPER.md を参照";
+"priv.status_bridge" = "管理者ブリッジ準備完了（操作ごとにパスワード）。署名済み SMAppService ヘルパーは未インストール。";
+"priv.summary" = "システムキャッシュ %@ · ログ %@ · 破損エージェント %lld";
+"priv.running" = "%@ を実行中…";
+"priv.completed" = "%@ が完了しました。";
+"priv.failed" = "%@ が失敗したかキャンセルされました。";
+"priv.remove_failed" = "特権削除に失敗しました。";
+"priv.allowlist_denied" = "パスが特権許可リストの外です。";
+
+/* Installer errors */
+"install.package_first" = "まずアプリをパッケージ化し（`./Scripts/package-app.sh`）、その .app からインストールしてください。";
+"install.failed" = "インストール失敗: %@";
+"install.not_installed" = "MacCleaner は Applications にインストールされていません。";
+
+/* Space Explorer */
+"space.brand" = "SPACE EXPLORER";
+"space.title" = "スペースエクスプローラー";
+"space.subtitle" = "割り当てディスク容量で任意のフォルダを調べます。ファイルは変更されません。";
+"space.empty" = "スキャンデータなし";
+"space.empty.detail" = "Smart Care で回収可能領域を測定してください。";
+"space.explorer.idle" = "測定するフォルダを選択";
+"space.explorer.choose" = "フォルダを選択";
+"space.explorer.choose_message" = "MacCleaner はファイルを変更せずに割り当てサイズを測定します。";
+"space.explorer.home" = "ホーム";
+"space.explorer.applications" = "アプリケーション";
+"space.explorer.parent" = "親";
+"space.explorer.measuring" = "割り当て容量を測定中…";
+"space.explorer.stopped" = "測定を停止しました";
+"space.explorer.failed" = "このフォルダを測定できませんでした";
+"space.explorer.summary" = "%lld 項目 · %@";
+"space.explorer.empty" = "測定できるものはありません";
+"space.explorer.empty.detail" = "非表示項目はスキップされます。別のフォルダを試してください。";
+"space.explorer.prompt" = "ディスク容量を最も使っているものを探す";
+"space.explorer.prompt.detail" = "どのファイルやサブフォルダが最も多くの割り当て容量を占めるか確認するフォルダを選んでください。";
+"space.explorer.read_only" = "読み取り専用 — Space Explorer からは何も削除されません。";
+"space.scan_breakdown" = "Smart Care カテゴリ";
+"space.scan_breakdown.detail" = "前回の Smart Care スキャンからの回収可能領域。";
+
+/* Cleanup exclusions */
+"excl.title" = "クリーンアップ除外";
+"excl.help" = "除外パスは Smart Care のスキャンとクリーンでスキップされます。カテゴリのコンテキストメニューから追加できます。";
+"excl.empty" = "除外はまだありません。";
+"excl.remove" = "削除";
+"excl.clear" = "すべてクリア";
+"excl.always" = "常にクリーンアップから除外";
+
+/* Finder Service */
+"service.uninstall.no_app" = "アンインストールするアプリケーション（.app）を選択してください。";
+"service.uninstall.ready" = "%@ をアンインストールする準備ができました — 残りを確認してからアンインストール。";
+
+/* Settings */
+"settings.brand" = "設定";
+"settings.title" = "インストールとメニューバー";
+"settings.subtitle" = "~/Applications にインストールし、メニューバーアイコンを表示し、ログイン時に自動起動します。";
+"settings.language" = "言語";
+"settings.language.system" = "システム";
+"settings.language.english" = "English";
+"settings.language.italian" = "Italiano";
+"settings.appearance" = "外観";
+"settings.show_menubar" = "メニューバーアイコンを表示";
+"settings.hide_dock" = "Dock アイコンを隠す（メニューバーモード）";
+"settings.hide_dock.help" = "メニューバーモードでは、時計付近のステータス項目からアプリを使えます。";
+"settings.launcher" = "自動起動";
+"settings.launch_at_login" = "ログイン時に開く";
+"settings.open_login_items" = "ログイン項目設定を開く";
+"settings.launch_help" = "Applications にインストールされた .app が必要です。macOS が一度承認を求める場合があります。";
+"settings.installation" = "インストール";
+"settings.installed" = "インストール済み";
+"settings.install" = "Applications にインストール";
+"settings.reinstall" = "再インストール";
+"settings.uninstall" = "アンインストール";
+"settings.reveal" = "Finder に表示";
+"settings.tip" = "ヒント: `./Scripts/package-app.sh` を実行し、生成された .app を開いてから、ここでインストールしてください。";
+"settings.login.enabled" = "有効";
+"settings.login.not_registered" = "未登録";
+"settings.login.needs_approval" = "システム設定 → ログイン項目での承認が必要";
+"settings.login.unavailable" = ".app としてインストールするまで利用不可";
+"settings.login.unknown" = "不明";
+"settings.installed_to" = "%@ にインストール済み";
+"settings.uninstalled" = "~/Applications からアンインストールしました。";
+"settings.quit.help" = "メニューバーアイコンも含め MacCleaner を完全に終了します。メインウインドウを閉じてもメニューバーに残ります。";
+"settings.permissions" = "アクセス許可";
+"settings.fda" = "フルディスクアクセス";
+"settings.fda.on" = "許可済み";
+"settings.fda.off" = "未許可";
+"settings.fda.help" = "Mail、Safari データ、コンテナ、その他の保護された Library パスの完全なスキャンに必要です。";
+"settings.replay_onboarding" = "セットアップを再表示";
+"settings.protection" = "保護";
+"settings.protection.filevault" = "FileVault";
+"settings.protection.gatekeeper" = "Gatekeeper";
+"settings.protection.help" = "macOS からの読み取り専用ステータスです。MacCleaner はこれらの設定を変更しません。";
+
+"onboarding.back" = "戻る";
+"onboarding.continue" = "続ける";
+"onboarding.get_started" = "はじめる";
+"onboarding.welcome.title" = "MacCleaner へようこそ";
+"onboarding.welcome.body" = "空き容量の確保、残りファイル付きのアンインストール、メンテナンス — すべてローカルで、テレメトリなし。";
+"onboarding.fda.title" = "許可はひとつ、それで完了";
+"onboarding.fda.title_granted" = "アクセス許可済み";
+"onboarding.fda.body" = "アプリのアンインストール、残りファイルの検出、macOS が既定で隠す保護キャッシュのクリーンにはフルディスクアクセスが必要です。";
+"onboarding.fda.body_granted" = "MacCleaner は、macOS が既定でロックする保護された場所にアクセスできます。";
+"onboarding.fda.window_title" = "フルディスクアクセス";
+"onboarding.fda.path" = "プライバシーとセキュリティ → フルディスクアクセス";
+"onboarding.fda.terminal" = "ターミナル";
+"onboarding.fda.open_settings" = "システム設定を開く";
+"onboarding.fda.recheck" = "許可した — 再確認";
+"onboarding.fda.watching" = "許可を待機中…";
+"onboarding.fda.ready" = "準備完了 — 次のステップへ進みます。";
+"onboarding.ready.title" = "準備ができました";
+"onboarding.ready.body_fda" = "Smart Care とアプリアンインストーラは保護パスをスキャンできます。削除のたびにあなたが制御します。";
+"onboarding.ready.body_limited" = "制限付きの結果で続行し、あとで設定でフルディスクアクセスを許可できます。";
+
+"fda.banner.title" = "フルディスクアクセスがオフです";
+"fda.banner.body" = "一部の保護された場所を利用できません。より完全なスキャンとアンインストールのためにアクセスを許可してください。";
+"fda.banner.action" = "アクセスを許可";
+
+/* Menu bar */
+"menubar.open" = "MacCleaner を開く";
+"menubar.open_short" = "MacCleaner を開く";
+"menubar.run_smart_care" = "Smart Care を実行";
+"menubar.launch_at_login" = "ログイン時に開く";
+"menubar.hide_dock" = "Dock アイコンを隠す";
+"menubar.settings" = "設定…";
+"menubar.quit" = "終了";
+"menubar.status_label" = "Mac の状態:";
+"menubar.status.good" = "良好";
+"menubar.status.attention" = "注意";
+"menubar.storage" = "Macintosh HD";
+"menubar.available" = "空き: %@";
+"menubar.free_up" = "空きを増やす";
+"menubar.memory" = "メモリ";
+"menubar.pressure" = "圧力: %lld%%";
+"menubar.cpu" = "CPU";
+"menubar.processes" = "%lld プロセス";
+"menubar.battery" = "バッテリー";
+"menubar.battery_value" = "%lld%%";
+"menubar.battery_charging" = "充電中 / 接続中";
+"menubar.battery_on_battery" = "バッテリー駆動";
+"menubar.battery_unavailable" = "バッテリーなし（デスクトップ）";
+"menubar.tip_title" = "今日のヒント";
+"menubar.tip_headline" = "Smart Care スキャンをおすすめ";
+"menubar.tip_body" = "回収可能なキャッシュ、残りファイル、古いダウンロードを一度に見つけます。";
+"menubar.run_scan" = "Smart Care を実行";
+
+/* Menu commands */
+"menu.clean" = "クリーン";
+"menu.run_smart_care" = "Smart Care を実行";
+"menu.clean_selected" = "選択をクリーン";
+"menu.refresh_apps" = "アプリケーションを更新";
+"menu.refresh_perf" = "パフォーマンスを更新";
+
+"menubar.disk_used" = "使用中: %lld%%";
+"menubar.free_short" = "空き";
+"menubar.cpu_usage" = "使用率: %lld%%";
+"menubar.agents_brief" = "破損エージェント %lld";
+"menubar.ready_title" = "ローカルクリーンアップ準備完了";
+"menubar.ready_badge" = "準備完了";
+"menubar.ready_detail" = "Smart Care とメンテナンスが利用可能 · 稼働時間 %@";
+"menubar.uptime_days" = "%lld日 %lld時間";
+"menubar.uptime_hours" = "%lld時間 %lld分";
+"menubar.network_online" = "オンライン";
+"menubar.network_offline" = "オフライン";
+"menubar.network_settings" = "ネットワーク設定";
+"menubar.activity" = "アクティビティ";
+"menubar.activity_empty" = "まだプロセスサンプルがありません";
+"menubar.reclaimable_brief" = "回収可能: %@";
+"menubar.battery_full" = "フル充電";
+
+/* Updates */
+"updates.title" = "アップデート";
+"updates.subtitle" = "GitHub リポジトリに公開された最新の MacCleaner ビルドを確認してインストールします。";
+"updates.installed" = "この Mac";
+"updates.repository" = "リポジトリのリリース";
+"updates.version" = "バージョン";
+"updates.build" = "ビルド";
+"updates.latest" = "最新";
+"updates.last_check" = "前回の確認";
+"updates.not_checked" = "まだ確認していません。";
+"updates.checking" = "リポジトリを確認中…";
+"updates.available" = "アップデートあり: %@";
+"updates.up_to_date" = "最新バージョンです。";
+"updates.check" = "アップデートを確認";
+"updates.install" = "ダウンロードしてインストール";
+"updates.downloading" = "パッケージをダウンロード中…";
+"updates.installing" = "インストール中…";
+"updates.relaunching" = "再起動中…";
+"updates.privacy" = "プライバシー";
+"updates.privacy.body" = "アップデート確認は、依頼時（またはこのページを開いたとき）のみ GitHub に接続します。テレメトリ、アカウント、アナリティクスはありません — オープンソースリポジトリの公開 version.json と MacCleaner.app.zip のみです。";
+"updates.error.manifest" = "アップデートマニフェストを読めませんでした。";
+"updates.error.download" = "ダウンロード失敗: %@";
+"updates.error.package" = "ダウンロードしたパッケージは無効です。";
+"updates.error.install" = "インストール失敗: %@";
+"updates.error.network" = "ネットワークエラー: %@";
+"updates.error.check_first" = "先にアップデートを確認してください。";
+
+/* Overview redesign */
+"overview.title" = "もっと空きを。すっきりと。";
+"overview.intro" = "Mac をスキャンし、削除するものを選びます。";
+"overview.scan" = "Mac をスキャン";
+"overview.rescan" = "再スキャン";
+"overview.available" = "の回収可能容量";
+"overview.categories" = "カテゴリをスキャン済み";
+"overview.review" = "クリーン内容を確認";
+"overview.selected" = "選択中";
+"overview.selected_items" = "%lld 項目 · クリーン前にパスを確認";
+"overview.empty_categories" = "クリーン対象のないカテゴリがあと %lld";
+"overview.reassurance" = "削除するものはあなたが選びます。カテゴリを開いてパスを確認してください。";
+"overview.review_clean" = "確認してクリーン…";
+"overview.partial" = "カテゴリが少なくとも部分的に選択されています。詳細を開いて個別ファイルを確認してください。";
+"overview.confirm_body" = "選択したファイルを確認してください。ゴミ箱へ移動します。システムパスでは管理者パスワードが必要な場合があります。";
+"overview.back" = "結果に戻る";
+"overview.trash" = "ゴミ箱へ移動";
+
+/* Graphite home */
+"overview.vision_title" = "大切なものの場所をつくる。";
+"overview.local" = "あなたの Mac で。あなたの Mac だけで。";
+"overview.awaiting_scan" = "次のスキャンはここから。";
+"overview.analyzed" = "%@ を分析済み";
+"overview.map_title" = "容量が隠れている場所";
+"overview.map_caption" = "回収可能容量の割合 · 主要カテゴリ";
+"overview.map_idle" = "容量の姿が見えてきます。";
+"overview.map_idle_body" = "スキャンを開始すると、どのカテゴリが最も容量を使っているかが分かり、開いてファイルを確認できます。";
+"overview.map_clear" = "スキャンしたカテゴリにクリーン対象のファイルはありません。";
+
+/* Before scanning */
+"overview.welcome_title" = "まず全体像をはっきりと。";
+"overview.welcome_body" = "何が容量を使っているか発見します。MacCleaner は Mac をスキャンし、残すものと削除するものの選択を助けます。";
+"overview.welcome_cache" = "キャッシュと一時ファイル";
+"overview.welcome_cache_body" = "アプリキャッシュ、ブラウザ、診断ログ。";
+"overview.welcome_dev" = "開発者ツール";
+"overview.welcome_dev_body" = "Xcode DerivedData と npm、Homebrew、pip、Gradle のキャッシュ。";
+"overview.welcome_files" = "確認が必要なファイル";
+"overview.welcome_files_body" = "古いダウンロード、ディスクイメージ、アプリの残り。";
+"overview.welcome_control" = "スキャンではファイルを削除しません。クリーン前に選択を確認してください。";
+
+/* Orphan Finder */
+"orphan.title" = "孤立ファイル検索";
+"orphan.subtitle" = "バンドル ID がインストールされていない環境設定、キャッシュ、コンテナ。";
+"orphan.idle" = "孤立した残りをスキャン";
+"orphan.scan" = "孤立項目をスキャン";
+"orphan.scanning" = "孤立した残りを検索中…";
+"orphan.summary" = "%lld 孤立 · %@";
+"orphan.empty" = "孤立ファイルはありません";
+"orphan.empty.detail" = "アンインストール済みアプリの環境設定/キャッシュ/コンテナの残りは見つかりませんでした。";
+"orphan.selected" = "%lld 選択中 · %@";
+"orphan.clean" = "選択した孤立項目をクリーン";
+"orphan.cleaning" = "孤立した残りをクリーン中…";
+
+/* Startup */
+"startup.title" = "起動項目";
+"startup.subtitle" = "Launch Agents、ログイン項目、Time Machine のローカルスナップショットを確認します。";
+"startup.idle" = "起動項目とローカルスナップショットを調べる";
+"startup.refreshing" = "起動項目とローカルスナップショットを調べています…";
+"startup.summary" = "%lld エージェント · %lld 破損 · %lld スナップショット";
+"startup.login_items" = "ログイン項目";
+"startup.login_items.help" = "ログイン時に開くアプリとヘルパーはシステム設定で管理します。";
+"startup.agents" = "起動およびバックグラウンド項目";
+"startup.snapshots" = "Time Machine ローカルスナップショット";
+"startup.snapshots.help" = "ローカル APFS スナップショットは個別に確認・削除できます（管理者パスワードが必要）。";
+"startup.snapshots.empty" = "Time Machine は起動ディスクのスナップショットを報告しませんでした。";
+"startup.thin_all" = "すべて間引く";
+"startup.delete_selected" = "選択を削除";
+"startup.deleting_snapshot" = "スナップショット %@ を削除中…";
+"startup.snapshots_deleted" = "%lld 個のスナップショットを削除しました。";
+"startup.snapshots_failed" = "%lld 個のスナップショットを削除できませんでした。";
+
+/* Developer Cleanup */
+"dev.title" = "開発者クリーンアップ";
+"dev.subtitle" = "Xcode、シミュレータ、Docker、パッケージマネージャのキャッシュ — 削除前に確認してください。";
+"dev.idle" = "開発者フォルダをスキャン";
+"dev.scan" = "開発者フォルダをスキャン";
+"dev.scanning" = "開発者フォルダを測定中…";
+"dev.summary" = "%lld ターゲット · %@";
+"dev.empty" = "大きなものは見つかりませんでした";
+"dev.empty.detail" = "1 MB を超える Xcode、Docker、パッケージキャッシュは見つかりませんでした。";
+"dev.selected" = "選択中";
+"dev.clean" = "選択をクリーン";
+"dev.cleaning" = "選択した開発者フォルダをゴミ箱へ移動中…";
+"dev.item.derived" = "ビルド成果物とインデックス";
+"dev.item.archives" = "アーカイブ済みビルド";
+"dev.item.device_support" = "デバイスシンボルとサポートファイル";
+"dev.item.watch_support" = "watchOS デバイスサポートファイル";
+"dev.item.simulator" = "シミュレータのデバイスとデータ";
+"dev.item.sim_caches" = "シミュレータキャッシュ";
+"dev.item.docker" = "Docker VM とイメージデータ";
+"dev.item.docker_desktop" = "Docker Desktop グループコンテナ";
+"dev.item.npm" = "npm ダウンロードキャッシュ";
+"dev.item.pnpm" = "pnpm コンテンツアドレスストア";
+"dev.item.yarn" = "Yarn ダウンロードキャッシュ";
+"dev.item.brew" = "Homebrew ダウンロードキャッシュ";
+"dev.item.pods" = "CocoaPods キャッシュ";
+"dev.item.gradle" = "Gradle 依存関係キャッシュ";
+"dev.item.pip" = "Python pip キャッシュ";
+"dev.item.cargo" = "Rust Cargo レジストリキャッシュ";
+
+/* Privacy & purgeable */
+"privacy.title" = "プライバシーと容量";
+"privacy.subtitle" = "パージ可能容量、ブラウザプライバシーガイド、読み取り専用の TCC 権限インベントリ。";
+"privacy.purgeable" = "パージ可能容量";
+"privacy.purgeable.help" = "macOS が予約し、容量が必要なときに自動解放されます。ローカルスナップショットの間引きで一部を回収できます。";
+"privacy.purgeable.free" = "空き";
+"privacy.purgeable.amount" = "パージ可能";
+"privacy.purgeable.important" = "重要空き";
+"privacy.purge.action" = "スナップショットを間引いて回収";
+"privacy.purge.ok" = "ローカルスナップショットの間引きを要求しました。";
+"privacy.purge.fail" = "スナップショットを間引けませんでした（キャンセルまたは失敗）。";
+"privacy.browser" = "ブラウザのプライバシー";
+"privacy.browser.help" = "Mac 上のブラウザプライバシー設定を確認します。MacCleaner は閲覧データを同期・アップロードしません。";
+"privacy.safari" = "Safari プライバシーガイド";
+"privacy.safari.detail" = "Safari → 設定 → プライバシー。必要に応じて Safari から履歴と Web サイトデータを消去。";
+"privacy.safari.open" = "Safari を開く";
+"privacy.chrome" = "Chrome プライバシーガイド";
+"privacy.chrome.detail" = "Chrome → 設定 → プライバシーとセキュリティ。必要に応じて Chrome から閲覧データを消去。";
+"privacy.chrome.open" = "Chrome を開く";
+"privacy.browser.caches_hint" = "ブラウザキャッシュは Smart Care のカテゴリとして引き続き利用できます。";
+"privacy.tcc" = "TCC データベース";
+"privacy.tcc.help" = "フルディスクアクセス有効時のアプリ権限付与の読み取り専用一覧。エントリの削除はシステム設定に任せます。";
+"privacy.tcc.need_fda" = "TCC データベースの読み取りにはフルディスクアクセスが必要です。";
+"privacy.tcc.open_failed" = "TCC データベースを開けませんでした。";
+"privacy.tcc.query_failed" = "TCC アクセス行を照会できませんでした。";
+"privacy.tcc.empty" = "表示する TCC 行がありません。";
+"privacy.tcc.open_fda" = "フルディスクアクセスを開く";
+"privacy.tcc.open_camera" = "カメラ";
+"privacy.tcc.open_mic" = "マイク";
+
+/* Performance → Startup link */
+"perf.startup_link.title" = "起動とスナップショット";
+"perf.startup_link.body" = "Launch Agents、ログイン項目、Time Machine のローカルスナップショットは起動項目ツールに移動しました。";
+"perf.startup_link.open" = "起動項目を開く";
+
+/* Mail categories */
+"category.mailDownloads.title" = "Mail のダウンロード";
+"category.mailDownloads.detail" = "Apple Mail から保存した添付ファイル";
+"category.mailData.title" = "Mail データ";
+"category.mailData.detail" = "Envelope インデックス — 任意。Mail が再構築する場合あり（デフォルトはオフ）";
+
+/* Homebrew casks */
+"brew.title" = "Homebrew からのアップデート";
+"brew.help" = "Homebrew cask としてインストールしたアプリを確認・更新します。ローカルの Homebrew が必要です。";
+"brew.idle" = "インストール済み cask を確認";
+"brew.check" = "cask を確認";
+"brew.checking" = "Homebrew cask を確認中…";
+"brew.upgrade" = "選択をアップグレード";
+"brew.upgrading" = "%@ をアップグレード中…";
+"brew.summary" = "%lld 個の cask にアップデートあり";
+"brew.up_to_date" = "Homebrew アプリは最新です";
+"brew.empty" = "Homebrew が管理する cask に現在利用可能なアップデートはありません。";
+"brew.not_found" = "標準のインストール場所に Homebrew が見つかりません。";
+"brew.command_failed" = "Homebrew コマンドが失敗しました。";
+"brew.bad_json" = "Homebrew から読めない更新情報が返りました。";
+"brew.upgraded" = "Homebrew が選択した %lld 個のアプリを更新しました。";
+"brew.upgrade_partial" = "%lld 更新 · %lld 失敗 — 再確認して検証してください。";
+
+/* Performance polish */
+"perf.pressure" = "メモリ圧力";
+"perf.compressed" = "圧縮 %@";
+"perf.uptime" = "稼働時間";
+"perf.uptime.detail" = "前回の再起動から";
+"perf.open_activity_monitor" = "アクティビティモニタを開く";
+"perf.activity_monitor.help" = "システムプロセスの確認にはアクティビティモニタが最適です。";
+
+/* Extra languages */
+"settings.language.german" = "Deutsch";
+"settings.language.french" = "Français";
+"settings.language.spanish" = "Español";
+"settings.language.portuguese" = "Português";
+"settings.language.japanese" = "日本語";
+"settings.language.chinese" = "简体中文";
+"settings.language.help" = "macOS に合わせるにはシステムを選び、MacCleaner 同梱の言語を強制することもできます。";

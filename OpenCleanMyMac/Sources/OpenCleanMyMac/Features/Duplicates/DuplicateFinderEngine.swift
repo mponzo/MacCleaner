@@ -152,7 +152,8 @@ final class DuplicateFinderEngine {
         var bySize: [Int64: [URL]] = [:]
         var skipped = 0
 
-        for case let url as URL in enumerator {
+        while let node = enumerator.nextObject() {
+            guard let url = node as? URL else { continue }
             if Task.isCancelled { break }
 
             let ext = url.pathExtension.lowercased()

@@ -38,7 +38,7 @@ enum AppWindowActivator {
         }
     }
 
-    nonisolated static func isMainContentWindow(_ window: NSWindow) -> Bool {
+    static func isMainContentWindow(_ window: NSWindow) -> Bool {
         // Exclude MenuBarExtra / status item panels and utility chrome.
         guard window.level == .normal else { return false }
         let className = String(describing: type(of: window))

@@ -32,13 +32,19 @@ struct SimilarPhotoGroup: Identifiable, Hashable, Sendable {
     var photos: [SimilarPhotoItem]
 }
 
-@MainActor
-@Observable
-final class SimilarPhotosEngine {
+private enum SimilarPhotosLimits {
     static let maxPhotos = 500
     static let maxDirectoryEntries = 10_000
     /// Lower = more similar. Tuned for coarse thumbnail fingerprints.
     static let similarityThreshold = 10
+}
+
+@MainActor
+@Observable
+final class SimilarPhotosEngine {
+    static var maxPhotos: Int { SimilarPhotosLimits.maxPhotos }
+    static var maxDirectoryEntries: Int { SimilarPhotosLimits.maxDirectoryEntries }
+    static var similarityThreshold: Int { SimilarPhotosLimits.similarityThreshold }
 
     var isScanning = false
     var progressLabel = L10n.string("photos.idle")
@@ -129,10 +135,11 @@ final class SimilarPhotosEngine {
         var entries = 0
         var hitLimit = false
 
-        for case let url as URL in enumerator {
+        while let node = enumerator.nextObject() {
+            guard let url = node as? URL else { continue }
             if Task.isCancelled { break }
             entries += 1
-            if entries > maxDirectoryEntries {
+            if entries > SimilarPhotosLimits.maxDirectoryEntries {
                 hitLimit = true
                 break
             }
@@ -160,7 +167,7 @@ final class SimilarPhotosEngine {
             let bytes = Int64(values.fileSize ?? 0)
             items.append(SimilarPhotoItem(id: url, url: url, byteCount: bytes, fingerprint: fingerprint))
 
-            if items.count >= maxPhotos {
+            if items.count >= SimilarPhotosLimits.maxPhotos {
                 hitLimit = true
                 break
             }
@@ -244,7 +251,9 @@ final class SimilarPhotosEngine {
             var i = 0
             while i < unused.count {
                 let candidate = unused[i]
-                let close = cluster.contains { $0.fingerprint.distance(to: candidate.fingerprint) <= similarityThreshold }
+                let close = cluster.contains {
+                    $0.fingerprint.distance(to: candidate.fingerprint) <= SimilarPhotosLimits.similarityThreshold
+                }
                 if close {
                     cluster.append(candidate)
                     unused.remove(at: i)

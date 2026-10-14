@@ -3,6 +3,7 @@ import AppKit
 /// Keeps MacCleaner running in the menu bar after the main window is dismissed.
 /// Full quit happens only via Settings → Esci (`NSApp.terminate`).
 /// Also hosts the Finder Service “Uninstall with MacCleaner”.
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var didInstallCloseGuard = false
 
@@ -79,6 +80,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 /// Redirects the red traffic-light close button to hide the window instead of destroying it.
+@MainActor
 final class MainWindowCloseGuard: NSObject {
     static let shared = MainWindowCloseGuard()
 

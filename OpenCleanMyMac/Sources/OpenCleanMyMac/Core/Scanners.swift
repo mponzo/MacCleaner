@@ -372,7 +372,8 @@ struct LargeOldFilesScanner: CategoryScanner {
                     options: [.skipsHiddenFiles, .skipsPackageDescendants]
                 ) else { continue }
 
-                for case let url as URL in enumerator {
+                while let node = enumerator.nextObject() {
+                    guard let url = node as? URL else { continue }
                     if visited >= Self.maxVisited { break }
                     visited += 1
 

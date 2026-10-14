@@ -219,7 +219,8 @@ final class AppUpdateEngine {
         ) else {
             throw AppUpdateError.invalidPackage
         }
-        for case let url as URL in enumerator {
+        while let node = enumerator.nextObject() {
+            guard let url = node as? URL else { continue }
             if url.pathExtension == "app" {
                 return url
             }

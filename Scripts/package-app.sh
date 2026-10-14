@@ -188,21 +188,21 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 </plist>
 PLIST
 
-# Localized Finder Services menu title
+# Localized Finder Services menu title (zsh associative array)
 SERVICES_DIR="$APP/Contents/Resources"
-declare -A SERVICES_TITLES=(
-  [en]="Uninstall with MacCleaner"
-  [it]="Disinstalla con MacCleaner"
-  [de]="Mit MacCleaner deinstallieren"
-  [fr]="Désinstaller avec MacCleaner"
-  [es]="Desinstalar con MacCleaner"
-  [pt-BR]="Desinstalar com MacCleaner"
-  [ja]="MacCleaner でアンインストール"
-  [zh-Hans]="使用 MacCleaner 卸载"
-  [el]="Απεγκατάσταση με το MacCleaner"
-  [ru]="Удалить с помощью MacCleaner"
+typeset -A SERVICES_TITLES=(
+  en "Uninstall with MacCleaner"
+  it "Disinstalla con MacCleaner"
+  de "Mit MacCleaner deinstallieren"
+  fr "Désinstaller avec MacCleaner"
+  es "Desinstalar con MacCleaner"
+  pt-BR "Desinstalar com MacCleaner"
+  ja "MacCleaner でアンインストール"
+  zh-Hans "使用 MacCleaner 卸载"
+  el "Απεγκατάσταση με το MacCleaner"
+  ru "Удалить с помощью MacCleaner"
 )
-for loc in "${!SERVICES_TITLES[@]}"; do
+for loc in ${(k)SERVICES_TITLES}; do
   mkdir -p "$SERVICES_DIR/${loc}.lproj"
   printf '/* Services menu */\n"Uninstall with MacCleaner" = "%s";\n' "${SERVICES_TITLES[$loc]}" \
     > "$SERVICES_DIR/${loc}.lproj/ServicesMenu.strings"

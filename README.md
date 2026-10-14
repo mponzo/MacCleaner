@@ -1,6 +1,6 @@
 # MacCleaner
 
-Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, uninstalls apps with leftovers, explores disk use, finds duplicates and similar photos, and can schedule Smart Care — all on-device.
+Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, uninstalls apps with leftovers, explores disk use, cleans developer/AI toolchains, finds duplicates and similar photos, monitors system resources, and can schedule Smart Care — all on-device.
 
 | | |
 |---|---|
@@ -187,8 +187,23 @@ Landing site (Nuxt → GitHub Pages): `npm install && npm run generate` — see 
 
 ## Roadmap
 
-- Signed `SMAppService` helper instead of password prompts for system paths  
-- Wider scanner coverage and UI polish  
+Planned in roughly this order (CLI first, then the high-value list we are tracking):
+
+1. **CLI** with `--dry-run` (and a productized `maccleaner` command surface on top of today’s headless smoke flags)
+2. **Privileged helper** via signed `SMAppService` (replace interactive password prompts for allowlisted system paths)
+3. **Smart Care result filters** — path search, size/age filters, select-visible, exclude from context menu
+4. **Protection hub** — Firewall / SIP / XProtect / Gatekeeper as a config audit (not antivirus)
+5. **FDA retry** after grant — re-run the batch that failed without Full Disk Access
+6. **Orphan ignore list** — persistent skip for false-positive leftovers
+7. **Empty Trash on external volumes** (opt-in)
+
+Later / niche:
+
+- Modern Login Items (System Settings)
+- In-app DMG auto-update
+- Hidden-files browser
+
+Explicitly out of scope: RAM boosters, reclaiming purgeable space as “junk”, and fake malware / FUD claims.
 
 ---
 

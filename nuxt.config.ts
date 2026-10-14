@@ -3,7 +3,7 @@ const baseURL = process.env.NUXT_APP_BASE_URL || '/'
 const siteUrl = 'https://mponzo.github.io/MacCleaner'
 const title = 'MacCleaner — open-source Mac cleaner, zero telemetry'
 const description =
-  'Free open-source Mac cleaner for macOS 14+. Smart Care scan, app uninstaller with leftovers, Space Explorer, Schedule, System Monitor, Developer Cleanup. Fully local, zero telemetry, MIT.'
+  'Free open-source Mac cleaner for macOS 14+. Smart Care, deep uninstall, Space Explorer, Schedule, System Monitor, Developer Cleanup (Simulator, Docker, AI), 10 languages. Fully local, zero telemetry, MIT.'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',

@@ -41,7 +41,53 @@ async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
 
 const pageTitle = 'MacCleaner — open-source Mac cleaner, zero telemetry'
 const pageDescription =
-  'Free open-source Mac cleaner for macOS 14+. Smart Care, uninstall with leftovers, Space Explorer, Schedule, System Monitor, Developer Cleanup. Fully local, zero telemetry, MIT.'
+  'Free open-source Mac cleaner for macOS 14+. Smart Care, deep uninstall, Space Explorer, Schedule, System Monitor, Developer Cleanup (Simulator, Docker, AI), 10 languages. Fully local, zero telemetry, MIT.'
+
+const roadmapNext = [
+  {
+    title: 'CLI with --dry-run',
+    body: 'Productized maccleaner commands on top of today’s headless smoke flags.',
+  },
+  {
+    title: 'Privileged helper (SMAppService)',
+    body: 'Signed helper instead of interactive password prompts for allowlisted system paths.',
+  },
+  {
+    title: 'Smart Care result filters',
+    body: 'Path search, size/age filters, select-visible, exclude from the context menu.',
+  },
+  {
+    title: 'Protection hub',
+    body: 'Firewall / SIP / XProtect / Gatekeeper as a config audit — not antivirus.',
+  },
+  {
+    title: 'FDA retry after grant',
+    body: 'Re-run the batch that failed without Full Disk Access once access is granted.',
+  },
+  {
+    title: 'Orphan ignore list',
+    body: 'Persistently skip false-positive leftovers.',
+  },
+  {
+    title: 'Empty Trash on external volumes',
+    body: 'Opt-in emptying of Trash on external disks.',
+  },
+]
+
+const roadmapLater = [
+  'Modern Login Items (System Settings)',
+  'In-app DMG auto-update',
+  'Hidden-files browser',
+]
+
+const recentlyShipped = [
+  'System Monitor parity — CPU deltas, icons, search/sort, helper grouping',
+  'Deeper uninstall — Strict / Enhanced / Deep + drag-and-drop .app',
+  'Developer Cleanup — Simulator runtimes, Docker, AI app caches',
+  'Large & old files in Smart Care (never auto-selected)',
+  '10 languages including Greek and Russian',
+  'Back control on nested category detail',
+]
 
 useSeoMeta({
   title: pageTitle,
@@ -464,6 +510,7 @@ const vignetteProcesses = [
         <a href="#privacy">Privacy</a>
         <a href="#features">Features</a>
         <a href="#install">Install</a>
+        <a href="#roadmap">Roadmap</a>
         <a class="nav-ghost" :href="repoUrl" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
     </header>
@@ -474,9 +521,10 @@ const vignetteProcesses = [
           <p class="eyebrow">Open source · macOS 14+</p>
           <h1 id="hero-title" class="brand-hero">MacCleaner</h1>
           <p class="lede">
-            Reclaim space, uninstall apps, explore disk use, clean orphans and
-            startup clutter, and schedule Smart Care — with visible paths and
-            full control. Zero telemetry. Zero accounts. Zero cloud.
+            Reclaim space, uninstall apps with leftovers, explore disk use,
+            clean developer and AI toolchains, monitor CPU and memory, and
+            schedule Smart Care — with visible paths and full control. Zero
+            telemetry. Zero accounts. Zero cloud.
           </p>
           <div class="cta-row">
             <a class="btn btn-primary" :href="dmgUrl">Download MacCleaner {{ version }}</a>
@@ -532,10 +580,17 @@ const vignetteProcesses = [
         <div class="section-head">
           <h2 id="features-title">Features</h2>
           <p>
-            Smart Care, uninstall, orphan finder, Space Explorer, startup tools,
-            privacy hub, duplicates, similar photos, scheduling, and more —
-            every tool is local, selective, and path-visible.
+            Smart Care, deep uninstall, orphan finder, Space Explorer, startup
+            tools, privacy hub, duplicates, similar photos, System Monitor,
+            Developer Cleanup, scheduling, and more — every tool is local,
+            selective, and path-visible.
           </p>
+        </div>
+        <div class="shipped-strip" aria-label="Recently shipped">
+          <p class="shipped-label">Recently shipped</p>
+          <ul>
+            <li v-for="item in recentlyShipped" :key="item">{{ item }}</li>
+          </ul>
         </div>
 
         <nav class="feature-jump" aria-label="Feature sections">
@@ -846,6 +901,35 @@ const vignetteProcesses = [
           </div>
           <p>Yes — install with a cask from this repo:</p>
           <pre><code>{{ brewCommands }}</code></pre>
+        </div>
+      </section>
+
+      <section id="roadmap" class="section roadmap" aria-labelledby="roadmap-title">
+        <div class="section-head">
+          <h2 id="roadmap-title">Roadmap</h2>
+          <p>
+            Next updates in roughly this order — CLI first, then the high-value
+            list we are tracking.
+          </p>
+        </div>
+        <ol class="roadmap-list">
+          <li v-for="(item, index) in roadmapNext" :key="item.title">
+            <span class="roadmap-index">{{ index + 1 }}</span>
+            <div>
+              <strong>{{ item.title }}</strong>
+              <p>{{ item.body }}</p>
+            </div>
+          </li>
+        </ol>
+        <div class="roadmap-later">
+          <h3>Later / niche</h3>
+          <ul>
+            <li v-for="item in roadmapLater" :key="item">{{ item }}</li>
+          </ul>
+          <p class="roadmap-avoid">
+            Out of scope: RAM boosters, treating purgeable space as junk, and
+            fake malware / FUD claims.
+          </p>
         </div>
       </section>
     </main>
@@ -1784,6 +1868,106 @@ const vignetteProcesses = [
   color: var(--sea);
   font-weight: 650;
   font-size: 0.92rem;
+}
+
+.shipped-strip {
+  margin: 0 0 1.75rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.shipped-label {
+  margin: 0 0 0.65rem;
+  color: var(--sea);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.shipped-strip ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.shipped-strip li + li {
+  margin-top: 0.35rem;
+}
+
+.roadmap-list {
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.roadmap-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  padding: 1rem 1.15rem;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.roadmap-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  background: rgba(77, 163, 255, 0.16);
+  color: var(--sea);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.roadmap-list strong {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.roadmap-list p {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+.roadmap-later {
+  padding: 1.15rem 1.25rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(77, 163, 255, 0.35);
+  background: rgba(7, 18, 36, 0.35);
+}
+
+.roadmap-later h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.roadmap-later ul {
+  margin: 0.65rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.roadmap-avoid {
+  margin: 0.9rem 0 0;
+  color: var(--faint);
+  font-size: 0.9rem;
+  line-height: 1.45;
 }
 
 .install {

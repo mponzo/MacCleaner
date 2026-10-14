@@ -275,11 +275,18 @@ const featureSections = [
           <p>Pick DMG, Homebrew, or zip — same universal MacCleaner {{ version }} build.</p>
         </div>
         <img
-          class="install-art"
-          src="/install-steps.svg"
-          alt="1 Download, 2 Install to Applications, 3 Open MacCleaner"
-          width="920"
-          height="263"
+          class="install-art install-flow"
+          src="/install-flow.jpg"
+          alt="Download MacCleaner 0.2.8 DMG, drag into Applications, open the app"
+          width="1120"
+          height="630"
+        />
+        <img
+          class="install-art install-dmg"
+          src="/dmg-drag-flow.jpg"
+          alt="MacCleaner disk image: drag the app into Applications"
+          width="1120"
+          height="630"
         />
         <ol class="steps">
           <li>
@@ -641,6 +648,19 @@ const featureSections = [
   border-radius: 20px;
   border: 1px solid var(--stroke);
   background: rgba(7, 18, 36, 0.45);
+  display: block;
+}
+
+.install-flow,
+.install-dmg {
+  width: min(980px, 100%);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+}
+
+.install-dmg {
+  margin-top: -0.35rem;
 }
 
 .steps {

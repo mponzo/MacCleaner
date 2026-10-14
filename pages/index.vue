@@ -7,6 +7,37 @@ const repoUrl = 'https://github.com/mponzo/MacCleaner'
 const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
 brew trust mponzo/maccleaner
 brew install --cask maccleaner`
+const brewDisplay = 'brew install --cask maccleaner'
+
+const brewCopied = ref(false)
+const brewCopiedInstall = ref(false)
+let brewCopiedTimer: ReturnType<typeof setTimeout> | undefined
+
+async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
+  try {
+    await navigator.clipboard.writeText(brewCommands)
+  } catch {
+    const ta = document.createElement('textarea')
+    ta.value = brewCommands
+    ta.setAttribute('readonly', '')
+    ta.style.position = 'fixed'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+  }
+  if (target === 'install') {
+    brewCopiedInstall.value = true
+  } else {
+    brewCopied.value = true
+  }
+  clearTimeout(brewCopiedTimer)
+  brewCopiedTimer = setTimeout(() => {
+    brewCopied.value = false
+    brewCopiedInstall.value = false
+  }, 1800)
+}
 
 const pageTitle = 'MacCleaner — open-source Mac cleaner, zero telemetry'
 const pageDescription =
@@ -453,6 +484,27 @@ const vignetteProcesses = [
               Source code
             </a>
           </div>
+          <div class="hero-brew">
+            <span class="hero-brew-or">or</span>
+            <button
+              type="button"
+              class="brew-chip"
+              :class="{ copied: brewCopied }"
+              :aria-label="brewCopied ? 'Copied Homebrew install commands' : 'Copy Homebrew install commands'"
+              @click="copyBrewCommands('hero')"
+            >
+              <code>{{ brewDisplay }}</code>
+              <span class="brew-chip-action" aria-hidden="true">
+                <svg v-if="!brewCopied" class="brew-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <svg v-else class="brew-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </span>
+            </button>
+          </div>
           <p class="fine">
             Universal Apple silicon + Intel · 10 languages · MIT · DMG {{ version }}
           </p>
@@ -780,7 +832,18 @@ const vignetteProcesses = [
           <a class="btn btn-ghost" :href="zipUrl">Download zip {{ version }}</a>
         </div>
         <div class="brew-box">
-          <h3>Homebrew</h3>
+          <div class="brew-box-head">
+            <h3>Homebrew</h3>
+            <button
+              type="button"
+              class="brew-copy-btn"
+              :class="{ copied: brewCopiedInstall }"
+              :aria-label="brewCopiedInstall ? 'Copied' : 'Copy Homebrew commands'"
+              @click="copyBrewCommands('install')"
+            >
+              {{ brewCopiedInstall ? 'Copied' : 'Copy' }}
+            </button>
+          </div>
           <p>Yes — install with a cask from this repo:</p>
           <pre><code>{{ brewCommands }}</code></pre>
         </div>
@@ -906,6 +969,87 @@ const vignetteProcesses = [
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 1.6rem;
+}
+
+.hero-brew {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 1.15rem;
+}
+
+.hero-brew-or {
+  color: var(--faint);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.brew-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.55rem 0.7rem 0.55rem 0.9rem;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: rgba(7, 18, 36, 0.72);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.brew-chip:hover {
+  border-color: rgba(77, 163, 255, 0.45);
+  background: rgba(10, 26, 51, 0.9);
+}
+
+.brew-chip:focus-visible {
+  outline: 2px solid var(--sea);
+  outline-offset: 3px;
+}
+
+.brew-chip:active {
+  transform: scale(0.985);
+}
+
+.brew-chip.copied {
+  border-color: rgba(159, 224, 184, 0.45);
+}
+
+.brew-chip code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.brew-chip-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--sea);
+}
+
+.brew-chip.copied .brew-chip-action {
+  color: #9fe0b8;
+  background: rgba(80, 200, 120, 0.14);
+}
+
+.brew-icon {
+  display: block;
 }
 
 .btn {
@@ -1724,10 +1868,48 @@ const vignetteProcesses = [
   background: rgba(255, 255, 255, 0.04);
 }
 
+.brew-box-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
 .brew-box h3 {
   margin: 0;
   font-family: var(--font-display);
   font-size: 1.1rem;
+}
+
+.brew-copy-btn {
+  appearance: none;
+  margin: 0;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--stroke);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.brew-copy-btn:hover {
+  color: var(--ink);
+  border-color: rgba(77, 163, 255, 0.45);
+}
+
+.brew-copy-btn:focus-visible {
+  outline: 2px solid var(--sea);
+  outline-offset: 2px;
+}
+
+.brew-copy-btn.copied {
+  color: #9fe0b8;
+  border-color: rgba(159, 224, 184, 0.4);
+  background: rgba(80, 200, 120, 0.12);
 }
 
 .brew-box p {

@@ -7,6 +7,7 @@ struct RootView: View {
     @Bindable var performance: PerformanceEngine
     @Bindable var privileged: PrivilegedHelperEngine
     @Bindable var updater: AppUpdateEngine
+    @Bindable var brewUpdates: HomebrewCaskEngine
     @Bindable var preferences: AppPreferences
     @Bindable var duplicates: DuplicateFinderEngine
     @Bindable var similarPhotos: SimilarPhotosEngine
@@ -131,6 +132,7 @@ struct RootView: View {
 
             Section {
                 sidebarItem("sidebar.applications", icon: "app.badge.checkmark", tag: .applications)
+                sidebarItem("sidebar.app_updates", icon: "arrow.triangle.2.circlepath", tag: .appUpdates)
                 sidebarItem("sidebar.orphans", icon: "doc.text.magnifyingglass", tag: .orphans)
                 sidebarItem("sidebar.duplicates", icon: "doc.on.doc", tag: .duplicates)
                 sidebarItem("sidebar.similar_photos", icon: "photo.on.rectangle.angled", tag: .similarPhotos)
@@ -194,6 +196,8 @@ struct RootView: View {
             }
         case .applications:
             ApplicationsView(uninstaller: uninstaller)
+        case .appUpdates:
+            AppUpdatesView(brew: brewUpdates)
         case .orphans:
             OrphanFinderView(engine: orphanFinder)
         case .performance:
@@ -219,7 +223,12 @@ struct RootView: View {
         case .scheduler:
             SchedulerView(scheduler: scheduler)
         case .updates:
-            UpdatesView(updater: updater, preferences: preferences)
+            UpdatesView(
+                updater: updater,
+                preferences: preferences,
+                brew: brewUpdates,
+                onOpenAppUpdates: { destination = .appUpdates }
+            )
         case .settings:
             SettingsView(preferences: preferences, fda: fda, exclusions: exclusions)
         case .category(let category):

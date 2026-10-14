@@ -22,6 +22,7 @@
 "sidebar.overview.subtitle" = "扫描并回收空间";
 "sidebar.tools" = "工具";
 "sidebar.applications" = "应用程序";
+"sidebar.app_updates" = "App Updates";
 "sidebar.orphans" = "残留文件";
 "sidebar.performance" = "系统监视器";
 "sidebar.startup" = "启动项";
@@ -619,6 +620,23 @@
 "brew.bad_json" = "Homebrew 返回了无法读取的更新信息。";
 "brew.upgraded" = "Homebrew 已更新所选的 %lld 个应用。";
 "brew.upgrade_partial" = "已更新 %lld · 失败 %lld — 请再次检查以确认。";
+
+"brew.page.title" = "App Updates";
+"brew.page.subtitle" = "Check and update apps installed as Homebrew casks.";
+"brew.page.info" = "MacCleaner uses Homebrew to read package data and contact your configured sources. Only cask apps managed by this Homebrew install are listed.";
+"brew.enriching" = "Loading app names…";
+"brew.last_check" = "Last check %@";
+"brew.available_count" = "%lld updates available";
+"brew.version_line" = "%@ installed · %@ available";
+"brew.bundle_missing" = "App bundle missing";
+"brew.appstore.title" = "Apps not managed by Homebrew";
+"brew.appstore.body" = "Mac App Store apps are updated separately. Open Apple’s updates page for those.";
+"brew.appstore.open" = "Open App Store updates";
+"brew.select_prompt" = "Select apps to update";
+"brew.selected_count" = "%lld selected";
+"brew.upgrade_n" = "Update %lld apps";
+"brew.open_page" = "Open App Updates";
+"brew.more" = "+%lld more";
 
 /* Performance polish */
 "perf.pressure" = "内存压力";

@@ -22,6 +22,7 @@
 "sidebar.overview.subtitle" = "スキャンして空き容量を確保";
 "sidebar.tools" = "ツール";
 "sidebar.applications" = "アプリケーション";
+"sidebar.app_updates" = "App Updates";
 "sidebar.orphans" = "孤立ファイル";
 "sidebar.performance" = "システムモニタ";
 "sidebar.startup" = "起動項目";
@@ -619,6 +620,23 @@
 "brew.bad_json" = "Homebrew から読めない更新情報が返りました。";
 "brew.upgraded" = "Homebrew が選択した %lld 個のアプリを更新しました。";
 "brew.upgrade_partial" = "%lld 更新 · %lld 失敗 — 再確認して検証してください。";
+
+"brew.page.title" = "App Updates";
+"brew.page.subtitle" = "Check and update apps installed as Homebrew casks.";
+"brew.page.info" = "MacCleaner uses Homebrew to read package data and contact your configured sources. Only cask apps managed by this Homebrew install are listed.";
+"brew.enriching" = "Loading app names…";
+"brew.last_check" = "Last check %@";
+"brew.available_count" = "%lld updates available";
+"brew.version_line" = "%@ installed · %@ available";
+"brew.bundle_missing" = "App bundle missing";
+"brew.appstore.title" = "Apps not managed by Homebrew";
+"brew.appstore.body" = "Mac App Store apps are updated separately. Open Apple’s updates page for those.";
+"brew.appstore.open" = "Open App Store updates";
+"brew.select_prompt" = "Select apps to update";
+"brew.selected_count" = "%lld selected";
+"brew.upgrade_n" = "Update %lld apps";
+"brew.open_page" = "Open App Updates";
+"brew.more" = "+%lld more";
 
 /* Performance polish */
 "perf.pressure" = "メモリ圧力";

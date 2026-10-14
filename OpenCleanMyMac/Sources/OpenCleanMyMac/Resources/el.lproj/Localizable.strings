@@ -22,6 +22,7 @@
 "sidebar.overview.subtitle" = "Σάρωση και ανάκτηση χώρου";
 "sidebar.tools" = "Εργαλεία";
 "sidebar.applications" = "Εφαρμογές";
+"sidebar.app_updates" = "App Updates";
 "sidebar.orphans" = "Orphan Finder";
 "sidebar.performance" = "Παρακολούθηση συστήματος";
 "sidebar.startup" = "Εκκίνηση";
@@ -619,6 +620,23 @@
 "brew.bad_json" = "Το Homebrew επέστρεψε πληροφορίες ενημέρωσης που δεν ήταν αναγνώσιμες.";
 "brew.upgraded" = "Το Homebrew ενημέρωσε τις %lld επιλεγμένες εφαρμογές.";
 "brew.upgrade_partial" = "Ενημερώθηκαν %lld · %lld απέτυχαν — ελέγξτε ξανά για επιβεβαίωση.";
+
+"brew.page.title" = "App Updates";
+"brew.page.subtitle" = "Check and update apps installed as Homebrew casks.";
+"brew.page.info" = "MacCleaner uses Homebrew to read package data and contact your configured sources. Only cask apps managed by this Homebrew install are listed.";
+"brew.enriching" = "Loading app names…";
+"brew.last_check" = "Last check %@";
+"brew.available_count" = "%lld updates available";
+"brew.version_line" = "%@ installed · %@ available";
+"brew.bundle_missing" = "App bundle missing";
+"brew.appstore.title" = "Apps not managed by Homebrew";
+"brew.appstore.body" = "Mac App Store apps are updated separately. Open Apple’s updates page for those.";
+"brew.appstore.open" = "Open App Store updates";
+"brew.select_prompt" = "Select apps to update";
+"brew.selected_count" = "%lld selected";
+"brew.upgrade_n" = "Update %lld apps";
+"brew.open_page" = "Open App Updates";
+"brew.more" = "+%lld more";
 
 /* Performance polish */
 "perf.pressure" = "Πίεση μνήμης";

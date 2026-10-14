@@ -90,6 +90,7 @@ struct InstalledApp: Identifiable, Hashable, Sendable {
 enum SidebarDestination: Hashable {
     case overview
     case applications
+    case appUpdates
     case orphans
     case duplicates
     case similarPhotos

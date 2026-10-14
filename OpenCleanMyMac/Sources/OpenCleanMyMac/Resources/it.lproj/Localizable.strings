@@ -22,6 +22,7 @@
 "sidebar.overview.subtitle" = "Scansiona e libera spazio";
 "sidebar.tools" = "Strumenti";
 "sidebar.applications" = "Applicazioni";
+"sidebar.app_updates" = "Aggiornamenti app";
 "sidebar.orphans" = "Orphan Finder";
 "sidebar.performance" = "System Monitor";
 "sidebar.startup" = "Avvio";
@@ -620,6 +621,23 @@
 "brew.bad_json" = "Homebrew ha restituito dati non leggibili.";
 "brew.upgraded" = "Homebrew ha aggiornato %lld app selezionate.";
 "brew.upgrade_partial" = "Aggiornate %lld · %lld non riuscite — ricontrolla per verificare.";
+
+"brew.page.title" = "Aggiornamenti app";
+"brew.page.subtitle" = "Controlla e aggiorna le app installate come cask di Homebrew.";
+"brew.page.info" = "MacCleaner usa Homebrew per leggere i dati dei pacchetti e contattare le fonti configurate. Elenca solo le app cask gestite da questa installazione di Homebrew.";
+"brew.enriching" = "Caricamento nomi app…";
+"brew.last_check" = "Ultima verifica %@";
+"brew.available_count" = "%lld aggiornamenti disponibili";
+"brew.version_line" = "%@ installata · %@ disponibile";
+"brew.bundle_missing" = "Bundle dell’app mancante";
+"brew.appstore.title" = "App non gestite da Homebrew";
+"brew.appstore.body" = "Le app del Mac App Store si aggiornano a parte. Apri la pagina aggiornamenti di Apple per quelle.";
+"brew.appstore.open" = "Apri gli aggiornamenti dell’App Store";
+"brew.select_prompt" = "Seleziona le app da aggiornare";
+"brew.selected_count" = "%lld selezionate";
+"brew.upgrade_n" = "Aggiorna %lld app";
+"brew.open_page" = "Apri Aggiornamenti app";
+"brew.more" = "+%lld altre";
 
 /* Performance */
 "perf.pressure" = "Pressione memoria";

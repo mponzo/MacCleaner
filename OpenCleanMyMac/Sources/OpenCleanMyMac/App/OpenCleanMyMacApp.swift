@@ -9,6 +9,7 @@ struct OpenCleanMyMacApp: App {
     @State private var performance = PerformanceEngine()
     @State private var privileged = PrivilegedHelperEngine()
     @State private var updater = AppUpdateEngine()
+    @State private var brewUpdates = HomebrewCaskEngine()
     @State private var duplicates = DuplicateFinderEngine()
     @State private var similarPhotos = SimilarPhotosEngine()
     @State private var scheduler = CleanupScheduler()
@@ -51,6 +52,7 @@ struct OpenCleanMyMacApp: App {
                 performance: performance,
                 privileged: privileged,
                 updater: updater,
+                brewUpdates: brewUpdates,
                 preferences: preferences,
                 duplicates: duplicates,
                 similarPhotos: similarPhotos,

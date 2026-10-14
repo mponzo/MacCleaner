@@ -1,35 +1,50 @@
 import SwiftUI
 
+/// Compact Homebrew block embedded under MacCleaner self-updates.
 struct HomebrewCaskSection: View {
     @Bindable var brew: HomebrewCaskEngine
+    var onOpenFullPage: (() -> Void)? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(l10n: "brew.title")
-                .font(OCTheme.font(15, weight: .semibold))
+            HStack {
+                Text(l10n: "brew.title")
+                    .font(OCTheme.font(15, weight: .semibold))
+                Spacer()
+                if let onOpenFullPage {
+                    Button(L10n.string("brew.open_page"), action: onOpenFullPage)
+                        .buttonStyle(.plain)
+                        .foregroundStyle(OCTheme.sea)
+                        .font(OCTheme.font(12, weight: .medium))
+                }
+            }
             Text(l10n: "brew.help")
                 .font(OCTheme.font(12))
                 .foregroundStyle(OCTheme.muted)
 
-            HStack(spacing: 10) {
-                Button {
-                    Task { await brew.refresh() }
-                } label: {
-                    Label(l10n: "brew.check", systemImage: "shippingbox")
-                }
-                .buttonStyle(GhostButtonStyle())
-                .disabled(brew.isChecking || brew.isUpgrading)
+            if brew.isBusy {
+                OCOperationBanner(
+                    title: brew.progressLabel,
+                    detail: brew.operationDetail ?? L10n.string("operation.cancel_safe"),
+                    progress: brew.operationProgress.flatMap { $0 < 0 ? nil : $0 },
+                    onStop: { brew.stop() }
+                )
+            } else {
+                HStack(spacing: 10) {
+                    Button {
+                        brew.refresh()
+                    } label: {
+                        Label(l10n: "brew.check", systemImage: "shippingbox")
+                    }
+                    .buttonStyle(GhostButtonStyle())
 
-                Button {
-                    Task { await brew.upgradeSelected() }
-                } label: {
-                    Label(l10n: "brew.upgrade", systemImage: "arrow.up.circle")
-                }
-                .buttonStyle(SeaButtonStyle())
-                .disabled(brew.selectedCount == 0 || brew.isChecking || brew.isUpgrading)
-
-                if brew.isChecking || brew.isUpgrading {
-                    ProgressView().controlSize(.small).tint(OCTheme.sea)
+                    Button {
+                        brew.upgradeSelected()
+                    } label: {
+                        Label(l10n: "brew.upgrade", systemImage: "arrow.up.circle")
+                    }
+                    .buttonStyle(SeaButtonStyle())
+                    .disabled(brew.selectedCount == 0)
                 }
             }
 
@@ -37,18 +52,11 @@ struct HomebrewCaskSection: View {
                 .font(OCTheme.font(12))
                 .foregroundStyle(OCTheme.muted)
 
-            if let path = brew.brewPath {
-                Text(path)
-                    .font(OCTheme.font(11))
-                    .foregroundStyle(OCTheme.faint)
-                    .textSelection(.enabled)
-            }
-
             if brew.casks.isEmpty && !brew.isChecking {
                 Text(l10n: "brew.empty")
                     .foregroundStyle(OCTheme.muted)
             } else {
-                ForEach(brew.casks) { cask in
+                ForEach(brew.casks.prefix(5)) { cask in
                     HStack(alignment: .top, spacing: 10) {
                         Toggle("", isOn: Binding(
                             get: { cask.isSelected },
@@ -56,7 +64,7 @@ struct HomebrewCaskSection: View {
                         ))
                         .labelsHidden()
                         .toggleStyle(.checkbox)
-                        .disabled(brew.isUpgrading)
+                        .disabled(brew.isBusy)
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(cask.name)
@@ -68,6 +76,12 @@ struct HomebrewCaskSection: View {
                         Spacer()
                     }
                     .padding(.vertical, 4)
+                }
+                if brew.casks.count > 5, let onOpenFullPage {
+                    Button(L10n.format("brew.more", Int64(brew.casks.count - 5)), action: onOpenFullPage)
+                        .buttonStyle(.plain)
+                        .foregroundStyle(OCTheme.sea)
+                        .font(OCTheme.font(12))
                 }
             }
 

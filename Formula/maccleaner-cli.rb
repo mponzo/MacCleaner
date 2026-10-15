@@ -12,7 +12,7 @@ class MaccleanerCli < Formula
   #   brew install --HEAD mponzo/maccleaner/maccleaner-cli
   head "https://github.com/mponzo/MacCleaner.git", branch: "main"
 
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
   depends_on xcode: ["15.0", :build] if build.head?
 
   def install

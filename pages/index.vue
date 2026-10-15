@@ -1045,16 +1045,6 @@ const vignetteProcesses = [
               </div>
               <pre><code>{{ cliUsageCommands }}</code></pre>
             </div>
-
-            <ul class="cli-keys-inline" aria-label="TUI keys">
-              <li><kbd>↑↓</kbd> move</li>
-              <li><kbd>Space</kbd> toggle</li>
-              <li><kbd>Enter</kbd> review</li>
-              <li><kbd>Esc</kbd> cancel</li>
-            </ul>
-            <p class="cli-footnote">
-              Type <strong>yes</strong> before Trash. Scans show a live green progress bar.
-            </p>
           </div>
 
           <figure class="cli-demo">
@@ -1067,6 +1057,16 @@ const vignetteProcesses = [
             />
           </figure>
         </div>
+
+        <ul class="cli-keys-inline" aria-label="TUI keys">
+          <li><kbd>↑↓</kbd> move</li>
+          <li><kbd>Space</kbd> toggle</li>
+          <li><kbd>Enter</kbd> review</li>
+          <li><kbd>Esc</kbd> cancel</li>
+        </ul>
+        <p class="cli-footnote">
+          Type <strong>yes</strong> before Trash. Scans show a live green progress bar.
+        </p>
       </section>
     </main>
 
@@ -2324,9 +2324,9 @@ const vignetteProcesses = [
 
 .cli-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.95fr);
   gap: 1.25rem 1.5rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .cli-demo {
@@ -2337,20 +2337,25 @@ const vignetteProcesses = [
   border: 1px solid var(--stroke);
   background: rgba(7, 18, 36, 0.85);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
-  max-width: 320px;
-  justify-self: end;
+  align-self: stretch;
+  display: grid;
+  min-height: 0;
 }
 
 .cli-demo img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .cli-copy {
   display: grid;
   gap: 0.85rem;
   min-width: 0;
+  align-content: start;
 }
 
 .cli-step-box {
@@ -2372,7 +2377,7 @@ const vignetteProcesses = [
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem 0.85rem;
-  margin: 0;
+  margin: 1rem 0 0;
   padding: 0;
   list-style: none;
   color: var(--muted);
@@ -2391,7 +2396,7 @@ const vignetteProcesses = [
 }
 
 .cli-footnote {
-  margin: 0;
+  margin: 0.55rem 0 0;
   color: var(--faint);
   font-size: 0.88rem;
   line-height: 1.45;
@@ -2433,8 +2438,11 @@ const vignetteProcesses = [
   }
 
   .cli-demo {
-    max-width: 300px;
+    max-width: 420px;
+    width: 100%;
+    height: auto;
     margin-inline: auto;
+    aspect-ratio: 16 / 10;
   }
 }
 

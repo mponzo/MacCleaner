@@ -37,7 +37,8 @@ cd OpenCleanMyMac && swift build
 .build/debug/maccleaner clean --dry-run
 ```
 
-PATH via symlink dall’app (documentato in README + sito). Ancora aperto: formula Homebrew dedicata per la sola CLI.
+Formula Homebrew dedicata: `Formula/maccleaner-cli.rb` + `Scripts/package-cli.sh` / `install-cli.sh`.
+Install utente: `brew install maccleaner-cli` (o `--HEAD` finché non c’è il primo asset `cli-v*`).
 
 ## 3. Cosa non fare
 

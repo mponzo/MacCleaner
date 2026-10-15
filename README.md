@@ -5,7 +5,8 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 | | |
 |---|---|
 | **Download** | [MacCleaner 0.3.0 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
-| **Homebrew** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
+| **Homebrew (app)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
+| **Homebrew (CLI)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew install maccleaner-cli` |
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
 
@@ -38,32 +39,27 @@ brew uninstall --cask maccleaner # remove
 
 ### Command line (`maccleaner`)
 
-Same scan/clean engines as the app — interactive TUI on a real terminal, or scriptable flags. No telemetry.
+Separate from the GUI cask (same idea as PureMac’s `puremac-cli`): interactive TUI + scriptable flags, same engines as the app, zero telemetry.
 
-**Install on PATH** (after the GUI app is in Applications):
+**Install (Homebrew formula)**
 
 ```bash
-# Prefer Homebrew’s bin if you use brew:
-ln -sf "/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" "$(brew --prefix)/bin/maccleaner"
-
-# Or any directory already on your PATH, e.g.:
-# sudo ln -sf "/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" /usr/local/bin/maccleaner
+brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
+brew install maccleaner-cli
 ```
 
-Without a symlink you can still call the binary directly:
+Until the first `cli-v*` GitHub release is published, install from source via the tap:
 
 ```bash
-"/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" doctor
-"/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" clean --dry-run
+brew install --HEAD mponzo/maccleaner/maccleaner-cli
 ```
 
-**Build from source** (release CLI product):
+**Install from this repo (no tap / no release needed)**
 
 ```bash
-cd OpenCleanMyMac
-swift build -c release --product maccleaner
-ln -sf "$(pwd)/.build/release/maccleaner" "$(brew --prefix)/bin/maccleaner"
-# or run in place: .build/release/maccleaner
+./Scripts/install-cli.sh
+# optional: also write releases/maccleaner-cli-*.tar.gz + Formula sha256
+./Scripts/install-cli.sh --package
 ```
 
 **Usage**
@@ -88,7 +84,9 @@ maccleaner clean --confirm # Trash default selection (no TUI)
 | Enter | Review / continue |
 | Esc / Q | Cancel |
 
-Interactive cleanup asks you to type `yes` before anything goes to the Trash. System-privileged categories need `--include-privileged`. A dedicated Homebrew *formula* for the CLI (separate from the cask) is still on the roadmap.
+Interactive cleanup asks you to type `yes` before anything goes to the Trash. System-privileged categories need `--include-privileged`.
+
+Maintainers: `./Scripts/package-cli.sh` builds the universal tarball and refreshes `Formula/maccleaner-cli.rb`; publish with tag `cli-v<version>` (see script output).
 
 ---
 
@@ -256,7 +254,7 @@ Landing site (Nuxt → GitHub Pages): `npm install && npm run generate` — see 
 Planned in roughly this order (CLI first, then the high-value list we are tracking):
 
 1. **Privileged helper** via signed `SMAppService` (replace interactive password prompts for allowlisted system paths)
-2. **Homebrew formula for CLI** — `maccleaner` already ships in-tree; PATH via app symlink is documented
+2. **CLI release + notarize** — formula `maccleaner-cli` lands in-tree; first `cli-v*` GitHub asset still to publish
 3. **Smart Care result filters** — path search, size/age filters, select-visible, exclude from context menu
 4. **Protection hub** — Firewall / SIP / XProtect / Gatekeeper as a config audit (not antivirus)
 5. **FDA retry** after grant — re-run the batch that failed without Full Disk Access

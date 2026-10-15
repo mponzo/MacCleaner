@@ -1,18 +1,23 @@
 import Foundation
 
 enum CLISupport {
+    /// Marketing version for the standalone `maccleaner` CLI (Homebrew formula / --version).
+    /// Keep in sync with `Formula/maccleaner-cli.rb` and `Scripts/package-cli.sh`.
+    static let cliVersion = "0.3.0"
+    static let cliBuild = "1"
+
     nonisolated(unsafe) static var cancelled = false
 
     static var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
             ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-            ?? "dev"
+            ?? cliVersion
     }
 
     static var appBuild: String {
         Bundle.main.infoDictionary?["CFBundleVersion"] as? String
             ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
-            ?? "0"
+            ?? cliBuild
     }
 
     static func installSignalHandler() {

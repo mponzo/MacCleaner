@@ -8,8 +8,10 @@ const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCl
 brew trust mponzo/maccleaner
 brew install --cask maccleaner`
 const brewDisplay = 'brew install --cask maccleaner'
-const cliInstallCommands = `ln -sf "/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" "$(brew --prefix)/bin/maccleaner"
-maccleaner`
+const cliInstallCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
+brew install maccleaner-cli
+# until the first cli-v* release is online:
+# brew install --HEAD mponzo/maccleaner/maccleaner-cli`
 const cliUsageCommands = `maccleaner                 # interactive workspace
 maccleaner clean           # select paths → review → Trash
 maccleaner orphans         # orphan leftovers (TTY)
@@ -80,8 +82,8 @@ const roadmapNext = [
     body: 'Signed helper instead of interactive password prompts for allowlisted system paths.',
   },
   {
-    title: 'Homebrew formula for CLI',
-    body: 'Dedicated brew formula for maccleaner — PATH via app symlink is already documented.',
+    title: 'CLI release + notarize',
+    body: 'Publish cli-v* tarball for brew install maccleaner-cli (formula already in-tree).',
   },
   {
     title: 'Smart Care result filters',
@@ -1030,14 +1032,15 @@ const vignetteProcesses = [
               </button>
             </div>
             <p>
-              After MacCleaner is in Applications, symlink the binary (uses
-              Homebrew’s prefix when available):
+              Separate Homebrew formula from the GUI cask (like PureMac’s
+              <code>puremac-cli</code>):
             </p>
             <pre><code>{{ cliInstallCommands }}</code></pre>
             <p class="cli-note">
-              Or call the app binary directly with a subcommand — no symlink
-              required:
-              <code>…/MacCleaner.app/Contents/MacOS/OpenCleanMyMac doctor</code>
+              From a clone: <code>./Scripts/install-cli.sh</code> builds the
+              release binary and installs it to
+              <code>$(brew --prefix)/bin/maccleaner</code>. Maintainers package
+              a tarball with <code>./Scripts/package-cli.sh</code>.
             </p>
           </div>
 

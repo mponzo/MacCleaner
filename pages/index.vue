@@ -8,8 +8,10 @@ const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCl
 brew trust mponzo/maccleaner
 brew install --cask maccleaner`
 const brewDisplay = 'brew install --cask maccleaner'
-const cliBrewDisplay = 'brew install --HEAD maccleaner-cli'
-const cliInstallCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
+const cliBrewDisplay = './Scripts/install-cli.sh'
+const cliInstallCommands = `./Scripts/install-cli.sh
+maccleaner --version`
+const cliBrewAltCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
 brew install --HEAD maccleaner-cli`
 const cliUpgradeCommands = `brew upgrade --fetch-HEAD maccleaner-cli
 brew uninstall maccleaner-cli`
@@ -81,7 +83,7 @@ async function copyCliUsage() {
 }
 
 async function copyCliClone() {
-  await copyText(cliCloneCommands)
+  await copyText(cliBrewAltCommands)
   flashCopied(cliCloneCopied)
 }
 
@@ -132,7 +134,7 @@ const roadmapLater = [
 ]
 
 const recentlyShipped = [
-  'CLI — brew install --HEAD maccleaner-cli (separate formula + TUI)',
+  'CLI — ./Scripts/install-cli.sh + maccleaner-cli formula (TUI)',
   'App Updates — dedicated Homebrew cask upgrades + App Store shortcut',
   'Progress bars with Stop on scans and cleans (where safe)',
   'Cleanup History — local log, 14-day chart, shareable card (no upload)',
@@ -1045,7 +1047,7 @@ const vignetteProcesses = [
           <p class="cli-note">
             Want the terminal tool instead? See
             <a href="#cli">Command line</a> —
-            <code>brew install --HEAD maccleaner-cli</code> (separate formula).
+            <code>./Scripts/install-cli.sh</code> (or the Homebrew formula).
           </p>
         </div>
       </section>
@@ -1063,7 +1065,7 @@ const vignetteProcesses = [
         <div class="cli-grid">
           <div class="brew-box">
             <div class="brew-box-head">
-              <h3>Homebrew (CLI)</h3>
+              <h3>From a clone (recommended)</h3>
               <button
                 type="button"
                 class="brew-copy-btn"
@@ -1075,38 +1077,43 @@ const vignetteProcesses = [
               </button>
             </div>
             <p>
-              Formula <code>maccleaner-cli</code> — does not install
-              MacCleaner.app. Use <code>--HEAD</code> until the first
-              <code>cli-v*</code> release asset is published:
+              Builds with your Xcode <code>swift</code> toolchain and installs
+              to <code>$(brew --prefix)/bin/maccleaner</code> — works even when
+              Homebrew refuses to compile:
             </p>
             <pre><code>{{ cliInstallCommands }}</code></pre>
-            <p class="cli-note">Upgrade / remove:</p>
-            <pre><code>{{ cliUpgradeCommands }}</code></pre>
+            <p class="cli-note">
+              Maintainers: <code>./Scripts/package-cli.sh</code> writes
+              <code>releases/maccleaner-cli-*.tar.gz</code> for a future
+              <code>cli-v*</code> GitHub release (prebuilt = no compile).
+            </p>
           </div>
 
           <div class="brew-box">
             <div class="brew-box-head">
-              <h3>From a clone</h3>
+              <h3>Homebrew (CLI)</h3>
               <button
                 type="button"
                 class="brew-copy-btn"
                 :class="{ copied: cliCloneCopied }"
-                :aria-label="cliCloneCopied ? 'Copied' : 'Copy clone install commands'"
+                :aria-label="cliCloneCopied ? 'Copied' : 'Copy brew CLI install commands'"
                 @click="copyCliClone"
               >
                 {{ cliCloneCopied ? 'Copied' : 'Copy' }}
               </button>
             </div>
             <p>
-              No tap required — builds a release binary and installs it to
-              <code>$(brew --prefix)/bin/maccleaner</code>:
+              Formula <code>maccleaner-cli</code> — does not install
+              MacCleaner.app. <code>--HEAD</code> builds from source until a
+              <code>cli-v*</code> asset exists:
             </p>
-            <pre><code>{{ cliCloneCommands }}</code></pre>
+            <pre><code>{{ cliBrewAltCommands }}</code></pre>
             <p class="cli-note">
-              Maintainers: <code>./Scripts/package-cli.sh</code> writes
-              <code>releases/maccleaner-cli-*.tar.gz</code> and refreshes the
-              Formula checksum for a future <code>cli-v*</code> GitHub release.
+              If brew says <em>CLT does not support macOS …</em>, update
+              Command Line Tools (Software Update) or use
+              <code>./Scripts/install-cli.sh</code>. Upgrade / remove:
             </p>
+            <pre><code>{{ cliUpgradeCommands }}</code></pre>
           </div>
         </div>
 

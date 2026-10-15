@@ -6,7 +6,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 |---|---|
 | **Download** | [MacCleaner 0.3.0 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
 | **Homebrew (app)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
-| **Homebrew (CLI)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew install --HEAD maccleaner-cli` |
+| **Homebrew (CLI)** | `./Scripts/install-cli.sh` (recommended) · or `brew install --HEAD maccleaner-cli` after CLT/Xcode is current |
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
 
@@ -43,6 +43,13 @@ Standalone CLI — **separate** from the GUI cask. Interactive TUI on a TTY, or 
 
 #### Install
 
+**Recommended — from a clone** (uses your Xcode/`swift` toolchain; does not need Homebrew to compile):
+
+```bash
+./Scripts/install-cli.sh
+maccleaner --version
+```
+
 **Homebrew formula** (does not install the `.app`):
 
 ```bash
@@ -55,18 +62,11 @@ brew upgrade --fetch-HEAD maccleaner-cli   # later
 brew uninstall maccleaner-cli              # remove
 ```
 
-When a `cli-v*` release asset is published, stable install becomes:
+`--HEAD` builds from source. If Homebrew errors with *CLT does not support macOS …*, update Command Line Tools (Software Update / `xcode-select --install`) **or** use `./Scripts/install-cli.sh` instead. When a `cli-v*` release asset is published, stable install becomes:
 
 ```bash
 brew install maccleaner-cli
 brew upgrade maccleaner-cli
-```
-
-**From a clone** (no tap required — builds release and copies to `$(brew --prefix)/bin`):
-
-```bash
-./Scripts/install-cli.sh
-maccleaner --version
 ```
 
 #### Usage

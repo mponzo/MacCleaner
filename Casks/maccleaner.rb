@@ -7,7 +7,7 @@ cask "maccleaner" do
   desc "Local-first open-source Mac cleaner with zero telemetry"
   homepage "https://github.com/mponzo/MacCleaner"
 
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "MacCleaner.app"
 

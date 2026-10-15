@@ -15,7 +15,7 @@ final class FullDiskAccessManager {
     private var watchTask: Task<Void, Never>?
 
     /// Paths that typically require Full Disk Access on modern macOS.
-    private static let probeRelativePaths = [
+    nonisolated private static let probeRelativePaths = [
         "Library/Safari/CloudTabs.db",
         "Library/Safari/Bookmarks.plist",
         "Library/Mail",
@@ -31,7 +31,8 @@ final class FullDiskAccessManager {
         hasFullDiskAccess = Self.probe()
     }
 
-    static func probe() -> Bool {
+    /// Safe to call from CLI / background threads (no UI state).
+    nonisolated static func probe() -> Bool {
         let home = FileManager.default.homeDirectoryForCurrentUser
         let fm = FileManager.default
         for relative in probeRelativePaths {

@@ -8,17 +8,28 @@ const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCl
 brew trust mponzo/maccleaner
 brew install --cask maccleaner`
 const brewDisplay = 'brew install --cask maccleaner'
+const cliInstallCommands = `ln -sf "/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" "$(brew --prefix)/bin/maccleaner"
+maccleaner`
+const cliUsageCommands = `maccleaner                 # interactive workspace
+maccleaner clean           # select paths → review → Trash
+maccleaner orphans         # orphan leftovers (TTY)
+maccleaner doctor          # FDA / Homebrew / bridge
+maccleaner scan --json
+maccleaner clean --dry-run
+maccleaner --plain         # numbered prompts`
 
 const brewCopied = ref(false)
 const brewCopiedInstall = ref(false)
+const cliInstallCopied = ref(false)
+const cliUsageCopied = ref(false)
 let brewCopiedTimer: ReturnType<typeof setTimeout> | undefined
 
-async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
+async function copyText(value: string) {
   try {
-    await navigator.clipboard.writeText(brewCommands)
+    await navigator.clipboard.writeText(value)
   } catch {
     const ta = document.createElement('textarea')
-    ta.value = brewCommands
+    ta.value = value
     ta.setAttribute('readonly', '')
     ta.style.position = 'fixed'
     ta.style.opacity = '0'
@@ -27,6 +38,10 @@ async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
     document.execCommand('copy')
     document.body.removeChild(ta)
   }
+}
+
+async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
+  await copyText(brewCommands)
   if (target === 'install') {
     brewCopiedInstall.value = true
   } else {
@@ -39,18 +54,34 @@ async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
   }, 1800)
 }
 
+async function copyCliInstall() {
+  await copyText(cliInstallCommands)
+  cliInstallCopied.value = true
+  setTimeout(() => {
+    cliInstallCopied.value = false
+  }, 1800)
+}
+
+async function copyCliUsage() {
+  await copyText(cliUsageCommands)
+  cliUsageCopied.value = true
+  setTimeout(() => {
+    cliUsageCopied.value = false
+  }, 1800)
+}
+
 const pageTitle = 'MacCleaner — open-source Mac cleaner, zero telemetry'
 const pageDescription =
-  'Free open-source Mac cleaner for macOS 14+. Smart Care, Cleanup History, App Updates (Homebrew casks), Space Explorer, System Monitor, Developer Cleanup, 10 languages. Fully local, zero telemetry, MIT.'
+  'Free open-source Mac cleaner for macOS 14+. Smart Care, interactive maccleaner CLI/TUI, Cleanup History, App Updates, Space Explorer, System Monitor, Developer Cleanup. Fully local, zero telemetry, MIT.'
 
 const roadmapNext = [
   {
-    title: 'CLI with --dry-run',
-    body: 'Productized maccleaner commands on top of today’s headless smoke flags.',
-  },
-  {
     title: 'Privileged helper (SMAppService)',
     body: 'Signed helper instead of interactive password prompts for allowlisted system paths.',
+  },
+  {
+    title: 'Homebrew formula for CLI',
+    body: 'Dedicated brew formula for maccleaner — PATH via app symlink is already documented.',
   },
   {
     title: 'Smart Care result filters',
@@ -81,6 +112,7 @@ const roadmapLater = [
 ]
 
 const recentlyShipped = [
+  'CLI — interactive TUI workspace + scan/clean/apps/orphans/doctor',
   'App Updates — dedicated Homebrew cask upgrades + App Store shortcut',
   'Progress bars with Stop on scans and cleans (where safe)',
   'Cleanup History — local log, 14-day chart, shareable card (no upload)',
@@ -539,6 +571,7 @@ const vignetteProcesses = [
         <a href="#privacy">Privacy</a>
         <a href="#features">Features</a>
         <a href="#install">Install</a>
+        <a href="#cli">CLI</a>
         <a href="#roadmap">Roadmap</a>
         <a class="nav-ghost" :href="repoUrl" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
@@ -973,12 +1006,84 @@ const vignetteProcesses = [
         </div>
       </section>
 
+      <section id="cli" class="section cli" aria-labelledby="cli-title">
+        <div class="section-head">
+          <h2 id="cli-title">Command line</h2>
+          <p>
+            Same engines as the app — interactive TUI on a real terminal, or
+            scriptable flags for automation. Zero telemetry.
+          </p>
+        </div>
+
+        <div class="cli-grid">
+          <div class="brew-box">
+            <div class="brew-box-head">
+              <h3>Install on PATH</h3>
+              <button
+                type="button"
+                class="brew-copy-btn"
+                :class="{ copied: cliInstallCopied }"
+                :aria-label="cliInstallCopied ? 'Copied' : 'Copy CLI install commands'"
+                @click="copyCliInstall"
+              >
+                {{ cliInstallCopied ? 'Copied' : 'Copy' }}
+              </button>
+            </div>
+            <p>
+              After MacCleaner is in Applications, symlink the binary (uses
+              Homebrew’s prefix when available):
+            </p>
+            <pre><code>{{ cliInstallCommands }}</code></pre>
+            <p class="cli-note">
+              Or call the app binary directly with a subcommand — no symlink
+              required:
+              <code>…/MacCleaner.app/Contents/MacOS/OpenCleanMyMac doctor</code>
+            </p>
+          </div>
+
+          <div class="brew-box">
+            <div class="brew-box-head">
+              <h3>Usage</h3>
+              <button
+                type="button"
+                class="brew-copy-btn"
+                :class="{ copied: cliUsageCopied }"
+                :aria-label="cliUsageCopied ? 'Copied' : 'Copy CLI usage commands'"
+                @click="copyCliUsage"
+              >
+                {{ cliUsageCopied ? 'Copied' : 'Copy' }}
+              </button>
+            </div>
+            <p>Workspace, cleanup, and scripts:</p>
+            <pre><code>{{ cliUsageCommands }}</code></pre>
+          </div>
+        </div>
+
+        <div class="cli-keys">
+          <h3>TUI keys</h3>
+          <ul>
+            <li><kbd>↑</kbd><kbd>↓</kbd> Move</li>
+            <li><kbd>Space</kbd> Toggle item</li>
+            <li><kbd>A</kbd> / <kbd>N</kbd> Select matching / clear</li>
+            <li><kbd>/</kbd> Search</li>
+            <li><kbd>Enter</kbd> Review / continue</li>
+            <li><kbd>Esc</kbd> / <kbd>Q</kbd> Cancel</li>
+          </ul>
+          <p>
+            Interactive cleanup asks you to type <strong>yes</strong> before
+            anything goes to the Trash. Use
+            <code>--include-privileged</code> only when you want system
+            allowlisted paths.
+          </p>
+        </div>
+      </section>
+
       <section id="roadmap" class="section roadmap" aria-labelledby="roadmap-title">
         <div class="section-head">
           <h2 id="roadmap-title">Roadmap</h2>
           <p>
-            Next updates in roughly this order — CLI first, then the high-value
-            list we are tracking.
+            Next updates in roughly this order — privileged helper and CLI
+            packaging, then the high-value list we are tracking.
           </p>
         </div>
         <ol class="roadmap-list">
@@ -2325,6 +2430,97 @@ const vignetteProcesses = [
   color: var(--ink);
   font-size: 0.88rem;
   line-height: 1.45;
+}
+
+.cli-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cli-grid .brew-box {
+  width: auto;
+  margin: 0;
+}
+
+.cli-note {
+  margin-top: 0.85rem !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45;
+}
+
+.cli-note code {
+  display: inline;
+  word-break: break-all;
+  font-size: 0.82rem;
+  color: var(--ink);
+}
+
+.cli-keys {
+  padding: 1.15rem 1.25rem;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cli-keys h3 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.cli-keys ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem 1rem;
+  margin: 0 0 0.9rem;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.cli-keys li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cli-keys kbd {
+  display: inline-block;
+  min-width: 1.5rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid var(--stroke);
+  background: rgba(7, 18, 36, 0.75);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.cli-keys p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cli-keys code {
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+@media (max-width: 820px) {
+  .cli-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cli-keys ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .footer {

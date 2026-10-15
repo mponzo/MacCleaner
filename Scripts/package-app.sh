@@ -92,6 +92,7 @@ assert_marker 'PrivacyHubEngine'
 assert_marker 'CleanupHistoryStore'
 assert_marker 'HomebrewCaskEngine'
 assert_marker 'OCOperationBanner'
+assert_marker 'MacCleanerCLI'
 
 if [[ -n "$RESOURCE_BUNDLE" ]]; then
   cp -R "$RESOURCE_BUNDLE" "$APP/Contents/Resources/"

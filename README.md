@@ -36,6 +36,60 @@ brew upgrade --cask maccleaner   # later
 brew uninstall --cask maccleaner # remove
 ```
 
+### Command line (`maccleaner`)
+
+Same scan/clean engines as the app — interactive TUI on a real terminal, or scriptable flags. No telemetry.
+
+**Install on PATH** (after the GUI app is in Applications):
+
+```bash
+# Prefer Homebrew’s bin if you use brew:
+ln -sf "/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" "$(brew --prefix)/bin/maccleaner"
+
+# Or any directory already on your PATH, e.g.:
+# sudo ln -sf "/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" /usr/local/bin/maccleaner
+```
+
+Without a symlink you can still call the binary directly:
+
+```bash
+"/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" doctor
+"/Applications/MacCleaner.app/Contents/MacOS/OpenCleanMyMac" clean --dry-run
+```
+
+**Build from source** (release CLI product):
+
+```bash
+cd OpenCleanMyMac
+swift build -c release --product maccleaner
+ln -sf "$(pwd)/.build/release/maccleaner" "$(brew --prefix)/bin/maccleaner"
+# or run in place: .build/release/maccleaner
+```
+
+**Usage**
+
+```bash
+maccleaner                 # interactive workspace (TTY)
+maccleaner clean           # scan → select paths → review → type yes → Trash
+maccleaner orphans         # interactive orphan selection (TTY)
+maccleaner --plain         # numbered prompts instead of full-screen TUI
+maccleaner doctor          # FDA, Homebrew, privileged bridge
+maccleaner scan --json     # read-only summary
+maccleaner clean --dry-run # preview default Smart Care selection
+maccleaner clean --confirm # Trash default selection (no TUI)
+```
+
+| Key | Action (TUI) |
+|---|---|
+| ↑ / ↓ | Move |
+| Space | Toggle item |
+| A / N | Select matching / clear |
+| / | Search |
+| Enter | Review / continue |
+| Esc / Q | Cancel |
+
+Interactive cleanup asks you to type `yes` before anything goes to the Trash. System-privileged categories need `--include-privileged`. A dedicated Homebrew *formula* for the CLI (separate from the cask) is still on the roadmap.
+
 ---
 
 ## What you get
@@ -172,14 +226,18 @@ swift build
 swift run
 ```
 
-Headless smoke checks (no UI):
+### CLI development notes
+
+SPM products: `OpenCleanMyMac` (GUI) and `maccleaner` (same target). End-user install/usage: see [Install → Command line](#command-line-maccleaner).
 
 ```bash
-swift run OpenCleanMyMac -- --scan-once
-swift run OpenCleanMyMac -- --apps-once
-swift run OpenCleanMyMac -- --perf-once
-swift run OpenCleanMyMac -- --priv-once
+cd OpenCleanMyMac
+swift build
+.build/debug/maccleaner --help
+.build/debug/maccleaner doctor
 ```
+
+Legacy headless flags still work (`--scan-once`, `--apps-once`, `--perf-once`, `--priv-once`).
 
 ```text
 OpenCleanMyMac/Sources/OpenCleanMyMac/
@@ -197,8 +255,8 @@ Landing site (Nuxt → GitHub Pages): `npm install && npm run generate` — see 
 
 Planned in roughly this order (CLI first, then the high-value list we are tracking):
 
-1. **CLI** with `--dry-run` (and a productized `maccleaner` command surface on top of today’s headless smoke flags)
-2. **Privileged helper** via signed `SMAppService` (replace interactive password prompts for allowlisted system paths)
+1. **Privileged helper** via signed `SMAppService` (replace interactive password prompts for allowlisted system paths)
+2. **Homebrew formula for CLI** — `maccleaner` already ships in-tree; PATH via app symlink is documented
 3. **Smart Care result filters** — path search, size/age filters, select-visible, exclude from context menu
 4. **Protection hub** — Firewall / SIP / XProtect / Gatekeeper as a config audit (not antivirus)
 5. **FDA retry** after grant — re-run the batch that failed without Full Disk Access

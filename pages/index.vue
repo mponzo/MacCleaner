@@ -11,21 +11,15 @@ const brewDisplay = 'brew install --cask maccleaner'
 const cliBrewDisplay = 'brew install maccleaner-cli'
 const cliInstallCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
 brew install maccleaner-cli`
-const cliBrewAltCommands = `git clone https://github.com/mponzo/MacCleaner.git
-cd MacCleaner
-./Scripts/install-cli.sh
-maccleaner --version`
-const cliUsageCommands = `maccleaner              # interactive workspace
-maccleaner clean        # scan → select → Trash
-maccleaner scan         # live green progress
-maccleaner doctor
-maccleaner clean --dry-run`
+const cliUsageCommands = `maccleaner            # workspace
+maccleaner clean      # select → Trash
+maccleaner scan       # green progress
+maccleaner doctor`
 
 const brewCopied = ref(false)
 const brewCopiedInstall = ref(false)
 const cliInstallCopied = ref(false)
 const cliUsageCopied = ref(false)
-const cliCloneCopied = ref(false)
 const cliHeroCopied = ref(false)
 let brewCopiedTimer: ReturnType<typeof setTimeout> | undefined
 
@@ -74,11 +68,6 @@ async function copyCliInstall() {
 async function copyCliUsage() {
   await copyText(cliUsageCommands)
   flashCopied(cliUsageCopied)
-}
-
-async function copyCliClone() {
-  await copyText(cliBrewAltCommands)
-  flashCopied(cliCloneCopied)
 }
 
 async function copyCliHero() {
@@ -1012,113 +1001,72 @@ const vignetteProcesses = [
         <div class="section-head">
           <h2 id="cli-title">Command line</h2>
           <p>
-            A standalone <code>maccleaner</code> binary — interactive TUI,
-            live green scan progress, same engines as the app. Separate from
-            the GUI cask. Zero telemetry.
+            Standalone <code>maccleaner</code> — TUI, green scan progress, same
+            engines as the app. Separate from the GUI cask.
           </p>
         </div>
 
-        <figure class="cli-demo">
-          <img
-            src="/cli-demo.jpg"
-            alt="MacCleaner CLI workspace in Terminal with green scan progress"
-            width="1280"
-            height="720"
-            loading="lazy"
-          />
-          <figcaption>
-            Interactive workspace · green progress while scanning · confirm before Trash
-          </figcaption>
-        </figure>
-
-        <ol class="cli-install-steps">
-          <li>
-            <span class="cli-step-num" aria-hidden="true">1</span>
-            <div>
-              <strong>Install</strong>
-              <p>
-                Prebuilt Homebrew formula — installs <code>maccleaner</code> on
-                PATH, not the GUI app:
-              </p>
-              <div class="brew-box cli-step-box">
-                <div class="brew-box-head">
-                  <h3>Homebrew</h3>
-                  <button
-                    type="button"
-                    class="brew-copy-btn"
-                    :class="{ copied: cliInstallCopied }"
-                    :aria-label="cliInstallCopied ? 'Copied' : 'Copy install commands'"
-                    @click="copyCliInstall"
-                  >
-                    {{ cliInstallCopied ? 'Copied' : 'Copy' }}
-                  </button>
-                </div>
-                <pre><code>{{ cliInstallCommands }}</code></pre>
+        <div class="cli-layout">
+          <div class="cli-copy">
+            <div class="brew-box cli-step-box">
+              <div class="brew-box-head">
+                <h3>Install</h3>
+                <button
+                  type="button"
+                  class="brew-copy-btn"
+                  :class="{ copied: cliInstallCopied }"
+                  :aria-label="cliInstallCopied ? 'Copied' : 'Copy install commands'"
+                  @click="copyCliInstall"
+                >
+                  {{ cliInstallCopied ? 'Copied' : 'Copy' }}
+                </button>
               </div>
+              <pre><code>{{ cliInstallCommands }}</code></pre>
               <p class="cli-note">
-                Or build from a clone with Xcode / Swift:
+                From source:
+                <code>./Scripts/install-cli.sh</code>
+                ·
+                <code>brew upgrade maccleaner-cli</code>
               </p>
-              <div class="brew-box cli-step-box">
-                <div class="brew-box-head">
-                  <h3>From source</h3>
-                  <button
-                    type="button"
-                    class="brew-copy-btn"
-                    :class="{ copied: cliCloneCopied }"
-                    :aria-label="cliCloneCopied ? 'Copied' : 'Copy from-source install commands'"
-                    @click="copyCliClone"
-                  >
-                    {{ cliCloneCopied ? 'Copied' : 'Copy' }}
-                  </button>
-                </div>
-                <pre><code>{{ cliBrewAltCommands }}</code></pre>
-              </div>
             </div>
-          </li>
-          <li>
-            <span class="cli-step-num" aria-hidden="true">2</span>
-            <div>
-              <strong>Run</strong>
-              <p>Open a workspace, or call a subcommand directly:</p>
-              <div class="brew-box cli-step-box">
-                <div class="brew-box-head">
-                  <h3>Usage</h3>
-                  <button
-                    type="button"
-                    class="brew-copy-btn"
-                    :class="{ copied: cliUsageCopied }"
-                    :aria-label="cliUsageCopied ? 'Copied' : 'Copy usage commands'"
-                    @click="copyCliUsage"
-                  >
-                    {{ cliUsageCopied ? 'Copied' : 'Copy' }}
-                  </button>
-                </div>
-                <pre><code>{{ cliUsageCommands }}</code></pre>
+
+            <div class="brew-box cli-step-box">
+              <div class="brew-box-head">
+                <h3>Usage</h3>
+                <button
+                  type="button"
+                  class="brew-copy-btn"
+                  :class="{ copied: cliUsageCopied }"
+                  :aria-label="cliUsageCopied ? 'Copied' : 'Copy usage commands'"
+                  @click="copyCliUsage"
+                >
+                  {{ cliUsageCopied ? 'Copied' : 'Copy' }}
+                </button>
               </div>
+              <pre><code>{{ cliUsageCommands }}</code></pre>
             </div>
-          </li>
-          <li>
-            <span class="cli-step-num" aria-hidden="true">3</span>
-            <div>
-              <strong>Control the TUI</strong>
-              <div class="cli-keys">
-                <ul>
-                  <li><kbd>↑</kbd><kbd>↓</kbd> Move</li>
-                  <li><kbd>Space</kbd> Toggle</li>
-                  <li><kbd>A</kbd> / <kbd>N</kbd> All / none</li>
-                  <li><kbd>/</kbd> Search</li>
-                  <li><kbd>Enter</kbd> Review</li>
-                  <li><kbd>Esc</kbd> / <kbd>Q</kbd> Cancel</li>
-                </ul>
-                <p>
-                  Type <strong>yes</strong> before anything goes to the Trash.
-                  Scans show a bright green live progress bar so you always know
-                  what category is running.
-                </p>
-              </div>
-            </div>
-          </li>
-        </ol>
+
+            <ul class="cli-keys-inline" aria-label="TUI keys">
+              <li><kbd>↑↓</kbd> move</li>
+              <li><kbd>Space</kbd> toggle</li>
+              <li><kbd>Enter</kbd> review</li>
+              <li><kbd>Esc</kbd> cancel</li>
+            </ul>
+            <p class="cli-footnote">
+              Type <strong>yes</strong> before Trash. Scans show a live green progress bar.
+            </p>
+          </div>
+
+          <figure class="cli-demo">
+            <img
+              src="/cli-demo.jpg"
+              alt="MacCleaner CLI workspace with green scan progress"
+              width="680"
+              height="420"
+              loading="lazy"
+            />
+          </figure>
+        </div>
       </section>
     </main>
 
@@ -2374,14 +2322,23 @@ const vignetteProcesses = [
   line-height: 1.45;
 }
 
+.cli-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 1.25rem 1.5rem;
+  align-items: start;
+}
+
 .cli-demo {
-  margin: 0 0 2rem;
+  margin: 0;
   padding: 0;
-  border-radius: 18px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--stroke);
   background: rgba(7, 18, 36, 0.85);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+  max-width: 320px;
+  justify-self: end;
 }
 
 .cli-demo img {
@@ -2390,57 +2347,54 @@ const vignetteProcesses = [
   height: auto;
 }
 
-.cli-demo figcaption {
-  margin: 0;
-  padding: 0.75rem 1.1rem;
-  color: var(--muted);
-  font-size: 0.88rem;
-  border-top: 1px solid var(--stroke);
-}
-
-.cli-install-steps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.cli-copy {
   display: grid;
-  gap: 1.75rem;
-}
-
-.cli-install-steps > li {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem 1.15rem;
-  align-items: start;
-}
-
-.cli-step-num {
-  display: grid;
-  place-items: center;
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(80, 200, 120, 0.35);
-  background: rgba(80, 200, 120, 0.12);
-  color: #9fe0b8;
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-.cli-install-steps strong {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-}
-
-.cli-install-steps > li > div > p {
-  margin: 0 0 0.75rem;
-  color: var(--muted);
+  gap: 0.85rem;
+  min-width: 0;
 }
 
 .cli-step-box {
   width: auto;
-  margin: 0 0 0.75rem;
+  margin: 0;
+}
+
+.cli-step-box pre {
+  font-size: 0.84rem;
+  line-height: 1.4;
+  padding: 0.7rem 0.85rem;
+}
+
+.cli-step-box h3 {
+  font-size: 1rem;
+}
+
+.cli-keys-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.cli-keys-inline kbd {
+  display: inline-block;
+  padding: 0.12rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid var(--stroke);
+  background: rgba(7, 18, 36, 0.75);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.76rem;
+}
+
+.cli-footnote {
+  margin: 0;
+  color: var(--faint);
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .fine a {
@@ -2453,8 +2407,9 @@ const vignetteProcesses = [
 }
 
 .cli-note {
-  margin-top: 0.85rem !important;
-  font-size: 0.88rem !important;
+  margin: 0.65rem 0 0 !important;
+  color: var(--muted);
+  font-size: 0.84rem !important;
   line-height: 1.45;
 }
 
@@ -2468,79 +2423,18 @@ const vignetteProcesses = [
 }
 
 .cli-note code {
-  display: inline;
-  word-break: break-all;
-  font-size: 0.82rem;
-  color: var(--ink);
-}
-
-.cli-keys {
-  padding: 1.15rem 1.25rem;
-  border-radius: 16px;
-  border: 1px solid var(--stroke);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.cli-keys h3 {
-  margin: 0 0 0.75rem;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-}
-
-.cli-keys ul {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.55rem 1rem;
-  margin: 0 0 0.9rem;
-  padding: 0;
-  list-style: none;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.cli-keys li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.cli-keys kbd {
-  display: inline-block;
-  min-width: 1.5rem;
-  padding: 0.15rem 0.4rem;
-  border-radius: 6px;
-  border: 1px solid var(--stroke);
-  background: rgba(7, 18, 36, 0.75);
-  color: var(--ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.78rem;
-  text-align: center;
-}
-
-.cli-keys p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.cli-keys code {
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   color: var(--ink);
 }
 
 @media (max-width: 820px) {
-  .cli-keys ul {
+  .cli-layout {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .cli-install-steps > li {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .cli-step-num {
-    margin-bottom: 0.15rem;
+  .cli-demo {
+    max-width: 300px;
+    margin-inline: auto;
   }
 }
 

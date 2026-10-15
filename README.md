@@ -39,13 +39,13 @@ brew uninstall --cask maccleaner # remove
 
 ### Command line (`maccleaner`)
 
-Standalone terminal tool — **separate** from the GUI cask. Interactive TUI, green live progress during scans, or `--dry-run` / `--json` for scripts. Same engines as the app; zero telemetry.
+Standalone TUI (separate from the GUI cask). Green live progress on scans; `--dry-run` / `--json` for scripts. Same engines as the app.
 
-![MacCleaner CLI workspace](public/cli-demo.jpg)
+<p align="center">
+  <img src="public/cli-demo.jpg" alt="MacCleaner CLI workspace" width="380" />
+</p>
 
-#### 1. Install
-
-**Homebrew** (recommended — prebuilt binary, does not install the `.app`):
+**Install** (prebuilt — does not install the `.app`):
 
 ```bash
 brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
@@ -53,44 +53,23 @@ brew install maccleaner-cli
 ```
 
 ```bash
-brew upgrade maccleaner-cli    # later
-brew uninstall maccleaner-cli  # remove
+brew upgrade maccleaner-cli
+brew uninstall maccleaner-cli
+# from source: ./Scripts/install-cli.sh
 ```
 
-**From a clone** (Xcode/`swift`):
-
-```bash
-git clone https://github.com/mponzo/MacCleaner.git
-cd MacCleaner
-./Scripts/install-cli.sh
-maccleaner --version
-```
-
-#### 2. Use
+**Use**
 
 ```bash
 maccleaner                 # interactive workspace
-maccleaner clean           # scan → select → review → type yes → Trash
-maccleaner orphans         # orphan leftovers (TTY)
-maccleaner scan            # summary with live green progress
-maccleaner scan --json     # machine-readable (no progress on stdout)
-maccleaner clean --dry-run
+maccleaner clean           # scan → select → type yes → Trash
+maccleaner scan            # live green progress
 maccleaner doctor
-maccleaner --plain         # numbered prompts instead of full-screen TUI
+maccleaner clean --dry-run
+maccleaner scan --json
 ```
 
-| Key | Action |
-|---|---|
-| ↑ / ↓ | Move |
-| Space | Toggle item |
-| A / N | Select matching / clear |
-| / | Search |
-| Enter | Review / continue |
-| Esc / Q | Cancel |
-
-Cleanup asks for an explicit **`yes`** before Trash. System paths need `--include-privileged`.
-
-Maintainers: `./Scripts/package-cli.sh` → `releases/maccleaner-cli-*.tar.gz` + [`Formula/maccleaner-cli.rb`](Formula/maccleaner-cli.rb).
+Keys: `↑↓` move · `Space` toggle · `/` search · `Enter` review · `Esc`/`Q` cancel. Confirm with **`yes`** before Trash.
 
 ---
 

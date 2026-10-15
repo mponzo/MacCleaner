@@ -29,19 +29,23 @@ rm -rf "$STAGE"
 mkdir -p "$STAGE"
 
 cd "$PKG"
-echo "==> Building universal release binary"
-rm -f \
-  "$PKG/.build/arm64-apple-macosx/release/$PRODUCT" \
-  "$PKG/.build/x86_64-apple-macosx/release/$PRODUCT"
-swift build -c release --arch arm64 --arch x86_64 --product "$PRODUCT"
+OUT="$STAGE/$PRODUCT"
+
+echo "==> Building release binary (prefer universal)"
+if swift build -c release --arch arm64 --arch x86_64 --product "$PRODUCT"; then
+  :
+else
+  echo "warning: universal build failed — falling back to host arch" >&2
+  swift build -c release --product "$PRODUCT"
+fi
 
 APPLE_BIN="$PKG/.build/apple/Products/Release/$PRODUCT"
 ARM_BIN="$PKG/.build/arm64-apple-macosx/release/$PRODUCT"
 X86_BIN="$PKG/.build/x86_64-apple-macosx/release/$PRODUCT"
 ARM_OBJ="$PKG/.build/apple/Intermediates.noindex/OpenCleanMyMac.build/Release/OpenCleanMyMac.build/Objects-normal/arm64/Binary/$PRODUCT"
 X86_OBJ="$PKG/.build/apple/Intermediates.noindex/OpenCleanMyMac.build/Release/OpenCleanMyMac.build/Objects-normal/x86_64/Binary/$PRODUCT"
+HOST_BIN="$PKG/.build/release/$PRODUCT"
 
-OUT="$STAGE/$PRODUCT"
 if [[ -x "$APPLE_BIN" ]] && lipo -info "$APPLE_BIN" 2>/dev/null | grep -q 'x86_64' \
   && lipo -info "$APPLE_BIN" 2>/dev/null | grep -q 'arm64'; then
   cp -f "$APPLE_BIN" "$OUT"
@@ -49,9 +53,9 @@ elif [[ -x "$ARM_OBJ" && -x "$X86_OBJ" ]]; then
   lipo -create -output "$OUT" "$ARM_OBJ" "$X86_OBJ"
 elif [[ -x "$ARM_BIN" && -x "$X86_BIN" ]]; then
   lipo -create -output "$OUT" "$ARM_BIN" "$X86_BIN"
-elif [[ -x "$PKG/.build/release/$PRODUCT" ]]; then
-  echo "warning: using single-arch .build/release/$PRODUCT" >&2
-  cp -f "$PKG/.build/release/$PRODUCT" "$OUT"
+elif [[ -x "$HOST_BIN" ]]; then
+  echo "warning: packaging single-arch host binary" >&2
+  cp -f "$HOST_BIN" "$OUT"
 else
   echo "error: no release $PRODUCT binary found" >&2
   exit 1

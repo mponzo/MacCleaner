@@ -6,7 +6,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 |---|---|
 | **Download** | [MacCleaner 0.3.0 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
 | **Homebrew (app)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
-| **Homebrew (CLI)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew install maccleaner-cli` |
+| **Homebrew (CLI)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew install --HEAD maccleaner-cli` |
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
 
@@ -39,40 +39,49 @@ brew uninstall --cask maccleaner # remove
 
 ### Command line (`maccleaner`)
 
-Separate from the GUI cask (same idea as PureMac’s `puremac-cli`): interactive TUI + scriptable flags, same engines as the app, zero telemetry.
+Standalone CLI — **separate** from the GUI cask. Interactive TUI on a TTY, or `--dry-run` / `--json` for scripts. Same engines as the app; zero telemetry.
 
-**Install (Homebrew formula)**
+#### Install
+
+**Homebrew formula** (does not install the `.app`):
 
 ```bash
 brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
-brew install maccleaner-cli
+brew install --HEAD maccleaner-cli
 ```
-
-Until the first `cli-v*` GitHub release is published, install from source via the tap:
 
 ```bash
-brew install --HEAD mponzo/maccleaner/maccleaner-cli
+brew upgrade --fetch-HEAD maccleaner-cli   # later
+brew uninstall maccleaner-cli              # remove
 ```
 
-**Install from this repo (no tap / no release needed)**
+When a `cli-v*` release asset is published, stable install becomes:
+
+```bash
+brew install maccleaner-cli
+brew upgrade maccleaner-cli
+```
+
+**From a clone** (no tap required — builds release and copies to `$(brew --prefix)/bin`):
 
 ```bash
 ./Scripts/install-cli.sh
-# optional: also write releases/maccleaner-cli-*.tar.gz + Formula sha256
-./Scripts/install-cli.sh --package
+maccleaner --version
 ```
 
-**Usage**
+#### Usage
 
 ```bash
 maccleaner                 # interactive workspace (TTY)
-maccleaner clean           # scan → select paths → review → type yes → Trash
+maccleaner clean           # scan → select → review → type yes → Trash
 maccleaner orphans         # interactive orphan selection (TTY)
-maccleaner --plain         # numbered prompts instead of full-screen TUI
+maccleaner --plain         # numbered prompts (no full-screen TUI)
 maccleaner doctor          # FDA, Homebrew, privileged bridge
-maccleaner scan --json     # read-only summary
-maccleaner clean --dry-run # preview default Smart Care selection
-maccleaner clean --confirm # Trash default selection (no TUI)
+maccleaner scan [--category userCaches] [--json]
+maccleaner clean --dry-run
+maccleaner clean --confirm # default Smart Care selection → Trash (no TUI)
+maccleaner apps [--leftovers]
+maccleaner orphans --dry-run
 ```
 
 | Key | Action (TUI) |
@@ -84,9 +93,17 @@ maccleaner clean --confirm # Trash default selection (no TUI)
 | Enter | Review / continue |
 | Esc / Q | Cancel |
 
-Interactive cleanup asks you to type `yes` before anything goes to the Trash. System-privileged categories need `--include-privileged`.
+Interactive cleanup asks you to type **`yes`** before anything goes to the Trash. System-privileged categories need `--include-privileged`.
 
-Maintainers: `./Scripts/package-cli.sh` builds the universal tarball and refreshes `Formula/maccleaner-cli.rb`; publish with tag `cli-v<version>` (see script output).
+#### Maintainers
+
+```bash
+./Scripts/package-cli.sh          # → releases/maccleaner-cli-<ver>.tar.gz + Formula sha256
+./Scripts/install-cli.sh --package
+# then: gh release create cli-v<ver> releases/maccleaner-cli-<ver>.tar.gz
+```
+
+Formula: [`Formula/maccleaner-cli.rb`](Formula/maccleaner-cli.rb).
 
 ---
 

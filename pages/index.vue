@@ -8,22 +8,29 @@ const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCl
 brew trust mponzo/maccleaner
 brew install --cask maccleaner`
 const brewDisplay = 'brew install --cask maccleaner'
+const cliBrewDisplay = 'brew install --HEAD maccleaner-cli'
 const cliInstallCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
-brew install maccleaner-cli
-# until the first cli-v* release is online:
-# brew install --HEAD mponzo/maccleaner/maccleaner-cli`
-const cliUsageCommands = `maccleaner                 # interactive workspace
-maccleaner clean           # select paths → review → Trash
+brew install --HEAD maccleaner-cli`
+const cliUpgradeCommands = `brew upgrade --fetch-HEAD maccleaner-cli
+brew uninstall maccleaner-cli`
+const cliCloneCommands = `./Scripts/install-cli.sh
+maccleaner --version`
+const cliUsageCommands = `maccleaner                 # interactive workspace (TTY)
+maccleaner clean           # select → review → type yes → Trash
 maccleaner orphans         # orphan leftovers (TTY)
-maccleaner doctor          # FDA / Homebrew / bridge
+maccleaner --plain         # numbered prompts
+maccleaner doctor
 maccleaner scan --json
 maccleaner clean --dry-run
-maccleaner --plain         # numbered prompts`
+maccleaner clean --confirm
+maccleaner apps --leftovers`
 
 const brewCopied = ref(false)
 const brewCopiedInstall = ref(false)
 const cliInstallCopied = ref(false)
 const cliUsageCopied = ref(false)
+const cliCloneCopied = ref(false)
+const cliHeroCopied = ref(false)
 let brewCopiedTimer: ReturnType<typeof setTimeout> | undefined
 
 async function copyText(value: string) {
@@ -56,20 +63,31 @@ async function copyBrewCommands(target: 'hero' | 'install' = 'hero') {
   }, 1800)
 }
 
+function flashCopied(flag: { value: boolean }) {
+  flag.value = true
+  setTimeout(() => {
+    flag.value = false
+  }, 1800)
+}
+
 async function copyCliInstall() {
   await copyText(cliInstallCommands)
-  cliInstallCopied.value = true
-  setTimeout(() => {
-    cliInstallCopied.value = false
-  }, 1800)
+  flashCopied(cliInstallCopied)
 }
 
 async function copyCliUsage() {
   await copyText(cliUsageCommands)
-  cliUsageCopied.value = true
-  setTimeout(() => {
-    cliUsageCopied.value = false
-  }, 1800)
+  flashCopied(cliUsageCopied)
+}
+
+async function copyCliClone() {
+  await copyText(cliCloneCommands)
+  flashCopied(cliCloneCopied)
+}
+
+async function copyCliHero() {
+  await copyText(cliInstallCommands)
+  flashCopied(cliHeroCopied)
 }
 
 const pageTitle = 'MacCleaner — open-source Mac cleaner, zero telemetry'
@@ -114,7 +132,7 @@ const roadmapLater = [
 ]
 
 const recentlyShipped = [
-  'CLI — interactive TUI workspace + scan/clean/apps/orphans/doctor',
+  'CLI — brew install --HEAD maccleaner-cli (separate formula + TUI)',
   'App Updates — dedicated Homebrew cask upgrades + App Store shortcut',
   'Progress bars with Stop on scans and cleans (where safe)',
   'Cleanup History — local log, 14-day chart, shareable card (no upload)',
@@ -616,9 +634,28 @@ const vignetteProcesses = [
                 </svg>
               </span>
             </button>
+            <button
+              type="button"
+              class="brew-chip"
+              :class="{ copied: cliHeroCopied }"
+              :aria-label="cliHeroCopied ? 'Copied CLI install commands' : 'Copy CLI install commands'"
+              @click="copyCliHero"
+            >
+              <code>{{ cliBrewDisplay }}</code>
+              <span class="brew-chip-action" aria-hidden="true">
+                <svg v-if="!cliHeroCopied" class="brew-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <svg v-else class="brew-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </span>
+            </button>
           </div>
           <p class="fine">
-            Universal Apple silicon + Intel · 10 languages · MIT · DMG {{ version }}
+            Universal Apple silicon + Intel · 10 languages · MIT · DMG {{ version }} ·
+            <a href="#cli">CLI docs</a>
           </p>
         </div>
         <div class="hero-visual" aria-hidden="true">
@@ -992,7 +1029,7 @@ const vignetteProcesses = [
 
         <div class="brew-box">
           <div class="brew-box-head">
-            <h3>Homebrew</h3>
+            <h3>Homebrew (app)</h3>
             <button
               type="button"
               class="brew-copy-btn"
@@ -1003,8 +1040,13 @@ const vignetteProcesses = [
               {{ brewCopiedInstall ? 'Copied' : 'Copy' }}
             </button>
           </div>
-          <p>Prefer the terminal? Same {{ version }} build via cask:</p>
+          <p>GUI app via cask — same {{ version }} build as the DMG:</p>
           <pre><code>{{ brewCommands }}</code></pre>
+          <p class="cli-note">
+            Want the terminal tool instead? See
+            <a href="#cli">Command line</a> —
+            <code>brew install --HEAD maccleaner-cli</code> (separate formula).
+          </p>
         </div>
       </section>
 
@@ -1012,15 +1054,16 @@ const vignetteProcesses = [
         <div class="section-head">
           <h2 id="cli-title">Command line</h2>
           <p>
-            Same engines as the app — interactive TUI on a real terminal, or
-            scriptable flags for automation. Zero telemetry.
+            Install <code>maccleaner</code> on its own — separate from the GUI
+            cask. Interactive TUI on a real terminal, or scriptable flags.
+            Same engines as the app. Zero telemetry.
           </p>
         </div>
 
         <div class="cli-grid">
           <div class="brew-box">
             <div class="brew-box-head">
-              <h3>Install on PATH</h3>
+              <h3>Homebrew (CLI)</h3>
               <button
                 type="button"
                 class="brew-copy-btn"
@@ -1032,34 +1075,56 @@ const vignetteProcesses = [
               </button>
             </div>
             <p>
-              Separate Homebrew formula from the GUI cask (like PureMac’s
-              <code>puremac-cli</code>):
+              Formula <code>maccleaner-cli</code> — does not install
+              MacCleaner.app. Use <code>--HEAD</code> until the first
+              <code>cli-v*</code> release asset is published:
             </p>
             <pre><code>{{ cliInstallCommands }}</code></pre>
-            <p class="cli-note">
-              From a clone: <code>./Scripts/install-cli.sh</code> builds the
-              release binary and installs it to
-              <code>$(brew --prefix)/bin/maccleaner</code>. Maintainers package
-              a tarball with <code>./Scripts/package-cli.sh</code>.
-            </p>
+            <p class="cli-note">Upgrade / remove:</p>
+            <pre><code>{{ cliUpgradeCommands }}</code></pre>
           </div>
 
           <div class="brew-box">
             <div class="brew-box-head">
-              <h3>Usage</h3>
+              <h3>From a clone</h3>
               <button
                 type="button"
                 class="brew-copy-btn"
-                :class="{ copied: cliUsageCopied }"
-                :aria-label="cliUsageCopied ? 'Copied' : 'Copy CLI usage commands'"
-                @click="copyCliUsage"
+                :class="{ copied: cliCloneCopied }"
+                :aria-label="cliCloneCopied ? 'Copied' : 'Copy clone install commands'"
+                @click="copyCliClone"
               >
-                {{ cliUsageCopied ? 'Copied' : 'Copy' }}
+                {{ cliCloneCopied ? 'Copied' : 'Copy' }}
               </button>
             </div>
-            <p>Workspace, cleanup, and scripts:</p>
-            <pre><code>{{ cliUsageCommands }}</code></pre>
+            <p>
+              No tap required — builds a release binary and installs it to
+              <code>$(brew --prefix)/bin/maccleaner</code>:
+            </p>
+            <pre><code>{{ cliCloneCommands }}</code></pre>
+            <p class="cli-note">
+              Maintainers: <code>./Scripts/package-cli.sh</code> writes
+              <code>releases/maccleaner-cli-*.tar.gz</code> and refreshes the
+              Formula checksum for a future <code>cli-v*</code> GitHub release.
+            </p>
           </div>
+        </div>
+
+        <div class="brew-box cli-usage-box">
+          <div class="brew-box-head">
+            <h3>Usage</h3>
+            <button
+              type="button"
+              class="brew-copy-btn"
+              :class="{ copied: cliUsageCopied }"
+              :aria-label="cliUsageCopied ? 'Copied' : 'Copy CLI usage commands'"
+              @click="copyCliUsage"
+            >
+              {{ cliUsageCopied ? 'Copied' : 'Copy' }}
+            </button>
+          </div>
+          <p>Workspace, cleanup, and scripts:</p>
+          <pre><code>{{ cliUsageCommands }}</code></pre>
         </div>
 
         <div class="cli-keys">
@@ -1076,7 +1141,9 @@ const vignetteProcesses = [
             Interactive cleanup asks you to type <strong>yes</strong> before
             anything goes to the Trash. Use
             <code>--include-privileged</code> only when you want system
-            allowlisted paths.
+            allowlisted paths. After a <code>cli-v*</code> release,
+            <code>brew install maccleaner-cli</code> (without
+            <code>--HEAD</code>) will install the prebuilt binary.
           </p>
         </div>
       </section>
@@ -2447,10 +2514,37 @@ const vignetteProcesses = [
   margin: 0;
 }
 
+.cli-usage-box {
+  width: min(100%, 100%);
+  margin: 0 0 1.25rem;
+}
+
+.cli-usage-box pre {
+  max-height: none;
+}
+
+.fine a {
+  color: var(--sea);
+  text-decoration: none;
+}
+
+.fine a:hover {
+  text-decoration: underline;
+}
+
 .cli-note {
   margin-top: 0.85rem !important;
   font-size: 0.88rem !important;
   line-height: 1.45;
+}
+
+.cli-note a {
+  color: var(--sea);
+  text-decoration: none;
+}
+
+.cli-note a:hover {
+  text-decoration: underline;
 }
 
 .cli-note code {

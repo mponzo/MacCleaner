@@ -15,6 +15,7 @@ rea-evidence
 .cursor/
 .gemini/
 .grok/
+.tools/
 .env.notarize
 *.p8
 AuthKey_*.p8.tools/

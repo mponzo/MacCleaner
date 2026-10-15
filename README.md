@@ -6,7 +6,7 @@ Native SwiftUI utility for **macOS 14+** that finds reclaimable disk space, unin
 |---|---|
 | **Download** | [MacCleaner 0.3.0 (DMG)](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.dmg) · [ZIP](https://github.com/mponzo/MacCleaner/releases/download/v0.3.0/MacCleaner-0.3.0.zip) · [Releases](https://github.com/mponzo/MacCleaner/releases) |
 | **Homebrew (app)** | `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner && brew trust mponzo/maccleaner && brew install --cask maccleaner` |
-| **Homebrew (CLI)** | `./Scripts/install-cli.sh` (recommended) · or `brew install --HEAD maccleaner-cli` after CLT/Xcode is current |
+| **CLI** | `./Scripts/install-cli.sh` → `maccleaner` · see [Command line](#command-line-maccleaner) |
 | **Site** | [mponzo.github.io/MacCleaner](https://mponzo.github.io/MacCleaner/) |
 | **License** | MIT |
 
@@ -39,52 +39,49 @@ brew uninstall --cask maccleaner # remove
 
 ### Command line (`maccleaner`)
 
-Standalone CLI — **separate** from the GUI cask. Interactive TUI on a TTY, or `--dry-run` / `--json` for scripts. Same engines as the app; zero telemetry.
+Standalone terminal tool — **separate** from the GUI cask. Interactive TUI, green live progress during scans, or `--dry-run` / `--json` for scripts. Same engines as the app; zero telemetry.
 
-#### Install
+![MacCleaner CLI workspace](public/cli-demo.jpg)
 
-**Recommended — from a clone** (uses your Xcode/`swift` toolchain; does not need Homebrew to compile):
+#### 1. Install
+
+**Recommended** (clone + Xcode/`swift` — no Homebrew compile):
 
 ```bash
+git clone https://github.com/mponzo/MacCleaner.git
+cd MacCleaner
 ./Scripts/install-cli.sh
 maccleaner --version
 ```
 
-**Homebrew formula** (does not install the `.app`):
+**Homebrew** (formula only — does not install the `.app`):
 
 ```bash
 brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
 brew install --HEAD maccleaner-cli
 ```
 
+If Homebrew errors on outdated Command Line Tools, use `./Scripts/install-cli.sh` instead. After a `cli-v*` release: `brew install maccleaner-cli`.
+
 ```bash
 brew upgrade --fetch-HEAD maccleaner-cli   # later
 brew uninstall maccleaner-cli              # remove
 ```
 
-`--HEAD` builds from source. If Homebrew errors with *CLT does not support macOS …*, update Command Line Tools (Software Update / `xcode-select --install`) **or** use `./Scripts/install-cli.sh` instead. When a `cli-v*` release asset is published, stable install becomes:
+#### 2. Use
 
 ```bash
-brew install maccleaner-cli
-brew upgrade maccleaner-cli
-```
-
-#### Usage
-
-```bash
-maccleaner                 # interactive workspace (TTY)
+maccleaner                 # interactive workspace
 maccleaner clean           # scan → select → review → type yes → Trash
-maccleaner orphans         # interactive orphan selection (TTY)
-maccleaner --plain         # numbered prompts (no full-screen TUI)
-maccleaner doctor          # FDA, Homebrew, privileged bridge
-maccleaner scan [--category userCaches] [--json]
+maccleaner orphans         # orphan leftovers (TTY)
+maccleaner scan            # summary with live green progress
+maccleaner scan --json     # machine-readable (no progress on stdout)
 maccleaner clean --dry-run
-maccleaner clean --confirm # default Smart Care selection → Trash (no TUI)
-maccleaner apps [--leftovers]
-maccleaner orphans --dry-run
+maccleaner doctor
+maccleaner --plain         # numbered prompts instead of full-screen TUI
 ```
 
-| Key | Action (TUI) |
+| Key | Action |
 |---|---|
 | ↑ / ↓ | Move |
 | Space | Toggle item |
@@ -93,17 +90,9 @@ maccleaner orphans --dry-run
 | Enter | Review / continue |
 | Esc / Q | Cancel |
 
-Interactive cleanup asks you to type **`yes`** before anything goes to the Trash. System-privileged categories need `--include-privileged`.
+Cleanup asks for an explicit **`yes`** before Trash. System paths need `--include-privileged`.
 
-#### Maintainers
-
-```bash
-./Scripts/package-cli.sh          # → releases/maccleaner-cli-<ver>.tar.gz + Formula sha256
-./Scripts/install-cli.sh --package
-# then: gh release create cli-v<ver> releases/maccleaner-cli-<ver>.tar.gz
-```
-
-Formula: [`Formula/maccleaner-cli.rb`](Formula/maccleaner-cli.rb).
+Maintainers: `./Scripts/package-cli.sh` → `releases/maccleaner-cli-*.tar.gz` + [`Formula/maccleaner-cli.rb`](Formula/maccleaner-cli.rb).
 
 ---
 
@@ -263,28 +252,6 @@ Scripts/   Casks/   docs/   releases/
 Bundle id: `com.maccleaner.app` · SPM product: `OpenCleanMyMac`.
 
 Landing site (Nuxt → GitHub Pages): `npm install && npm run generate` — see [`.github/workflows/nuxtjs.yml`](.github/workflows/nuxtjs.yml).
-
----
-
-## Roadmap
-
-Planned in roughly this order (CLI first, then the high-value list we are tracking):
-
-1. **Privileged helper** via signed `SMAppService` (replace interactive password prompts for allowlisted system paths)
-2. **CLI release + notarize** — formula `maccleaner-cli` lands in-tree; first `cli-v*` GitHub asset still to publish
-3. **Smart Care result filters** — path search, size/age filters, select-visible, exclude from context menu
-4. **Protection hub** — Firewall / SIP / XProtect / Gatekeeper as a config audit (not antivirus)
-5. **FDA retry** after grant — re-run the batch that failed without Full Disk Access
-6. **Orphan ignore list** — persistent skip for false-positive leftovers
-7. **Empty Trash on external volumes** (opt-in)
-
-Later / niche:
-
-- Modern Login Items (System Settings)
-- In-app DMG auto-update
-- Hidden-files browser
-
-Explicitly out of scope: RAM boosters, reclaiming purgeable space as “junk”, and fake malware / FUD claims.
 
 ---
 

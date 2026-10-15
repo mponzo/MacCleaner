@@ -9,23 +9,17 @@ brew trust mponzo/maccleaner
 brew install --cask maccleaner`
 const brewDisplay = 'brew install --cask maccleaner'
 const cliBrewDisplay = './Scripts/install-cli.sh'
-const cliInstallCommands = `./Scripts/install-cli.sh
+const cliInstallCommands = `git clone https://github.com/mponzo/MacCleaner.git
+cd MacCleaner
+./Scripts/install-cli.sh
 maccleaner --version`
 const cliBrewAltCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
 brew install --HEAD maccleaner-cli`
-const cliUpgradeCommands = `brew upgrade --fetch-HEAD maccleaner-cli
-brew uninstall maccleaner-cli`
-const cliCloneCommands = `./Scripts/install-cli.sh
-maccleaner --version`
-const cliUsageCommands = `maccleaner                 # interactive workspace (TTY)
-maccleaner clean           # select → review → type yes → Trash
-maccleaner orphans         # orphan leftovers (TTY)
-maccleaner --plain         # numbered prompts
+const cliUsageCommands = `maccleaner              # interactive workspace
+maccleaner clean        # scan → select → Trash
+maccleaner scan         # live green progress
 maccleaner doctor
-maccleaner scan --json
-maccleaner clean --dry-run
-maccleaner clean --confirm
-maccleaner apps --leftovers`
+maccleaner clean --dry-run`
 
 const brewCopied = ref(false)
 const brewCopiedInstall = ref(false)
@@ -96,45 +90,8 @@ const pageTitle = 'MacCleaner — open-source Mac cleaner, zero telemetry'
 const pageDescription =
   'Free open-source Mac cleaner for macOS 14+. Smart Care, interactive maccleaner CLI/TUI, Cleanup History, App Updates, Space Explorer, System Monitor, Developer Cleanup. Fully local, zero telemetry, MIT.'
 
-const roadmapNext = [
-  {
-    title: 'Privileged helper (SMAppService)',
-    body: 'Signed helper instead of interactive password prompts for allowlisted system paths.',
-  },
-  {
-    title: 'CLI release + notarize',
-    body: 'Publish cli-v* tarball for brew install maccleaner-cli (formula already in-tree).',
-  },
-  {
-    title: 'Smart Care result filters',
-    body: 'Path search, size/age filters, select-visible, exclude from the context menu.',
-  },
-  {
-    title: 'Protection hub',
-    body: 'Firewall / SIP / XProtect / Gatekeeper as a config audit — not antivirus.',
-  },
-  {
-    title: 'FDA retry after grant',
-    body: 'Re-run the batch that failed without Full Disk Access once access is granted.',
-  },
-  {
-    title: 'Orphan ignore list',
-    body: 'Persistently skip false-positive leftovers.',
-  },
-  {
-    title: 'Empty Trash on external volumes',
-    body: 'Opt-in emptying of Trash on external disks.',
-  },
-]
-
-const roadmapLater = [
-  'Modern Login Items (System Settings)',
-  'In-app DMG auto-update',
-  'Hidden-files browser',
-]
-
 const recentlyShipped = [
-  'CLI — ./Scripts/install-cli.sh + maccleaner-cli formula (TUI)',
+  'CLI — green live progress + TUI workspace (install-cli.sh / maccleaner-cli)',
   'App Updates — dedicated Homebrew cask upgrades + App Store shortcut',
   'Progress bars with Stop on scans and cleans (where safe)',
   'Cleanup History — local log, 14-day chart, shareable card (no upload)',
@@ -594,7 +551,6 @@ const vignetteProcesses = [
         <a href="#features">Features</a>
         <a href="#install">Install</a>
         <a href="#cli">CLI</a>
-        <a href="#roadmap">Roadmap</a>
         <a class="nav-ghost" :href="repoUrl" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
     </header>
@@ -1045,9 +1001,9 @@ const vignetteProcesses = [
           <p>GUI app via cask — same {{ version }} build as the DMG:</p>
           <pre><code>{{ brewCommands }}</code></pre>
           <p class="cli-note">
-            Want the terminal tool instead? See
-            <a href="#cli">Command line</a> —
-            <code>./Scripts/install-cli.sh</code> (or the Homebrew formula).
+            Prefer the terminal?
+            <a href="#cli">Install the CLI</a>
+            separately from the app.
           </p>
         </div>
       </section>
@@ -1056,132 +1012,110 @@ const vignetteProcesses = [
         <div class="section-head">
           <h2 id="cli-title">Command line</h2>
           <p>
-            Install <code>maccleaner</code> on its own — separate from the GUI
-            cask. Interactive TUI on a real terminal, or scriptable flags.
-            Same engines as the app. Zero telemetry.
+            A standalone <code>maccleaner</code> binary — interactive TUI,
+            live green scan progress, same engines as the app. Separate from
+            the GUI cask. Zero telemetry.
           </p>
         </div>
 
-        <div class="cli-grid">
-          <div class="brew-box">
-            <div class="brew-box-head">
-              <h3>From a clone (recommended)</h3>
-              <button
-                type="button"
-                class="brew-copy-btn"
-                :class="{ copied: cliInstallCopied }"
-                :aria-label="cliInstallCopied ? 'Copied' : 'Copy CLI install commands'"
-                @click="copyCliInstall"
-              >
-                {{ cliInstallCopied ? 'Copied' : 'Copy' }}
-              </button>
-            </div>
-            <p>
-              Builds with your Xcode <code>swift</code> toolchain and installs
-              to <code>$(brew --prefix)/bin/maccleaner</code> — works even when
-              Homebrew refuses to compile:
-            </p>
-            <pre><code>{{ cliInstallCommands }}</code></pre>
-            <p class="cli-note">
-              Maintainers: <code>./Scripts/package-cli.sh</code> writes
-              <code>releases/maccleaner-cli-*.tar.gz</code> for a future
-              <code>cli-v*</code> GitHub release (prebuilt = no compile).
-            </p>
-          </div>
+        <figure class="cli-demo">
+          <img
+            src="/cli-demo.jpg"
+            alt="MacCleaner CLI workspace in Terminal with green scan progress"
+            width="1280"
+            height="720"
+            loading="lazy"
+          />
+          <figcaption>
+            Interactive workspace · green progress while scanning · confirm before Trash
+          </figcaption>
+        </figure>
 
-          <div class="brew-box">
-            <div class="brew-box-head">
-              <h3>Homebrew (CLI)</h3>
-              <button
-                type="button"
-                class="brew-copy-btn"
-                :class="{ copied: cliCloneCopied }"
-                :aria-label="cliCloneCopied ? 'Copied' : 'Copy brew CLI install commands'"
-                @click="copyCliClone"
-              >
-                {{ cliCloneCopied ? 'Copied' : 'Copy' }}
-              </button>
-            </div>
-            <p>
-              Formula <code>maccleaner-cli</code> — does not install
-              MacCleaner.app. <code>--HEAD</code> builds from source until a
-              <code>cli-v*</code> asset exists:
-            </p>
-            <pre><code>{{ cliBrewAltCommands }}</code></pre>
-            <p class="cli-note">
-              If brew says <em>CLT does not support macOS …</em>, update
-              Command Line Tools (Software Update) or use
-              <code>./Scripts/install-cli.sh</code>. Upgrade / remove:
-            </p>
-            <pre><code>{{ cliUpgradeCommands }}</code></pre>
-          </div>
-        </div>
-
-        <div class="brew-box cli-usage-box">
-          <div class="brew-box-head">
-            <h3>Usage</h3>
-            <button
-              type="button"
-              class="brew-copy-btn"
-              :class="{ copied: cliUsageCopied }"
-              :aria-label="cliUsageCopied ? 'Copied' : 'Copy CLI usage commands'"
-              @click="copyCliUsage"
-            >
-              {{ cliUsageCopied ? 'Copied' : 'Copy' }}
-            </button>
-          </div>
-          <p>Workspace, cleanup, and scripts:</p>
-          <pre><code>{{ cliUsageCommands }}</code></pre>
-        </div>
-
-        <div class="cli-keys">
-          <h3>TUI keys</h3>
-          <ul>
-            <li><kbd>↑</kbd><kbd>↓</kbd> Move</li>
-            <li><kbd>Space</kbd> Toggle item</li>
-            <li><kbd>A</kbd> / <kbd>N</kbd> Select matching / clear</li>
-            <li><kbd>/</kbd> Search</li>
-            <li><kbd>Enter</kbd> Review / continue</li>
-            <li><kbd>Esc</kbd> / <kbd>Q</kbd> Cancel</li>
-          </ul>
-          <p>
-            Interactive cleanup asks you to type <strong>yes</strong> before
-            anything goes to the Trash. Use
-            <code>--include-privileged</code> only when you want system
-            allowlisted paths. After a <code>cli-v*</code> release,
-            <code>brew install maccleaner-cli</code> (without
-            <code>--HEAD</code>) will install the prebuilt binary.
-          </p>
-        </div>
-      </section>
-
-      <section id="roadmap" class="section roadmap" aria-labelledby="roadmap-title">
-        <div class="section-head">
-          <h2 id="roadmap-title">Roadmap</h2>
-          <p>
-            Next updates in roughly this order — privileged helper and CLI
-            packaging, then the high-value list we are tracking.
-          </p>
-        </div>
-        <ol class="roadmap-list">
-          <li v-for="(item, index) in roadmapNext" :key="item.title">
-            <span class="roadmap-index">{{ index + 1 }}</span>
+        <ol class="cli-install-steps">
+          <li>
+            <span class="cli-step-num" aria-hidden="true">1</span>
             <div>
-              <strong>{{ item.title }}</strong>
-              <p>{{ item.body }}</p>
+              <strong>Install</strong>
+              <p>Clone the repo and run the installer (uses your Xcode Swift toolchain):</p>
+              <div class="brew-box cli-step-box">
+                <div class="brew-box-head">
+                  <h3>Recommended</h3>
+                  <button
+                    type="button"
+                    class="brew-copy-btn"
+                    :class="{ copied: cliInstallCopied }"
+                    :aria-label="cliInstallCopied ? 'Copied' : 'Copy install commands'"
+                    @click="copyCliInstall"
+                  >
+                    {{ cliInstallCopied ? 'Copied' : 'Copy' }}
+                  </button>
+                </div>
+                <pre><code>{{ cliInstallCommands }}</code></pre>
+              </div>
+              <p class="cli-note">
+                Or via Homebrew formula (no GUI app):
+              </p>
+              <div class="brew-box cli-step-box">
+                <div class="brew-box-head">
+                  <h3>Homebrew</h3>
+                  <button
+                    type="button"
+                    class="brew-copy-btn"
+                    :class="{ copied: cliCloneCopied }"
+                    :aria-label="cliCloneCopied ? 'Copied' : 'Copy Homebrew CLI commands'"
+                    @click="copyCliClone"
+                  >
+                    {{ cliCloneCopied ? 'Copied' : 'Copy' }}
+                  </button>
+                </div>
+                <pre><code>{{ cliBrewAltCommands }}</code></pre>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="cli-step-num" aria-hidden="true">2</span>
+            <div>
+              <strong>Run</strong>
+              <p>Open a workspace, or call a subcommand directly:</p>
+              <div class="brew-box cli-step-box">
+                <div class="brew-box-head">
+                  <h3>Usage</h3>
+                  <button
+                    type="button"
+                    class="brew-copy-btn"
+                    :class="{ copied: cliUsageCopied }"
+                    :aria-label="cliUsageCopied ? 'Copied' : 'Copy usage commands'"
+                    @click="copyCliUsage"
+                  >
+                    {{ cliUsageCopied ? 'Copied' : 'Copy' }}
+                  </button>
+                </div>
+                <pre><code>{{ cliUsageCommands }}</code></pre>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="cli-step-num" aria-hidden="true">3</span>
+            <div>
+              <strong>Control the TUI</strong>
+              <div class="cli-keys">
+                <ul>
+                  <li><kbd>↑</kbd><kbd>↓</kbd> Move</li>
+                  <li><kbd>Space</kbd> Toggle</li>
+                  <li><kbd>A</kbd> / <kbd>N</kbd> All / none</li>
+                  <li><kbd>/</kbd> Search</li>
+                  <li><kbd>Enter</kbd> Review</li>
+                  <li><kbd>Esc</kbd> / <kbd>Q</kbd> Cancel</li>
+                </ul>
+                <p>
+                  Type <strong>yes</strong> before anything goes to the Trash.
+                  Scans show a bright green live progress bar so you always know
+                  what category is running.
+                </p>
+              </div>
             </div>
           </li>
         </ol>
-        <div class="roadmap-later">
-          <h3>Later / niche</h3>
-          <ul>
-            <li v-for="item in roadmapLater" :key="item">{{ item }}</li>
-          </ul>
-          <p class="roadmap-avoid">
-            Out of scope: RAM boosters, treating purgeable space as junk, and
-            fake malware / FUD claims.
-          </p>
-        </div>
       </section>
     </main>
 
@@ -2149,78 +2083,6 @@ const vignetteProcesses = [
   margin-top: 0.35rem;
 }
 
-.roadmap-list {
-  list-style: none;
-  margin: 0 0 1.75rem;
-  padding: 0;
-  display: grid;
-  gap: 0.75rem;
-}
-
-.roadmap-list li {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.9rem;
-  align-items: start;
-  padding: 1rem 1.15rem;
-  border-radius: 16px;
-  border: 1px solid var(--stroke);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.roadmap-index {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 999px;
-  background: rgba(77, 163, 255, 0.16);
-  color: var(--sea);
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.roadmap-list strong {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  letter-spacing: -0.02em;
-}
-
-.roadmap-list p {
-  margin: 0.3rem 0 0;
-  color: var(--muted);
-  line-height: 1.45;
-  font-size: 0.95rem;
-}
-
-.roadmap-later {
-  padding: 1.15rem 1.25rem;
-  border-radius: 16px;
-  border: 1px dashed rgba(77, 163, 255, 0.35);
-  background: rgba(7, 18, 36, 0.35);
-}
-
-.roadmap-later h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-}
-
-.roadmap-later ul {
-  margin: 0.65rem 0 0;
-  padding-left: 1.15rem;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.roadmap-avoid {
-  margin: 0.9rem 0 0;
-  color: var(--faint);
-  font-size: 0.9rem;
-  line-height: 1.45;
-}
-
 .install {
   text-align: center;
 }
@@ -2509,25 +2371,73 @@ const vignetteProcesses = [
   line-height: 1.45;
 }
 
-.cli-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.25rem;
+.cli-demo {
+  margin: 0 0 2rem;
+  padding: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--stroke);
+  background: rgba(7, 18, 36, 0.85);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
 
-.cli-grid .brew-box {
-  width: auto;
+.cli-demo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cli-demo figcaption {
   margin: 0;
+  padding: 0.75rem 1.1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  border-top: 1px solid var(--stroke);
 }
 
-.cli-usage-box {
-  width: min(100%, 100%);
-  margin: 0 0 1.25rem;
+.cli-install-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.75rem;
 }
 
-.cli-usage-box pre {
-  max-height: none;
+.cli-install-steps > li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem 1.15rem;
+  align-items: start;
+}
+
+.cli-step-num {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(80, 200, 120, 0.35);
+  background: rgba(80, 200, 120, 0.12);
+  color: #9fe0b8;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.cli-install-steps strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.cli-install-steps > li > div > p {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+}
+
+.cli-step-box {
+  width: auto;
+  margin: 0 0 0.75rem;
 }
 
 .fine a {
@@ -2618,12 +2528,16 @@ const vignetteProcesses = [
 }
 
 @media (max-width: 820px) {
-  .cli-grid {
+  .cli-keys ul {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .cli-keys ul {
+  .cli-install-steps > li {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cli-step-num {
+    margin-bottom: 0.15rem;
   }
 }
 

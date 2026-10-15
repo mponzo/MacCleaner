@@ -49,7 +49,13 @@ struct ScanCommand: ParsableCommand {
         let filter = try CLISupport.resolveCategories(categories)
         let json = self.json
         try CLISupport.runAsync {
-            let results = await CLIScan.collect(categories: filter)
+            let results: [CategoryResult]
+            if json {
+                // Keep stdout clean for machines — progress would break JSON.
+                results = await CLIScan.collect(categories: filter)
+            } else {
+                results = await CLIScan.collectWithProgress(categories: filter, title: "Scanning")
+            }
             let total = results.reduce(Int64(0)) { $0 + $1.totalBytes }
 
             if json {
@@ -145,7 +151,7 @@ struct CleanCommand: ParsableCommand {
         }
 
         try CLISupport.runAsync {
-            let results = await CLIScan.collect(categories: filter)
+            let results = await CLIScan.collectWithProgress(categories: filter, title: "Scanning")
             let items = CLIScan.selectableItems(from: results, includePrivileged: includePrivileged)
             guard !items.isEmpty else { throw CLIError.nothingToClean }
 
@@ -163,9 +169,10 @@ struct CleanCommand: ParsableCommand {
                 return
             }
 
-            CLISupport.printErr("Moving to Trash…")
+            let trashProgress = CLIProgress(title: "Trashing", total: max(1, items.count))
+            trashProgress.start(detail: "\(items.count) items")
             let result = await Cleaner.moveToTrash(items) { CLISupport.cancelled }
-            print("Moved \(result.movedCount) · freed \(ByteFormat.string(result.freedBytes))")
+            trashProgress.finish("Moved \(result.movedCount) · freed \(ByteFormat.string(result.freedBytes))")
             if !result.failed.isEmpty {
                 CLISupport.printErr("Failed: \(result.failed.count)")
                 for (url, message) in result.failed.prefix(20) {

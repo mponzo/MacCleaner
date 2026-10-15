@@ -163,10 +163,7 @@ enum CLIWorkspace {
     // MARK: - Flows
 
     static func runCleanFlow(plain: Bool, includePrivileged: Bool, categories: Set<ScanCategory>? = nil) async throws {
-        print(CLITerm.dim("Scanning…"), terminator: "")
-        fflush(stdout)
-        let results = await CLIScan.collect(categories: categories)
-        print("\r\u{1B}[2K", terminator: "")
+        let results = await CLIScan.collectWithProgress(categories: categories, title: "Scanning")
 
         var items = results
             .flatMap(\.items)
@@ -204,9 +201,12 @@ enum CLIWorkspace {
         var toTrash = selected
         for i in toTrash.indices { toTrash[i].isSelected = true }
 
-        CLISupport.printErr("Moving to Trash…")
+        let trashProgress = CLIProgress(title: "Trashing", total: max(1, toTrash.count))
+        trashProgress.start(detail: "\(toTrash.count) items")
         let result = await Cleaner.moveToTrash(toTrash) { CLISupport.cancelled }
-        print(CLITerm.green("Moved \(result.movedCount) · freed \(ByteFormat.string(result.freedBytes))"))
+        trashProgress.finish(
+            CLITerm.green("Moved \(result.movedCount) · freed \(ByteFormat.string(result.freedBytes))")
+        )
         if !result.failed.isEmpty {
             CLISupport.printErr("Failed: \(result.failed.count)")
             for (url, message) in result.failed.prefix(20) {
@@ -217,12 +217,13 @@ enum CLIWorkspace {
     }
 
     static func runOrphansFlow(plain: Bool) async throws {
-        print(CLITerm.dim("Scanning orphans…"), terminator: "")
-        fflush(stdout)
+        let progress = CLIProgress(title: "Scanning orphans", total: 2)
+        progress.start(detail: "apps")
         let apps = await ApplicationsCatalog.listInstalledApps()
+        progress.update(step: 1, detail: "leftovers")
         let ids = Set(apps.map(\.bundleIdentifier))
         let orphans = await LeftoverDiscovery.orphanLeftovers(installedBundleIDs: ids)
-        print("\r\u{1B}[2K", terminator: "")
+        progress.finish()
 
         guard !orphans.isEmpty else {
             print("No orphan leftovers found.")
@@ -260,18 +261,24 @@ enum CLIWorkspace {
 
         var toTrash = selected
         for i in toTrash.indices { toTrash[i].isSelected = true }
+        let trashProgress = CLIProgress(title: "Trashing", total: max(1, toTrash.count))
+        trashProgress.start(detail: "orphans")
         let result = await Cleaner.moveToTrash(toTrash) { CLISupport.cancelled }
-        print(CLITerm.green("Moved \(result.movedCount) · freed \(ByteFormat.string(result.freedBytes))"))
+        trashProgress.finish(
+            CLITerm.green("Moved \(result.movedCount) · freed \(ByteFormat.string(result.freedBytes))")
+        )
         if !result.failed.isEmpty { throw ExitCode(1) }
     }
 
     static func runAppsFlow() async {
-        print("MacCleaner apps")
+        let progress = CLIProgress(title: "Listing apps", total: 2)
+        progress.start(detail: "catalog")
         let apps = await ApplicationsCatalog.listInstalledApps()
         let userApps = apps.filter { !$0.isSystemApp && !$0.isProtected }
-        print("Installed user apps: \(userApps.count)")
+        progress.update(step: 1, detail: "leftovers")
         let sample = Array(userApps.prefix(12))
         let enriched = await ApplicationsCatalog.enrichWithLeftovers(sample)
+        progress.finish("MacCleaner apps — \(userApps.count) user apps")
         for app in enriched.sorted(by: { $0.leftoverBytes > $1.leftoverBytes }) {
             print(
                 "\(app.name)\tapp \(ByteFormat.string(app.byteCount))\tleftovers \(app.leftovers.count) / \(ByteFormat.string(app.leftoverBytes))"

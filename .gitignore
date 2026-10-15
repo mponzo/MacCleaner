@@ -17,4 +17,4 @@ rea-evidence
 .grok/
 .env.notarize
 *.p8
-AuthKey_*.p8
+AuthKey_*.p8.tools/

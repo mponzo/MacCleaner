@@ -8,13 +8,13 @@ const brewCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCl
 brew trust mponzo/maccleaner
 brew install --cask maccleaner`
 const brewDisplay = 'brew install --cask maccleaner'
-const cliBrewDisplay = './Scripts/install-cli.sh'
-const cliInstallCommands = `git clone https://github.com/mponzo/MacCleaner.git
+const cliBrewDisplay = 'brew install maccleaner-cli'
+const cliInstallCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
+brew install maccleaner-cli`
+const cliBrewAltCommands = `git clone https://github.com/mponzo/MacCleaner.git
 cd MacCleaner
 ./Scripts/install-cli.sh
 maccleaner --version`
-const cliBrewAltCommands = `brew tap mponzo/maccleaner https://github.com/mponzo/MacCleaner
-brew install --HEAD maccleaner-cli`
 const cliUsageCommands = `maccleaner              # interactive workspace
 maccleaner clean        # scan → select → Trash
 maccleaner scan         # live green progress
@@ -91,7 +91,7 @@ const pageDescription =
   'Free open-source Mac cleaner for macOS 14+. Smart Care, interactive maccleaner CLI/TUI, Cleanup History, App Updates, Space Explorer, System Monitor, Developer Cleanup. Fully local, zero telemetry, MIT.'
 
 const recentlyShipped = [
-  'CLI — green live progress + TUI workspace (install-cli.sh / maccleaner-cli)',
+  'CLI — brew install maccleaner-cli (stable prebuilt + green progress TUI)',
   'App Updates — dedicated Homebrew cask upgrades + App Store shortcut',
   'Progress bars with Stop on scans and cleans (where safe)',
   'Cleanup History — local log, 14-day chart, shareable card (no upload)',
@@ -1036,10 +1036,13 @@ const vignetteProcesses = [
             <span class="cli-step-num" aria-hidden="true">1</span>
             <div>
               <strong>Install</strong>
-              <p>Clone the repo and run the installer (uses your Xcode Swift toolchain):</p>
+              <p>
+                Prebuilt Homebrew formula — installs <code>maccleaner</code> on
+                PATH, not the GUI app:
+              </p>
               <div class="brew-box cli-step-box">
                 <div class="brew-box-head">
-                  <h3>Recommended</h3>
+                  <h3>Homebrew</h3>
                   <button
                     type="button"
                     class="brew-copy-btn"
@@ -1053,16 +1056,16 @@ const vignetteProcesses = [
                 <pre><code>{{ cliInstallCommands }}</code></pre>
               </div>
               <p class="cli-note">
-                Or via Homebrew formula (no GUI app):
+                Or build from a clone with Xcode / Swift:
               </p>
               <div class="brew-box cli-step-box">
                 <div class="brew-box-head">
-                  <h3>Homebrew</h3>
+                  <h3>From source</h3>
                   <button
                     type="button"
                     class="brew-copy-btn"
                     :class="{ copied: cliCloneCopied }"
-                    :aria-label="cliCloneCopied ? 'Copied' : 'Copy Homebrew CLI commands'"
+                    :aria-label="cliCloneCopied ? 'Copied' : 'Copy from-source install commands'"
                     @click="copyCliClone"
                   >
                     {{ cliCloneCopied ? 'Copied' : 'Copy' }}
